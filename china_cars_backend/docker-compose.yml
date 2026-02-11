@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: primcom_china_cars_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-primcom_china_cars}
+      POSTGRES_USER: ${POSTGRES_USER:-primcom}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-primcom}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-primcom} -d ${POSTGRES_DB:-primcom_china_cars}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db_data:

@@ -1,0 +1,12 @@
+[Unit]
+Description=Primcom China Cars Scraper (guazi)
+After=network-online.target postgresql.service
+Wants=network-online.target postgresql.service
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/opt/primcom/china_cars_backend
+EnvironmentFile=/opt/primcom/china_cars_backend/.env
+ExecStart=/opt/primcom/china_cars_backend/deploy/hostvds/run_scrape.sh

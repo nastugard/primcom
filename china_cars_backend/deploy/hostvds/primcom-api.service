@@ -1,0 +1,17 @@
+[Unit]
+Description=Primcom China Cars FastAPI
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/primcom/china_cars_backend
+EnvironmentFile=/opt/primcom/china_cars_backend/.env
+ExecStart=/opt/primcom/china_cars_backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8010
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

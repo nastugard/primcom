@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ru" data-root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <meta name="theme-color" content="#101325" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="index,follow" />
+
+  <title>Калькулятор стоимости привоза авто — расчёт под ключ | Примком</title>
+  <meta name="description" content="Калькулятор стоимости привоза авто: пошлина, таможенный сбор, утильсбор и ориентировочные расходы. Введите параметры автомобиля и получите приблизительный расчёт." />
+
+  <link rel="canonical" href="https://primcom.ru/pages/kalkulyator-stoimosti.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Примком" />
+  <meta property="og:title" content="Калькулятор стоимости привоза авто" />
+  <meta property="og:description" content="Пошлина, таможенный сбор, утильсбор и ориентировочные расходы — примерный расчёт под ключ." />
+  <meta property="og:url" content="https://primcom.ru/pages/kalkulyator-stoimosti.html" />
+  <meta property="og:image" content="https://primcom.ru/banner/banner_main.png" />
+  <meta property="og:image:alt" content="Примком, обложка" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Калькулятор стоимости привоза авто" />
+  <meta name="twitter:description" content="Пошлина, таможенный сбор, утильсбор и ориентировочные расходы — примерный расчёт под ключ." />
+  <meta name="twitter:image" content="https://primcom.ru/banner/banner_main.png" />
+  <meta name="twitter:image:alt" content="Примком, обложка" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="../site.webmanifest" />
+
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Калькулятор стоимости привоза авто",
+      "url": "https://primcom.ru/pages/kalkulyator-stoimosti.html",
+      "description": "Калькулятор стоимости привоза авто: пошлина, таможенный сбор, утильсбор и ориентировочные расходы.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Примком",
+        "url": "https://primcom.ru/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <noscript>
+    Для корректной работы сайта требуется JavaScript.
+  </noscript>
+
+  <div class="page-bg" aria-hidden="true">
+    <div class="page-bg__base"></div>
+    <div class="page-bg__aurora"></div>
+    <div class="page-bg__grid"></div>
+    <div class="page-bg__grain"></div>
+  </div>
+
+  <div id="site-header"></div>
+
+  <main class="site-main" id="main">
+    <section class="section" aria-label="Калькулятор стоимости">
+      <div class="container">
+        <h1 class="section__title">Калькулятор стоимости привоза</h1>
+        <p class="section__lead">
+          Раздел находится в разработке. Это ориентировочный расчёт. В скором времени калькулятор будет отображать актуальные данные. Итог зависит от конкретной модели, рынка, комплектации, курса, логистики и оформления.
+          Вы можете менять цифры вручную — и мы потом подстроим калькулятор под реальную практику.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Форма расчёта">
+      <div class="container">
+        <h2 class="section__title">Параметры автомобиля</h2>
+        <p class="section__lead">Введите данные и получите разбивку по платежам.</p>
+
+        <div class="legal">
+          <form class="form" data-calc-form>
+            <div class="calc-grid">
+              <label class="field">
+                <span class="field__label">Таможенная стоимость, ₽</span>
+                <input class="field__control" name="valueRub" type="number" inputmode="numeric" min="0" step="1000" value="1500000" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Объём двигателя, см³</span>
+                <input class="field__control" name="engineCc" type="number" inputmode="numeric" min="0" step="1" value="1800" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Возраст автомобиля</span>
+                <select class="field__control" name="ageCategory" required>
+                  <option value="le3">До 3 лет (включительно)</option>
+                  <option value="3to5">Старше 3, но не старше 5 лет</option>
+                  <option value="gt5">Старше 5 лет</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field__label">Курс EUR/RUB</span>
+                <input class="field__control" name="eurRate" type="number" inputmode="decimal" min="1" step="0.01" value="110" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Логистика до Владивостока, ₽ (примерно)</span>
+                <input class="field__control" name="logisticsRub" type="number" inputmode="numeric" min="0" step="1000" value="180000" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Услуги подбора/сопровождения, ₽ (примерно)</span>
+                <input class="field__control" name="serviceRub" type="number" inputmode="numeric" min="0" step="1000" value="60000" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Утилизационный сбор, ₽</span>
+                <input class="field__control" name="utilFeeRub" type="number" inputmode="numeric" min="0" step="100" value="3400" required />
+              </label>
+
+              <label class="field">
+                <span class="field__label">Прочие расходы (СВХ/платежи/оформление), ₽ (примерно)</span>
+                <input class="field__control" name="otherRub" type="number" inputmode="numeric" min="0" step="1000" value="25000" required />
+              </label>
+            </div>
+
+            <div class="calc-actions">
+              <button class="btn btn--primary" type="button" data-calc-recalc>Пересчитать</button>
+              <button class="btn" type="button" data-open-lead-modal>Нужен точный расчёт</button>
+            </div>
+
+            <div class="calc-result" aria-live="polite">
+              <h3 class="calc-result__title">Результат</h3>
+              <div class="calc-result__grid">
+                <div class="calc-kpi">
+                  <div class="calc-kpi__label">Пошлина (единая ставка)</div>
+                  <div class="calc-kpi__value" data-out-duty>—</div>
+                </div>
+                <div class="calc-kpi">
+                  <div class="calc-kpi__label">Таможенный сбор</div>
+                  <div class="calc-kpi__value" data-out-customs-fee>—</div>
+                </div>
+                <div class="calc-kpi">
+                  <div class="calc-kpi__label">Утилизационный сбор</div>
+                  <div class="calc-kpi__value" data-out-util>—</div>
+                </div>
+                <div class="calc-kpi">
+                  <div class="calc-kpi__label">Логистика + услуги + прочее</div>
+                  <div class="calc-kpi__value" data-out-extras>—</div>
+                </div>
+                <div class="calc-kpi calc-kpi--total">
+                  <div class="calc-kpi__label">Итого (примерно)</div>
+                  <div class="calc-kpi__value" data-out-total>—</div>
+                </div>
+              </div>
+
+              <p class="calc-note">
+                Ставки пошлины и сборов взяты из общедоступных таблиц (Решение Совета ЕЭК №107, Постановление Правительства РФ №342).
+                Утильсбор зависит от условий ввоза и льгот, поэтому здесь оставлен редактируемым.
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <div class="cookie" data-cookie hidden>
+    <p class="cookie__text">
+      Мы используем cookies для корректной работы сайта.
+      <a class="cookie__link" href="../pages/privacy.html">Политика конфиденциальности</a>
+    </p>
+    <button class="btn btn--small" type="button" data-cookie-accept>Принять</button>
+  </div>
+
+  <div class="modal" id="lead-modal" data-lead-modal hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-modal-close>×</button>
+
+      <h2 class="modal__title" id="lead-modal-title">Заявка</h2>
+      <p class="modal__lead">Оставьте контакты, мы свяжемся и уточним задачу.</p>
+
+      <form class="form" data-lead-form>
+        <label class="hp" aria-hidden="true">
+          Company
+          <input type="text" name="company" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Имя</span>
+          <input class="field__control" name="name" type="text" autocomplete="name" required />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Телефон</span>
+          <input class="field__control" name="phone" type="tel" autocomplete="tel" required />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Комментарий</span>
+          <textarea class="field__control" name="comment" rows="3"></textarea>
+        </label>
+
+        <label class="check">
+          <input class="check__control" type="checkbox" name="consent" required />
+          <span class="check__text">
+            Я согласен(на) на обработку персональных данных.
+            <a href="../pages/consent.html">Текст согласия</a>
+          </span>
+        </label>
+
+        <p class="form__disclaimer">
+          Информация на сайте не является публичной офертой. Сроки и стоимость рассчитываются индивидуально.
+        </p>
+
+        <button class="btn btn--primary" type="submit">Отправить</button>
+        <p class="form__status" data-form-status aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.querySelector("[data-calc-form]");
+      if (!form) return;
+
+      const fmt = new Intl.NumberFormat("ru-RU", { style: "currency", currency: "RUB", maximumFractionDigits: 0 });
+
+      const outDuty = form.querySelector("[data-out-duty]");
+      const outCustomsFee = form.querySelector("[data-out-customs-fee]");
+      const outUtil = form.querySelector("[data-out-util]");
+      const outExtras = form.querySelector("[data-out-extras]");
+      const outTotal = form.querySelector("[data-out-total]");
+
+      const num = (v) => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : 0;
+      };
+
+      const getDutyRateForNew = (valueEur) => {
+        if (valueEur <= 8500) return { pct: 0.54, minEurPerCc: 2.5 };
+        if (valueEur <= 16700) return { pct: 0.48, minEurPerCc: 3.5 };
+        if (valueEur <= 42300) return { pct: 0.48, minEurPerCc: 5.5 };
+        if (valueEur <= 84500) return { pct: 0.48, minEurPerCc: 7.5 };
+        if (valueEur <= 169000) return { pct: 0.48, minEurPerCc: 15 };
+        return { pct: 0.48, minEurPerCc: 20 };
+      };
+
+      const getDutyRatePerCcForUsed = (ageCategory, engineCc) => {
+        if (ageCategory === "3to5") {
+          if (engineCc <= 1000) return 1.5;
+          if (engineCc <= 1500) return 1.7;
+          if (engineCc <= 1800) return 2.5;
+          if (engineCc <= 2300) return 2.7;
+          if (engineCc <= 3000) return 3.0;
+          return 3.6;
+        }
+
+        if (ageCategory === "gt5") {
+          if (engineCc <= 1000) return 3.0;
+          if (engineCc <= 1500) return 3.2;
+          if (engineCc <= 1800) return 3.5;
+          if (engineCc <= 2300) return 4.8;
+          if (engineCc <= 3000) return 5.0;
+          return 5.7;
+        }
+
+        return 0;
+      };
+
+      const getCustomsFeeRub = (valueRub) => {
+        if (valueRub <= 200000) return 775;
+        if (valueRub <= 450000) return 1550;
+        if (valueRub <= 1200000) return 3100;
+        if (valueRub <= 2700000) return 8530;
+        if (valueRub <= 4200000) return 12000;
+        if (valueRub <= 5500000) return 15500;
+        if (valueRub <= 7000000) return 20000;
+        if (valueRub <= 8000000) return 23000;
+        if (valueRub <= 9000000) return 25000;
+        if (valueRub <= 10000000) return 27000;
+        return 30000;
+      };
+
+      const setDefaultUtil = (ageCategory) => {
+        const utilInput = form.elements.utilFeeRub;
+        if (!utilInput) return;
+        const current = utilInput.value;
+        if (String(current).trim() !== "") return;
+        utilInput.value = ageCategory === "le3" ? "3400" : "5200";
+      };
+
+      const calc = () => {
+        const valueRub = num(form.elements.valueRub?.value);
+        const engineCc = Math.max(0, Math.floor(num(form.elements.engineCc?.value)));
+        const ageCategory = String(form.elements.ageCategory?.value || "le3");
+        const eurRate = Math.max(1, num(form.elements.eurRate?.value));
+
+        const logisticsRub = num(form.elements.logisticsRub?.value);
+        const serviceRub = num(form.elements.serviceRub?.value);
+        const utilFeeRub = num(form.elements.utilFeeRub?.value);
+        const otherRub = num(form.elements.otherRub?.value);
+
+        let dutyRub = 0;
+        if (ageCategory === "le3") {
+          const valueEur = valueRub / eurRate;
+          const r = getDutyRateForNew(valueEur);
+          const byPct = valueRub * r.pct;
+          const byMin = engineCc * r.minEurPerCc * eurRate;
+          dutyRub = Math.max(byPct, byMin);
+        } else {
+          const eurPerCc = getDutyRatePerCcForUsed(ageCategory, engineCc);
+          dutyRub = engineCc * eurPerCc * eurRate;
+        }
+
+        const customsFeeRub = getCustomsFeeRub(valueRub);
+        const extrasRub = logisticsRub + serviceRub + otherRub;
+        const totalRub = dutyRub + customsFeeRub + utilFeeRub + extrasRub;
+
+        if (outDuty) outDuty.textContent = fmt.format(Math.round(dutyRub));
+        if (outCustomsFee) outCustomsFee.textContent = fmt.format(customsFeeRub);
+        if (outUtil) outUtil.textContent = fmt.format(utilFeeRub);
+        if (outExtras) outExtras.textContent = fmt.format(Math.round(extrasRub));
+        if (outTotal) outTotal.textContent = fmt.format(Math.round(totalRub));
+      };
+
+      const recalcBtn = form.querySelector("[data-calc-recalc]");
+      if (recalcBtn) recalcBtn.addEventListener("click", calc);
+
+      form.addEventListener("input", (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+
+        if (target instanceof HTMLSelectElement && target.name === "ageCategory") {
+          const utilInput = form.elements.utilFeeRub;
+          if (utilInput && utilInput.value === "3400") {
+            utilInput.value = target.value === "le3" ? "3400" : "5200";
+          }
+        }
+
+        calc();
+      });
+
+      setDefaultUtil(String(form.elements.ageCategory?.value || "le3"));
+      calc();
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Observer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Flip.min.js"></script>
+  <script type="module" src="../js/app.js"></script>
+</body>
+</html>

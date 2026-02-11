@@ -1,0 +1,14 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+SQLAlchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+pydantic==2.10.5
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+httpx==0.28.1
+aiofiles==24.1.0
+openai==1.59.8
+playwright==1.50.0
+tenacity==9.0.0
+orjson==3.10.12
+pillow==10.4.0
