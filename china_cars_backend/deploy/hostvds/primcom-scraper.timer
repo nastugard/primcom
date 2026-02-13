@@ -1,9 +1,9 @@
 [Unit]
-Description=Run Primcom scraper every 2 days
+Description=Run Primcom scraper every 12 hours
 
 [Timer]
 OnBootSec=10min
-OnUnitActiveSec=2d
+OnUnitActiveSec=12h
 Persistent=true
 Unit=primcom-scraper.service
 
