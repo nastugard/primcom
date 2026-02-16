@@ -17,24 +17,33 @@ from app.scrapers.che168 import (
     _setup_page,
 )
 from app.utils.hashing import sha256_text
-from app.utils.numbers import parse_mileage_km, parse_year
-from app.utils.name_translation import BRAND_MAP, MODEL_MAP, normalize_by_dict
+from app.utils.numbers import parse_mileage_km, parse_price_cny, parse_year
+from app.utils.name_translation import BRAND_MAP, MODEL_MAP, has_chinese, normalize_by_dict
 
 
-_DETAIL_RE = re.compile(r"(guazi\.com/.*/buy|guazi\.com/.*detail|/car-detail/c\d+\.html|/detail/|\d+\.htm)", re.I)
+_DETAIL_RE = re.compile(
+    r"(guazi\.com/.*/buy|guazi\.com/.*detail|/car-detail/c\d+\.html|/detail/|/products/[a-z0-9-]+\.html|\d+\.htm)",
+    re.I,
+)
 _ID_RE = re.compile(r"(\d{9,})")
+_EN_PRODUCT_RE = re.compile(r"/products/([a-z0-9-]+)\.html", re.I)
 _RE_IMAGE_URL = re.compile(r"\.(jpe?g|png|webp)(\?|$)", re.I)
 _RE_WEBP = re.compile(r"(\.webp(\?|$)|[?&]format=webp\b|\bwebp\b)", re.I)
 _RE_NOT_IMAGE_URL = re.compile(r"\.(css|js|svg)(\?|$)", re.I)
 _RE_MILEAGE = re.compile(r"(\d+(?:\.\d+)?)\s*万\s*公里")
+_RE_MILEAGE_EN = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s*km\b", re.I)
 _RE_YEAR = re.compile(r"((?:19|20)\d{2})\s*款")
 _RE_AGE = re.compile(r"(\d+)\s*年(?:\s*(\d+)\s*个?月)?")
-_RE_PRICE = re.compile(r"(\d+(?:\.\d+)?)\s*万")
+_RE_PRICE = re.compile(r"(\d+(?:\.\d+)?)\s*万(?!\s*公里)")
+_RE_MILEAGE_LABEL_EN = re.compile(r"mileage\s*\(km\)\s*[:：]?\s*(\d[\d,]*)", re.I)
 _GZ_MAX_IMAGES = 10
+_RE_EN_PRODUCT_LINK = re.compile(r"/products/[a-z0-9-]+\.html", re.I)
 _RE_ENGINE_L = re.compile(r"(\d+(?:\.\d+)?)\s*(?:L|升)\b", re.I)
+_RE_ENGINE_T = re.compile(r"(\d+(?:\.\d+)?)\s*T\b", re.I)
 _RE_ENGINE_CC = re.compile(r"(\d{3,5})\s*(?:cc|CC|毫升|ml|mL)\b", re.I)
 _RE_KW = re.compile(r"(\d+(?:\.\d+)?)\s*kW\b|千瓦", re.I)
 _RE_KWH = re.compile(r"(\d+(?:\.\d+)?)\s*kWh\b|千瓦时", re.I)
+_RE_ENGINE_MARKER = re.compile(r"(\d+(?:\.\d+)?\s*(?:L|T|升)|\d{3,5}\s*(?:cc|CC|毫升|ml|mL))")
 _RE_ZH = re.compile(r"[\u4e00-\u9fff]")
 _RE_ALLOWED_EN_RU = re.compile(r"[^0-9A-Za-zА-Яа-яЁё .,+()/_&-]+")
 _PLACEHOLDER_PATTERNS = (
@@ -113,9 +122,16 @@ def _collect_guazi_dom(raw: dict[str, str]) -> dict[str, str | None]:
         age = f"{years}年{months}个月"
 
     mileage = None
+    m_mi_label = _RE_MILEAGE_LABEL_EN.search(body)
+    if m_mi_label:
+        mileage = f"{m_mi_label.group(1)} km"
     m_mi = _RE_MILEAGE.search(body)
-    if m_mi:
+    if not mileage and m_mi:
         mileage = f"{m_mi.group(1)}万公里"
+    if not mileage:
+        m_mi_en = _RE_MILEAGE_EN.search(body)
+        if m_mi_en:
+            mileage = f"{m_mi_en.group(1)} km"
 
     year = None
     m_y = _RE_YEAR.search(body)
@@ -126,6 +142,10 @@ def _collect_guazi_dom(raw: dict[str, str]) -> dict[str, str | None]:
         m_p = _RE_PRICE.search(body)
         if m_p:
             price = f"{m_p.group(1)}万"
+    if not price and "fob price" in body.lower():
+        m_usd = re.search(r"fob\s*price\s*[:：]?\s*([$]?\s*\d[\d,]*(?:\.\d+)?)", body, flags=re.I)
+        if m_usd:
+            price = m_usd.group(1).strip()
 
     return {
         "title": title or None,
@@ -141,7 +161,7 @@ async def _collect_guazi_spec_items(page) -> list[dict[str, str]]:
     script = """
 () => {
   const roots = Array.from(document.querySelectorAll(
-    '.car-condition__functional-configuration .car-info-item, .car-info .car-info-item'
+    '.car-condition__functional-configuration .car-info-item, .car-condition_functional-configuration .car-info-item, .car-info .car-info-item, .vehicle-details-wrap .vehicle-details, .vehicie-details-wrap .vehicle-details'
   ));
   const out = [];
   for (const el of roots) {
@@ -167,6 +187,71 @@ async def _collect_guazi_spec_items(page) -> list[dict[str, str]]:
     const v = (pVal.textContent || '').trim();
     const u = (pUnit && pUnit.textContent ? pUnit.textContent.trim() : '');
     out.push({ label: '价格', value: `${v}${u}`, raw: `${v}${u}` });
+  }
+  const fob = document.querySelector('.price-port .price');
+  if (fob) {
+    const txt = (fob.textContent || '').replace(/\\s+/g, ' ').trim();
+    if (txt) {
+      const clean = txt.replace(/\\s*Port\\s*:.*$/i, '').trim();
+      out.push({ label: 'FOB Price', value: clean || txt, raw: txt });
+    }
+  }
+
+  // Китайская карточка: сводная строка с оценкой/пробегом/возрастом и т.п.
+  const condItems = Array.from(document.querySelectorAll('.car-condition-list .condition-item'));
+  for (const el of condItems) {
+    const txt = (el.textContent || '').replace(/\\s+/g, ' ').trim();
+    if (!txt) continue;
+    let label = 'condition';
+    if (/万\\s*公里|km/i.test(txt)) label = '里程';
+    else if (/年\\s*\\d*\\s*个?月|年/.test(txt)) label = '车龄';
+    else if (/^[A-G]$/.test(txt)) label = '车况评级';
+    else if (/^\\d+$/.test(txt)) label = '车况分';
+    out.push({ label, value: txt, raw: txt });
+  }
+
+  const gridItems = Array.from(document.querySelectorAll('.vehicle-details-wrap .grid-layout .item, .vehicie-details-wrap .grid-layout .item'));
+  for (const it of gridItems) {
+    const k = ((it.querySelector('.label')?.textContent) || '').replace(/\\s+/g, ' ').trim();
+    const v = ((it.querySelector('.value')?.textContent) || '').replace(/\\s+/g, ' ').trim();
+    if (k && v) {
+      out.push({ label: k, value: v, raw: `${k}: ${v}` });
+    }
+  }
+
+  const detailsWrap = document.querySelector('.vehicle-details-wrap, .vehicie-details-wrap');
+  if (detailsWrap) {
+    const known = new Set([
+      '1st Reg. Date','Mfg. Date','Model Year','Mileage(km)','Fuel Type','Engine','Transmission',
+      'Steering','Location','Drive Train','Body Style','Seats','Doors','Exterior Color','Dimension(mm)','Curb Weight(kg)'
+    ]);
+    const lines = (detailsWrap.innerText || '')
+      .split(/\\n+/)
+      .map(s => s.replace(/\\s+/g, ' ').trim())
+      .filter(Boolean);
+    for (let i = 0; i < lines.length; i++) {
+      const k = lines[i];
+      if (!known.has(k)) continue;
+      const v = lines[i + 1] || '';
+      if (v) out.push({ label: k, value: v, raw: `${k}: ${v}` });
+    }
+  }
+
+  // Доп. блоки характеристик (вкладки Specifications/Features).
+  const extraRoots = Array.from(document.querySelectorAll('.base-info-wrap, .specifications-base-info-wrap, .features-wrap, .recomm-list, .vehicie-details-wrap'));
+  for (const root of extraRoots) {
+    const items = Array.from(root.querySelectorAll('.item, .list-item, li, .spec-item'));
+    for (const it of items) {
+      const k = (
+        it.querySelector('.label, .name, .title, .key')?.textContent ||
+        ''
+      ).replace(/\\s+/g, ' ').trim();
+      const v = (
+        it.querySelector('.value, .desc, .text, .val')?.textContent ||
+        ''
+      ).replace(/\\s+/g, ' ').trim();
+      if (k && v) out.push({ label: k, value: v, raw: `${k}: ${v}` });
+    }
   }
   return out;
 }
@@ -202,7 +287,7 @@ async def _collect_guazi_carousel_image_urls(page, *, limit: int) -> list[str]:
   };
 
   // Главная зона фото + вертикальные миниатюры.
-  const roots = Array.from(document.querySelectorAll('.car-image-swiper-box'));
+  const roots = Array.from(document.querySelectorAll('.car-image-swiper-box, .swiper, .product-swiper-pagination-wrap, .vehicle-details'));
   for (const root of roots) {
     const imgs = Array.from(root.querySelectorAll('img'));
     for (const img of imgs) {
@@ -262,6 +347,12 @@ def _normalize_fuel(value: str | None) -> str | None:
         return "Бензин"
     if "柴油" in s:
         return "Дизель"
+    if "gasoline" in ls or "petrol" in ls:
+        return "Бензин"
+    if "diesel" in ls:
+        return "Дизель"
+    if "hybrid" in ls:
+        return "Гибрид"
     if "氢" in s:
         return "Водород"
     return None
@@ -297,6 +388,15 @@ def _parse_engine_volume_l(value: str | None) -> float | None:
     if m_l:
         try:
             v = float(m_l.group(1))
+            if v < 0.6 or v > 10.0:
+                return None
+            return v
+        except Exception:
+            return None
+    m_t = _RE_ENGINE_T.search(s)
+    if m_t:
+        try:
+            v = float(m_t.group(1))
             if v < 0.6 or v > 10.0:
                 return None
             return v
@@ -366,31 +466,64 @@ def _extract_tech_from_specs(spec_items: list[dict[str, str]], dom: dict[str, st
         if _RE_KW.search(combined) or _RE_KWH.search(combined):
             kw_marker = True
 
-        if not price_text and ("价格" in combined or "万" in combined):
+        if not price_text and (
+            "价格" in combined
+            or "万" in combined
+            or "fob price" in combined.lower()
+            or "$" in combined
+        ):
             price_text = value or raw
 
-        if engine_type is None and ("能源" in label or "燃料" in label or "动力" in label):
+        if engine_type is None and (
+            "能源" in label
+            or "燃料" in label
+            or "动力" in label
+            or "fuel" in label.lower()
+        ):
             engine_type = _normalize_fuel(value or raw)
-        if drive_type is None and ("驱动" in label or "驱动方式" in label):
+        if drive_type is None and (
+            "驱动" in label
+            or "驱动方式" in label
+            or "drive" in label.lower()
+        ):
             drive_type = _normalize_drive(value or raw)
-        if engine_volume_l is None and ("排量" in label or "发动机" in label):
+        if engine_volume_l is None and (
+            "排量" in label
+            or "发动机" in label
+            or "engine" in label.lower()
+        ):
             engine_volume_l = _parse_engine_volume_l(value or raw)
 
     # fallback по общему тексту
     body = str(dom.get("body") or "")
     combined_all = " ".join(all_text_parts) + " " + body
+    ls_all = combined_all.lower()
     if engine_type is None:
         engine_type = _normalize_fuel(combined_all)
     if drive_type is None:
         drive_type = _normalize_drive(body)
+    if engine_volume_l is None:
+        engine_volume_l = _parse_engine_volume_l(combined_all)
+
+    is_ev_context = bool(
+        ("纯电" in combined_all)
+        or ("电动车" in combined_all)
+        or ("续航" in combined_all)
+        or ("ev" in ls_all)
+        or _RE_KW.search(combined_all)
+        or _RE_KWH.search(combined_all)
+    )
+    if is_ev_context:
+        engine_type = "Электро"
+        engine_volume_l = None
 
     # Правило консистентности:
     # 1) Если есть объем ДВС, тип топлива не может быть "Электро".
     # 2) Если есть kW/kWh и нет объема ДВС -> считаем "Электро".
-    if engine_volume_l is not None:
+    if engine_volume_l is not None and not is_ev_context:
         if engine_type == "Электро" or engine_type is None:
             engine_type = _infer_ice_fuel(combined_all)
-    elif kw_marker and engine_type is None:
+    elif (kw_marker or is_ev_context) and engine_type is None:
         engine_type = "Электро"
 
     return {
@@ -421,15 +554,7 @@ def _parse_age_to_date(age_text: str | None) -> dt.date | None:
 
 
 def _parse_price_cny(price_text: str | None) -> float | None:
-    if not price_text:
-        return None
-    m = _RE_PRICE.search(str(price_text))
-    if not m:
-        return None
-    try:
-        return round(float(m.group(1)) * 10000.0, 2)
-    except Exception:
-        return None
+    return parse_price_cny(price_text)
 
 
 def _extract_links(anchors: list[dict[str, str]], limit: int) -> list[tuple[str, str]]:
@@ -450,7 +575,11 @@ def _extract_links(anchors: list[dict[str, str]], limit: int) -> list[tuple[str,
             continue
 
         m = _ID_RE.search(href)
-        listing_id = m.group(1) if m else sha256_text(href)[:20]
+        if m:
+            listing_id = m.group(1)
+        else:
+            m_en = _EN_PRODUCT_RE.search(href)
+            listing_id = m_en.group(1) if m_en else sha256_text(href)[:20]
         if listing_id.isdigit() and len(listing_id) < 12:
             continue
         if listing_id in seen:
@@ -460,6 +589,21 @@ def _extract_links(anchors: list[dict[str, str]], limit: int) -> list[tuple[str,
         if len(out) >= limit:
             break
 
+    return out
+
+
+def _extract_product_links_from_text(text: str, *, limit: int) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for m in _RE_EN_PRODUCT_LINK.finditer(text or ""):
+        path = m.group(0)
+        listing_id = path.split("/")[-1].replace(".html", "")
+        if not listing_id or listing_id in seen:
+            continue
+        seen.add(listing_id)
+        out.append((listing_id, f"https://en.guazi.com{path}"))
+        if len(out) >= limit:
+            break
     return out
 
 
@@ -494,6 +638,27 @@ def _extract_image_urls_from_raw(raw: dict[str, Any], *, limit: int) -> list[str
     return _filter_and_limit_guazi_image_urls(urls, limit=limit)
 
 
+def _extract_brand_model_by_brand_dict(title_text: str) -> tuple[str | None, str | None]:
+    title = str(title_text or "").strip()
+    if not title:
+        return None, None
+    # Приоритет длинных ключей (например "小米汽车" раньше "小米")
+    for zh_brand in sorted(BRAND_MAP.keys(), key=len, reverse=True):
+        if not zh_brand:
+            continue
+        idx = title.find(zh_brand)
+        if idx < 0:
+            continue
+        before = title[:idx].strip()
+        after = title[idx + len(zh_brand) :].strip()
+        # Если бренд найден внутри слова с латиницей, пропускаем.
+        if before and re.search(r"[A-Za-z0-9]$", before):
+            continue
+        model = after or None
+        return zh_brand, model
+    return None, None
+
+
 def _normalize_from_dom(dom: dict[str, str | None], *, spec_items: list[dict[str, str]] | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
     title = str(dom.get("title") or dom.get("h1") or "").strip()
     clean = re.sub(r"\s+", " ", title)
@@ -518,10 +683,19 @@ def _normalize_from_dom(dom: dict[str, str | None], *, spec_items: list[dict[str
     # Обрезаем в названии служебные хвосты, чтобы не попадали в brand/model.
     clean_no_specs = re.sub(r"(\d+(?:\.\d+)?\s*万\s*公里)", "", clean)
     clean_no_specs = re.sub(r"((?:19|20)\d{2}\s*款)", "", clean_no_specs).strip()
+    clean_no_specs = re.sub(r"^Used\s+", "", clean_no_specs, flags=re.I).strip()
 
     parts = [p for p in re.split(r"\s+", clean_no_specs) if p]
     brand_raw = parts[0] if parts else None
     model_raw = " ".join(parts[1:]) if len(parts) > 1 else None
+
+    # Для китайского заголовка часто нет адекватного split по пробелам — используем словарь брендов.
+    if has_chinese(clean_no_specs):
+        b_guess, m_guess = _extract_brand_model_by_brand_dict(clean_no_specs)
+        if b_guess:
+            brand_raw = b_guess
+            if m_guess:
+                model_raw = m_guess
 
     # Случаи вида "BMW2系" / "Mercedes-BenzV级（平行进口）".
     if isinstance(brand_raw, str):
@@ -580,14 +754,31 @@ def _normalize_from_dom(dom: dict[str, str | None], *, spec_items: list[dict[str
         if m_mb:
             brand = m_mb.group(1)
             model = f"{m_mb.group(2)} {model or ''}".strip()
-    brand = _cleanup_en_ru_text(brand) or brand
-    model = _cleanup_en_ru_text(model) or model
+    if isinstance(brand, str) and not has_chinese(brand):
+        brand = _cleanup_en_ru_text(brand) or brand
+    if isinstance(model, str) and not has_chinese(model):
+        model = _cleanup_en_ru_text(model) or model
     brand = _dedupe_prefix_words(brand, ["Volkswagen", "Skoda", "Kia", "JAC", "Mazda", "BMW", "Mercedes-Benz"])
     model = _dedupe_prefix_words(model, ["Volkswagen", "Skoda", "Kia", "JAC", "Mazda", "BMW", "Mercedes-Benz"])
     if isinstance(model, str) and isinstance(brand, str):
         if model.lower().startswith(brand.lower() + " "):
             model = model[len(brand) :].strip()
     if isinstance(model, str):
+        parts_model = model.split()
+        if len(parts_model) >= 2:
+            t0 = re.sub(r"[^A-Za-z0-9-]+", "", parts_model[0]).lower()
+            t1 = re.sub(r"[^A-Za-z0-9-]+", "", parts_model[1]).lower()
+            if t0 and t0 == t1:
+                parts_model = [parts_model[0]] + parts_model[2:]
+                model = " ".join(parts_model)
+        if len(parts_model) >= 2 and parts_model[0].lower() == parts_model[1].lower():
+            model = " ".join(parts_model[1:])
+        prev = None
+        while prev != model:
+            prev = model
+            model = re.sub(r"\b([A-Za-z0-9-]{2,})\b\s+\1\b", r"\1", model, flags=re.I)
+        model = re.sub(r"^([A-Za-z0-9-]+)\s+\1\b", r"\1", model, flags=re.I)
+        model = re.sub(r"\b(19|20)\d{2}\b", "", model).strip()
         model = re.sub(r"\s{2,}", " ", model).strip() or None
 
     tech = _extract_tech_from_specs(spec_items or [], dom)
@@ -602,6 +793,15 @@ def _normalize_from_dom(dom: dict[str, str | None], *, spec_items: list[dict[str
         "drive_type": tech.get("drive_type"),
         "engine_volume_l": tech.get("engine_volume_l"),
     }
+    if isinstance(normalized.get("model"), str):
+        mtxt = str(normalized["model"])
+        prev = None
+        while prev != mtxt:
+            prev = mtxt
+            mtxt = re.sub(r"\b([A-Za-z0-9-]{2,})\b\s+\1\b", r"\1", mtxt, flags=re.I)
+        normalized["model"] = re.sub(r"\s{2,}", " ", mtxt).strip() or None
+    if normalized.get("engine_volume_l") is None and _RE_ENGINE_MARKER.search(clean):
+        normalized["engine_volume_l"] = _parse_engine_volume_l(clean)
     reg_date = _parse_age_to_date(dom.get("age"))
     if reg_date:
         normalized["first_registration_date"] = reg_date
@@ -622,8 +822,7 @@ def _is_placeholder_listing(*, normalized: dict[str, Any], dom: dict[str, str | 
             parts.append(str(it.get("value") or ""))
             parts.append(str(it.get("raw") or ""))
     haystack = " ".join(parts).lower()
-    if any(p in haystack for p in _PLACEHOLDER_PATTERNS):
-        return True
+    has_placeholder_pattern = any(p in haystack for p in _PLACEHOLDER_PATTERNS)
 
     brand = str(normalized.get("brand") or "").strip().lower()
     model = str(normalized.get("model") or "").strip().lower()
@@ -639,7 +838,19 @@ def _is_placeholder_listing(*, normalized: dict[str, Any], dom: dict[str, str | 
     except Exception:
         price_num = None
 
+    strong_data = bool(
+        brand
+        and model
+        and (
+            year is not None
+            or (mileage_num is not None and mileage_num > 0)
+            or (price_num is not None and price_num > 0)
+        )
+    )
+
     if ("scan to open" in brand or "scan to open" in model) or ("mini" in brand and "guazi" in brand):
+        return True
+    if has_placeholder_pattern and not strong_data:
         return True
 
     very_weak_card = (
@@ -661,15 +872,31 @@ class GuaziScraper(BaseScraper):
         if limit <= 0:
             return []
 
-        start_url = "https://www.guazi.com/www/buy"
+        start_url = "https://www.guazi.com/"
         scraped: list[ScrapedListing] = []
 
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             page = await _setup_page(browser)
+            page.set_default_navigation_timeout(120_000)
+            page.set_default_timeout(120_000)
 
-            await page.goto(start_url, wait_until="domcontentloaded")
-            await asyncio.sleep(2.2)
+            opened = False
+            nav_errors: list[str] = []
+            for attempt, wait_until in enumerate(("domcontentloaded", "commit", "load"), start=1):
+                try:
+                    await page.goto(start_url, wait_until=wait_until, timeout=95_000)
+                    await asyncio.sleep(2.2 + 0.6 * attempt)
+                    opened = True
+                    break
+                except Exception as exc:
+                    nav_errors.append(f"attempt={attempt} wait_until={wait_until} err={exc}")
+                    await asyncio.sleep(1.5 * attempt)
+            if not opened:
+                print({"stage": "list_open_failed", "source": self.source_code, "start_url": start_url, "errors": nav_errors})
+                await page.context.close()
+                await browser.close()
+                return []
 
             list_json: list[dict[str, Any]] = []
 
@@ -708,10 +935,25 @@ class GuaziScraper(BaseScraper):
                 await page.mouse.wheel(0, 1800)
                 await asyncio.sleep(1.0 + random.random() * 0.7)
 
+            # Fallback: ссылки могут быть спрятаны в HTML/скриптах Next.js.
+            if len(found) < scan_limit:
+                try:
+                    html = await page.content()
+                    for iid, href in _extract_product_links_from_text(html, limit=scan_limit):
+                        if iid in seen_ids:
+                            continue
+                        seen_ids.add(iid)
+                        found.append((iid, href))
+                        if len(found) >= scan_limit:
+                            break
+                except Exception:
+                    pass
+
             if len(found) < scan_limit and list_json:
                 seen = {x[0] for x in found}
                 for js in list_json:
-                    for m in _ID_RE.finditer(json.dumps(js, ensure_ascii=False, default=str)):
+                    blob = json.dumps(js, ensure_ascii=False, default=str)
+                    for m in _ID_RE.finditer(blob):
                         iid = m.group(1)
                         if iid in seen:
                             continue
@@ -721,6 +963,21 @@ class GuaziScraper(BaseScraper):
                             break
                     if len(found) >= scan_limit:
                         break
+                    for m_en in re.finditer(r"/products/[a-z0-9-]+\.html", blob, flags=re.I):
+                        p = m_en.group(0)
+                        href = f"https://en.guazi.com{p}"
+                        iid = p.split("/")[-1].replace(".html", "")
+                        if iid in seen:
+                            continue
+                        seen.add(iid)
+                        found.append((iid, href))
+                        if len(found) >= scan_limit:
+                            break
+                    if len(found) >= scan_limit:
+                        break
+
+            if not found:
+                print({"stage": "no_listing_links_found", "source": self.source_code, "start_url": start_url})
 
             page.remove_listener("response", on_list_response)
 

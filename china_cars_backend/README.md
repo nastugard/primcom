@@ -1,12 +1,13 @@
-# Primcom China Cars — Backend (MVP)
+# Primcom China Cars — Backend v2
 
-Минимальный backend для агрегатора китайских авто:
+Backend v2 для агрегатора китайских авто:
 
 - FastAPI
 - PostgreSQL
 - SQLAlchemy 2.0 (async)
-- Playwright (будет использоваться на следующем этапе)
-- Перевод через OpenAI (строго модель `gpt-5-nano` будет подключена на следующем этапе)
+- Playwright (che168/dongchedi/guazi)
+- Перевод через OpenAI (`gpt-5-nano`) с DB-кэшем `translation_cache`
+- Run telemetry в `scrape_runs`
 
 ## 1) Запуск PostgreSQL
 
@@ -44,7 +45,9 @@ uvicorn app.main:app --host 127.0.0.1 --port 8010 --reload
 
 ## 5) Структура данных
 
-Полная DDL-схема: `schema.sql`.
+DDL-схемы:
+- `schema.sql` (legacy core)
+- `schema_v2.sql` (run telemetry, translation cache, canonical layer)
 
 Таблицы:
 
@@ -56,13 +59,13 @@ uvicorn app.main:app --host 127.0.0.1 --port 8010 --reload
 
 ## 6) Скрейпинг источников
 
-Скрипт импорта:
+Скрипт импорта v2:
 
 ```bash
-python3 -m app.scripts.scrape_che168 --source che168 --limit 30
+python3 -m app.jobs.run_ingest --sources che168,dongchedi,guazi --limit 30 --skip-existing --throttle-ms 700
 ```
 
-Поддерживаемые источники в `--source`:
+Поддерживаемые источники:
 
 - `che168`
 - `dongchedi`

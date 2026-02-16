@@ -84,6 +84,7 @@ class ListingDetailOut(BaseModel):
     model_id: int | None = None
     generation_id: int | None = None
     trim_id: int | None = None
+    images: list[str] = []
 
 
 class FacetsOut(BaseModel):
@@ -272,6 +273,16 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
     ).first()
     if not row:
         raise HTTPException(status_code=404, detail="Listing not found")
+    images_res = await db.execute(
+        text("SELECT local_path FROM listing_images WHERE listing_id=:id ORDER BY position ASC"),
+        {"id": listing_id},
+    )
+    images = []
+    for (local_path,) in images_res.all():
+        u = _media_url(local_path)
+        if u:
+            images.append(u)
+
     return ListingDetailOut(
         id=str(row[0]),
         source=str(row[1]),
@@ -291,6 +302,7 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
         model_id=row[15],
         generation_id=row[16],
         trim_id=row[17],
+        images=images,
     )
 
 

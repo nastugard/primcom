@@ -32,6 +32,16 @@ from app.utils.name_translation import (
 
 _RE_HAS_ZH = re.compile(r"[\u4e00-\u9fff]")
 _RE_HAS_LATIN = re.compile(r"[A-Za-z]")
+_TRANSLATABLE_TEXT_FIELDS = (
+    "trim",
+    "color",
+    "city",
+    "engine_type",
+    "drive_type",
+    "transmission",
+    "eco_standard",
+    "interior_material",
+)
 
 
 def _safe_move_dir(src: pathlib.Path, dst: pathlib.Path) -> bool:
@@ -324,6 +334,10 @@ async def run(
                     pending.append(b)
                 if isinstance(m, str) and has_chinese(m) and m not in translate_cache:
                     pending.append(m)
+                for field_name in _TRANSLATABLE_TEXT_FIELDS:
+                    vv = listing.normalized.get(field_name)
+                    if isinstance(vv, str) and has_chinese(vv) and vv not in translate_cache:
+                        pending.append(vv)
             if pending:
                 try:
                     batch = await _translate_batch_to_english(client, pending)
@@ -456,6 +470,42 @@ async def run(
                                 "message": "missing translation in cache (model)",
                                 "source_listing_id": listing.source_listing_id,
                                 "value": m,
+                            },
+                            flush=True,
+                        )
+
+                for field_name in _TRANSLATABLE_TEXT_FIELDS:
+                    vv = listing.normalized.get(field_name)
+                    if not (isinstance(vv, str) and has_chinese(vv)):
+                        continue
+                    if vv in translate_cache:
+                        listing.normalized[field_name] = translate_cache[vv]
+                        changed = True
+                        continue
+                    if client is not None:
+                        try:
+                            translate_cache[vv] = await _translate_to_english(client, vv)
+                            cache_changed = True
+                            listing.normalized[field_name] = translate_cache[vv]
+                            changed = True
+                        except Exception as e:
+                            print(
+                                {
+                                    "stage": "warning",
+                                    "message": f"translation failed ({field_name})",
+                                    "source_listing_id": listing.source_listing_id,
+                                    "error": str(e),
+                                },
+                                flush=True,
+                            )
+                            translate_cache[vv] = vv
+                    else:
+                        print(
+                            {
+                                "stage": "warning",
+                                "message": f"missing translation in cache ({field_name})",
+                                "source_listing_id": listing.source_listing_id,
+                                "value": vv,
                             },
                             flush=True,
                         )

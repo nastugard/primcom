@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import datetime as dt
+import pathlib
 
 from openai import AsyncOpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -30,7 +31,7 @@ async def _download_images(
         checksum = None
         try:
             base = f"{settings.media_dir}/{listing.source_code}/{listing.source_listing_id}/{pos:03d}"
-            local_path, checksum = await download_image(source_url, base)
+            local_path, checksum = await download_image(source_url, pathlib.Path(base))
         except Exception:
             local_path, checksum = None, None
         await upsert_image(

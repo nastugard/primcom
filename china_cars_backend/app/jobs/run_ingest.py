@@ -31,10 +31,16 @@ def main() -> None:
     parser.add_argument("--sources", default=",".join(settings.scraper_sources_list))
     parser.add_argument("--limit", type=int, default=int(settings.daily_new_limit))
     parser.add_argument("--max-images", type=int, default=int(settings.che168_max_images))
-    parser.add_argument("--skip-existing", action="store_true", default=settings.scraper_skip_existing)
+    parser.add_argument("--skip-existing", action="store_true")
+    parser.add_argument("--no-skip-existing", action="store_true")
     parser.add_argument("--skip-images", action="store_true")
     parser.add_argument("--throttle-ms", type=int, default=int(settings.scraper_throttle_ms))
     args = parser.parse_args()
+
+    if not args.skip_existing and not args.no_skip_existing:
+        args.skip_existing = bool(settings.scraper_skip_existing)
+    if args.no_skip_existing:
+        args.skip_existing = False
 
     asyncio.run(_run(args))
 
