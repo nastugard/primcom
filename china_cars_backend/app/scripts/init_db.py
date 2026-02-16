@@ -15,8 +15,8 @@ def _to_asyncpg_dsn(sqlalchemy_url: str) -> str:
 
 
 async def run() -> None:
-    schema_path = pathlib.Path(__file__).resolve().parents[2] / "schema.sql"
-    ddl = schema_path.read_text(encoding="utf-8")
+    repo_root = pathlib.Path(__file__).resolve().parents[2]
+    schema_paths = [repo_root / "schema.sql", repo_root / "schema_v2.sql"]
 
     dsn = _to_asyncpg_dsn(settings.database_url)
 
@@ -33,12 +33,14 @@ async def run() -> None:
     if conn is None:
         raise RuntimeError(f"Failed to connect to Postgres after retries: {last_err}")
     try:
-        await conn.execute(ddl)
+        for schema_path in schema_paths:
+            if not schema_path.exists():
+                continue
+            ddl = schema_path.read_text(encoding="utf-8")
+            await conn.execute(ddl)
     finally:
         await conn.close()
 
 
 if __name__ == "__main__":
-    import asyncio
-
     asyncio.run(run())

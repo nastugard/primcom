@@ -37,6 +37,17 @@ _RE_KW = re.compile(r"(\d+(?:\.\d+)?)\s*kW\b|千瓦", re.I)
 _RE_KWH = re.compile(r"(\d+(?:\.\d+)?)\s*kWh\b|千瓦时", re.I)
 _RE_ZH = re.compile(r"[\u4e00-\u9fff]")
 _RE_ALLOWED_EN_RU = re.compile(r"[^0-9A-Za-zА-Яа-яЁё .,+()/_&-]+")
+_PLACEHOLDER_PATTERNS = (
+    "scan to open guazi",
+    "used cars mini",
+    "mini program",
+    "qrcode",
+    "qr code",
+    "扫码",
+    "小程序",
+    "瓜子二手车小程序",
+    "请扫码",
+)
 
 _MODEL_TOKEN_MAP: dict[str, str] = {
     "自动": "AT",
@@ -599,6 +610,47 @@ def _normalize_from_dom(dom: dict[str, str | None], *, spec_items: list[dict[str
     return normalized, {}
 
 
+def _is_placeholder_listing(*, normalized: dict[str, Any], dom: dict[str, str | None], spec_items: list[dict[str, str]] | None = None) -> bool:
+    parts = [
+        str(dom.get("title") or ""),
+        str(dom.get("body") or ""),
+        str(dom.get("body_text") or ""),
+    ]
+    if spec_items:
+        for it in spec_items:
+            parts.append(str(it.get("label") or ""))
+            parts.append(str(it.get("value") or ""))
+            parts.append(str(it.get("raw") or ""))
+    haystack = " ".join(parts).lower()
+    if any(p in haystack for p in _PLACEHOLDER_PATTERNS):
+        return True
+
+    brand = str(normalized.get("brand") or "").strip().lower()
+    model = str(normalized.get("model") or "").strip().lower()
+    year = normalized.get("year")
+    mileage = normalized.get("mileage_km")
+    price = normalized.get("price_cny")
+    try:
+        mileage_num = float(mileage) if mileage is not None else None
+    except Exception:
+        mileage_num = None
+    try:
+        price_num = float(price) if price is not None else None
+    except Exception:
+        price_num = None
+
+    if ("scan to open" in brand or "scan to open" in model) or ("mini" in brand and "guazi" in brand):
+        return True
+
+    very_weak_card = (
+        (not brand or not model)
+        and (year is None)
+        and (mileage_num is None or mileage_num <= 0)
+        and (price_num is None or price_num <= 0)
+    )
+    return bool(very_weak_card)
+
+
 class GuaziScraper(BaseScraper):
     source_code = "guazi"
 
@@ -636,26 +688,27 @@ class GuaziScraper(BaseScraper):
 
             found: list[tuple[str, str]] = []
             seen_ids: set[str] = set()
+            scan_limit = max(limit * 4, limit + 30)
             for _ in range(40):
                 anchors = await page.evaluate(
                     """
 () => Array.from(document.querySelectorAll("a")).map(a => ({ href: a.href || "" }))
 """
                 )
-                batch = _extract_links(anchors, limit=limit)
+                batch = _extract_links(anchors, limit=scan_limit)
                 for iid, href in batch:
                     if iid in seen_ids:
                         continue
                     seen_ids.add(iid)
                     found.append((iid, href))
-                    if len(found) >= limit:
+                    if len(found) >= scan_limit:
                         break
-                if len(found) >= limit:
+                if len(found) >= scan_limit:
                     break
                 await page.mouse.wheel(0, 1800)
                 await asyncio.sleep(1.0 + random.random() * 0.7)
 
-            if len(found) < limit and list_json:
+            if len(found) < scan_limit and list_json:
                 seen = {x[0] for x in found}
                 for js in list_json:
                     for m in _ID_RE.finditer(json.dumps(js, ensure_ascii=False, default=str)):
@@ -664,14 +717,14 @@ class GuaziScraper(BaseScraper):
                             continue
                         seen.add(iid)
                         found.append((iid, f"https://www.guazi.com/car-detail/c{iid}.html"))
-                        if len(found) >= limit:
+                        if len(found) >= scan_limit:
                             break
-                    if len(found) >= limit:
+                    if len(found) >= scan_limit:
                         break
 
             page.remove_listener("response", on_list_response)
 
-            for idx, (listing_id, detail_url) in enumerate(found[:limit], start=1):
+            for idx, (listing_id, detail_url) in enumerate(found, start=1):
                 response_jsons: list[dict[str, Any]] = []
 
                 async def on_detail_response(resp):
@@ -703,6 +756,8 @@ class GuaziScraper(BaseScraper):
                 spec_items = await _collect_guazi_spec_items(page)
                 raw = {"detail_url": detail_url, "responses": response_jsons, "dom": dom_snapshot, "spec_items": spec_items}
                 normalized, originals = _normalize_from_dom(dom_snapshot, spec_items=spec_items)
+                if _is_placeholder_listing(normalized=normalized, dom=dom_snapshot, spec_items=spec_items):
+                    continue
 
                 image_urls = await _collect_guazi_carousel_image_urls(page, limit=self.max_images)
                 if not image_urls:
@@ -736,7 +791,7 @@ class GuaziScraper(BaseScraper):
                     )
                 )
 
-                if idx >= limit:
+                if len(scraped) >= limit:
                     break
                 await asyncio.sleep(1.0 + random.random() * 0.6)
 

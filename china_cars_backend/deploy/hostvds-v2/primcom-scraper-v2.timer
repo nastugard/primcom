@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Primcom scraper v2 every 12 hours
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=12h
+Persistent=true
+Unit=primcom-scraper-v2.service
+
+[Install]
+WantedBy=timers.target

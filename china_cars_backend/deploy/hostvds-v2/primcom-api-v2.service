@@ -1,0 +1,16 @@
+[Unit]
+Description=Primcom China Cars FastAPI v2
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/opt/primcom/china_cars_backend
+EnvironmentFile=/opt/primcom/china_cars_backend/.env
+ExecStart=/opt/primcom/china_cars_backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8010
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
