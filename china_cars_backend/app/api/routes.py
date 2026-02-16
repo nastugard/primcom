@@ -177,15 +177,34 @@ async def list_china_cars(
         run_where = "source_code = :source"
         run_params["source"] = src
 
-    last_res = await db.execute(
-        text(
-            "SELECT finished_at FROM scrape_runs "
-            f"WHERE {run_where} AND status IN ('success','partial') "
-            "ORDER BY finished_at DESC NULLS LAST LIMIT 1"
-        ),
-        run_params,
-    )
-    last_scraped_at = last_res.scalar()
+    # Backward compatibility: если scrape_runs ещё не создана, не валим весь каталог.
+    try:
+        last_res = await db.execute(
+            text(
+                "SELECT finished_at FROM scrape_runs "
+                f"WHERE {run_where} AND status IN ('success','partial') "
+                "ORDER BY finished_at DESC NULLS LAST LIMIT 1"
+            ),
+            run_params,
+        )
+        last_scraped_at = last_res.scalar()
+    except Exception:
+        last_scraped_at = None
+
+    if last_scraped_at is None:
+        try:
+            fallback_res = await db.execute(
+                text(
+                    "SELECT MAX(l.scraped_at) "
+                    "FROM listings l "
+                    "JOIN listing_sources s ON s.id=l.source_id "
+                    f"WHERE {where_sql}"
+                ),
+                params,
+            )
+            last_scraped_at = fallback_res.scalar()
+        except Exception:
+            last_scraped_at = None
 
     total_res = await db.execute(
         text(
