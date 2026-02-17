@@ -141,6 +141,20 @@ function toAbsoluteUrl(apiOrigin, maybePath) {
   return s;
 }
 
+function normalizeImageUrl(apiOrigin, imageItem) {
+  if (!imageItem) return null;
+  if (typeof imageItem === "string") {
+    return toAbsoluteUrl(apiOrigin, imageItem);
+  }
+  if (typeof imageItem === "object") {
+    return toAbsoluteUrl(
+      apiOrigin,
+      imageItem.url || imageItem.local_path || imageItem.src || imageItem.path || null
+    );
+  }
+  return null;
+}
+
 function getTitle(item) {
   const parts = [];
   if (item?.brand) parts.push(String(item.brand));
@@ -573,33 +587,35 @@ export function initAutoIzKitaya() {
       const base = await ensureApiBase();
       const u = buildUrl(base, String(item?.id || ""), null);
       const data = await fetchJsonWithTimeout(u.toString(), 12_000);
+      const detailTitle = getTitle(data) || titleText;
 
-      if (modalTitle) modalTitle.textContent = getTitle(data);
+      if (modalTitle) modalTitle.textContent = detailTitle;
       if (modalMeta) modalMeta.textContent = getMeta(data);
       if (modalSpecs) modalSpecs.textContent = getSpecs(data);
-      const images = Array.isArray(data?.images) ? data.images : [];
-      const lightboxImages = images.map((img) => toAbsoluteUrl(state.apiOrigin, img?.url)).filter(Boolean);
-      images.forEach((img) => {
+      const rawImages = Array.isArray(data?.images) ? data.images : [];
+      const lightboxImages = rawImages
+        .map((img) => normalizeImageUrl(state.apiOrigin, img))
+        .filter(Boolean);
+
+      lightboxImages.forEach((abs, idx) => {
         const a = document.createElement("button");
         a.type = "button";
         a.className = "china-car__img";
-        const abs = toAbsoluteUrl(state.apiOrigin, img?.url);
 
         const el = document.createElement("img");
         el.loading = "lazy";
         el.decoding = "async";
-        el.alt = titleText;
+        el.alt = detailTitle;
         if (abs) el.src = abs;
         a.addEventListener("click", () => {
-          const idx = lightboxImages.indexOf(abs);
-          openLightbox(lightboxImages, idx >= 0 ? idx : 0);
+          openLightbox(lightboxImages, idx);
         });
 
         a.appendChild(el);
         modalGallery && modalGallery.appendChild(a);
       });
 
-      if (!images.length) {
+      if (!lightboxImages.length) {
         const p = document.createElement("p");
         p.className = "china-car__empty";
         p.textContent = "Фото не найдено.";
