@@ -24,17 +24,42 @@ async def _get_db() -> AsyncSession:
 def _media_url(local_path: str | None) -> str | None:
     if not local_path:
         return None
-    if not str(local_path).lower().endswith(".webp"):
+    raw = str(local_path).strip()
+    low = raw.lower()
+    if not low.endswith((".webp", ".jpg", ".jpeg", ".png")):
         return None
+
+    # 1) Обычный путь: относительно MEDIA_DIR
+    # 2) Fallback: если в БД абсолютный путь с сегментом /data/media/,
+    # возвращаем URL даже при несовпавшем MEDIA_DIR.
     media_root = pathlib.Path(settings.media_dir).resolve()
+    candidates: list[str] = []
     try:
-        lp = pathlib.Path(local_path)
-        rel = lp.resolve().relative_to(media_root) if lp.is_absolute() else lp
-        fs_path = (media_root / rel).resolve()
-        if fs_path.exists() and fs_path.is_file():
-            return f"/media/{rel.as_posix()}"
+        lp = pathlib.Path(raw)
+        if lp.is_absolute():
+            try:
+                rel = lp.resolve().relative_to(media_root).as_posix()
+                candidates.append(rel)
+            except Exception:
+                pass
+            marker = "/data/media/"
+            posix = lp.as_posix()
+            if marker in posix:
+                candidates.append(posix.split(marker, 1)[1])
+        else:
+            posix = lp.as_posix().lstrip("./")
+            marker = "data/media/"
+            if marker in posix:
+                candidates.append(posix.split(marker, 1)[1])
+            candidates.append(posix)
     except Exception:
         return None
+
+    for rel in candidates:
+        r = str(rel or "").strip().lstrip("/")
+        if not r or r.startswith(".."):
+            continue
+        return f"/media/{r}"
     return None
 
 
@@ -250,6 +275,9 @@ async def list_china_cars(
                 cover_image_url=_media_url(r[15]),
             )
         )
+
+    if last_scraped_at is None and items:
+        last_scraped_at = items[0].scraped_at
 
     return ListingListOut(total=total, limit=limit, offset=offset, last_scraped_at=last_scraped_at, items=items)
 

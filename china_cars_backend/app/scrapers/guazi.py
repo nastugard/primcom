@@ -38,11 +38,15 @@ _RE_PRICE = re.compile(r"(\d+(?:\.\d+)?)\s*万(?!\s*公里)")
 _RE_MILEAGE_LABEL_EN = re.compile(r"mileage\s*\(km\)\s*[:：]?\s*(\d[\d,]*)", re.I)
 _GZ_MAX_IMAGES = 10
 _RE_EN_PRODUCT_LINK = re.compile(r"/products/[a-z0-9-]+\.html", re.I)
-_RE_ENGINE_L = re.compile(r"(\d+(?:\.\d+)?)\s*(?:L|升)\b", re.I)
-_RE_ENGINE_T = re.compile(r"(\d+(?:\.\d+)?)\s*T\b", re.I)
+_RE_ENGINE_L = re.compile(r"(?<![A-Za-z0-9])([1-9](?:\.\d{1,2})?)\s*(?:L|升)\b", re.I)
+_RE_ENGINE_T = re.compile(r"(?<![A-Za-z0-9])([1-9](?:\.\d{1,2})?)\s*T\b", re.I)
 _RE_ENGINE_CC = re.compile(r"(\d{3,5})\s*(?:cc|CC|毫升|ml|mL)\b", re.I)
 _RE_KW = re.compile(r"(\d+(?:\.\d+)?)\s*kW\b|千瓦", re.I)
 _RE_KWH = re.compile(r"(\d+(?:\.\d+)?)\s*kWh\b|千瓦时", re.I)
+_RE_DISPLACEMENT_TOKEN = re.compile(
+    r"(?<![A-Za-z0-9])([1-9](?:\.\d{1,2})?)\s*(?:L|T|升)\b|\b\d{3,5}\s*(?:cc|CC|毫升|ml|mL)\b",
+    re.I,
+)
 _RE_ENGINE_MARKER = re.compile(r"(\d+(?:\.\d+)?\s*(?:L|T|升)|\d{3,5}\s*(?:cc|CC|毫升|ml|mL))")
 _RE_ZH = re.compile(r"[\u4e00-\u9fff]")
 _RE_ALLOWED_EN_RU = re.compile(r"[^0-9A-Za-zА-Яа-яЁё .,+()/_&-]+")
@@ -335,7 +339,8 @@ def _normalize_fuel(value: str | None) -> str | None:
     ls = s.lower()
 
     # Явные EV-маркеры. Не используем голое "电动", т.к. оно часто про электропривод сидений/зеркал.
-    if "纯电" in s or "电机" in s or "续航" in s or _RE_KW.search(s) or _RE_KWH.search(s) or "ev" in ls:
+    # kW здесь специально НЕ признак EV: у ДВС авто мощность тоже часто в kW.
+    if "纯电" in s or "电机" in s or "续航" in s or _RE_KWH.search(s) or "ev" in ls:
         return "Электро"
     if "插电" in s:
         return "Гибрид (PHEV)"
@@ -463,7 +468,7 @@ def _extract_tech_from_specs(spec_items: list[dict[str, str]], dom: dict[str, st
         raw = str(it.get("raw") or "")
         combined = f"{label} {value} {raw}"
         all_text_parts.append(combined)
-        if _RE_KW.search(combined) or _RE_KWH.search(combined):
+        if _RE_KWH.search(combined):
             kw_marker = True
 
         if not price_text and (
@@ -510,17 +515,22 @@ def _extract_tech_from_specs(spec_items: list[dict[str, str]], dom: dict[str, st
         or ("电动车" in combined_all)
         or ("续航" in combined_all)
         or ("ev" in ls_all)
-        or _RE_KW.search(combined_all)
         or _RE_KWH.search(combined_all)
     )
     if is_ev_context:
         engine_type = "Электро"
         engine_volume_l = None
 
+    # Фильтр ложных "объёмов" (например артефакты из "国六b"/"China VI 6b").
+    if engine_volume_l is not None:
+        has_explicit_displacement = bool(_RE_DISPLACEMENT_TOKEN.search(combined_all))
+        if not has_explicit_displacement and engine_volume_l >= 5.0:
+            engine_volume_l = None
+
     # Правило консистентности:
     # 1) Если есть объем ДВС, тип топлива не может быть "Электро".
     # 2) Если есть kW/kWh и нет объема ДВС -> считаем "Электро".
-    if engine_volume_l is not None and not is_ev_context:
+    if engine_volume_l is not None:
         if engine_type == "Электро" or engine_type is None:
             engine_type = _infer_ice_fuel(combined_all)
     elif (kw_marker or is_ev_context) and engine_type is None:

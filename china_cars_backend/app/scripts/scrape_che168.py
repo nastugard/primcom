@@ -100,6 +100,30 @@ def _as_float(v):
         return None
 
 
+def _enforce_engine_consistency(normalized: dict) -> None:
+    """
+    Бизнес-правило:
+    если указан объём двигателя (ДВС), тип не может быть "Электро".
+    """
+    vol = _as_float(normalized.get("engine_volume_l"))
+    et = _as_str(normalized.get("engine_type"))
+    if vol is None or vol <= 0:
+        if et is not None:
+            normalized["engine_type"] = et
+        return
+
+    normalized["engine_volume_l"] = vol
+    if et is None:
+        normalized["engine_type"] = "Бензин/Дизель"
+        return
+
+    et_low = et.lower()
+    if et_low in {"электро", "electric", "ev", "bev"}:
+        normalized["engine_type"] = "Бензин/Дизель"
+    else:
+        normalized["engine_type"] = et
+
+
 def _safe_remove_dir(path: pathlib.Path) -> bool:
     try:
         if not path.exists() or not path.is_dir():
@@ -642,6 +666,7 @@ async def run(
                 "trim": listing.normalized.get("trim") if keep_extra else None,
                 "interior_material": listing.normalized.get("interior_material") if keep_extra else None,
             }
+            _enforce_engine_consistency(normalized_db)
 
             listing_id = await upsert_listing(
                 session,
