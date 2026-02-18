@@ -33,6 +33,9 @@ class Settings(BaseSettings):
     openai_translation_model: str = "gpt-5-nano"
     openai_normalize_model: str = "gpt-5-nano"
 
+    # manager bot ingest
+    manager_api_key: str | None = None
+
     @property
     def cors_origins_list(self) -> list[str]:
         return _split_csv(self.cors_origins)

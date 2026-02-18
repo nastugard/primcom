@@ -1,0 +1,15 @@
+[Unit]
+Description=Primcom Manager Listings Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/primcom/manager-listings-bot
+EnvironmentFile=/opt/primcom/manager-listings-bot/.env
+ExecStart=/opt/primcom/manager-listings-bot/.venv/bin/python /opt/primcom/manager-listings-bot/main.py
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

@@ -12,6 +12,7 @@ import { initScrollSmoother } from "./modules/scroll-smoother.js";
 import { initPageBg } from "./modules/page-bg.js";
 import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js";
 import { initLatestCarsHome } from "./modules/latest-cars-home.js";
+import { initManualMarketCars } from "./modules/auto-manual-market.js";
 
 function safeInit(name, fn) {
   try {
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   safeInit("initCookieNotice", initCookieNotice);
   safeInit("initLeadModal", initLeadModal);
   safeInit("initAutoIzKitaya", initAutoIzKitaya);
+  safeInit("initManualMarketCars", initManualMarketCars);
   safeInit("initLatestCarsHome", initLatestCarsHome);
   safeInit("initAnimations", initAnimations);
   safeInit("initReviewsCarousel", initReviewsCarousel);

@@ -10,7 +10,7 @@
   <meta name="robots" content="index,follow" />
 
   <title>Авто из Японии под заказ во Владивосток и по РФ | Примком</title>
-  <meta name="description" content="Подбор и привоз авто из Японии под ключ: аукционы, проверка, логистика, таможня и постановка на учёт. Рассчитаем сроки и бюджет, поможем выбрать лучший вариант." />
+  <meta name="description" content="Подбор и привоз авто из Японии под ключ: проверка, выкуп, логистика, таможня и выдача. Актуальные карточки с ценами и фото." />
 
   <link rel="canonical" href="https://primcom.ru/pages/auto-iz-yaponii.html" />
 
@@ -18,24 +18,12 @@
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:site_name" content="Примком" />
   <meta property="og:title" content="Авто из Японии под заказ" />
-  <meta property="og:description" content="Подбор и привоз авто из Японии под ключ: аукционы, проверка, логистика, таможня и постановка на учёт." />
+  <meta property="og:description" content="Актуальные предложения авто из Японии с фото и параметрами." />
   <meta property="og:url" content="https://primcom.ru/pages/auto-iz-yaponii.html" />
   <meta property="og:image" content="https://primcom.ru/banner/banner_main.png" />
-  <meta property="og:image:alt" content="Примком, обложка" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Авто из Японии под заказ" />
-  <meta name="twitter:description" content="Подбор и привоз авто из Японии под ключ: аукционы, проверка, логистика, таможня и постановка на учёт." />
-  <meta name="twitter:image" content="https://primcom.ru/banner/banner_main.png" />
-  <meta name="twitter:image:alt" content="Примком, обложка" />
 
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="../site.webmanifest" />
-
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
   <link rel="stylesheet" href="../css/main.css" />
 
   <script type="application/ld+json">
@@ -44,7 +32,7 @@
       "@type": "WebPage",
       "name": "Авто из Японии под заказ",
       "url": "https://primcom.ru/pages/auto-iz-yaponii.html",
-      "description": "Подбор и привоз авто из Японии под ключ: аукционы, проверка, логистика, таможня и постановка на учёт.",
+      "description": "Каталог предложений авто из Японии под заказ",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Примком",
@@ -54,9 +42,7 @@
   </script>
 </head>
 <body>
-  <noscript>
-    Для корректной работы сайта требуется JavaScript.
-  </noscript>
+  <noscript>Для корректной работы сайта требуется JavaScript.</noscript>
 
   <div class="page-bg" aria-hidden="true">
     <div class="page-bg__base"></div>
@@ -65,111 +51,111 @@
     <div class="page-bg__grain"></div>
   </div>
 
+  <div class="modal" data-manual-car-modal hidden>
+    <div class="modal__backdrop" data-manual-car-close></div>
+    <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="manual-car-title-japan">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-manual-car-close>×</button>
+
+      <div class="manual-car">
+        <div class="manual-car__media">
+          <div class="manual-car__stage-wrap">
+            <button class="manual-car__stage" type="button" aria-label="Открыть фото крупно" data-manual-main-button>
+              <img class="manual-car__img" alt="Фото автомобиля" data-manual-main-image />
+            </button>
+            <button class="manual-car__arrow manual-car__arrow--prev" type="button" aria-label="Предыдущее фото" data-manual-prev>‹</button>
+            <button class="manual-car__arrow manual-car__arrow--next" type="button" aria-label="Следующее фото" data-manual-next>›</button>
+          </div>
+          <div class="manual-car__thumbs" data-manual-thumbs></div>
+        </div>
+
+        <div class="manual-car__info">
+          <h2 class="modal__title" id="manual-car-title-japan" data-manual-car-title>Автомобиль</h2>
+          <p class="manual-car__meta" data-manual-car-meta></p>
+          <p class="manual-car__calc-at">Расчет актуален на <span data-manual-car-calc-at>—</span></p>
+          <div class="manual-car__specs" data-manual-car-specs></div>
+          <button class="btn btn--small manual-car__btn-calc" type="button" data-open-lead-modal>Получить расчет</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal china-lightbox" data-manual-lightbox hidden>
+    <div class="modal__backdrop" data-manual-lightbox-close></div>
+    <div class="china-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+      <button class="china-lightbox__close" type="button" aria-label="Закрыть" data-manual-lightbox-close>×</button>
+      <button class="china-lightbox__nav china-lightbox__nav--prev" type="button" aria-label="Предыдущее фото" data-manual-lightbox-prev>‹</button>
+      <button class="china-lightbox__nav china-lightbox__nav--next" type="button" aria-label="Следующее фото" data-manual-lightbox-next>›</button>
+      <figure class="china-lightbox__stage" data-manual-lightbox-stage>
+        <img class="china-lightbox__img" alt="" data-manual-lightbox-img />
+      </figure>
+      <p class="china-lightbox__counter" data-manual-lightbox-counter>1 / 1</p>
+    </div>
+  </div>
+
   <div id="site-header"></div>
 
   <main class="site-main" id="main">
-    <section class="section" aria-label="Авто из Японии под заказ">
-      <div class="container">
-        <h1 class="section__title">Авто из Японии под заказ</h1>
-        <p class="section__lead">
-          Подбираем авто под ваш бюджет и задачи, проверяем по аукционным листам, организуем доставку и таможню.
-          В итоге вы получаете понятный процесс и честный расчёт.
-        </p>
-      </div>
-    </section>
+    <section class="section" aria-label="Актуальные предложения авто из Японии">
+      <div class="container" data-manual-cars data-market="japan" data-list-api="https://api.primcom.ru/api/auto-iz-yaponii" data-detail-api="https://api.primcom.ru/api/auto-iz-kitaya">
+        <h1 class="section__title">Актуальные предложения авто из Японии</h1>
+        <p class="section__lead">Последнее обновление: <span data-manual-cars-last-update>—</span></p>
 
-    <section class="section" aria-label="Почему авто из Японии">
-      <div class="container">
-        <h2 class="section__title">Почему Япония</h2>
-        <p class="section__lead">
-          Японские аукционы дают прозрачную историю и реальное состояние. Мы помогаем выбрать вариант, который не разочарует.
-        </p>
+        <form class="china-cars__filters" data-manual-cars-form>
+          <label class="field">
+            <span class="field__label">Марка</span>
+            <select class="field__control" name="brand">
+              <option value="" selected>Все марки</option>
+            </select>
+          </label>
 
-        <div class="legal">
-          <h3>Что ценят в японских авто</h3>
-          <ul>
-            <li>Аукционный лист с оценкой, замечаниями и пробегом.</li>
-            <li>Бережная эксплуатация и регулярное обслуживание.</li>
-            <li>Большой выбор моделей и комплектаций.</li>
-            <li>Понятная логистика через Владивосток.</li>
-          </ul>
+          <label class="field">
+            <span class="field__label">Модель</span>
+            <select class="field__control" name="model">
+              <option value="" selected>Все модели</option>
+            </select>
+          </label>
 
-          <hr />
+          <label class="field">
+            <span class="field__label">Год от</span>
+            <select class="field__control" name="year_from">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
 
-          <h3>Какие машины привозим чаще всего</h3>
-          <p>
-            Седаны, кроссоверы, минивэны, городские хэтчбеки. Подбираем как популярные модели, так и редкие версии.
-          </p>
-        </div>
-      </div>
-    </section>
+          <label class="field">
+            <span class="field__label">Год до</span>
+            <select class="field__control" name="year_to">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
 
-    <section class="section" aria-label="Как проходит подбор">
-      <div class="container">
-        <h2 class="section__title">Как проходит подбор</h2>
-        <p class="section__lead">Работаем спокойно и по шагам. На каждом этапе вы понимаете, за что платите.</p>
+          <label class="field">
+            <span class="field__label">Пробег от, км</span>
+            <select class="field__control" name="mileage_from">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
 
-        <div class="legal">
-          <ol>
-            <li>
-              <strong>Уточняем задачу.</strong>
-              Вы говорите бюджет, город, пожелания по кузову, приводу и комплектации.
-            </li>
-            <li>
-              <strong>Подбираем варианты на аукционе.</strong>
-              Показываем несколько живых лотов и объясняем разницу по состоянию.
-            </li>
-            <li>
-              <strong>Проверяем документы и историю.</strong>
-              Смотрим аукционный лист, отметки, замечания и риски.
-            </li>
-            <li>
-              <strong>Выкупаем и везём.</strong>
-              Организуем доставку, таможню и подготовку к выдаче.
-            </li>
-          </ol>
+          <label class="field">
+            <span class="field__label">Пробег до, км</span>
+            <select class="field__control" name="mileage_to">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
 
-          <hr />
+          <div class="china-cars__filter-actions">
+            <button class="btn btn--primary" type="submit">Показать</button>
+            <button class="btn btn--small btn--ghost" type="button" data-manual-cars-reset>Сбросить</button>
+          </div>
+        </form>
 
-          <h3>Что входит в сопровождение</h3>
-          <ul>
-            <li>Расчёт полной стоимости до вашего города.</li>
-            <li>Подбор под рынок и под задачу, а не просто по картинке.</li>
-            <li>Коммуникация в удобном формате, без пропаданий.</li>
-            <li>Поддержка по документам и постановке на учёт.</li>
-          </ul>
+        <p class="china-cars__status" data-manual-cars-status aria-live="polite"></p>
+        <div class="china-cars__grid" data-manual-cars-list></div>
 
-          <p>
-            Хотите понять, какие варианты реально купить сейчас? Оставьте заявку, и мы сделаем подбор под ваш бюджет.
-          </p>
-
-          <button class="btn btn--primary" type="button" data-open-lead-modal>
-            Получить подбор
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" aria-label="Частые вопросы">
-      <div class="container">
-        <h2 class="section__title">Частые вопросы</h2>
-        <p class="section__lead">Коротко отвечаем на то, что спрашивают чаще всего.</p>
-
-        <div class="legal">
-          <h3>Сколько занимает привоз из Японии</h3>
-          <p>
-            Зависит от модели, аукциона и логистики. Обычно это несколько недель. Сроки озвучиваем сразу в расчёте.
-          </p>
-
-          <h3>Можно ли привезти авто под конкретную комплектацию</h3>
-          <p>
-            Да. Мы фильтруем лоты по нужным параметрам и показываем только подходящие варианты.
-          </p>
-
-          <h3>Как понять реальное состояние авто</h3>
-          <p>
-            По аукционному листу, оценке и замечаниям. Мы объясняем каждый пункт простыми словами и предупреждаем про риски.
-          </p>
+        <div class="china-cars__pager" aria-label="Пагинация">
+          <button class="btn btn--small" type="button" data-manual-cars-prev>Назад</button>
+          <span class="china-cars__page" data-manual-cars-page>1 / 1</span>
+          <button class="btn btn--small" type="button" data-manual-cars-next>Вперёд</button>
         </div>
       </div>
     </section>

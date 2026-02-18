@@ -69,3 +69,12 @@ async def download_image(url: str, dest: pathlib.Path, timeout_s: float = 25.0) 
         await f.write(out_bytes)
 
     return str(final_path), sha256_bytes(out_bytes)
+
+
+async def save_upload_image_bytes(data: bytes, dest: pathlib.Path) -> tuple[str, str]:
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    out_bytes = await asyncio.to_thread(_to_webp_bytes, data)
+    final_path = dest.with_suffix(".webp")
+    async with aiofiles.open(final_path, "wb") as f:
+        await f.write(out_bytes)
+    return str(final_path), sha256_bytes(out_bytes)

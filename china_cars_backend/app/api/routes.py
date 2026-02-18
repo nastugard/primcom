@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
+import json
 import pathlib
+import uuid
+from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Query, UploadFile
 from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db import SessionLocal
 from app.repositories.catalog import list_recent_runs
 from app.core import settings
+from app.utils.media import save_upload_image_bytes
 
 
 router = APIRouter()
@@ -63,6 +68,67 @@ def _media_url(local_path: str | None) -> str | None:
     return None
 
 
+def _market_source_code(market: str) -> str:
+    v = str(market or "").strip().lower()
+    if v in {"korea", "auto-iz-korei", "korei"}:
+        return "korea_manual"
+    if v in {"japan", "auto-iz-yaponii", "yaponii"}:
+        return "japan_manual"
+    return v
+
+
+async def _ensure_source(db: AsyncSession, *, code: str, name: str, base_url: str) -> int:
+    await db.execute(
+        text(
+            "INSERT INTO listing_sources (code, name, base_url) "
+            "VALUES (:code, :name, :base_url) ON CONFLICT (code) DO NOTHING"
+        ),
+        {"code": code, "name": name, "base_url": base_url},
+    )
+    row = (
+        await db.execute(
+            text("SELECT id FROM listing_sources WHERE code = :code"),
+            {"code": code},
+        )
+    ).first()
+    if not row:
+        raise RuntimeError(f"Failed to resolve source id for {code}")
+    return int(row[0])
+
+
+def _to_int(value: str | None) -> int | None:
+    if value is None:
+        return None
+    s = str(value).strip().replace(" ", "")
+    if not s:
+        return None
+    try:
+        return int(float(s.replace(",", ".")))
+    except Exception:
+        return None
+
+
+def _to_float(value: str | None) -> float | None:
+    if value is None:
+        return None
+    s = str(value).strip().replace(" ", "").replace(",", ".")
+    if not s:
+        return None
+    try:
+        return float(s)
+    except Exception:
+        return None
+
+
+def _require_manager_key(x_manager_api_key: str | None) -> None:
+    expected = (settings.manager_api_key or "").strip()
+    provided = str(x_manager_api_key or "").strip()
+    if not expected:
+        raise HTTPException(status_code=503, detail="MANAGER_API_KEY is not configured")
+    if not provided or provided != expected:
+        raise HTTPException(status_code=401, detail="Invalid manager API key")
+
+
 class ListingCardOut(BaseModel):
     id: str
     source: str
@@ -76,6 +142,10 @@ class ListingCardOut(BaseModel):
     engine_type: str | None = None
     drive_type: str | None = None
     engine_volume_l: float | None = None
+    power_hp: int | None = None
+    transmission: str | None = None
+    trim: str | None = None
+    body_type: str | None = None
     original_url: str
     scraped_at: dt.datetime
     images_count: int
@@ -103,6 +173,10 @@ class ListingDetailOut(BaseModel):
     engine_type: str | None = None
     drive_type: str | None = None
     engine_volume_l: float | None = None
+    power_hp: int | None = None
+    transmission: str | None = None
+    trim: str | None = None
+    body_type: str | None = None
     original_url: str
     scraped_at: dt.datetime
     make_id: int | None = None
@@ -133,6 +207,13 @@ class ScrapeRunOut(BaseModel):
 
 class ScrapeRunsOut(BaseModel):
     items: list[ScrapeRunOut]
+
+
+class ManagerCreateOut(BaseModel):
+    id: str
+    source: str
+    source_listing_id: str
+    images_count: int
 
 
 @router.get("/", tags=["meta"])
@@ -244,7 +325,9 @@ async def list_china_cars(
     rows = await db.execute(
         text(
             "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
-            "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.original_url, l.scraped_at, "
+            "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
+            "COALESCE(l.raw_data->>'body_type', NULL), "
+            "l.original_url, l.scraped_at, "
             "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id), "
             "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id ORDER BY li.position ASC LIMIT 1) "
             "FROM listings l JOIN listing_sources s ON s.id=l.source_id "
@@ -269,10 +352,14 @@ async def list_china_cars(
                 engine_type=r[9],
                 drive_type=r[10],
                 engine_volume_l=float(r[11]) if r[11] is not None else None,
-                original_url=r[12],
-                scraped_at=r[13],
-                images_count=int(r[14] or 0),
-                cover_image_url=_media_url(r[15]),
+                power_hp=int(r[12]) if r[12] is not None else None,
+                transmission=r[13],
+                trim=r[14],
+                body_type=r[15],
+                original_url=r[16],
+                scraped_at=r[17],
+                images_count=int(r[18] or 0),
+                cover_image_url=_media_url(r[19]),
             )
         )
 
@@ -308,7 +395,9 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
         await db.execute(
             text(
                 "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
-                "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.original_url, l.scraped_at, "
+                "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
+                "COALESCE(l.raw_data->>'body_type', NULL), "
+                "l.original_url, l.scraped_at, "
                 "m.make_id, m.model_id, m.generation_id, m.trim_id "
                 "FROM listings l "
                 "JOIN listing_sources s ON s.id=l.source_id "
@@ -343,13 +432,247 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
         engine_type=row[9],
         drive_type=row[10],
         engine_volume_l=float(row[11]) if row[11] is not None else None,
-        original_url=row[12],
-        scraped_at=row[13],
-        make_id=row[14],
-        model_id=row[15],
-        generation_id=row[16],
-        trim_id=row[17],
+        power_hp=int(row[12]) if row[12] is not None else None,
+        transmission=row[13],
+        trim=row[14],
+        body_type=row[15],
+        original_url=row[16],
+        scraped_at=row[17],
+        make_id=row[18],
+        model_id=row[19],
+        generation_id=row[20],
+        trim_id=row[21],
         images=images,
+    )
+
+
+@router.get("/api/auto-iz-korei", response_model=ListingListOut, tags=["catalog"])
+async def list_korea_cars(
+    brand: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    year_from: int | None = Query(default=None, ge=1900, le=2100),
+    year_to: int | None = Query(default=None, ge=1900, le=2100),
+    mileage_from: int | None = Query(default=None, ge=0),
+    mileage_to: int | None = Query(default=None, ge=0),
+    price_from: float | None = Query(default=None, ge=0),
+    price_to: float | None = Query(default=None, ge=0),
+    limit: int = Query(default=24, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    db: AsyncSession = Depends(_get_db),
+) -> ListingListOut:
+    return await list_china_cars(
+        source="korea_manual",
+        brand=brand,
+        model=model,
+        year_from=year_from,
+        year_to=year_to,
+        mileage_from=mileage_from,
+        mileage_to=mileage_to,
+        price_from=price_from,
+        price_to=price_to,
+        limit=limit,
+        offset=offset,
+        db=db,
+    )
+
+
+@router.get("/api/auto-iz-yaponii", response_model=ListingListOut, tags=["catalog"])
+async def list_japan_cars(
+    brand: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    year_from: int | None = Query(default=None, ge=1900, le=2100),
+    year_to: int | None = Query(default=None, ge=1900, le=2100),
+    mileage_from: int | None = Query(default=None, ge=0),
+    mileage_to: int | None = Query(default=None, ge=0),
+    price_from: float | None = Query(default=None, ge=0),
+    price_to: float | None = Query(default=None, ge=0),
+    limit: int = Query(default=24, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    db: AsyncSession = Depends(_get_db),
+) -> ListingListOut:
+    return await list_china_cars(
+        source="japan_manual",
+        brand=brand,
+        model=model,
+        year_from=year_from,
+        year_to=year_to,
+        mileage_from=mileage_from,
+        mileage_to=mileage_to,
+        price_from=price_from,
+        price_to=price_to,
+        limit=limit,
+        offset=offset,
+        db=db,
+    )
+
+
+@router.get("/api/auto-iz-korei/facets", response_model=FacetsOut, tags=["catalog"])
+async def get_korea_facets(db: AsyncSession = Depends(_get_db)) -> FacetsOut:
+    return await get_facets(source="korea_manual", db=db)
+
+
+@router.get("/api/auto-iz-yaponii/facets", response_model=FacetsOut, tags=["catalog"])
+async def get_japan_facets(db: AsyncSession = Depends(_get_db)) -> FacetsOut:
+    return await get_facets(source="japan_manual", db=db)
+
+
+@router.post("/api/manager/manual-listing", response_model=ManagerCreateOut, tags=["manager"])
+async def create_manual_listing(
+    market: Literal["korea", "japan"] = Form(...),
+    brand: str = Form(...),
+    model: str = Form(...),
+    year: str | None = Form(default=None),
+    drive_type: str | None = Form(default=None),
+    engine_volume_l: str | None = Form(default=None),
+    power_hp: str | None = Form(default=None),
+    body_type: str | None = Form(default=None),
+    transmission: str | None = Form(default=None),
+    trim: str | None = Form(default=None),
+    price: str | None = Form(default=None),
+    original_url: str | None = Form(default=None),
+    mileage_km: str | None = Form(default=None),
+    engine_type: str | None = Form(default=None),
+    photos: list[UploadFile] = File(default=[]),
+    x_manager_api_key: str | None = Header(default=None),
+    db: AsyncSession = Depends(_get_db),
+) -> ManagerCreateOut:
+    _require_manager_key(x_manager_api_key)
+
+    source_code = _market_source_code(market)
+    source_name = "Korea Manual" if source_code == "korea_manual" else "Japan Manual"
+    source_id = await _ensure_source(
+        db,
+        code=source_code,
+        name=source_name,
+        base_url="https://primcom.ru",
+    )
+
+    now = dt.datetime.now(dt.timezone.utc)
+    source_listing_id = f"mgr-{market}-{now.strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:8]}"
+    original_link = str(original_url or "").strip() or f"https://primcom.ru/pages/auto-iz-{'korei' if market == 'korea' else 'yaponii'}.html"
+
+    ad_hash = hashlib.sha256(f"{source_code}:{source_listing_id}".encode("utf-8")).hexdigest()
+    payload_sig = "|".join(
+        [
+            str(brand or ""),
+            str(model or ""),
+            str(year or ""),
+            str(price or ""),
+            str(engine_type or ""),
+            str(engine_volume_l or ""),
+            str(power_hp or ""),
+            str(drive_type or ""),
+            str(body_type or ""),
+            str(trim or ""),
+            str(transmission or ""),
+            str(mileage_km or ""),
+        ]
+    )
+    content_checksum = hashlib.sha256(payload_sig.encode("utf-8")).hexdigest()
+
+    normalized = {
+        "brand": str(brand).strip(),
+        "model": str(model).strip(),
+        "year": _to_int(year),
+        "first_registration_date": None,
+        "mileage_km": _to_int(mileage_km),
+        "engine_type": str(engine_type).strip() if engine_type else None,
+        "engine_volume_l": _to_float(engine_volume_l),
+        "power_hp": _to_int(power_hp),
+        "transmission": str(transmission).strip() if transmission else None,
+        "drive_type": str(drive_type).strip() if drive_type else None,
+        "price_cny": _to_float(price),
+        "city": None,
+        "region": None,
+        "vin": None,
+        "owners_count": None,
+        "eco_standard": None,
+        "color": None,
+        "trim": str(trim).strip() if trim else None,
+        "interior_material": None,
+    }
+    raw_data = {
+        "manual": True,
+        "market": market,
+        "body_type": str(body_type).strip() if body_type else None,
+        "price_input": str(price).strip() if price else None,
+        "uploaded_at": now.isoformat(),
+    }
+    originals = {
+        "title_original": None,
+        "description_original": None,
+        "equipment_original": None,
+        "seller_comments_original": None,
+    }
+
+    # Upsert listing
+    row = (
+        await db.execute(
+            text(
+                "INSERT INTO listings (source_id, source_listing_id, original_url, scraped_at, status, ad_hash, content_checksum, "
+                "brand, model, year, first_registration_date, mileage_km, engine_type, engine_volume_l, power_hp, transmission, drive_type, "
+                "price_cny, city, region, vin, owners_count, eco_standard, color, trim, interior_material, "
+                "title_original, description_original, equipment_original, seller_comments_original, raw_data) "
+                "VALUES (:source_id, :source_listing_id, :original_url, :scraped_at, 'active', :ad_hash, :content_checksum, "
+                ":brand, :model, :year, :first_registration_date, :mileage_km, :engine_type, :engine_volume_l, :power_hp, :transmission, :drive_type, "
+                ":price_cny, :city, :region, :vin, :owners_count, :eco_standard, :color, :trim, :interior_material, "
+                ":title_original, :description_original, :equipment_original, :seller_comments_original, (:raw_data)::jsonb) "
+                "ON CONFLICT (source_id, source_listing_id) DO UPDATE SET "
+                "original_url=EXCLUDED.original_url, scraped_at=EXCLUDED.scraped_at, updated_at=NOW(), status='active', "
+                "brand=EXCLUDED.brand, model=EXCLUDED.model, year=EXCLUDED.year, mileage_km=EXCLUDED.mileage_km, "
+                "engine_type=EXCLUDED.engine_type, engine_volume_l=EXCLUDED.engine_volume_l, power_hp=EXCLUDED.power_hp, "
+                "transmission=EXCLUDED.transmission, drive_type=EXCLUDED.drive_type, price_cny=EXCLUDED.price_cny, trim=EXCLUDED.trim, raw_data=EXCLUDED.raw_data "
+                "RETURNING id"
+            ),
+            {
+                "source_id": source_id,
+                "source_listing_id": source_listing_id,
+                "original_url": original_link,
+                "scraped_at": now,
+                "ad_hash": ad_hash,
+                "content_checksum": content_checksum,
+                "raw_data": json.dumps(raw_data, ensure_ascii=False),
+                **normalized,
+                **originals,
+            },
+        )
+    ).first()
+    if not row:
+        raise HTTPException(status_code=500, detail="Failed to create listing")
+    listing_id = row[0]
+
+    # Replace images set
+    await db.execute(text("DELETE FROM listing_images WHERE listing_id=:id"), {"id": listing_id})
+    media_root = pathlib.Path(settings.media_dir)
+    image_count = 0
+    for idx, photo in enumerate(photos[:20]):
+        data = await photo.read()
+        if not data:
+            continue
+        dest = media_root / source_code / source_listing_id / f"{idx:03d}"
+        local_path, checksum = await save_upload_image_bytes(data, dest)
+        await db.execute(
+            text(
+                "INSERT INTO listing_images (listing_id, position, source_url, local_path, checksum) "
+                "VALUES (:listing_id, :position, :source_url, :local_path, :checksum)"
+            ),
+            {
+                "listing_id": listing_id,
+                "position": image_count,
+                "source_url": f"telegram://{photo.filename or 'photo'}",
+                "local_path": local_path,
+                "checksum": checksum,
+            },
+        )
+        image_count += 1
+
+    await db.commit()
+
+    return ManagerCreateOut(
+        id=str(listing_id),
+        source=source_code,
+        source_listing_id=source_listing_id,
+        images_count=image_count,
     )
 
 
