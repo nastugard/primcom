@@ -7,7 +7,7 @@ const OPEN_SCROLL_RATIO = 0.98;
 const LS_KEY_AUTOSHOW_VISITED = "primcom_lead_autoshow_visited_v1";
 const LS_KEY_AUTOSHOW_DISMISSED = "primcom_lead_autoshow_dismissed_v1";
 
-const DEFAULT_LEAD_ENDPOINT = "https://api.primcom.ru/api/lead";
+const DEFAULT_LEAD_ENDPOINT = "/api/lead";
 const TARGET_GROUP_ID = -1003540261166;
 
 function qs(sel) {

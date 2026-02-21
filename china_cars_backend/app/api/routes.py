@@ -3,11 +3,14 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import os
 import pathlib
+import time
 import uuid
 from typing import Literal
 
-from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Query, UploadFile
+import httpx
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Query, Request, UploadFile
 from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -19,6 +22,7 @@ from app.utils.media import save_upload_image_bytes
 
 
 router = APIRouter()
+_lead_ip_hits: dict[str, list[float]] = {}
 
 
 async def _get_db() -> AsyncSession:
@@ -129,6 +133,64 @@ def _require_manager_key(x_manager_api_key: str | None) -> None:
         raise HTTPException(status_code=401, detail="Invalid manager API key")
 
 
+def _lead_client_ip(request: Request) -> str:
+    xff = (request.headers.get("x-forwarded-for") or "").strip()
+    if xff:
+        first = xff.split(",")[0].strip()
+        if first:
+            return first
+    if request.client and request.client.host:
+        return str(request.client.host)
+    return "unknown"
+
+
+def _lead_rate_limit_ok(ip: str) -> bool:
+    now = time.time()
+    window = 60.0
+    limit = max(1, int(settings.lead_rate_limit_per_minute or 20))
+    bucket = _lead_ip_hits.setdefault(ip, [])
+    cutoff = now - window
+    while bucket and bucket[0] < cutoff:
+        bucket.pop(0)
+    if len(bucket) >= limit:
+        return False
+    bucket.append(now)
+    return True
+
+
+def _format_lead_text(data: dict[str, object]) -> str:
+    name = str(data.get("name") or "").strip()
+    phone = str(data.get("phone") or "").strip()
+    comment = str(data.get("comment") or data.get("message") or "").strip()
+    page_url = str(data.get("page_url") or "").strip()
+    user_agent = str(data.get("user_agent") or "").strip()
+    source = str(data.get("source") or "").strip()
+
+    parts = ["НОВАЯ ЗАЯВКА"]
+    if source:
+        parts.append(f"Источник: {source}")
+    if name:
+        parts.append(f"Имя: {name}")
+    if phone:
+        parts.append(f"Телефон: {phone}")
+    if comment:
+        parts.append(f"Комментарий: {comment}")
+    if page_url:
+        parts.append(f"Страница: {page_url}")
+    if user_agent:
+        parts.append(f"UA: {user_agent}")
+    return "\n".join(parts)
+
+
+async def _send_lead_to_telegram(*, bot_token: str, chat_id: str, text_message: str) -> None:
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": text_message}
+    async with httpx.AsyncClient(timeout=12.0) as client:
+        res = await client.post(url, json=payload)
+    if res.status_code >= 400:
+        raise RuntimeError(f"Telegram sendMessage failed: HTTP {res.status_code} {res.text}")
+
+
 class ListingCardOut(BaseModel):
     id: str
     source: str
@@ -216,6 +278,21 @@ class ManagerCreateOut(BaseModel):
     images_count: int
 
 
+class LeadIn(BaseModel):
+    name: str | None = None
+    phone: str | None = None
+    comment: str | None = None
+    message: str | None = None
+    source: str | None = None
+    page_url: str | None = None
+    user_agent: str | None = None
+    chat_id: int | str | None = None
+
+
+class LeadOut(BaseModel):
+    ok: bool
+
+
 @router.get("/", tags=["meta"])
 async def root():
     return {"status": "ok", "docs": "/docs", "catalog": "/api/auto-iz-kitaya"}
@@ -224,6 +301,54 @@ async def root():
 @router.get("/health", tags=["meta"])
 async def health():
     return {"status": "ok"}
+
+
+@router.post("/api/lead", response_model=LeadOut, tags=["lead"])
+async def create_lead(
+    payload: LeadIn,
+    request: Request,
+    x_primcom_token: str | None = Header(default=None),
+) -> LeadOut:
+    expected_token = (settings.lead_api_token or os.getenv("LEAD_API_TOKEN") or "").strip()
+    provided_token = str(x_primcom_token or "").strip()
+    if expected_token and provided_token != expected_token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    ip = _lead_client_ip(request)
+    if not _lead_rate_limit_ok(ip):
+        raise HTTPException(status_code=429, detail="Too many requests")
+
+    data = payload.model_dump()
+    phone = str(data.get("phone") or "").strip()
+    if not phone:
+        raise HTTPException(status_code=400, detail="Телефон обязателен")
+
+    bot_token = (
+        settings.telegram_bot_token
+        or os.getenv("TELEGRAM_BOT_TOKEN")
+        or os.getenv("BOT_TOKEN")
+        or ""
+    ).strip()
+    group_id = (
+        settings.telegram_group_id
+        or os.getenv("TELEGRAM_GROUP_ID")
+        or os.getenv("GROUP_ID")
+        or ""
+    ).strip()
+    if not bot_token or not group_id:
+        raise HTTPException(status_code=503, detail="Lead notifications are not configured")
+
+    text_message = _format_lead_text(data)
+    try:
+        await _send_lead_to_telegram(
+            bot_token=bot_token,
+            chat_id=group_id,
+            text_message=text_message,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    return LeadOut(ok=True)
 
 
 @router.get("/api/china-cars", response_model=ListingListOut, tags=["catalog"])

@@ -36,6 +36,12 @@ class Settings(BaseSettings):
     # manager bot ingest
     manager_api_key: str | None = None
 
+    # lead notifications from site modal
+    lead_api_token: str | None = None
+    telegram_bot_token: str | None = None
+    telegram_group_id: str | None = None
+    lead_rate_limit_per_minute: int = 20
+
     @property
     def cors_origins_list(self) -> list[str]:
         return _split_csv(self.cors_origins)
