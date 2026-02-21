@@ -7,7 +7,7 @@ const OPEN_SCROLL_RATIO = 0.98;
 const LS_KEY_AUTOSHOW_VISITED = "primcom_lead_autoshow_visited_v1";
 const LS_KEY_AUTOSHOW_DISMISSED = "primcom_lead_autoshow_dismissed_v1";
 
-const DEFAULT_LEAD_ENDPOINT = "/api/lead";
+const DEFAULT_LEAD_ENDPOINT = "https://api.primcom.ru/api/lead";
 const TARGET_GROUP_ID = -1003540261166;
 
 function qs(sel) {
@@ -100,6 +100,28 @@ function getLeadEndpoint() {
   return trimmed;
 }
 
+function getLeadEndpointCandidates() {
+  const primary = getLeadEndpoint();
+  const set = new Set();
+  if (primary) set.add(primary);
+  set.add("https://api.primcom.ru/api/lead");
+  set.add("/api/lead");
+  return Array.from(set);
+}
+
+function parseApiError(text, status) {
+  try {
+    const parsed = JSON.parse(text || "{}");
+    if (parsed && typeof parsed.detail === "string" && parsed.detail.trim()) {
+      return `Ошибка ${status}: ${parsed.detail}`;
+    }
+  } catch {
+    // ignore
+  }
+  if (text && String(text).trim()) return `Ошибка ${status}: ${String(text).trim()}`;
+  return `Ошибка ${status}`;
+}
+
 async function postJson(url, payload, timeoutMs) {
   const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   const timer = window.setTimeout(() => controller && controller.abort(), timeoutMs);
@@ -120,13 +142,46 @@ async function postJson(url, payload, timeoutMs) {
 
     if (!res.ok) {
       const text = await res.text().catch(() => "");
-      throw new Error(text || `HTTP ${res.status}`);
+      throw new Error(parseApiError(text, res.status));
     }
 
     return res;
   } finally {
     window.clearTimeout(timer);
   }
+}
+
+async function postLeadWithFallback(payload, timeoutMs) {
+  const endpoints = getLeadEndpointCandidates();
+  let lastErr = null;
+  for (const endpoint of endpoints) {
+    try {
+      return await postJson(endpoint, payload, timeoutMs);
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr || new Error("Lead endpoint unavailable");
+}
+
+function humanizeLeadError(err) {
+  const msg = String(err?.message || "");
+  if (msg.includes("Lead notifications are not configured")) {
+    return "Сервис заявок на сервере не настроен (Telegram).";
+  }
+  if (msg.includes("Unauthorized")) {
+    return "Ошибка авторизации API заявок.";
+  }
+  if (msg.includes("Too many requests")) {
+    return "Слишком много попыток. Подождите минуту и повторите.";
+  }
+  if (msg.includes("Telegram sendMessage failed")) {
+    return "Telegram временно недоступен. Попробуйте позже.";
+  }
+  if (msg.includes("aborted")) {
+    return "Сервер не ответил вовремя. Попробуйте ещё раз.";
+  }
+  return "Не удалось отправить. Попробуйте позже.";
 }
 
 export function initLeadModal() {
@@ -350,14 +405,14 @@ export function initLeadModal() {
           user_agent: navigator.userAgent,
         };
 
-        await postJson(getLeadEndpoint(), payload, 12_000);
+        await postLeadWithFallback(payload, 12_000);
 
         setStatus("Заявка отправлена. Мы свяжемся с вами.", "success");
         form.reset();
 
         window.setTimeout(() => close(), 900);
       } catch (err) {
-        setStatus("Не удалось отправить. Попробуйте позже.", "error");
+        setStatus(humanizeLeadError(err), "error");
       }
     });
   }

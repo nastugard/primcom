@@ -2,6 +2,10 @@ function qs(sel, root = document) {
   return root.querySelector(sel);
 }
 
+function qsa(sel, root = document) {
+  return Array.from(root.querySelectorAll(sel));
+}
+
 function clearEl(el) {
   if (!el) return;
   while (el.firstChild) el.removeChild(el.firstChild);
@@ -26,33 +30,34 @@ function formatInt(value) {
   return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Math.trunc(n));
 }
 
-function formatMeta(item) {
+function formatMeta(item, currencySign = "¥") {
   const parts = [];
   if (typeof item?.year === "number") parts.push(String(item.year));
   const mileage = formatInt(item?.mileage_km);
   if (mileage) parts.push(`${mileage} км`);
   const price = formatInt(item?.price_cny);
-  if (price) parts.push(`¥ ${price}`);
+  if (price) parts.push(`${currencySign} ${price}`);
   return parts.join(" • ");
 }
 
-function getApiCandidates() {
+function getApiCandidates(apiPath) {
+  const path = String(apiPath || "/api/auto-iz-kitaya").trim() || "/api/auto-iz-kitaya";
   if (window.location.protocol === "file:") {
     return [
-      "http://127.0.0.1:8010/api/auto-iz-kitaya",
-      "/api/auto-iz-kitaya",
-      "https://api.primcom.ru/api/auto-iz-kitaya",
+      `http://127.0.0.1:8010${path}`,
+      path,
+      `https://api.primcom.ru${path}`,
     ];
   }
   const host = String(window.location.hostname || "");
   if (host === "localhost" || host === "127.0.0.1") {
     return [
-      "http://127.0.0.1:8010/api/auto-iz-kitaya",
-      "/api/auto-iz-kitaya",
-      "https://api.primcom.ru/api/auto-iz-kitaya",
+      `http://127.0.0.1:8010${path}`,
+      path,
+      `https://api.primcom.ru${path}`,
     ];
   }
-  return ["/api/auto-iz-kitaya", "https://api.primcom.ru/api/auto-iz-kitaya"];
+  return [path, `https://api.primcom.ru${path}`];
 }
 
 function toAbsoluteUrl(apiBase, maybePath) {
@@ -63,14 +68,14 @@ function toAbsoluteUrl(apiBase, maybePath) {
   return s;
 }
 
-function createCard(item, apiBase) {
+function createCard(item, apiBase, pageUrl, marketLabel, currencySign) {
   const card = document.createElement("article");
   card.className = "china-car-card";
 
   const media = document.createElement("a");
   media.className = "china-car-card__media";
-  media.href = "./pages/auto-iz-kitaya.html";
-  media.setAttribute("aria-label", "Открыть раздел авто из китая");
+  media.href = pageUrl;
+  media.setAttribute("aria-label", `Открыть раздел авто из ${marketLabel}`);
 
   const imgUrl = toAbsoluteUrl(apiBase, item?.cover_image_url);
   if (imgUrl) {
@@ -104,14 +109,14 @@ function createCard(item, apiBase) {
 
   const meta = document.createElement("p");
   meta.className = "china-car-card__meta";
-  meta.textContent = formatMeta(item);
+  meta.textContent = formatMeta(item, currencySign);
 
   const actions = document.createElement("div");
   actions.className = "china-car-card__actions";
 
   const details = document.createElement("a");
   details.className = "btn btn--small china-car-card__btn-detail";
-  details.href = "./pages/auto-iz-kitaya.html";
+  details.href = pageUrl;
   details.textContent = "Подробнее";
 
   const srcLink = document.createElement("a");
@@ -132,13 +137,13 @@ function createCard(item, apiBase) {
   return card;
 }
 
-async function fetchLatest() {
-  const candidates = getApiCandidates();
+async function fetchLatest({ apiPath, source }) {
+  const candidates = getApiCandidates(apiPath);
   let lastErr = null;
   for (const base of candidates) {
     try {
       const u = new URL(base.replace(/\/+$/, ""), window.location.href);
-      u.searchParams.set("source", "guazi");
+      if (source) u.searchParams.set("source", source);
       u.searchParams.set("limit", "4");
       u.searchParams.set("offset", "0");
       const res = await fetch(u.toString(), { cache: "no-store" });
@@ -153,32 +158,41 @@ async function fetchLatest() {
 }
 
 export function initLatestCarsHome() {
-  const root = qs("[data-latest-home]");
-  if (!root) return;
+  const roots = qsa("[data-latest-home]");
+  if (!roots.length) return;
 
-  const statusEl = qs("[data-latest-home-status]", root);
-  const updatedEl = qs("[data-latest-home-updated]", root);
-  const listEl = qs("[data-latest-home-list]", root);
+  roots.forEach((root) => {
+    const statusEl = qs("[data-latest-home-status]", root);
+    const updatedEl = qs("[data-latest-home-updated]", root);
+    const listEl = qs("[data-latest-home-list]", root);
+    const apiPath = root.getAttribute("data-api-path") || "/api/auto-iz-kitaya";
+    const pageUrl = root.getAttribute("data-page-url") || "./pages/auto-iz-kitaya.html";
+    const marketLabel = root.getAttribute("data-market-label") || "китая";
+    const source = root.getAttribute("data-source") || "";
+    const currencySign = (root.getAttribute("data-currency") || "cny").toLowerCase() === "rub" ? "₽" : "¥";
 
-  const render = async () => {
-    try {
-      const { data, apiBase } = await fetchLatest();
-      clearEl(listEl);
-      const items = Array.isArray(data?.items) ? data.items : [];
-      if (!items.length) {
-        if (statusEl) statusEl.textContent = "Пока нет объявлений.";
-        if (updatedEl) updatedEl.textContent = "—";
-        return;
+    const render = async () => {
+      try {
+        const { data, apiBase } = await fetchLatest({ apiPath, source });
+        clearEl(listEl);
+        const items = Array.isArray(data?.items) ? data.items : [];
+        if (!items.length) {
+          if (statusEl) statusEl.textContent = "Пока нет объявлений.";
+          if (updatedEl) updatedEl.textContent = "—";
+          return;
+        }
+        items.forEach((item) =>
+          listEl.appendChild(createCard(item, apiBase, pageUrl, marketLabel, currencySign))
+        );
+        if (statusEl) statusEl.textContent = "";
+        if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+      } catch (err) {
+        if (statusEl) statusEl.textContent = "Не удалось загрузить свежую подборку.";
+        console.error("[latest-home] load failed", { apiPath, err });
       }
-      items.forEach((item) => listEl.appendChild(createCard(item, apiBase)));
-      if (statusEl) statusEl.textContent = "";
-      if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
-    } catch (err) {
-      if (statusEl) statusEl.textContent = "Не удалось загрузить свежую подборку.";
-      console.error("[latest-home] load failed", err);
-    }
-  };
+    };
 
-  render();
-  window.setInterval(render, 90_000);
+    render();
+    window.setInterval(render, 90_000);
+  });
 }
