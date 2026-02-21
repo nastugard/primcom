@@ -8,6 +8,7 @@ import re
 import shutil
 import json
 
+import httpx
 from sqlalchemy import text
 
 from openai import AsyncOpenAI
@@ -147,6 +148,69 @@ async def _translate_to_english(client: AsyncOpenAI, text_value: str) -> str:
     )
     out = ((resp.choices[0].message.content or "").strip() if resp.choices else "").strip()
     return out.strip('"\'').strip()
+
+
+def _proxy_headers(token: str | None) -> dict[str, str]:
+    headers = {"Content-Type": "application/json"}
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    return headers
+
+
+async def _translate_proxy_single(text_value: str) -> str:
+    url = str(settings.translation_proxy_url or "").strip()
+    if not url:
+        raise RuntimeError("translation proxy url is not configured")
+    payload = {"text": text_value}
+    timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
+    async with httpx.AsyncClient(timeout=timeout) as http:
+        resp = await http.post(url.rstrip("/") + "/translate", headers=_proxy_headers(settings.translation_proxy_token), json=payload)
+        resp.raise_for_status()
+        data = resp.json()
+        out = str(data.get("translation") or "").strip()
+        if not out:
+            raise RuntimeError("empty translation from proxy")
+        return out
+
+
+async def _translate_proxy_batch(values: list[str]) -> dict[str, str]:
+    url = str(settings.translation_proxy_url or "").strip()
+    if not url:
+        return {}
+    timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
+    payload = {"values": values}
+    async with httpx.AsyncClient(timeout=timeout) as http:
+        resp = await http.post(
+            url.rstrip("/") + "/translate-batch",
+            headers=_proxy_headers(settings.translation_proxy_token),
+            json=payload,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+    out = data.get("translations")
+    if not isinstance(out, dict):
+        return {}
+    result: dict[str, str] = {}
+    for k, v in out.items():
+        if isinstance(k, str) and isinstance(v, str) and k.strip() and v.strip():
+            result[k.strip()] = v.strip()
+    return result
+
+
+async def _translate_any(client: AsyncOpenAI | None, text_value: str) -> str:
+    if settings.translation_proxy_url:
+        return await _translate_proxy_single(text_value)
+    if client is None:
+        raise RuntimeError("translator is not configured")
+    return await _translate_to_english(client, text_value)
+
+
+async def _translate_batch_any(client: AsyncOpenAI | None, values: list[str]) -> dict[str, str]:
+    if settings.translation_proxy_url:
+        return await _translate_proxy_batch(values)
+    if client is None:
+        return {}
+    return await _translate_batch_to_english(client, values)
 
 
 async def _translate_batch_to_english(client: AsyncOpenAI, values: list[str]) -> dict[str, str]:
@@ -290,7 +354,19 @@ async def run(
     throttle_ms: int,
 ) -> None:
     scraper = _create_scraper(source, max_images=max_images)
-    print({"stage": "scrape_start", "source": scraper.source_code, "limit": limit, "download_images": download_images}, flush=True)
+    translate_mode = "openai"
+    if settings.translation_proxy_url:
+        translate_mode = "proxy"
+    print(
+        {
+            "stage": "scrape_start",
+            "source": scraper.source_code,
+            "limit": limit,
+            "download_images": download_images,
+            "translate_mode": translate_mode,
+        },
+        flush=True,
+    )
     listings = await scraper.scrape(limit=limit)
 
     if dry_run:
@@ -317,6 +393,7 @@ async def run(
     client: AsyncOpenAI | None = None
     if (translate_chinese or llm_normalize) and settings.openai_api_key:
         client = AsyncOpenAI(api_key=settings.openai_api_key)
+    translator_ready = bool(settings.translation_proxy_url) or (client is not None)
     translate_cache: dict[str, str] = load_cache(translation_cache_path)
     cache_changed = False
 
@@ -336,7 +413,7 @@ async def run(
             )
 
         # Экономим токены: неизвестные китайские brand/model переводим одним батч-запросом.
-        if client is not None and translate_chinese:
+        if translator_ready and translate_chinese:
             pending: list[str] = []
             for listing in listings:
                 b0 = listing.normalized.get("brand")
@@ -364,13 +441,22 @@ async def run(
                         pending.append(vv)
             if pending:
                 try:
-                    batch = await _translate_batch_to_english(client, pending)
+                    batch = await _translate_batch_any(client, pending)
                     for k, v in batch.items():
                         if k not in translate_cache:
                             translate_cache[k] = v
                             cache_changed = True
                 except Exception as e:
-                    print({"stage": "warning", "message": "batch translation failed", "error": str(e)}, flush=True)
+                    print(
+                        {
+                            "stage": "warning",
+                            "message": "batch translation failed",
+                            "error": str(e),
+                            "error_type": type(e).__name__,
+                            "error_repr": repr(e),
+                        },
+                        flush=True,
+                    )
 
         for i, listing in enumerate(listings, start=1):
             should_download_images = bool(download_images)
@@ -438,9 +524,9 @@ async def run(
                     if b in translate_cache:
                         listing.normalized["brand"] = translate_cache[b]
                         changed = True
-                    elif client is not None:
+                    elif translator_ready:
                         try:
-                            translate_cache[b] = await _translate_to_english(client, b)
+                            translate_cache[b] = await _translate_any(client, b)
                             cache_changed = True
                             listing.normalized["brand"] = translate_cache[b]
                             changed = True
@@ -470,9 +556,9 @@ async def run(
                     if m in translate_cache:
                         listing.normalized["model"] = translate_cache[m]
                         changed = True
-                    elif client is not None:
+                    elif translator_ready:
                         try:
-                            translate_cache[m] = await _translate_to_english(client, m)
+                            translate_cache[m] = await _translate_any(client, m)
                             cache_changed = True
                             listing.normalized["model"] = translate_cache[m]
                             changed = True
@@ -506,9 +592,9 @@ async def run(
                         listing.normalized[field_name] = translate_cache[vv]
                         changed = True
                         continue
-                    if client is not None:
+                    if translator_ready:
                         try:
-                            translate_cache[vv] = await _translate_to_english(client, vv)
+                            translate_cache[vv] = await _translate_any(client, vv)
                             cache_changed = True
                             listing.normalized[field_name] = translate_cache[vv]
                             changed = True
@@ -594,7 +680,19 @@ async def run(
                                 try:
                                     base = media_root / listing.source_code / listing.source_listing_id / f"{pos:03d}"
                                     local_path, checksum = await download_image(img_url, base)
-                                except Exception:
+                                except Exception as e:
+                                    print(
+                                        {
+                                            "stage": "download_image_failed",
+                                            "source_listing_id": listing.source_listing_id,
+                                            "position": pos,
+                                            "image_url": img_url,
+                                            "error": str(e),
+                                            "error_type": type(e).__name__,
+                                            "error_repr": repr(e),
+                                        },
+                                        flush=True,
+                                    )
                                     local_path, checksum = None, None
                                 if throttle_s > 0:
                                     await asyncio.sleep(throttle_s)
@@ -613,6 +711,17 @@ async def run(
                                     source_url=img_url,
                                     local_path=local_path,
                                     checksum=checksum,
+                                )
+                            if len(kept) != len(listing.image_urls):
+                                print(
+                                    {
+                                        "stage": "download_images_partial",
+                                        "source_listing_id": listing.source_listing_id,
+                                        "listing_id": str(existing["id"]),
+                                        "saved": len(kept),
+                                        "expected": len(listing.image_urls),
+                                    },
+                                    flush=True,
                                 )
 
                         should_download_images = False
@@ -703,7 +812,19 @@ async def run(
                     try:
                         base = media_root / listing.source_code / listing.source_listing_id / f"{pos:03d}"
                         local_path, checksum = await download_image(img_url, base)
-                    except Exception:
+                    except Exception as e:
+                        print(
+                            {
+                                "stage": "download_image_failed",
+                                "source_listing_id": listing.source_listing_id,
+                                "position": pos,
+                                "image_url": img_url,
+                                "error": str(e),
+                                "error_type": type(e).__name__,
+                                "error_repr": repr(e),
+                            },
+                            flush=True,
+                        )
                         local_path, checksum = None, None
                     if throttle_s > 0:
                         await asyncio.sleep(throttle_s)
@@ -722,6 +843,17 @@ async def run(
                         source_url=img_url,
                         local_path=local_path,
                         checksum=checksum,
+                    )
+                if len(kept) != len(listing.image_urls):
+                    print(
+                        {
+                            "stage": "download_images_partial",
+                            "source_listing_id": listing.source_listing_id,
+                            "listing_id": str(listing_id),
+                            "saved": len(kept),
+                            "expected": len(listing.image_urls),
+                        },
+                        flush=True,
                     )
 
             elif should_download_images and not listing.image_urls:

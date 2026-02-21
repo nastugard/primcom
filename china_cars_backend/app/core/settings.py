@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     openai_api_key: str | None = None
     openai_translation_model: str = "gpt-5-nano"
     openai_normalize_model: str = "gpt-5-nano"
+    translation_proxy_url: str | None = None
+    translation_proxy_token: str | None = None
+    translation_proxy_timeout_ms: int = 15000
 
     # manager bot ingest
     manager_api_key: str | None = None
