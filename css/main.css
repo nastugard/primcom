@@ -316,6 +316,18 @@ body > .site-main:not(.site-main--hero) {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  padding: 0;
+  transition:
+    inline-size 260ms var(--ease),
+    padding 260ms var(--ease),
+    border-color 260ms var(--ease),
+    border-radius 260ms var(--ease),
+    background-color 260ms var(--ease),
+    backdrop-filter 260ms var(--ease),
+    box-shadow 260ms var(--ease);
 }
 
 .brand {
@@ -328,6 +340,7 @@ body > .site-main:not(.site-main--hero) {
 .brand__logo {
   inline-size: 70px;
   block-size: auto;
+  transition: inline-size 260ms var(--ease);
 }
 
 .site-nav {
