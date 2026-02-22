@@ -716,6 +716,10 @@ body > .site-main:not(.site-main--hero) {
 
 @media (min-width: 861px) {
   .brand__logo {
+    inline-size: 100px;
+  }
+
+  .site-header.is-detached .brand__logo {
     inline-size: 82px;
   }
 
