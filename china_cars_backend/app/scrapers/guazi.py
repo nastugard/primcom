@@ -30,6 +30,12 @@ _EN_PRODUCT_RE = re.compile(r"/products/([a-z0-9-]+)\.html", re.I)
 _RE_IMAGE_URL = re.compile(r"\.(jpe?g|png|webp)(\?|$)", re.I)
 _RE_WEBP = re.compile(r"(\.webp(\?|$)|[?&]format=webp\b|\bwebp\b)", re.I)
 _RE_NOT_IMAGE_URL = re.compile(r"\.(css|js|svg)(\?|$)", re.I)
+_RE_BAD_IMAGE_HINT = re.compile(
+    r"(qrcode|qr[-_]?code|mini(?:[-_]?program)?|xiaochengxu|applet|wechat|weixin|wxapp|xcx|"
+    r"logo|icon|sprite|favicon|placeholder|default|avatar|loading|scan)",
+    re.I,
+)
+_RE_GOOD_IMAGE_HINT = re.compile(r"(car|vehicle|detail|gallery|album|photo|image|upload|usedcar|origin|large|big)", re.I)
 _RE_MILEAGE = re.compile(r"(\d+(?:\.\d+)?)\s*万\s*公里")
 _RE_MILEAGE_EN = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s*km\b", re.I)
 _RE_YEAR = re.compile(r"((?:19|20)\d{2})\s*款")
@@ -91,26 +97,35 @@ _MODEL_TOKEN_MAP: dict[str, str] = {
 
 def _filter_and_limit_guazi_image_urls(urls: list[str], *, limit: int) -> list[str]:
     seen: set[str] = set()
-    out: list[str] = []
-    for u in urls:
+    ranked: list[tuple[int, int, str]] = []
+    for idx, u in enumerate(urls):
         x = str(u or "").strip()
         if not x.startswith("http"):
             continue
         if _RE_NOT_IMAGE_URL.search(x):
             continue
         lx = x.lower()
+        if "data:image" in lx or _RE_BAD_IMAGE_HINT.search(lx):
+            continue
         # Guazi часто отдаёт image URL без расширения, оставляем domain-based fallback.
         if not (_RE_IMAGE_URL.search(x) or _RE_WEBP.search(x)):
             if "guazi.com" not in lx and "cdn" not in lx and "img" not in lx:
                 continue
-        canon = x.split("#", 1)[0]
+        canon = x.split("#", 1)[0].split("?", 1)[0]
         if canon in seen:
             continue
         seen.add(canon)
-        out.append(x)
-        if len(out) >= limit:
-            break
-    return out
+        score = 0
+        if _RE_GOOD_IMAGE_HINT.search(lx):
+            score -= 2
+        if _RE_IMAGE_URL.search(lx) or _RE_WEBP.search(lx):
+            score -= 1
+        if re.search(r"\d{6,}", lx):
+            score -= 1
+        ranked.append((score, idx, x))
+
+    ranked.sort(key=lambda item: (item[0], item[1]))
+    return [item[2] for item in ranked[:limit]]
 
 
 def _collect_guazi_dom(raw: dict[str, str]) -> dict[str, str | None]:
@@ -291,7 +306,7 @@ async def _collect_guazi_carousel_image_urls(page, *, limit: int) -> list[str]:
   };
 
   // Главная зона фото + вертикальные миниатюры.
-  const roots = Array.from(document.querySelectorAll('.car-image-swiper-box, .swiper, .product-swiper-pagination-wrap, .vehicle-details'));
+  const roots = Array.from(document.querySelectorAll('.car-image-swiper-box, .car-image-swiper, .car-image-wrap, .product-swiper-pagination-wrap'));
   for (const root of roots) {
     const imgs = Array.from(root.querySelectorAll('img'));
     for (const img of imgs) {

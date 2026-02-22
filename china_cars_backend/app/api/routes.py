@@ -367,7 +367,10 @@ async def list_china_cars(
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(_get_db),
 ) -> ListingListOut:
-    where_parts = ["l.status != 'deleted'"]
+    where_parts = [
+        "l.status != 'deleted'",
+        "EXISTS (SELECT 1 FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$')",
+    ]
     params: dict[str, object] = {}
 
     src = str(source or "all").strip().lower()
@@ -453,8 +456,8 @@ async def list_china_cars(
             "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
             "COALESCE(l.raw_data->>'body_type', NULL), "
             "l.original_url, l.scraped_at, "
-            "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id), "
-            "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id ORDER BY li.position ASC LIMIT 1) "
+            "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$'), "
+            "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$' ORDER BY li.position ASC LIMIT 1) "
             "FROM listings l JOIN listing_sources s ON s.id=l.source_id "
             f"WHERE {where_sql} ORDER BY l.scraped_at DESC LIMIT :limit OFFSET :offset"
         ),

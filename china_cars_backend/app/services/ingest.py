@@ -5,6 +5,7 @@ import datetime as dt
 import pathlib
 
 from openai import AsyncOpenAI
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core import settings
@@ -26,6 +27,14 @@ async def _download_images(
 ) -> None:
     if not listing.image_urls:
         return
+
+    # Пересобираем фото целиком и сохраняем только реально скачанные файлы.
+    await session.execute(
+        text("DELETE FROM listing_images WHERE listing_id=:lid"),
+        {"lid": listing_id},
+    )
+
+    kept: list[tuple[str, str, str]] = []
     for pos, source_url in enumerate(listing.image_urls):
         local_path = None
         checksum = None
@@ -34,16 +43,21 @@ async def _download_images(
             local_path, checksum = await download_image(source_url, pathlib.Path(base))
         except Exception:
             local_path, checksum = None, None
+
+        if local_path and checksum:
+            kept.append((source_url, local_path, checksum))
+        if throttle_ms > 0:
+            await asyncio.sleep(max(0, int(throttle_ms)) / 1000.0)
+
+    for new_pos, (source_url, local_path, checksum) in enumerate(kept):
         await upsert_image(
             session,
             listing_id=listing_id,
-            position=pos,
+            position=new_pos,
             source_url=source_url,
             local_path=local_path,
             checksum=checksum,
         )
-        if throttle_ms > 0:
-            await asyncio.sleep(max(0, int(throttle_ms)) / 1000.0)
 
 
 async def run_ingestion(

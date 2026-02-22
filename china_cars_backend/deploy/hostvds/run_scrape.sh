@@ -11,6 +11,7 @@ source .venv/bin/activate
 SOURCE="${SCRAPER_SOURCE:-guazi}"
 NEW_LIMIT="${DAILY_NEW_LIMIT:-30}"
 DEL_LIMIT="${DAILY_DELETE_LIMIT:-0}"
+ENABLE_DELETE_OLD="${SCRAPER_ENABLE_DELETE_OLD:-0}"
 MAX_IMAGES="${CHE168_MAX_IMAGES:-12}"
 THROTTLE_MS="${SCRAPER_THROTTLE_MS:-700}"
 SKIP_EXISTING="${SCRAPER_SKIP_EXISTING:-1}"
@@ -20,10 +21,13 @@ TRANSLATE_CHINESE="${SCRAPER_TRANSLATE_CHINESE:-1}"
 ARGS=(
   --source "$SOURCE"
   --limit "$NEW_LIMIT"
-  --delete-old "$DEL_LIMIT"
   --max-images "$MAX_IMAGES"
   --throttle-ms "$THROTTLE_MS"
 )
+
+if [[ "$ENABLE_DELETE_OLD" == "1" && "${DEL_LIMIT:-0}" != "0" ]]; then
+  ARGS+=(--delete-old "$DEL_LIMIT")
+fi
 
 if [[ "$SKIP_EXISTING" == "1" ]]; then
   ARGS+=(--skip-existing)
