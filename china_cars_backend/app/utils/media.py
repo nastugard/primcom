@@ -52,17 +52,17 @@ def _referer_for_url(url: str) -> str:
     return "https://www.guazi.com/"
 
 
-async def download_image(url: str, dest: pathlib.Path, timeout_s: float = 30.0) -> tuple[str, str]:
+async def download_image(url: str, dest: pathlib.Path, timeout_s: float = 45.0) -> tuple[str, str]:
     dest.parent.mkdir(parents=True, exist_ok=True)
     headers = {
         "User-Agent": "Mozilla/5.0",
         "Accept": "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
         "Referer": _referer_for_url(url),
     }
-    timeout = httpx.Timeout(timeout=timeout_s, connect=10.0)
-
     last_error: Exception | None = None
     for attempt in range(1, 4):
+        attempt_timeout_s = timeout_s * (1.0 + 0.35 * (attempt - 1))
+        timeout = httpx.Timeout(timeout=attempt_timeout_s, connect=min(15.0, attempt_timeout_s))
         try:
             async with httpx.AsyncClient(follow_redirects=True, timeout=timeout) as client:
                 r = await client.get(url, headers=headers)
@@ -80,6 +80,7 @@ async def download_image(url: str, dest: pathlib.Path, timeout_s: float = 30.0) 
         except (
             httpx.ReadTimeout,
             httpx.ConnectTimeout,
+            httpx.WriteTimeout,
             httpx.ReadError,
             httpx.ConnectError,
             httpx.RemoteProtocolError,

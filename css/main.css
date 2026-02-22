@@ -70,6 +70,7 @@ html {
   scroll-behavior: auto;
   scroll-padding-top: var(--header-offset);
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -80,6 +81,13 @@ body {
   background-color: #0f1224;
   position: relative;
   overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 .page-bg {
@@ -707,6 +715,10 @@ body > .site-main:not(.site-main--hero) {
 }
 
 @media (min-width: 861px) {
+  .brand__logo {
+    inline-size: 82px;
+  }
+
   .hero-strip__inner {
     overflow: visible;
     padding-inline: 0;

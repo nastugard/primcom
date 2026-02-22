@@ -43,6 +43,8 @@ _TRANSLATABLE_TEXT_FIELDS = (
     "eco_standard",
     "interior_material",
 )
+_TRANSLATE_PROXY_RETRIES = 3
+_TRANSLATE_PROXY_BATCH_CHUNK_SIZE = 20
 
 
 def _safe_move_dir(src: pathlib.Path, dst: pathlib.Path) -> bool:
@@ -162,31 +164,77 @@ async def _translate_proxy_single(text_value: str) -> str:
     if not url:
         raise RuntimeError("translation proxy url is not configured")
     payload = {"text": text_value}
-    timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
-    async with httpx.AsyncClient(timeout=timeout) as http:
-        resp = await http.post(url.rstrip("/") + "/translate", headers=_proxy_headers(settings.translation_proxy_token), json=payload)
-        resp.raise_for_status()
-        data = resp.json()
-        out = str(data.get("translation") or "").strip()
-        if not out:
-            raise RuntimeError("empty translation from proxy")
-        return out
+    base_timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
+    last_error: Exception | None = None
+
+    for attempt in range(1, _TRANSLATE_PROXY_RETRIES + 1):
+        timeout_s = base_timeout * (1.0 + 0.4 * (attempt - 1))
+        timeout = httpx.Timeout(timeout=timeout_s, connect=min(12.0, timeout_s))
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as http:
+                resp = await http.post(url.rstrip("/") + "/translate", headers=_proxy_headers(settings.translation_proxy_token), json=payload)
+                resp.raise_for_status()
+                data = resp.json()
+                out = str(data.get("translation") or "").strip()
+                if not out:
+                    raise RuntimeError("empty translation from proxy")
+                return out
+        except (
+            httpx.ReadTimeout,
+            httpx.ConnectTimeout,
+            httpx.ReadError,
+            httpx.ConnectError,
+            httpx.RemoteProtocolError,
+        ) as e:
+            last_error = e
+            if attempt >= _TRANSLATE_PROXY_RETRIES:
+                raise
+            await asyncio.sleep(0.8 * attempt)
+
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError("translation proxy single failed without details")
 
 
 async def _translate_proxy_batch(values: list[str]) -> dict[str, str]:
     url = str(settings.translation_proxy_url or "").strip()
     if not url:
         return {}
-    timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
+    base_timeout = max(1000, int(settings.translation_proxy_timeout_ms)) / 1000.0
     payload = {"values": values}
-    async with httpx.AsyncClient(timeout=timeout) as http:
-        resp = await http.post(
-            url.rstrip("/") + "/translate-batch",
-            headers=_proxy_headers(settings.translation_proxy_token),
-            json=payload,
-        )
-        resp.raise_for_status()
-        data = resp.json()
+    last_error: Exception | None = None
+    data: dict[str, object] | None = None
+
+    for attempt in range(1, _TRANSLATE_PROXY_RETRIES + 1):
+        timeout_s = base_timeout * (1.0 + 0.5 * (attempt - 1))
+        timeout = httpx.Timeout(timeout=timeout_s, connect=min(12.0, timeout_s))
+        try:
+            async with httpx.AsyncClient(timeout=timeout) as http:
+                resp = await http.post(
+                    url.rstrip("/") + "/translate-batch",
+                    headers=_proxy_headers(settings.translation_proxy_token),
+                    json=payload,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+            break
+        except (
+            httpx.ReadTimeout,
+            httpx.ConnectTimeout,
+            httpx.ReadError,
+            httpx.ConnectError,
+            httpx.RemoteProtocolError,
+        ) as e:
+            last_error = e
+            if attempt >= _TRANSLATE_PROXY_RETRIES:
+                raise
+            await asyncio.sleep(0.9 * attempt)
+
+    if data is None:
+        if last_error is not None:
+            raise last_error
+        return {}
+
     out = data.get("translations")
     if not isinstance(out, dict):
         return {}
@@ -211,6 +259,69 @@ async def _translate_batch_any(client: AsyncOpenAI | None, values: list[str]) ->
     if client is None:
         return {}
     return await _translate_batch_to_english(client, values)
+
+
+def _dedupe_values(values: list[str]) -> list[str]:
+    uniq: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        s = str(value or "").strip()
+        if not s or s in seen:
+            continue
+        seen.add(s)
+        uniq.append(s)
+    return uniq
+
+
+def _chunks(values: list[str], size: int) -> list[list[str]]:
+    if size <= 0:
+        return [values]
+    return [values[i : i + size] for i in range(0, len(values), size)]
+
+
+async def _translate_batch_resilient(client: AsyncOpenAI | None, values: list[str]) -> dict[str, str]:
+    uniq = _dedupe_values(values)
+    if not uniq:
+        return {}
+
+    out: dict[str, str] = {}
+    for chunk_idx, chunk in enumerate(_chunks(uniq, _TRANSLATE_PROXY_BATCH_CHUNK_SIZE), start=1):
+        chunk_result: dict[str, str] = {}
+        try:
+            chunk_result = await _translate_batch_any(client, chunk)
+        except Exception as e:
+            print(
+                {
+                    "stage": "warning",
+                    "message": "batch translation chunk failed",
+                    "chunk_index": chunk_idx,
+                    "chunk_size": len(chunk),
+                    "error": str(e),
+                    "error_type": type(e).__name__,
+                    "error_repr": repr(e),
+                },
+                flush=True,
+            )
+
+        for k, v in chunk_result.items():
+            s = str(v or "").strip()
+            if s:
+                out[k] = s
+
+        missing = [value for value in chunk if value not in out]
+        if not missing:
+            continue
+
+        for value in missing:
+            try:
+                one = await _translate_any(client, value)
+            except Exception:
+                continue
+            one_s = str(one or "").strip()
+            if one_s:
+                out[value] = one_s
+
+    return out
 
 
 async def _translate_batch_to_english(client: AsyncOpenAI, values: list[str]) -> dict[str, str]:
@@ -440,20 +551,21 @@ async def run(
                     if isinstance(vv, str) and has_chinese(vv) and vv not in translate_cache:
                         pending.append(vv)
             if pending:
-                try:
-                    batch = await _translate_batch_any(client, pending)
-                    for k, v in batch.items():
-                        if k not in translate_cache:
-                            translate_cache[k] = v
-                            cache_changed = True
-                except Exception as e:
+                pending_unique = len(set(str(x or "").strip() for x in pending if str(x or "").strip()))
+                batch = await _translate_batch_resilient(client, pending)
+                for k, v in batch.items():
+                    if k not in translate_cache:
+                        translate_cache[k] = v
+                        cache_changed = True
+                unresolved = max(0, pending_unique - len(batch))
+                if unresolved > 0:
                     print(
                         {
                             "stage": "warning",
-                            "message": "batch translation failed",
-                            "error": str(e),
-                            "error_type": type(e).__name__,
-                            "error_repr": repr(e),
+                            "message": "batch translation incomplete",
+                            "pending_unique": pending_unique,
+                            "resolved": len(batch),
+                            "unresolved": unresolved,
                         },
                         flush=True,
                     )

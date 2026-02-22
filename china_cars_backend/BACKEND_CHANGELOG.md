@@ -77,6 +77,42 @@
 
 ---
 
+## 2026-02-22 14:05 (MSK)
+
+### Изменение
+
+Усилена устойчивость массового парсинга к сетевым таймаутам:
+
+- batch-перевод через proxy разбит на чанки;
+- добавлены ретраи batch/single переводов с увеличением timeout;
+- добавлен fallback на одиночный перевод для неразобранных значений;
+- добавлена диагностика частичного перевода (`batch translation incomplete`);
+- улучшена устойчивость скачивания изображений: timeout увеличивается от попытки к попытке.
+
+### Причина
+
+При запуске с большим `--limit` возникали `ReadTimeout` на batch-переводе и при скачивании отдельных изображений, из-за чего качество заполнения карточек снижалось.
+
+### Затронутые файлы
+
+- `app/scripts/scrape_che168.py`
+- `app/utils/media.py`
+- `BACKEND_RUNBOOK.md`
+
+### Проверка
+
+- `python -m py_compile app/scripts/scrape_che168.py app/utils/media.py`
+- проверка наличия новых секций в `BACKEND_RUNBOOK.md`.
+
+### Действия на сервере
+
+- выкатить обновленные файлы;
+- запустить повторно:
+  - `python -m app.scripts.scrape_che168 --source guazi --limit 60 --max-images 10 --no-skip-existing --allow-non-english-brand --translate-chinese --throttle-ms 700`
+- проверить логи: отсутствие критических `batch translation failed` и приемлемый процент `download_images_partial`.
+
+---
+
 ## 2026-02-22 13:10 (MSK)
 
 ### Изменение
