@@ -1,0 +1,258 @@
+# Frontend Documentation
+
+Актуально для проекта `CSS&HTML Site`.
+
+## 1. Обязательный регламент работы
+
+Этот регламент обязателен для всех следующих фронтенд-правок.
+
+1. Перед любыми изменениями во фронтенде сначала читать:
+   - `FRONTEND_DOCS.md`
+   - `FRONTEND_CHANGELOG.md`
+2. После изменений обязательно обновлять оба файла:
+   - какие файлы изменены;
+   - что именно изменено;
+   - какие модули/секции могли быть затронуты косвенно.
+3. Если правка затрагивает поведение, связанное с `data-*` атрибутами, обновлять разделы "Карта страниц" и "Связи разметки и JS".
+4. Если добавлен новый модуль JS или новая крупная секция CSS, добавлять его в раздел "Карта файлов".
+5. Если правка ломает прежние предположения из документа, сначала исправить документ, потом продолжать следующую задачу.
+
+## 1.1 Связанный журнал
+
+- Подробный лог задач и правок: `FRONTEND_CHANGELOG.md`.
+- Этот журнал используется как обязательная часть документации.
+
+## 2. Технологический профиль
+
+- Архитектура: multi-page статический сайт без сборщика.
+- Frontend stack:
+  - HTML страницы (`index.html`, `pages/*.html`, `404.html`);
+  - единый CSS: `css/main.css`;
+  - нативные ES-модули: `js/app.js` + `js/modules/*.js`;
+  - GSAP и плагины загружаются через CDN в каждой странице.
+- Общие компоненты шапки/футера подгружаются динамически через fetch:
+  - `components/header.html`
+  - `components/footer.html`
+
+## 3. Инициализация приложения
+
+Точка входа: `js/app.js`.
+
+Порядок запуска на `DOMContentLoaded`:
+
+1. `loadSharedComponents()`
+2. `initPageBg()`
+3. `initScrollSmoother()`
+4. `initHeader()`
+5. `initCookieNotice()`
+6. `initLeadModal()`
+7. `initAutoIzKitaya()`
+8. `initManualMarketCars()`
+9. `initLatestCarsHome()`
+10. `initAnimations()`
+11. `initReviewsCarousel()`
+12. `initHeroStrip()`
+13. `initTiltCards()`
+14. `initScrollProgress()`
+15. `initAnalytics()`
+
+Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
+
+## 4. Карта файлов
+
+### 4.1 Ключевые frontend директории
+
+- `index.html` — главная.
+- `pages/*.html` — внутренние страницы.
+- `404.html` — страница 404.
+- `components/header.html` — общая шапка.
+- `components/footer.html` — общий футер.
+- `css/main.css` — весь UI и адаптив.
+- `js/app.js` — orchestrator инициализации.
+- `js/modules/*.js` — функциональные модули.
+
+### 4.2 JS-модули и ответственность
+
+- `js/modules/components.js`
+  - инжект header/footer;
+  - проставляет логотип (`[data-logo]`);
+  - нормализует ссылки с `./` по `data-root`.
+- `js/modules/header.js`
+  - sticky header;
+  - класс `is-detached` на скролле;
+  - dropdown меню (`details.nav-dd`);
+  - active-link логика и hash-scroll;
+  - пересчёт `--header-offset`.
+- `js/modules/cookies.js`
+  - cookie banner (`localStorage: cookieAccepted`).
+- `js/modules/modal-lead.js`
+  - модалка заявки;
+  - auto-open логика;
+  - отправка заявки в API (`/api/lead` и fallback);
+  - anti-spam (honeypot).
+- `js/modules/latest-cars-home.js`
+  - карточки на главной (`data-latest-home`), автообновление.
+- `js/modules/auto-iz-kitaya.js`
+  - каталог Китая;
+  - фильтры, пагинация, карточки, detail modal, lightbox.
+- `js/modules/auto-manual-market.js`
+  - каталоги Японии/Кореи;
+  - фильтры, пагинация, detail modal, lightbox.
+- `js/modules/animations.js`
+  - reveal/hero анимации (GSAP + ScrollTrigger).
+- `js/modules/reviews-carousel.js`
+  - бесконечная карусель отзывов.
+- `js/modules/hero-strip.js`
+  - горизонтальный strip с drag/wheel/snap.
+- `js/modules/tilt-cards.js`
+  - tilt эффект карточек на desktop.
+- `js/modules/scroll-smoother.js`
+  - GSAP ScrollSmoother (десктоп, без reduce motion/coarse pointer).
+- `js/modules/scroll-progress.js`
+  - верхний прогресс скролла.
+- `js/modules/page-bg.js`
+  - интерактивный фон.
+- `js/modules/analytics.js`
+  - заготовка под аналитику, запуск после cookie consent.
+
+## 5. Карта страниц и привязка к модулям
+
+- `index.html`
+  - hero, секции latest (`data-latest-home`), отзывы (`data-carousel="reviews"`), этапы;
+  - работает `latest-cars-home`, `reviews-carousel`, `animations`, `modal-lead`, `cookies`, `header`.
+- `pages/auto-iz-kitaya.html`
+  - root `data-china-cars`;
+  - модалки `data-china-car-modal` и `data-china-lightbox`;
+  - модуль `auto-iz-kitaya.js`.
+- `pages/auto-iz-yaponii.html` и `pages/auto-iz-korei.html`
+  - root `data-manual-cars`;
+  - модалки `data-manual-car-modal` и `data-manual-lightbox`;
+  - модуль `auto-manual-market.js`.
+- `pages/kalkulyator-stoimosti.html`
+  - калькулятор реализован inline-скриптом в странице;
+  - общие модули (header, modal, cookies, animations) также подключены.
+- Контентные страницы (`faq`, `dostavka`, `process-podbora`, `dogovor-i-garantii`, `kontakty`, `rastamozhka-i-poshliny`, `privacy`, `consent`, `404`)
+  - используют общую шапку/футер;
+  - где есть форма заявки: `data-lead-modal`.
+
+## 6. Связи разметки и JS (критично)
+
+Нельзя менять эти `data-*` атрибуты без синхронной правки соответствующего модуля:
+
+- Header:
+  - `[data-header]`, `[data-nav]`, `[data-logo]`.
+- Lead modal:
+  - `[data-lead-modal]`, `[data-open-lead-modal]`, `[data-modal-close]`, `[data-lead-form]`.
+- Cookie:
+  - `[data-cookie]`, `[data-cookie-accept]`.
+- Latest home:
+  - `[data-latest-home]`, `[data-latest-home-list]`, `[data-latest-home-status]`, `[data-latest-home-updated]`.
+- China catalog:
+  - `[data-china-cars]` и дочерние `data-china-*`.
+- Manual market catalog:
+  - `[data-manual-cars]` и дочерние `data-manual-*`.
+- Reviews:
+  - `[data-carousel="reviews"]`, `[data-carousel-track]`.
+
+## 7. CSS-структура (основные зоны)
+
+Файл: `css/main.css`.
+
+Крупные блоки:
+
+1. Variables / Base / Page background
+2. Layout (`container`, `site-main`, button system)
+3. Header (`.site-header`, `.site-nav`, `.brand`, `.site-actions`, `is-detached`)
+4. Hero и strip
+5. Sections/cards/reviews/steps
+6. Footer
+7. Cookie
+8. Modal + form controls
+9. Catalog blocks (`china-cars*`, `china-car*`, `manual-car*`, lightbox)
+10. Media queries
+
+Примечание: по проекту используется один общий CSS для всех страниц. Любая правка в хедере/кнопках/модалках почти всегда глобальная.
+
+## 8. API и fallback-логика фронта
+
+- Lead form:
+  - основной endpoint: `https://api.primcom.ru/api/lead`;
+  - fallback: относительный `/api/lead`;
+  - возможен токен через `window.PRIMCOM_LEAD_TOKEN`.
+- China catalog:
+  - endpoint кандидаты формируются в `auto-iz-kitaya.js`.
+- Japan/Korea:
+  - list и detail endpoint в `auto-manual-market.js`;
+  - поддерживаются `data-list-api`, `data-detail-api` на странице.
+- Главная подборка:
+  - читает `data-api-path`, `data-source`, `data-expected-source` из секций.
+  - `js/modules/latest-cars-home.js` использует жёсткие presets по `id` секций:
+    - `latest-japan-home`
+    - `latest-china-home`
+    - `latest-korea-home`
+  - если у секции отсутствует `data-api-path`, модуль НЕ уходит в fallback на Китай, а показывает статус ошибки секции.
+  - карточки дополнительно фильтруются по `item.source` через `data-expected-source`, чтобы исключить смешивание рынков при кэше/некорректном ответе API.
+
+## 9. Правила безопасных правок
+
+1. Для правок шапки всегда проверять:
+   - `components/header.html`
+   - `css/main.css`
+   - `js/modules/header.js`
+2. Для правок ссылок и путей учитывать `data-root`:
+   - главная: `data-root="./"`
+   - вложенные страницы: `data-root="../"`
+3. Для новых блоков с JS обязательно:
+   - добавить стабильный `data-*` селектор в HTML;
+   - описать его здесь (раздел 6).
+4. Для любых правок анимаций учитывать fallback без GSAP (в проекте предусмотрен graceful degradation).
+5. Для мобильных правок проверять минимум брейкпоинты:
+   - `max-width: 860px`
+   - `max-width: 520px`
+   - `max-width: 700px` (catalog/lightbox)
+6. Для секций каталога и "Свежих подборок" всегда проводить мобильную проверку:
+   - главная (`/`) на viewport около `390x844`;
+   - страницы маркетов (`/pages/auto-iz-yaponii.html`, `/pages/auto-iz-kitaya.html`, `/pages/auto-iz-korei.html`);
+   - контроль, что карточки каждой секции соответствуют ее рынку.
+
+## 10. Обязательный процесс обновления документации после правок
+
+После каждой фронтенд-правки обновлять:
+
+1. `FRONTEND_DOCS.md`:
+   - какие секции затронуты;
+   - если появились новые правила/селекторы/модули.
+2. `FRONTEND_CHANGELOG.md`:
+   - дата;
+   - задача;
+   - изменённые файлы;
+   - эффект и риски.
+
+## 11. Журнал изменений документации
+
+### 2026-02-22
+
+- Создана базовая документация фронтенда.
+- Добавлены:
+  - архитектура запуска;
+  - карта файлов и модулей;
+  - карта страниц;
+  - связи разметки и JS через `data-*`;
+  - правила безопасных правок;
+  - обязательный регламент поддержки документации в актуальном состоянии.
+
+### 2026-02-22
+
+- Добавлен обязательный linked-файл журнала правок:
+  - `FRONTEND_CHANGELOG.md`.
+- Обновлён регламент:
+  - перед правками читать оба файла;
+  - после правок обновлять оба файла.
+
+### 2026-02-22
+
+- Уточнена логика главной секции подборок:
+  - закреплены обязательные `data-source`/`data-expected-source`;
+  - зафиксирована изоляция рынков по `item.source` в `latest-cars-home.js`;
+  - убран риск silent fallback на Китай при неполных атрибутах секции.
+- В правила добавлен обязательный mobile QA для разделов с карточками.

@@ -1,79 +1,60 @@
-# Primcom China Cars — Backend v2
+# Primcom China Cars — Backend
 
-Backend v2 для агрегатора китайских авто:
+## Обязательно
 
-- FastAPI
-- PostgreSQL
-- SQLAlchemy 2.0 (async)
-- Playwright (che168/dongchedi/guazi)
-- Перевод через OpenAI (`gpt-5-nano`) с DB-кэшем `translation_cache`
-- Run telemetry в `scrape_runs`
+Перед изменениями и перед эксплуатационными действиями сначала открывайте:
 
-## 1) Запуск PostgreSQL
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/china_cars_backend/BACKEND_RUNBOOK.md`
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/china_cars_backend/BACKEND_CHANGELOG.md`
 
-1. Скопируйте `.env.example` в `.env` и при необходимости измените параметры.
-2. Запустите БД:
+Это основной комплект актуальной документации по архитектуре, сервисам, скрейперу, БД и истории изменений.
 
-```bash
-docker compose --env-file .env up -d
-```
+## Что внутри проекта
 
-## 2) Установка зависимостей
+- API: FastAPI + SQLAlchemy async + PostgreSQL
+- Скрейперы: `che168`, `dongchedi`, `guazi` (Playwright)
+- Изображения: скачивание и хранение в `MEDIA_DIR`
+- Переводы: OpenAI и/или translation proxy
+- Телеметрия запусков: `scrape_runs`, `raw_listings`
 
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-playwright install
-```
+## Быстрый локальный запуск
 
-## 3) Инициализация схемы БД
+1. Скопировать `.env.example` в `.env`.
+2. Поднять Postgres (локально через Docker) и установить зависимости.
+3. Применить схемы:
 
 ```bash
-python3 -m app.scripts.init_db
+python -m app.scripts.init_db
 ```
 
-## 4) Запуск API
+4. Запустить API:
 
 ```bash
 uvicorn app.main:app --host 127.0.0.1 --port 8010 --reload
 ```
 
-Проверка:
-
-- `GET http://127.0.0.1:8010/health`
-
-## 5) Структура данных
-
-DDL-схемы:
-- `schema.sql` (legacy core)
-- `schema_v2.sql` (run telemetry, translation cache, canonical layer)
-
-Таблицы:
-
-- `listing_sources`
-- `listings`
-- `listing_images`
-- `listing_price_history`
-- `listing_translations`
-
-## 6) Скрейпинг источников
-
-Скрипт импорта v2:
+5. Проверить:
 
 ```bash
-python3 -m app.jobs.run_ingest --sources che168,dongchedi,guazi --limit 30 --skip-existing --throttle-ms 700
+curl -s http://127.0.0.1:8010/health
 ```
 
-Поддерживаемые источники:
+## Скрейпинг
 
-- `che168`
-- `dongchedi`
-- `guazi`
-
-Проверка парсинга без сохранения в БД:
+Текущий legacy-раннер:
 
 ```bash
-python3 -m app.scripts.scrape_che168 --source dongchedi --limit 10 --dry-run
-python3 -m app.scripts.scrape_che168 --source guazi --limit 10 --dry-run
+python -m app.scripts.scrape_che168 --source guazi --limit 10 --skip-existing --translate-chinese
+```
+
+Проверка без записи в БД:
+
+```bash
+python -m app.scripts.scrape_che168 --source guazi --limit 10 --dry-run
+```
+
+Multi-source runner (альтернативный контур):
+
+```bash
+python -m app.jobs.run_ingest --sources che168,dongchedi,guazi --limit 30 --skip-existing --throttle-ms 700
 ```

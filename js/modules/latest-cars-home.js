@@ -40,6 +40,61 @@ function formatMeta(item, currencySign = "¥") {
   return parts.join(" • ");
 }
 
+const SECTION_PRESETS = {
+  "latest-japan-home": {
+    apiPath: "/api/auto-iz-yaponii",
+    pageUrl: "./pages/auto-iz-yaponii.html",
+    marketLabel: "японии",
+    currency: "rub",
+    source: "japan_manual",
+    expectedSource: "japan_manual",
+  },
+  "latest-china-home": {
+    apiPath: "/api/auto-iz-kitaya",
+    pageUrl: "./pages/auto-iz-kitaya.html",
+    marketLabel: "китая",
+    currency: "cny",
+    source: "guazi",
+    expectedSource: "guazi",
+  },
+  "latest-korea-home": {
+    apiPath: "/api/auto-iz-korei",
+    pageUrl: "./pages/auto-iz-korei.html",
+    marketLabel: "кореи",
+    currency: "rub",
+    source: "korea_manual",
+    expectedSource: "korea_manual",
+  },
+};
+
+function getAttr(root, name, fallback = "") {
+  if (!root || !name) return fallback;
+  const raw = root.getAttribute(name);
+  const value = raw === null ? "" : String(raw).trim();
+  return value || fallback;
+}
+
+function resolveSectionConfig(root) {
+  const preset = root ? SECTION_PRESETS[root.id] || null : null;
+  const apiPath = getAttr(root, "data-api-path", preset?.apiPath || "");
+  const pageUrl = getAttr(root, "data-page-url", preset?.pageUrl || "./pages/auto-iz-kitaya.html");
+  const marketLabel = getAttr(root, "data-market-label", preset?.marketLabel || "китая");
+  const source = getAttr(root, "data-source", preset?.source || "");
+  const expectedSource = getAttr(root, "data-expected-source", preset?.expectedSource || source)
+    .toLowerCase();
+  const currencyCode = getAttr(root, "data-currency", preset?.currency || "cny").toLowerCase();
+  const currencySign = currencyCode === "rub" ? "₽" : "¥";
+
+  return {
+    apiPath,
+    pageUrl,
+    marketLabel,
+    source,
+    expectedSource,
+    currencySign,
+  };
+}
+
 function getApiCandidates(apiPath) {
   const path = String(apiPath || "/api/auto-iz-kitaya").trim() || "/api/auto-iz-kitaya";
   if (window.location.protocol === "file:") {
@@ -165,20 +220,46 @@ export function initLatestCarsHome() {
     const statusEl = qs("[data-latest-home-status]", root);
     const updatedEl = qs("[data-latest-home-updated]", root);
     const listEl = qs("[data-latest-home-list]", root);
-    const apiPath = root.getAttribute("data-api-path") || "/api/auto-iz-kitaya";
-    const pageUrl = root.getAttribute("data-page-url") || "./pages/auto-iz-kitaya.html";
-    const marketLabel = root.getAttribute("data-market-label") || "китая";
-    const source = root.getAttribute("data-source") || "";
-    const currencySign = (root.getAttribute("data-currency") || "cny").toLowerCase() === "rub" ? "₽" : "¥";
+    const { apiPath, pageUrl, marketLabel, source, expectedSource, currencySign } = resolveSectionConfig(root);
+
+    if (!listEl) {
+      if (statusEl) statusEl.textContent = "Секция недоступна (не найден контейнер карточек).";
+      return;
+    }
+
+    if (!apiPath) {
+      if (statusEl) statusEl.textContent = "Секция недоступна (не задан API путь).";
+      return;
+    }
 
     const render = async () => {
       try {
         const { data, apiBase } = await fetchLatest({ apiPath, source });
         clearEl(listEl);
-        const items = Array.isArray(data?.items) ? data.items : [];
+        const rawItems = Array.isArray(data?.items) ? data.items : [];
+        const items = expectedSource
+          ? rawItems.filter(
+              (item) => String(item?.source || "").trim().toLowerCase() === expectedSource
+            )
+          : rawItems;
+
+        if (expectedSource && rawItems.length && items.length !== rawItems.length) {
+          console.warn("[latest-home] source mismatch filtered", {
+            sectionId: root.id || "",
+            expectedSource,
+            received: rawItems.length,
+            kept: items.length,
+          });
+        }
+
         if (!items.length) {
-          if (statusEl) statusEl.textContent = "Пока нет объявлений.";
-          if (updatedEl) updatedEl.textContent = "—";
+          if (statusEl) {
+            statusEl.textContent =
+              expectedSource && rawItems.length
+                ? "Нет подходящих объявлений для этой секции."
+                : "Пока нет объявлений.";
+          }
+          if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
           return;
         }
         items.forEach((item) =>
