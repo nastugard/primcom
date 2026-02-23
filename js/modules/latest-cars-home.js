@@ -256,12 +256,107 @@ async function fetchJsonWithTimeout(url, timeoutMs = 12_000) {
   }
 }
 
+const DETAIL_STORAGE_KEY = "latest-home-detail-cache:v1";
+const DETAIL_STORAGE_TTL_MS = 12 * 60 * 60 * 1000;
+const DETAIL_STORAGE_MAX_ITEMS = 120;
 const detailCache = new Map();
+
+function getDetailCacheKey(item) {
+  const source = String(item?.source || "unknown").trim().toLowerCase();
+  const id = String(item?.id || "").trim();
+  return `${source}:${id}`;
+}
+
+function loadPersistedDetails() {
+  if (typeof localStorage === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(DETAIL_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function savePersistedDetails(items) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(DETAIL_STORAGE_KEY, JSON.stringify(items || {}));
+  } catch (_) {
+    // ignore storage quota/privacy errors
+  }
+}
+
+function normalizeCachedPayload(payload) {
+  if (!payload || typeof payload !== "object") return null;
+  const detail = payload.detail;
+  const apiBase = String(payload.apiBase || "").trim();
+  if (!detail || typeof detail !== "object") return null;
+  if (!apiBase) return null;
+  return { detail, apiBase };
+}
+
+function getPersistedDetail(cacheKey) {
+  const now = Date.now();
+  const cache = loadPersistedDetails();
+  let changed = false;
+
+  Object.entries(cache).forEach(([key, entry]) => {
+    const cachedAt = Number(entry?.cachedAt || 0);
+    if (!cachedAt || now - cachedAt > DETAIL_STORAGE_TTL_MS) {
+      delete cache[key];
+      changed = true;
+    }
+  });
+
+  const entry = cache[cacheKey];
+  const payload = normalizeCachedPayload(entry?.payload);
+  if (!payload && entry) {
+    delete cache[cacheKey];
+    changed = true;
+  }
+
+  if (changed) savePersistedDetails(cache);
+  return payload;
+}
+
+function setPersistedDetail(cacheKey, payload) {
+  const normalized = normalizeCachedPayload(payload);
+  if (!normalized) return;
+
+  const now = Date.now();
+  const cache = loadPersistedDetails();
+  cache[cacheKey] = { cachedAt: now, payload: normalized };
+
+  const freshEntries = Object.entries(cache)
+    .filter(([, entry]) => {
+      const cachedAt = Number(entry?.cachedAt || 0);
+      if (!cachedAt || now - cachedAt > DETAIL_STORAGE_TTL_MS) return false;
+      return !!normalizeCachedPayload(entry?.payload);
+    })
+    .sort((a, b) => Number(b[1]?.cachedAt || 0) - Number(a[1]?.cachedAt || 0))
+    .slice(0, DETAIL_STORAGE_MAX_ITEMS);
+
+  const next = {};
+  freshEntries.forEach(([key, entry]) => {
+    next[key] = entry;
+  });
+  savePersistedDetails(next);
+}
 
 async function fetchCardDetail(item, apiPath = "") {
   const id = String(item?.id || "").trim();
+  const cacheKey = getDetailCacheKey(item);
   if (!id) throw new Error("missing listing id");
-  if (detailCache.has(id)) return detailCache.get(id);
+  if (detailCache.has(cacheKey)) return detailCache.get(cacheKey);
+
+  const persisted = getPersistedDetail(cacheKey);
+  if (persisted) {
+    const fromStorage = Promise.resolve(persisted);
+    detailCache.set(cacheKey, fromStorage);
+    return fromStorage;
+  }
 
   const promise = (async () => {
     const candidates = getDetailApiCandidates(apiPath);
@@ -270,10 +365,12 @@ async function fetchCardDetail(item, apiPath = "") {
       try {
         const u = buildUrl(base, id);
         const detail = await fetchJsonWithTimeout(u.toString(), 12_000);
-        return {
+        const payload = {
           detail,
           apiBase: `${u.protocol}//${u.host}`,
         };
+        setPersistedDetail(cacheKey, payload);
+        return payload;
       } catch (err) {
         lastErr = err;
       }
@@ -281,11 +378,11 @@ async function fetchCardDetail(item, apiPath = "") {
     throw lastErr || new Error("detail api unavailable");
   })();
 
-  detailCache.set(id, promise);
+  detailCache.set(cacheKey, promise);
   try {
     return await promise;
   } catch (err) {
-    detailCache.delete(id);
+    detailCache.delete(cacheKey);
     throw err;
   }
 }
@@ -532,6 +629,8 @@ function createCard({
   let images = coverUrl ? [coverUrl] : [];
   let activeImageIndex = 0;
   const hasFinePointer = !!(window.matchMedia && window.matchMedia("(pointer: fine)").matches);
+  const expectedImageCount = Math.max(1, Number(item?.images_count || 0));
+  const canUseHoverGallery = hasFinePointer && expectedImageCount > 1;
   let galleryLoaded = false;
   let galleryLoading = false;
 
@@ -582,6 +681,11 @@ function createCard({
   const dotsWrap = document.createElement("div");
   dotsWrap.className = "latest-home-card__photo-dots";
 
+  const loadingHint = document.createElement("span");
+  loadingHint.className = "latest-home-card__loading";
+  loadingHint.textContent = "Фото загружаются";
+  loadingHint.setAttribute("aria-hidden", "true");
+
   const dots = [];
   const refreshCount = () => {
     const fallbackCount = Number(item?.images_count || 0);
@@ -615,10 +719,18 @@ function createCard({
     refreshActiveDot();
   };
 
+  const syncGalleryHint = () => {
+    const ready = images.length > 1;
+    loadingHint.hidden = !canUseHoverGallery || ready;
+    loadingHint.classList.toggle("is-loading", !!galleryLoading);
+  };
+
   const ensureGalleryLoaded = async () => {
+    if (!media.isConnected) return;
     const fallbackCount = Number(item?.images_count || 0);
     if (galleryLoaded || galleryLoading || fallbackCount <= 1) return;
     galleryLoading = true;
+    syncGalleryHint();
     try {
       const payload = await fetchCardDetail(item, apiPath);
       const detail = payload?.detail || null;
@@ -635,6 +747,7 @@ function createCard({
       console.warn("[latest-home] gallery preload failed", err);
     } finally {
       galleryLoading = false;
+      syncGalleryHint();
     }
   };
 
@@ -642,8 +755,10 @@ function createCard({
   refreshActiveDot();
   media.appendChild(countBadge);
   media.appendChild(dotsWrap);
+  media.appendChild(loadingHint);
+  syncGalleryHint();
 
-  if (hasFinePointer) {
+  if (canUseHoverGallery) {
     media.addEventListener("pointerenter", () => {
       ensureGalleryLoaded();
     });
@@ -665,6 +780,12 @@ function createCard({
     media.addEventListener("mouseleave", () => {
       setImageByIndex(0);
     });
+
+    const preloadDelayMs = 220 + Math.floor(Math.random() * 460);
+    window.setTimeout(() => {
+      if (!media.isConnected) return;
+      ensureGalleryLoaded();
+    }, preloadDelayMs);
   }
 
   const body = document.createElement("div");
