@@ -453,6 +453,7 @@ export function initManualMarketCars() {
       ["Объем", item?.engine_volume_l ? `${item.engine_volume_l} л` : ""],
       ["Мощность", item?.power_hp ? `${item.power_hp} л.с.` : ""],
       ["Кузов", item?.body_type],
+      ["Оценка аукциона", item?.auction_grade],
       ["Комплектация", item?.trim],
       ["Коробка", item?.transmission],
     ];

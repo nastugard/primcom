@@ -91,13 +91,16 @@
   - отправка заявки в API (`/api/lead` и fallback);
   - anti-spam (honeypot).
 - `js/modules/latest-cars-home.js`
-  - карточки на главной (`data-latest-home`), автообновление.
+  - карточки на главной (`data-latest-home`), автообновление;
+  - hover-галерея фото в карточках (desktop/fine pointer);
+  - модалка подробностей с доп. фото и описанием по кнопке `Подробнее`.
 - `js/modules/auto-iz-kitaya.js`
   - каталог Китая;
   - фильтры, пагинация, карточки, detail modal, lightbox.
 - `js/modules/auto-manual-market.js`
   - каталоги Японии/Кореи;
   - фильтры, пагинация, detail modal, lightbox.
+  - в detail-модалке выводит `auction_grade` (оценка аукциона) при наличии.
 - `js/modules/animations.js`
   - reveal/hero анимации (GSAP + ScrollTrigger).
 - `js/modules/reviews-carousel.js`
@@ -119,6 +122,7 @@
 
 - `index.html`
   - hero, секции latest (`data-latest-home`), отзывы (`data-carousel="reviews"`), этапы;
+  - модалка карточки latest: `data-latest-card-modal` (подробности, фото, характеристики);
   - работает `latest-cars-home`, `reviews-carousel`, `animations`, `modal-lead`, `cookies`, `header`.
 - `pages/auto-iz-kitaya.html`
   - root `data-china-cars`;
@@ -147,6 +151,11 @@
   - `[data-cookie]`, `[data-cookie-accept]`.
 - Latest home:
   - `[data-latest-home]`, `[data-latest-home-list]`, `[data-latest-home-status]`, `[data-latest-home-updated]`.
+  - modal selectors:
+    - `[data-latest-card-modal]`, `[data-latest-card-close]`
+    - `[data-latest-card-title]`, `[data-latest-card-meta]`, `[data-latest-card-updated]`
+    - `[data-latest-card-description]`, `[data-latest-card-main-img]`, `[data-latest-card-thumbs]`, `[data-latest-card-specs]`
+    - `[data-latest-card-status]`, `[data-latest-card-section-link]`
 - China catalog:
   - `[data-china-cars]` и дочерние `data-china-*`.
 - Manual market catalog:
@@ -215,6 +224,13 @@ Hero readability:
     - `latest-korea-home`
   - если у секции отсутствует `data-api-path`, модуль НЕ уходит в fallback на Китай, а показывает статус ошибки секции.
   - карточки дополнительно фильтруются по `item.source` через `data-expected-source`, чтобы исключить смешивание рынков при кэше/некорректном ответе API.
+  - на карточках главной:
+    - hover по фото (desktop/fine pointer) переключает фото внутри карточки;
+    - есть индикаторы количества/позиции фото;
+    - `Подробнее` и клик по фото открывают модалку карточки (без перехода на страницу);
+    - в модалке есть описание, характеристики и доп. фото;
+    - кнопка `Источник` в карточке отсутствует;
+    - переход в market-страницу остается только через `Перейти в раздел` (в шапке секции и внутри модалки).
 
 ## 9. Правила безопасных правок
 
@@ -319,3 +335,11 @@ Hero readability:
 - Добавлена плавная анимация перехода шапки между static и `is-detached`:
   - анимируются параметры контейнера `.site-header__inner`;
   - анимируется размер логотипа `.brand__logo`.
+
+### 2026-02-23
+
+- Главная подборка авто обновлена по UX карточек:
+  - добавлена hover-смена фото в карточках (desktop);
+  - добавлены индикаторы количества/позиции фото на карточке;
+  - `Подробнее` открывает модалку с описанием, характеристиками и доп. фото;
+  - убрана кнопка `Источник` только с карточек на главной.

@@ -133,6 +133,20 @@ def _require_manager_key(x_manager_api_key: str | None) -> None:
         raise HTTPException(status_code=401, detail="Invalid manager API key")
 
 
+def _parse_listing_uuid(value: str) -> uuid.UUID:
+    try:
+        return uuid.UUID(str(value).strip())
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail="Invalid listing id format") from exc
+
+
+def _manual_market_from_source_code(source_code: str) -> Literal["korea", "japan"]:
+    code = str(source_code or "").strip().lower()
+    if code == "japan_manual":
+        return "japan"
+    return "korea"
+
+
 def _lead_client_ip(request: Request) -> str:
     xff = (request.headers.get("x-forwarded-for") or "").strip()
     if xff:
@@ -208,6 +222,7 @@ class ListingCardOut(BaseModel):
     transmission: str | None = None
     trim: str | None = None
     body_type: str | None = None
+    auction_grade: str | None = None
     original_url: str
     scraped_at: dt.datetime
     images_count: int
@@ -239,6 +254,7 @@ class ListingDetailOut(BaseModel):
     transmission: str | None = None
     trim: str | None = None
     body_type: str | None = None
+    auction_grade: str | None = None
     original_url: str
     scraped_at: dt.datetime
     make_id: int | None = None
@@ -276,6 +292,37 @@ class ManagerCreateOut(BaseModel):
     source: str
     source_listing_id: str
     images_count: int
+
+
+class ManagerDeleteOut(BaseModel):
+    ok: bool
+    id: str
+    source_listing_id: str
+
+
+class ManagerManualListingOut(BaseModel):
+    id: str
+    market: Literal["korea", "japan"]
+    source: str
+    source_listing_id: str
+    brand: str | None = None
+    model: str | None = None
+    year: int | None = None
+    mileage_km: int | None = None
+    drive_type: str | None = None
+    engine_volume_l: float | None = None
+    power_hp: int | None = None
+    body_type: str | None = None
+    trim: str | None = None
+    auction_grade: str | None = None
+    price: float | None = None
+    original_url: str
+    scraped_at: dt.datetime
+    images_count: int
+
+
+class ManagerManualListOut(BaseModel):
+    items: list[ManagerManualListingOut]
 
 
 class LeadIn(BaseModel):
@@ -455,6 +502,7 @@ async def list_china_cars(
             "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
             "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
             "COALESCE(l.raw_data->>'body_type', NULL), "
+            "COALESCE(l.raw_data->>'auction_grade', NULL), "
             "l.original_url, l.scraped_at, "
             "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$'), "
             "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$' ORDER BY li.position ASC LIMIT 1) "
@@ -484,10 +532,11 @@ async def list_china_cars(
                 transmission=r[13],
                 trim=r[14],
                 body_type=r[15],
-                original_url=r[16],
-                scraped_at=r[17],
-                images_count=int(r[18] or 0),
-                cover_image_url=_media_url(r[19]),
+                auction_grade=r[16],
+                original_url=r[17],
+                scraped_at=r[18],
+                images_count=int(r[19] or 0),
+                cover_image_url=_media_url(r[20]),
             )
         )
 
@@ -525,6 +574,7 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
                 "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
                 "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
                 "COALESCE(l.raw_data->>'body_type', NULL), "
+                "COALESCE(l.raw_data->>'auction_grade', NULL), "
                 "l.original_url, l.scraped_at, "
                 "m.make_id, m.model_id, m.generation_id, m.trim_id "
                 "FROM listings l "
@@ -564,12 +614,13 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
         transmission=row[13],
         trim=row[14],
         body_type=row[15],
-        original_url=row[16],
-        scraped_at=row[17],
-        make_id=row[18],
-        model_id=row[19],
-        generation_id=row[20],
-        trim_id=row[21],
+        auction_grade=row[16],
+        original_url=row[17],
+        scraped_at=row[18],
+        make_id=row[19],
+        model_id=row[20],
+        generation_id=row[21],
+        trim_id=row[22],
         images=images,
     )
 
@@ -644,9 +695,98 @@ async def get_japan_facets(db: AsyncSession = Depends(_get_db)) -> FacetsOut:
     return await get_facets(source="japan_manual", db=db)
 
 
+def _manager_row_to_out(row: tuple[object, ...]) -> ManagerManualListingOut:
+    market = _manual_market_from_source_code(str(row[1] or ""))
+    return ManagerManualListingOut(
+        id=str(row[0]),
+        market=market,
+        source=str(row[1]),
+        source_listing_id=str(row[2]),
+        brand=row[3],
+        model=row[4],
+        year=int(row[5]) if row[5] is not None else None,
+        mileage_km=int(row[6]) if row[6] is not None else None,
+        drive_type=row[7],
+        engine_volume_l=float(row[8]) if row[8] is not None else None,
+        power_hp=int(row[9]) if row[9] is not None else None,
+        body_type=row[10],
+        trim=row[11],
+        auction_grade=row[12],
+        price=float(row[13]) if row[13] is not None else None,
+        original_url=str(row[14] or ""),
+        scraped_at=row[15],
+        images_count=int(row[16] or 0),
+    )
+
+
+@router.get("/api/manager/manual-listings", response_model=ManagerManualListOut, tags=["manager"])
+async def list_manager_manual_listings(
+    market: Literal["all", "korea", "japan"] = Query(default="all"),
+    limit: int = Query(default=20, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    x_manager_api_key: str | None = Header(default=None),
+    db: AsyncSession = Depends(_get_db),
+) -> ManagerManualListOut:
+    _require_manager_key(x_manager_api_key)
+
+    where = ["s.code IN ('korea_manual','japan_manual')", "l.status!='deleted'"]
+    params: dict[str, object] = {"limit": int(limit), "offset": int(offset)}
+    if market != "all":
+        source_code = "korea_manual" if market == "korea" else "japan_manual"
+        where.append("s.code=:source_code")
+        params["source_code"] = source_code
+
+    rows = (
+        await db.execute(
+            text(
+                "SELECT l.id, s.code, l.source_listing_id, "
+                "l.brand, l.model, l.year, l.mileage_km, l.drive_type, l.engine_volume_l, l.power_hp, "
+                "COALESCE(l.raw_data->>'body_type', NULL), l.trim, COALESCE(l.raw_data->>'auction_grade', NULL), "
+                "l.price_cny, l.original_url, l.scraped_at, "
+                "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id) "
+                "FROM listings l "
+                "JOIN listing_sources s ON s.id=l.source_id "
+                f"WHERE {' AND '.join(where)} "
+                "ORDER BY l.scraped_at DESC "
+                "LIMIT :limit OFFSET :offset"
+            ),
+            params,
+        )
+    ).all()
+    return ManagerManualListOut(items=[_manager_row_to_out(r) for r in rows])
+
+
+@router.get("/api/manager/manual-listing/{listing_id}", response_model=ManagerManualListingOut, tags=["manager"])
+async def get_manager_manual_listing(
+    listing_id: str,
+    x_manager_api_key: str | None = Header(default=None),
+    db: AsyncSession = Depends(_get_db),
+) -> ManagerManualListingOut:
+    _require_manager_key(x_manager_api_key)
+    listing_uuid = _parse_listing_uuid(listing_id)
+    row = (
+        await db.execute(
+            text(
+                "SELECT l.id, s.code, l.source_listing_id, "
+                "l.brand, l.model, l.year, l.mileage_km, l.drive_type, l.engine_volume_l, l.power_hp, "
+                "COALESCE(l.raw_data->>'body_type', NULL), l.trim, COALESCE(l.raw_data->>'auction_grade', NULL), "
+                "l.price_cny, l.original_url, l.scraped_at, "
+                "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id) "
+                "FROM listings l "
+                "JOIN listing_sources s ON s.id=l.source_id "
+                "WHERE l.id=:id AND s.code IN ('korea_manual','japan_manual') AND l.status!='deleted'"
+            ),
+            {"id": str(listing_uuid)},
+        )
+    ).first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Manual listing not found")
+    return _manager_row_to_out(row)
+
+
 @router.post("/api/manager/manual-listing", response_model=ManagerCreateOut, tags=["manager"])
 async def create_manual_listing(
-    market: Literal["korea", "japan"] = Form(...),
+    market: Literal["korea", "japan"] | None = Form(default=None),
     brand: str = Form(...),
     model: str = Form(...),
     year: str | None = Form(default=None),
@@ -660,24 +800,84 @@ async def create_manual_listing(
     original_url: str | None = Form(default=None),
     mileage_km: str | None = Form(default=None),
     engine_type: str | None = Form(default=None),
+    auction_grade: str | None = Form(default=None),
+    listing_id: str | None = Form(default=None),
+    replace_photos: bool = Form(default=True),
     photos: list[UploadFile] = File(default=[]),
     x_manager_api_key: str | None = Header(default=None),
     db: AsyncSession = Depends(_get_db),
 ) -> ManagerCreateOut:
     _require_manager_key(x_manager_api_key)
 
-    source_code = _market_source_code(market)
-    source_name = "Korea Manual" if source_code == "korea_manual" else "Japan Manual"
-    source_id = await _ensure_source(
-        db,
-        code=source_code,
-        name=source_name,
-        base_url="https://primcom.ru",
-    )
+    listing_uuid: uuid.UUID | None = None
+    existing_source_id: int | None = None
+    existing_source_code: str | None = None
+    existing_source_listing_id: str | None = None
+    existing_original_url: str | None = None
+    existing_raw_data_obj: dict[str, object] = {}
+    if listing_id:
+        listing_uuid = _parse_listing_uuid(listing_id)
+        existing_row = (
+            await db.execute(
+                text(
+                    "SELECT l.id, l.source_id, s.code, l.source_listing_id, l.original_url, l.raw_data "
+                    "FROM listings l "
+                    "JOIN listing_sources s ON s.id=l.source_id "
+                    "WHERE l.id=:id AND s.code IN ('korea_manual','japan_manual')"
+                ),
+                {"id": str(listing_uuid)},
+            )
+        ).first()
+        if not existing_row:
+            raise HTTPException(status_code=404, detail="Manual listing for edit not found")
+        existing_source_id = int(existing_row[1])
+        existing_source_code = str(existing_row[2])
+        existing_source_listing_id = str(existing_row[3])
+        existing_original_url = str(existing_row[4] or "") or None
+        raw_existing = existing_row[5]
+        if isinstance(raw_existing, dict):
+            existing_raw_data_obj = dict(raw_existing)
+        elif isinstance(raw_existing, str):
+            try:
+                parsed = json.loads(raw_existing)
+                if isinstance(parsed, dict):
+                    existing_raw_data_obj = parsed
+            except Exception:
+                existing_raw_data_obj = {}
+
+    resolved_market: Literal["korea", "japan"]
+    if listing_uuid:
+        resolved_market = _manual_market_from_source_code(str(existing_source_code or ""))
+        if market is not None and str(market) != resolved_market:
+            raise HTTPException(status_code=400, detail="Market cannot be changed for existing listing")
+    else:
+        if market is None:
+            raise HTTPException(status_code=400, detail="market is required")
+        resolved_market = market
+
+    source_code = _market_source_code(resolved_market)
+    source_id: int
+    source_listing_id: str
+    if listing_uuid:
+        source_id = int(existing_source_id or 0)
+        source_listing_id = str(existing_source_listing_id or "")
+    else:
+        source_name = "Korea Manual" if source_code == "korea_manual" else "Japan Manual"
+        source_id = await _ensure_source(
+            db,
+            code=source_code,
+            name=source_name,
+            base_url="https://primcom.ru",
+        )
+        source_listing_id = f"mgr-{resolved_market}-{dt.datetime.now(dt.timezone.utc).strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:8]}"
 
     now = dt.datetime.now(dt.timezone.utc)
-    source_listing_id = f"mgr-{market}-{now.strftime('%Y%m%d%H%M%S')}-{uuid.uuid4().hex[:8]}"
-    original_link = str(original_url or "").strip() or f"https://primcom.ru/pages/auto-iz-{'korei' if market == 'korea' else 'yaponii'}.html"
+    original_link = str(original_url or "").strip()
+    if not original_link:
+        if listing_uuid and existing_original_url:
+            original_link = existing_original_url
+        else:
+            original_link = f"https://primcom.ru/pages/auto-iz-{'korei' if resolved_market == 'korea' else 'yaponii'}.html"
 
     ad_hash = hashlib.sha256(f"{source_code}:{source_listing_id}".encode("utf-8")).hexdigest()
     payload_sig = "|".join(
@@ -694,6 +894,7 @@ async def create_manual_listing(
             str(trim or ""),
             str(transmission or ""),
             str(mileage_km or ""),
+            str(auction_grade or ""),
         ]
     )
     content_checksum = hashlib.sha256(payload_sig.encode("utf-8")).hexdigest()
@@ -716,16 +917,25 @@ async def create_manual_listing(
         "owners_count": None,
         "eco_standard": None,
         "color": None,
-        "trim": str(trim).strip() if trim else None,
+        "trim": str(trim).strip() if str(trim or "").strip() else None,
         "interior_material": None,
     }
+    auction_grade_clean = str(auction_grade or "").strip() or None
+    if resolved_market != "japan":
+        auction_grade_clean = None
     raw_data = {
+        **existing_raw_data_obj,
         "manual": True,
-        "market": market,
+        "market": resolved_market,
         "body_type": str(body_type).strip() if body_type else None,
+        "auction_grade": auction_grade_clean,
         "price_input": str(price).strip() if price else None,
-        "uploaded_at": now.isoformat(),
+        "updated_at": now.isoformat(),
     }
+    if not listing_uuid:
+        raw_data["uploaded_at"] = now.isoformat()
+    elif "uploaded_at" not in raw_data:
+        raw_data["uploaded_at"] = now.isoformat()
     originals = {
         "title_original": None,
         "description_original": None,
@@ -733,66 +943,111 @@ async def create_manual_listing(
         "seller_comments_original": None,
     }
 
-    # Upsert listing
-    row = (
-        await db.execute(
-            text(
-                "INSERT INTO listings (source_id, source_listing_id, original_url, scraped_at, status, ad_hash, content_checksum, "
-                "brand, model, year, first_registration_date, mileage_km, engine_type, engine_volume_l, power_hp, transmission, drive_type, "
-                "price_cny, city, region, vin, owners_count, eco_standard, color, trim, interior_material, "
-                "title_original, description_original, equipment_original, seller_comments_original, raw_data) "
-                "VALUES (:source_id, :source_listing_id, :original_url, :scraped_at, 'active', :ad_hash, :content_checksum, "
-                ":brand, :model, :year, :first_registration_date, :mileage_km, :engine_type, :engine_volume_l, :power_hp, :transmission, :drive_type, "
-                ":price_cny, :city, :region, :vin, :owners_count, :eco_standard, :color, :trim, :interior_material, "
-                ":title_original, :description_original, :equipment_original, :seller_comments_original, (:raw_data)::jsonb) "
-                "ON CONFLICT (source_id, source_listing_id) DO UPDATE SET "
-                "original_url=EXCLUDED.original_url, scraped_at=EXCLUDED.scraped_at, updated_at=NOW(), status='active', "
-                "brand=EXCLUDED.brand, model=EXCLUDED.model, year=EXCLUDED.year, mileage_km=EXCLUDED.mileage_km, "
-                "engine_type=EXCLUDED.engine_type, engine_volume_l=EXCLUDED.engine_volume_l, power_hp=EXCLUDED.power_hp, "
-                "transmission=EXCLUDED.transmission, drive_type=EXCLUDED.drive_type, price_cny=EXCLUDED.price_cny, trim=EXCLUDED.trim, raw_data=EXCLUDED.raw_data "
-                "RETURNING id"
-            ),
-            {
-                "source_id": source_id,
-                "source_listing_id": source_listing_id,
-                "original_url": original_link,
-                "scraped_at": now,
-                "ad_hash": ad_hash,
-                "content_checksum": content_checksum,
-                "raw_data": json.dumps(raw_data, ensure_ascii=False),
-                **normalized,
-                **originals,
-            },
-        )
-    ).first()
+    if listing_uuid:
+        row = (
+            await db.execute(
+                text(
+                    "UPDATE listings SET "
+                    "source_id=:source_id, original_url=:original_url, scraped_at=:scraped_at, updated_at=NOW(), status='active', "
+                    "ad_hash=:ad_hash, content_checksum=:content_checksum, "
+                    "brand=:brand, model=:model, year=:year, first_registration_date=:first_registration_date, mileage_km=:mileage_km, "
+                    "engine_type=:engine_type, engine_volume_l=:engine_volume_l, power_hp=:power_hp, transmission=:transmission, drive_type=:drive_type, "
+                    "price_cny=:price_cny, city=:city, region=:region, vin=:vin, owners_count=:owners_count, eco_standard=:eco_standard, "
+                    "color=:color, trim=:trim, interior_material=:interior_material, "
+                    "title_original=:title_original, description_original=:description_original, equipment_original=:equipment_original, seller_comments_original=:seller_comments_original, "
+                    "raw_data=(:raw_data)::jsonb "
+                    "WHERE id=:listing_id "
+                    "RETURNING id"
+                ),
+                {
+                    "listing_id": str(listing_uuid),
+                    "source_id": source_id,
+                    "original_url": original_link,
+                    "scraped_at": now,
+                    "ad_hash": ad_hash,
+                    "content_checksum": content_checksum,
+                    "raw_data": json.dumps(raw_data, ensure_ascii=False),
+                    **normalized,
+                    **originals,
+                },
+            )
+        ).first()
+    else:
+        row = (
+            await db.execute(
+                text(
+                    "INSERT INTO listings (source_id, source_listing_id, original_url, scraped_at, status, ad_hash, content_checksum, "
+                    "brand, model, year, first_registration_date, mileage_km, engine_type, engine_volume_l, power_hp, transmission, drive_type, "
+                    "price_cny, city, region, vin, owners_count, eco_standard, color, trim, interior_material, "
+                    "title_original, description_original, equipment_original, seller_comments_original, raw_data) "
+                    "VALUES (:source_id, :source_listing_id, :original_url, :scraped_at, 'active', :ad_hash, :content_checksum, "
+                    ":brand, :model, :year, :first_registration_date, :mileage_km, :engine_type, :engine_volume_l, :power_hp, :transmission, :drive_type, "
+                    ":price_cny, :city, :region, :vin, :owners_count, :eco_standard, :color, :trim, :interior_material, "
+                    ":title_original, :description_original, :equipment_original, :seller_comments_original, (:raw_data)::jsonb) "
+                    "RETURNING id"
+                ),
+                {
+                    "source_id": source_id,
+                    "source_listing_id": source_listing_id,
+                    "original_url": original_link,
+                    "scraped_at": now,
+                    "ad_hash": ad_hash,
+                    "content_checksum": content_checksum,
+                    "raw_data": json.dumps(raw_data, ensure_ascii=False),
+                    **normalized,
+                    **originals,
+                },
+            )
+        ).first()
+
     if not row:
-        raise HTTPException(status_code=500, detail="Failed to create listing")
+        raise HTTPException(status_code=500, detail="Failed to save listing")
     listing_id = row[0]
 
-    # Replace images set
-    await db.execute(text("DELETE FROM listing_images WHERE listing_id=:id"), {"id": listing_id})
+    if listing_uuid and photos and not bool(replace_photos):
+        raise HTTPException(status_code=400, detail="Set replace_photos=1 to upload new photos in edit mode")
+
+    should_replace_images = bool(replace_photos) or not bool(listing_uuid)
     media_root = pathlib.Path(settings.media_dir)
-    image_count = 0
-    for idx, photo in enumerate(photos[:20]):
-        data = await photo.read()
-        if not data:
-            continue
-        dest = media_root / source_code / source_listing_id / f"{idx:03d}"
-        local_path, checksum = await save_upload_image_bytes(data, dest)
-        await db.execute(
-            text(
-                "INSERT INTO listing_images (listing_id, position, source_url, local_path, checksum) "
-                "VALUES (:listing_id, :position, :source_url, :local_path, :checksum)"
-            ),
-            {
-                "listing_id": listing_id,
-                "position": image_count,
-                "source_url": f"telegram://{photo.filename or 'photo'}",
-                "local_path": local_path,
-                "checksum": checksum,
-            },
+    image_count: int
+    if should_replace_images:
+        if not photos:
+            raise HTTPException(status_code=400, detail="At least one photo is required")
+        await db.execute(text("DELETE FROM listing_images WHERE listing_id=:id"), {"id": listing_id})
+        inserted = 0
+        for idx, photo in enumerate(photos[:20]):
+            data = await photo.read()
+            if not data:
+                continue
+            dest = media_root / source_code / source_listing_id / f"{idx:03d}"
+            local_path, checksum = await save_upload_image_bytes(data, dest)
+            await db.execute(
+                text(
+                    "INSERT INTO listing_images (listing_id, position, source_url, local_path, checksum) "
+                    "VALUES (:listing_id, :position, :source_url, :local_path, :checksum)"
+                ),
+                {
+                    "listing_id": listing_id,
+                    "position": inserted,
+                    "source_url": f"telegram://{photo.filename or 'photo'}",
+                    "local_path": local_path,
+                    "checksum": checksum,
+                },
+            )
+            inserted += 1
+        if inserted <= 0:
+            raise HTTPException(status_code=400, detail="At least one valid photo is required")
+        image_count = inserted
+    else:
+        image_count = int(
+            (
+                await db.execute(
+                    text("SELECT COUNT(*) FROM listing_images WHERE listing_id=:id"),
+                    {"id": listing_id},
+                )
+            ).scalar()
+            or 0
         )
-        image_count += 1
 
     await db.commit()
 
@@ -802,6 +1057,34 @@ async def create_manual_listing(
         source_listing_id=source_listing_id,
         images_count=image_count,
     )
+
+
+@router.delete("/api/manager/manual-listing/{listing_id}", response_model=ManagerDeleteOut, tags=["manager"])
+async def delete_manager_manual_listing(
+    listing_id: str,
+    x_manager_api_key: str | None = Header(default=None),
+    db: AsyncSession = Depends(_get_db),
+) -> ManagerDeleteOut:
+    _require_manager_key(x_manager_api_key)
+    listing_uuid = _parse_listing_uuid(listing_id)
+    row = (
+        await db.execute(
+            text(
+                "UPDATE listings l SET status='deleted', updated_at=NOW() "
+                "FROM listing_sources s "
+                "WHERE l.source_id=s.id "
+                "  AND l.id=:id "
+                "  AND l.status!='deleted' "
+                "  AND s.code IN ('korea_manual','japan_manual') "
+                "RETURNING l.id, l.source_listing_id"
+            ),
+            {"id": str(listing_uuid)},
+        )
+    ).first()
+    if not row:
+        raise HTTPException(status_code=404, detail="Manual listing not found")
+    await db.commit()
+    return ManagerDeleteOut(ok=True, id=str(row[0]), source_listing_id=str(row[1]))
 
 
 @router.get("/api/scrape-runs", response_model=ScrapeRunsOut, tags=["ops"])

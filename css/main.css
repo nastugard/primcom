@@ -1469,6 +1469,8 @@ body > .site-main:not(.site-main--hero) {
   background: transparent;
   cursor: pointer;
   display: block;
+  position: relative;
+  overflow: hidden;
 }
 
 .china-car-card__img,
@@ -1488,6 +1490,50 @@ body > .site-main:not(.site-main--hero) {
   place-items: center;
   color: var(--color-muted);
   background: rgba(255, 255, 255, 0.06);
+}
+
+.latest-home-card__photo-count {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  z-index: 2;
+  font-size: 11px;
+  line-height: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 16, 40, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.latest-home-card__photo-dots {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 8px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(8, 16, 40, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.latest-home-card__photo-dot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  transition: transform 140ms var(--ease), background-color 140ms var(--ease);
+}
+
+.latest-home-card__photo-dot.is-active {
+  background: rgba(255, 255, 255, 0.95);
+  transform: scale(1.22);
 }
 
 .china-car-card__body {
@@ -1784,6 +1830,37 @@ body > .site-main:not(.site-main--hero) {
     0 0 0 1px rgba(51, 86, 163, 0.28),
     0 0 16px rgba(51, 86, 163, 0.32),
     0 0 24px rgba(51, 86, 163, 0.22);
+}
+
+.latest-home-modal__stage {
+  cursor: default;
+}
+
+.latest-home-modal__thumbs[hidden] {
+  display: none;
+}
+
+.latest-home-modal__description {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.latest-home-modal__description[hidden] {
+  display: none;
+}
+
+.latest-home-modal__status {
+  margin: 10px 0 0;
+  min-block-size: 18px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+}
+
+.latest-home-modal__section-link {
+  margin-block-start: 8px;
+  align-self: flex-start;
 }
 
 .china-lightbox {

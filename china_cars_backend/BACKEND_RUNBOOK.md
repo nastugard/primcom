@@ -1,6 +1,6 @@
 # Primcom Backend Runbook
 
-Дата актуализации: 2026-02-22
+Дата актуализации: 2026-02-23
 
 Этот документ является основным источником знаний по бэкенду `china_cars_backend`.
 Перед любыми правками кода нужно читать этот runbook и релевантные секции.
@@ -285,6 +285,14 @@ Meta:
 
 - `POST /api/manager/manual-listing`
 - Требует `X-Manager-Api-Key`.
+- Режимы:
+  - создание карточки;
+  - редактирование существующей карточки через `listing_id` и `replace_photos`.
+- Дополнительно:
+  - `GET /api/manager/manual-listings` — список ручных карточек (для поиска/редактирования в боте);
+  - `GET /api/manager/manual-listing/{listing_id}` — детали карточки;
+  - `DELETE /api/manager/manual-listing/{listing_id}` — мягкое удаление карточки (`status='deleted'`).
+- Для рынка Японии поддерживается поле `auction_grade` (оценка по аукционному листу), хранится в `raw_data`.
 
 Лиды:
 

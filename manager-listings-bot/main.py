@@ -2,13 +2,14 @@ import asyncio
 import io
 import logging
 import os
+import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 
 import aiohttp
 from aiogram import Bot, Dispatcher, F, Router
-from aiogram.filters import Command, CommandStart
+from aiogram.filters import Command, CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
@@ -26,9 +27,20 @@ class ListingFlow(StatesGroup):
     engine_volume_l = State()
     power_hp = State()
     body_type = State()
+    body_custom = State()
     trim = State()
+    auction_grade = State()
     price = State()
     photos = State()
+    confirm = State()
+
+
+class EditFlow(StatesGroup):
+    listing_id = State()
+
+
+class DeleteFlow(StatesGroup):
+    listing_id = State()
     confirm = State()
 
 
@@ -40,6 +52,21 @@ class BotConfig:
     allowed_ids: set[int]
 
 
+BTN_NEW = "Добавить карточку"
+BTN_EDIT = "Изменить карточку"
+BTN_DELETE = "Удалить карточку"
+BTN_RECENT = "Показать последние карточки"
+
+
+MAIN_MENU_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text=BTN_NEW), KeyboardButton(text=BTN_EDIT)],
+        [KeyboardButton(text=BTN_DELETE), KeyboardButton(text=BTN_RECENT)],
+    ],
+    resize_keyboard=True,
+)
+
+
 MARKET_KB = ReplyKeyboardMarkup(
     keyboard=[[KeyboardButton(text="Корея"), KeyboardButton(text="Япония")]],
     resize_keyboard=True,
@@ -49,6 +76,73 @@ DRIVE_KB = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text="Передний"), KeyboardButton(text="Задний")],
         [KeyboardButton(text="Полный")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
+DRIVE_EDIT_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Передний"), KeyboardButton(text="Задний")],
+        [KeyboardButton(text="Полный")],
+        [KeyboardButton(text="Оставить")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
+BODY_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Седан"), KeyboardButton(text="Универсал")],
+        [KeyboardButton(text="Хэтчбек"), KeyboardButton(text="Купе")],
+        [KeyboardButton(text="Джип"), KeyboardButton(text="Кроссовер")],
+        [KeyboardButton(text="Другое")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
+BODY_EDIT_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Седан"), KeyboardButton(text="Универсал")],
+        [KeyboardButton(text="Хэтчбек"), KeyboardButton(text="Купе")],
+        [KeyboardButton(text="Джип"), KeyboardButton(text="Кроссовер")],
+        [KeyboardButton(text="Другое")],
+        [KeyboardButton(text="Оставить")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
+EDIT_TEXT_KB = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="Оставить")], [KeyboardButton(text="Отмена")]],
+    resize_keyboard=True,
+)
+
+TRIM_KB = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="Пропустить")], [KeyboardButton(text="Отмена")]],
+    resize_keyboard=True,
+)
+
+TRIM_EDIT_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Оставить")],
+        [KeyboardButton(text="Пропустить")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
+AUCTION_GRADE_KB = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="Пропустить")], [KeyboardButton(text="Отмена")]],
+    resize_keyboard=True,
+)
+
+AUCTION_GRADE_EDIT_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Оставить")],
+        [KeyboardButton(text="Пропустить")],
+        [KeyboardButton(text="Отмена")],
     ],
     resize_keyboard=True,
 )
@@ -58,8 +152,22 @@ PHOTOS_KB = ReplyKeyboardMarkup(
     resize_keyboard=True,
 )
 
+PHOTOS_EDIT_KB = ReplyKeyboardMarkup(
+    keyboard=[
+        [KeyboardButton(text="Готово")],
+        [KeyboardButton(text="Оставить фото")],
+        [KeyboardButton(text="Отмена")],
+    ],
+    resize_keyboard=True,
+)
+
 CONFIRM_KB = ReplyKeyboardMarkup(
     keyboard=[[KeyboardButton(text="Отправить"), KeyboardButton(text="Добавить фото")], [KeyboardButton(text="Отмена")]],
+    resize_keyboard=True,
+)
+
+DELETE_CONFIRM_KB = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="Удалить")], [KeyboardButton(text="Отмена")]],
     resize_keyboard=True,
 )
 
@@ -109,6 +217,17 @@ def check_access(message: Message) -> bool:
     return user_id in CONFIG.allowed_ids
 
 
+async def deny_if_no_access(message: Message) -> bool:
+    if check_access(message):
+        return False
+    await message.answer("Доступ запрещен для этого аккаунта.", reply_markup=ReplyKeyboardRemove())
+    return True
+
+
+async def send_main_menu(message: Message, text: str = "Выберите действие:") -> None:
+    await message.answer(text, reply_markup=MAIN_MENU_KB)
+
+
 def parse_year(text: str) -> int | None:
     t = (text or "").strip()
     if not t.isdigit():
@@ -146,22 +265,111 @@ def market_to_api(value: str) -> str | None:
     return None
 
 
+def is_edit_mode(data: dict) -> bool:
+    return str(data.get("mode") or "").strip().lower() == "edit"
+
+
+def is_keep(text: str) -> bool:
+    return (text or "").strip().lower() == "оставить"
+
+
+def is_skip(text: str) -> bool:
+    return (text or "").strip().lower() == "пропустить"
+
+
+def is_cancel(text: str) -> bool:
+    return (text or "").strip().lower() == "отмена"
+
+
+def body_mapping() -> dict[str, str]:
+    return {
+        "седан": "Седан",
+        "универсал": "Универсал",
+        "хэтчбек": "Хэтчбек",
+        "купе": "Купе",
+        "джип": "Джип",
+        "кроссовер": "Кроссовер",
+    }
+
+
 def summarize_payload(data: dict) -> str:
+    mode = "редактирование" if is_edit_mode(data) else "создание"
+    market = str(data.get("market") or "")
+    market_human = "Корея" if market == "korea" else "Япония"
+    trim_val = str(data.get("trim") or "").strip()
+    auction_grade_val = str(data.get("auction_grade") or "").strip()
+
+    if is_edit_mode(data):
+        replace_photos = bool(data.get("replace_photos"))
+        if replace_photos:
+            photos_line = f"заменить на {len(data.get('photo_file_ids', []))} шт."
+        else:
+            photos_line = "оставить текущие"
+    else:
+        photos_line = f"{len(data.get('photo_file_ids', []))} шт."
+
     lines = [
         "Проверьте карточку перед отправкой:",
-        f"• Площадка: {'Корея' if data.get('market') == 'korea' else 'Япония'}",
-        f"• Марка и модель: {data.get('brand', '')} {data.get('model', '')}".strip(),
+        f"• Режим: {mode}",
+        f"• Площадка: {market_human}",
+        f"• Марка и модель: {str(data.get('brand') or '').strip()} {str(data.get('model') or '').strip()}".strip(),
         f"• Год: {data.get('year', '')}",
         f"• Пробег: {data.get('mileage_km', '')} км",
         f"• Привод: {data.get('drive_type', '')}",
         f"• Объем двигателя: {data.get('engine_volume_l', '')} л",
         f"• Л.С.: {data.get('power_hp', '')}",
         f"• Кузов: {data.get('body_type', '')}",
-        f"• Комплектация: {data.get('trim', '')}",
+        f"• Комплектация: {trim_val or '—'}",
         f"• Цена: {data.get('price', '')}",
-        f"• Фото: {len(data.get('photo_file_ids', []))} шт.",
+        f"• Фото: {photos_line}",
     ]
+    if market == "japan":
+        lines.insert(12, f"• Оценка по аукционному листу: {auction_grade_val or '—'}")
+    if is_edit_mode(data):
+        lines.insert(2, f"• ID карточки: {data.get('edit_listing_id', '')}")
     return "\n".join(lines)
+
+
+def _extract_command_arg(text: str | None) -> str:
+    raw = str(text or "").strip()
+    if not raw:
+        return ""
+    parts = raw.split(maxsplit=1)
+    if len(parts) < 2:
+        return ""
+    return parts[1].strip()
+
+
+async def _api_json_request(method: str, path: str, *, params: dict | None = None) -> tuple[bool, object]:
+    global CONFIG
+    if CONFIG is None:
+        return False, "CONFIG is not initialized"
+
+    url = f"{CONFIG.api_base_url}{path}"
+    headers = {"X-Manager-Api-Key": CONFIG.manager_api_key}
+    timeout = aiohttp.ClientTimeout(total=40)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.request(method=method.upper(), url=url, headers=headers, params=params) as resp:
+            text = await resp.text()
+            if resp.status >= 300:
+                return False, f"Backend error {resp.status}: {text[:600]}"
+            try:
+                return True, await resp.json()
+            except Exception:
+                return False, "Backend returned non-JSON response"
+
+
+async def fetch_manual_listing(listing_id: str) -> tuple[bool, object]:
+    return await _api_json_request("GET", f"/api/manager/manual-listing/{listing_id}")
+
+
+async def list_recent_manual_listings(market: str = "all", limit: int = 10) -> tuple[bool, object]:
+    params = {"market": market, "limit": str(limit), "offset": "0"}
+    return await _api_json_request("GET", "/api/manager/manual-listings", params=params)
+
+
+async def delete_manual_listing(listing_id: str) -> tuple[bool, object]:
+    return await _api_json_request("DELETE", f"/api/manager/manual-listing/{listing_id}")
 
 
 async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
@@ -170,17 +378,28 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
         return False, "CONFIG is not initialized"
 
     form = aiohttp.FormData()
-    form.add_field("market", payload["market"])
-    form.add_field("brand", payload["brand"])
-    form.add_field("model", payload["model"])
-    form.add_field("year", str(payload["year"]))
-    form.add_field("mileage_km", str(payload["mileage_km"]))
-    form.add_field("drive_type", payload["drive_type"])
-    form.add_field("engine_volume_l", str(payload["engine_volume_l"]))
-    form.add_field("power_hp", str(payload["power_hp"]))
-    form.add_field("body_type", payload["body_type"])
-    form.add_field("trim", payload["trim"])
-    form.add_field("price", str(payload["price"]))
+    form.add_field("market", str(payload.get("market") or ""))
+    form.add_field("brand", str(payload.get("brand") or ""))
+    form.add_field("model", str(payload.get("model") or ""))
+    form.add_field("year", str(payload.get("year") or ""))
+    form.add_field("mileage_km", str(payload.get("mileage_km") or ""))
+    form.add_field("drive_type", str(payload.get("drive_type") or ""))
+    form.add_field("engine_volume_l", str(payload.get("engine_volume_l") or ""))
+    form.add_field("power_hp", str(payload.get("power_hp") or ""))
+    form.add_field("body_type", str(payload.get("body_type") or ""))
+    form.add_field("trim", str(payload.get("trim") or ""))
+    form.add_field("price", str(payload.get("price") or ""))
+
+    auction_grade = str(payload.get("auction_grade") or "").strip()
+    if auction_grade:
+        form.add_field("auction_grade", auction_grade)
+
+    listing_id = str(payload.get("edit_listing_id") or "").strip()
+    if listing_id:
+        form.add_field("listing_id", listing_id)
+
+    replace_photos = bool(payload.get("replace_photos", True))
+    form.add_field("replace_photos", "1" if replace_photos else "0")
 
     for idx, file_id in enumerate(payload.get("photo_file_ids", [])):
         tg_file = await bot.get_file(file_id)
@@ -196,8 +415,7 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
 
     url = f"{CONFIG.api_base_url}/api/manager/manual-listing"
     headers = {"X-Manager-Api-Key": CONFIG.manager_api_key}
-
-    timeout = aiohttp.ClientTimeout(total=120)
+    timeout = aiohttp.ClientTimeout(total=180)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         async with session.post(url, data=form, headers=headers) as resp:
             text = await resp.text()
@@ -206,206 +424,865 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
             return True, text
 
 
-@router.message(CommandStart())
-@router.message(Command("new"))
-async def start(message: Message, state: FSMContext) -> None:
-    if not check_access(message):
-        await message.answer("Доступ запрещен для этого аккаунта.", reply_markup=ReplyKeyboardRemove())
+async def maybe_cancel(message: Message, state: FSMContext) -> bool:
+    if not is_cancel(message.text or ""):
+        return False
+    await state.clear()
+    await send_main_menu(message, "Диалог отменен. Выберите действие:")
+    return True
+
+
+def _fmt_current(value: object) -> str:
+    s = str(value or "").strip()
+    return s or "—"
+
+
+async def ask_brand(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите марку (текущая: {_fmt_current(data.get('brand'))}) или нажмите «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите марку (например: Hyundai):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_model(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите модель (текущая: {_fmt_current(data.get('model'))}) или нажмите «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите модель (например: Sonata):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_year(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите год YYYY (текущий: {_fmt_current(data.get('year'))}) или «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите год (YYYY):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_mileage(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите пробег в км (текущий: {_fmt_current(data.get('mileage_km'))}) или «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите пробег в км (например 86000):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_drive(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Выберите привод (текущий: {_fmt_current(data.get('drive_type'))}) или «Оставить».",
+            reply_markup=DRIVE_EDIT_KB,
+        )
+    else:
+        await message.answer("Выберите привод:", reply_markup=DRIVE_KB)
+
+
+async def ask_engine_volume(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите объем двигателя в литрах (текущий: {_fmt_current(data.get('engine_volume_l'))}) или «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите объем двигателя в литрах (например 2.0):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_power(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите мощность в л.с. (текущая: {_fmt_current(data.get('power_hp'))}) или «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer("Введите мощность в л.с. (например 204):", reply_markup=ReplyKeyboardRemove())
+
+
+async def ask_body_type(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Выберите тип кузова (текущий: {_fmt_current(data.get('body_type'))}).",
+            reply_markup=BODY_EDIT_KB,
+        )
+    else:
+        await message.answer("Выберите тип кузова:", reply_markup=BODY_KB)
+
+
+async def ask_trim(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите комплектацию (текущая: {_fmt_current(data.get('trim'))}) или «Оставить»/«Пропустить».",
+            reply_markup=TRIM_EDIT_KB,
+        )
+    else:
+        await message.answer(
+            "Введите комплектацию или нажмите «Пропустить».",
+            reply_markup=TRIM_KB,
+        )
+
+
+async def ask_auction_grade(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Оценка по аукционному листу (текущая: {_fmt_current(data.get('auction_grade'))}) или «Оставить»/«Пропустить».",
+            reply_markup=AUCTION_GRADE_EDIT_KB,
+        )
+    else:
+        await message.answer(
+            "Введите оценку по аукционному листу или нажмите «Пропустить».",
+            reply_markup=AUCTION_GRADE_KB,
+        )
+
+
+async def ask_price(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        await message.answer(
+            f"Введите конечную цену во Владивостоке (текущая: {_fmt_current(data.get('price'))}) или «Оставить».",
+            reply_markup=EDIT_TEXT_KB,
+        )
+    else:
+        await message.answer(
+            "Введите конечную цену во Владивостоке с учетом нашей комиссии (только число, например 156000):",
+            reply_markup=ReplyKeyboardRemove(),
+        )
+
+
+async def ask_photos(message: Message, data: dict) -> None:
+    if is_edit_mode(data):
+        current_count = int(data.get("existing_photo_count") or 0)
+        await message.answer(
+            "Отправьте новые фото (полная замена текущих). "
+            f"Сейчас в карточке: {current_count} шт. "
+            "Нажмите «Оставить фото», если менять не нужно, либо «Готово» после загрузки.",
+            reply_markup=PHOTOS_EDIT_KB,
+        )
+    else:
+        await message.answer(
+            "Загрузите фото (можно несколько сообщений). Когда закончите, нажмите «Готово».",
+            reply_markup=PHOTOS_KB,
+        )
+
+
+async def ask_edit_listing_id(message: Message, state: FSMContext) -> None:
+    await state.clear()
+    await message.answer("Введите UUID карточки, которую нужно изменить:", reply_markup=ReplyKeyboardRemove())
+    await state.set_state(EditFlow.listing_id)
+
+
+async def ask_delete_listing_id(message: Message, state: FSMContext) -> None:
+    await state.clear()
+    await message.answer("Введите UUID карточки, которую нужно удалить:", reply_markup=ReplyKeyboardRemove())
+    await state.set_state(DeleteFlow.listing_id)
+
+
+async def start_new_flow(message: Message, state: FSMContext) -> None:
+    await state.clear()
+    await state.update_data(mode="create", photo_file_ids=[], replace_photos=True)
+    await message.answer("Создаем новую карточку. Выберите площадку:", reply_markup=MARKET_KB)
+    await state.set_state(ListingFlow.market)
+
+
+async def start_edit_flow(message: Message, state: FSMContext, listing_id: str) -> None:
+    ok, payload = await fetch_manual_listing(listing_id)
+    if not ok:
+        await message.answer(f"Не удалось загрузить карточку: {payload}")
+        return
+    if not isinstance(payload, dict):
+        await message.answer("Неожиданный ответ backend при загрузке карточки.")
+        return
+
+    market = str(payload.get("market") or "").strip().lower()
+    if market not in {"korea", "japan"}:
+        await message.answer("Карточка не относится к рынкам Корея/Япония.")
         return
 
     await state.clear()
-    await message.answer(
-        "Создаем новую карточку. Выберите площадку:",
-        reply_markup=MARKET_KB,
+    await state.update_data(
+        mode="edit",
+        edit_listing_id=str(payload.get("id") or listing_id),
+        market=market,
+        brand=str(payload.get("brand") or "").strip(),
+        model=str(payload.get("model") or "").strip(),
+        year=payload.get("year"),
+        mileage_km=payload.get("mileage_km"),
+        drive_type=str(payload.get("drive_type") or "").strip(),
+        engine_volume_l=str(payload.get("engine_volume_l") or "").strip(),
+        power_hp=payload.get("power_hp"),
+        body_type=str(payload.get("body_type") or "").strip(),
+        trim=str(payload.get("trim") or "").strip(),
+        auction_grade=str(payload.get("auction_grade") or "").strip(),
+        price=str(payload.get("price") or "").strip(),
+        photo_file_ids=[],
+        replace_photos=False,
+        existing_photo_count=int(payload.get("images_count") or 0),
     )
-    await state.set_state(ListingFlow.market)
+
+    title = f"{str(payload.get('brand') or '').strip()} {str(payload.get('model') or '').strip()}".strip()
+    await message.answer(
+        "Режим редактирования карточки.\n"
+        f"ID: {payload.get('id')}\n"
+        f"Площадка: {'Корея' if market == 'korea' else 'Япония'}\n"
+        f"Текущая карточка: {title or '—'}",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+    data = await state.get_data()
+    await ask_brand(message, data)
+    await state.set_state(ListingFlow.brand)
+
+
+async def show_recent_listings(message: Message, market: str = "all") -> None:
+    ok, payload = await list_recent_manual_listings(market=market, limit=10)
+    if not ok:
+        await message.answer(f"Не удалось получить список: {payload}")
+        return
+    if not isinstance(payload, dict):
+        await message.answer("Неожиданный ответ backend.")
+        return
+
+    items = payload.get("items") if isinstance(payload.get("items"), list) else []
+    if not items:
+        await message.answer("Карточек не найдено.")
+        return
+
+    lines = ["Последние карточки:"]
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        listing_id = str(item.get("id") or "")
+        market_human = "Корея" if str(item.get("market") or "") == "korea" else "Япония"
+        title = f"{str(item.get('brand') or '').strip()} {str(item.get('model') or '').strip()}".strip() or "Без названия"
+        lines.append(f"• {listing_id} | {market_human} | {title}")
+    await message.answer("\n".join(lines))
+
+
+@router.message(CommandStart())
+async def start(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    await state.clear()
+    await send_main_menu(message, "Готово. Выберите действие:")
+
+
+@router.message(Command("new"))
+async def start_new_command(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    await start_new_flow(message, state)
+
+
+@router.message(StateFilter(None), F.text == BTN_NEW)
+async def start_new_button(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    await start_new_flow(message, state)
+
+
+@router.message(Command("edit"))
+async def edit_start_command(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+
+    arg = _extract_command_arg(message.text)
+    if arg:
+        try:
+            str(uuid.UUID(arg))
+        except Exception:
+            await message.answer("Неверный формат ID. Нужен UUID карточки.")
+            return
+        await start_edit_flow(message, state, arg)
+        return
+
+    await ask_edit_listing_id(message, state)
+
+
+@router.message(StateFilter(None), F.text == BTN_EDIT)
+async def edit_start_button(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    await ask_edit_listing_id(message, state)
+
+
+@router.message(EditFlow.listing_id)
+async def edit_get_id(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    listing_id = (message.text or "").strip()
+    try:
+        str(uuid.UUID(listing_id))
+    except Exception:
+        await message.answer("Неверный формат ID. Нужен UUID карточки.")
+        return
+
+    await start_edit_flow(message, state, listing_id)
+
+
+@router.message(Command("delete"))
+async def delete_start_command(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+
+    arg = _extract_command_arg(message.text)
+    if arg:
+        try:
+            str(uuid.UUID(arg))
+        except Exception:
+            await message.answer("Неверный формат ID. Нужен UUID карточки.")
+            return
+        ok, payload = await fetch_manual_listing(arg)
+        if not ok:
+            await message.answer(f"Не удалось загрузить карточку: {payload}")
+            return
+        if not isinstance(payload, dict):
+            await message.answer("Неожиданный ответ backend.")
+            return
+
+        title = f"{str(payload.get('brand') or '').strip()} {str(payload.get('model') or '').strip()}".strip()
+        await state.clear()
+        await state.update_data(delete_listing_id=arg, delete_preview_title=title)
+        await message.answer(
+            "Подтвердите удаление карточки:\n"
+            f"ID: {arg}\n"
+            f"Карточка: {title or '—'}",
+            reply_markup=DELETE_CONFIRM_KB,
+        )
+        await state.set_state(DeleteFlow.confirm)
+        return
+
+    await ask_delete_listing_id(message, state)
+
+
+@router.message(StateFilter(None), F.text == BTN_DELETE)
+async def delete_start_button(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    await ask_delete_listing_id(message, state)
+
+
+@router.message(DeleteFlow.listing_id)
+async def delete_get_id(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    listing_id = (message.text or "").strip()
+    try:
+        str(uuid.UUID(listing_id))
+    except Exception:
+        await message.answer("Неверный формат ID. Нужен UUID карточки.")
+        return
+
+    ok, payload = await fetch_manual_listing(listing_id)
+    if not ok:
+        await message.answer(f"Не удалось загрузить карточку: {payload}")
+        return
+    if not isinstance(payload, dict):
+        await message.answer("Неожиданный ответ backend.")
+        return
+
+    title = f"{str(payload.get('brand') or '').strip()} {str(payload.get('model') or '').strip()}".strip()
+    await state.update_data(delete_listing_id=listing_id, delete_preview_title=title)
+    await message.answer(
+        "Подтвердите удаление карточки:\n"
+        f"ID: {listing_id}\n"
+        f"Карточка: {title or '—'}",
+        reply_markup=DELETE_CONFIRM_KB,
+    )
+    await state.set_state(DeleteFlow.confirm)
+
+
+@router.message(DeleteFlow.confirm)
+async def delete_confirm(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    cmd = (message.text or "").strip().lower()
+    if cmd != "удалить":
+        await message.answer("Нажмите «Удалить» или «Отмена».", reply_markup=DELETE_CONFIRM_KB)
+        return
+
+    data = await state.get_data()
+    listing_id = str(data.get("delete_listing_id") or "").strip()
+    if not listing_id:
+        await state.clear()
+        await send_main_menu(message, "Состояние удалено. Выберите действие:")
+        return
+
+    ok, payload = await delete_manual_listing(listing_id)
+    if not ok:
+        await message.answer(f"Ошибка удаления: {payload}")
+        return
+
+    await state.clear()
+    await send_main_menu(message, f"Карточка удалена: {listing_id}")
+
+
+@router.message(Command("recent"))
+async def recent_listings(message: Message) -> None:
+    if await deny_if_no_access(message):
+        return
+
+    arg = _extract_command_arg(message.text).lower()
+    market = "all"
+    if arg in {"korea", "корея"}:
+        market = "korea"
+    elif arg in {"japan", "япония"}:
+        market = "japan"
+    await show_recent_listings(message, market=market)
+
+ 
+@router.message(StateFilter(None), F.text == BTN_RECENT)
+async def recent_listings_button(message: Message) -> None:
+    if await deny_if_no_access(message):
+        return
+    await show_recent_listings(message, market="all")
 
 
 @router.message(Command("cancel"))
 async def cancel(message: Message, state: FSMContext) -> None:
     await state.clear()
-    await message.answer("Ок, диалог сброшен.", reply_markup=ReplyKeyboardRemove())
+    await send_main_menu(message, "Ок, диалог сброшен. Выберите действие:")
 
 
 @router.message(ListingFlow.market)
 async def on_market(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
     market = market_to_api(message.text or "")
     if not market:
         await message.answer("Нужно выбрать: Корея или Япония.", reply_markup=MARKET_KB)
         return
 
-    await state.update_data(market=market, photo_file_ids=[])
-    await message.answer("Введите марку (например: Hyundai):", reply_markup=ReplyKeyboardRemove())
+    await state.update_data(market=market, photo_file_ids=[], replace_photos=True)
+    data = await state.get_data()
+    await ask_brand(message, data)
     await state.set_state(ListingFlow.brand)
 
 
 @router.message(ListingFlow.brand)
 async def on_brand(message: Message, state: FSMContext) -> None:
-    brand = (message.text or "").strip()
-    if len(brand) < 2:
-        await message.answer("Слишком короткая марка. Введите еще раз.")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        brand = str(data.get("brand") or "").strip()
+        if len(brand) < 2:
+            await message.answer("Текущее значение пустое. Введите марку.")
+            return
+    else:
+        brand = txt
+        if len(brand) < 2:
+            await message.answer("Слишком короткая марка. Введите еще раз.")
+            return
+
     await state.update_data(brand=brand)
-    await message.answer("Введите модель (например: Sonata):")
+    data = await state.get_data()
+    await ask_model(message, data)
     await state.set_state(ListingFlow.model)
 
 
 @router.message(ListingFlow.model)
 async def on_model(message: Message, state: FSMContext) -> None:
-    model = (message.text or "").strip()
-    if len(model) < 1:
-        await message.answer("Введите модель.")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        model = str(data.get("model") or "").strip()
+        if len(model) < 1:
+            await message.answer("Текущее значение пустое. Введите модель.")
+            return
+    else:
+        model = txt
+        if len(model) < 1:
+            await message.answer("Введите модель.")
+            return
+
     await state.update_data(model=model)
-    await message.answer("Введите год (YYYY):")
+    data = await state.get_data()
+    await ask_year(message, data)
     await state.set_state(ListingFlow.year)
 
 
 @router.message(ListingFlow.year)
 async def on_year(message: Message, state: FSMContext) -> None:
-    year = parse_year(message.text or "")
-    if year is None:
-        await message.answer("Год должен быть числом в формате YYYY (например 2021).")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        year_raw = data.get("year")
+        year = int(year_raw) if isinstance(year_raw, int) else parse_year(str(year_raw or ""))
+        if year is None:
+            await message.answer("Текущее значение пустое/некорректное. Введите год YYYY.")
+            return
+    else:
+        year = parse_year(txt)
+        if year is None:
+            await message.answer("Год должен быть числом в формате YYYY (например 2021).")
+            return
+
     await state.update_data(year=year)
-    await message.answer("Введите пробег в км (например 86000):")
+    data = await state.get_data()
+    await ask_mileage(message, data)
     await state.set_state(ListingFlow.mileage_km)
 
 
 @router.message(ListingFlow.mileage_km)
 async def on_mileage(message: Message, state: FSMContext) -> None:
-    mileage_km = parse_int(message.text or "")
-    if mileage_km is None or mileage_km <= 0:
-        await message.answer("Пробег должен быть целым числом в км (например 86000).")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        mileage_raw = data.get("mileage_km")
+        mileage_km = int(mileage_raw) if isinstance(mileage_raw, int) else parse_int(str(mileage_raw or ""))
+        if mileage_km is None or mileage_km <= 0:
+            await message.answer("Текущее значение пустое/некорректное. Введите пробег в км.")
+            return
+    else:
+        mileage_km = parse_int(txt)
+        if mileage_km is None or mileage_km <= 0:
+            await message.answer("Пробег должен быть целым числом в км (например 86000).")
+            return
+
     await state.update_data(mileage_km=mileage_km)
-    await message.answer("Выберите привод:", reply_markup=DRIVE_KB)
+    data = await state.get_data()
+    await ask_drive(message, data)
     await state.set_state(ListingFlow.drive_type)
 
 
 @router.message(ListingFlow.drive_type)
 async def on_drive(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
     value = (message.text or "").strip().lower()
     mapping = {
         "передний": "Передний",
         "задний": "Задний",
         "полный": "Полный",
     }
-    if value not in mapping:
-        await message.answer("Выберите один из вариантов на клавиатуре.", reply_markup=DRIVE_KB)
-        return
-    await state.update_data(drive_type=mapping[value])
-    await message.answer("Введите объем двигателя в литрах (например 2.0):", reply_markup=ReplyKeyboardRemove())
+
+    if is_edit_mode(data) and is_keep(value):
+        drive_type = str(data.get("drive_type") or "").strip()
+        if not drive_type:
+            await message.answer("Текущее значение пустое. Выберите привод.")
+            return
+    else:
+        if value not in mapping:
+            await message.answer(
+                "Выберите один из вариантов на клавиатуре.",
+                reply_markup=DRIVE_EDIT_KB if is_edit_mode(data) else DRIVE_KB,
+            )
+            return
+        drive_type = mapping[value]
+
+    await state.update_data(drive_type=drive_type)
+    data = await state.get_data()
+    await ask_engine_volume(message, data)
     await state.set_state(ListingFlow.engine_volume_l)
 
 
 @router.message(ListingFlow.engine_volume_l)
 async def on_engine_volume(message: Message, state: FSMContext) -> None:
-    dv = parse_decimal(message.text or "")
-    if dv is None or dv <= 0:
-        await message.answer("Объем должен быть числом больше 0 (например 1.6).")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        dv = parse_decimal(str(data.get("engine_volume_l") or ""))
+        if dv is None or dv <= 0:
+            await message.answer("Текущее значение пустое/некорректное. Введите объем двигателя.")
+            return
+    else:
+        dv = parse_decimal(txt)
+        if dv is None or dv <= 0:
+            await message.answer("Объем должен быть числом больше 0 (например 1.6).")
+            return
+
     await state.update_data(engine_volume_l=str(dv.normalize()))
-    await message.answer("Введите мощность в л.с. (например 204):")
+    data = await state.get_data()
+    await ask_power(message, data)
     await state.set_state(ListingFlow.power_hp)
 
 
 @router.message(ListingFlow.power_hp)
 async def on_power(message: Message, state: FSMContext) -> None:
-    hp = parse_int(message.text or "")
-    if hp is None or hp <= 0:
-        await message.answer("Мощность должна быть целым числом (например 204).")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    if is_edit_mode(data) and is_keep(txt):
+        hp_raw = data.get("power_hp")
+        hp = int(hp_raw) if isinstance(hp_raw, int) else parse_int(str(hp_raw or ""))
+        if hp is None or hp <= 0:
+            await message.answer("Текущее значение пустое/некорректное. Введите мощность.")
+            return
+    else:
+        hp = parse_int(txt)
+        if hp is None or hp <= 0:
+            await message.answer("Мощность должна быть целым числом (например 204).")
+            return
+
     await state.update_data(power_hp=hp)
-    await message.answer("Введите тип кузова (например: седан, кроссовер):")
+    data = await state.get_data()
+    await ask_body_type(message, data)
     await state.set_state(ListingFlow.body_type)
 
 
 @router.message(ListingFlow.body_type)
 async def on_body(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+    lower = txt.lower()
+
+    if is_edit_mode(data) and is_keep(lower):
+        body = str(data.get("body_type") or "").strip()
+        if not body:
+            await message.answer("Текущее значение пустое. Выберите кузов.")
+            return
+        await state.update_data(body_type=body)
+    else:
+        mapping = body_mapping()
+        if lower == "другое":
+            await message.answer("Введите тип кузова текстом:", reply_markup=ReplyKeyboardRemove())
+            await state.set_state(ListingFlow.body_custom)
+            return
+        body = mapping.get(lower)
+        if not body:
+            await message.answer(
+                "Выберите вариант на клавиатуре или «Другое».",
+                reply_markup=BODY_EDIT_KB if is_edit_mode(data) else BODY_KB,
+            )
+            return
+        await state.update_data(body_type=body)
+
+    data = await state.get_data()
+    await ask_trim(message, data)
+    await state.set_state(ListingFlow.trim)
+
+
+@router.message(ListingFlow.body_custom)
+async def on_body_custom(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
     body = (message.text or "").strip()
     if len(body) < 2:
-        await message.answer("Введите тип кузова текстом.")
+        await message.answer("Введите тип кузова текстом (минимум 2 символа).")
         return
+
     await state.update_data(body_type=body)
-    await message.answer("Введите комплектацию:")
+    data = await state.get_data()
+    await ask_trim(message, data)
     await state.set_state(ListingFlow.trim)
 
 
 @router.message(ListingFlow.trim)
 async def on_trim(message: Message, state: FSMContext) -> None:
-    trim = (message.text or "").strip()
-    if len(trim) < 2:
-        await message.answer("Введите комплектацию текстом.")
+    if await deny_if_no_access(message):
         return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+
+    if is_edit_mode(data) and is_keep(txt):
+        trim = str(data.get("trim") or "").strip()
+    elif is_skip(txt):
+        trim = ""
+    else:
+        trim = txt
+        if trim and len(trim) < 2:
+            await message.answer("Слишком короткая комплектация. Введите еще раз или «Пропустить».")
+            return
+
     await state.update_data(trim=trim)
-    await message.answer("Введите конечную цену во Владивостоке с учетом нашей комиссии (только число, без валюты, например 156000):")
+    data = await state.get_data()
+    market = str(data.get("market") or "")
+    if market == "japan":
+        await ask_auction_grade(message, data)
+        await state.set_state(ListingFlow.auction_grade)
+        return
+
+    await ask_price(message, data)
+    await state.set_state(ListingFlow.price)
+
+
+@router.message(ListingFlow.auction_grade)
+async def on_auction_grade(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+
+    if is_edit_mode(data) and is_keep(txt):
+        auction_grade = str(data.get("auction_grade") or "").strip()
+    elif is_skip(txt):
+        auction_grade = ""
+    else:
+        auction_grade = txt
+        if len(auction_grade) > 32:
+            await message.answer("Слишком длинная оценка. Введите короче (до 32 символов).")
+            return
+
+    await state.update_data(auction_grade=auction_grade)
+    data = await state.get_data()
+    await ask_price(message, data)
     await state.set_state(ListingFlow.price)
 
 
 @router.message(ListingFlow.price)
 async def on_price(message: Message, state: FSMContext) -> None:
-    price = parse_decimal(message.text or "")
-    if price is None or price <= 0:
-        await message.answer("Цена должна быть числом больше 0.")
+    if await deny_if_no_access(message):
         return
-    await state.update_data(price=str(price.normalize()))
-    await message.answer(
-        "Загрузите фото (можно несколько сообщений). Когда закончите, нажмите «Готово».",
-        reply_markup=PHOTOS_KB,
-    )
+    if await maybe_cancel(message, state):
+        return
+
+    data = await state.get_data()
+    txt = (message.text or "").strip()
+
+    if is_edit_mode(data) and is_keep(txt):
+        price_dec = parse_decimal(str(data.get("price") or ""))
+        if price_dec is None or price_dec <= 0:
+            await message.answer("Текущее значение пустое/некорректное. Введите цену.")
+            return
+    else:
+        price_dec = parse_decimal(txt)
+        if price_dec is None or price_dec <= 0:
+            await message.answer("Цена должна быть числом больше 0.")
+            return
+
+    await state.update_data(price=str(price_dec.normalize()), photo_file_ids=[])
+    data = await state.get_data()
+    await ask_photos(message, data)
     await state.set_state(ListingFlow.photos)
 
 
 @router.message(ListingFlow.photos, F.photo)
 async def on_photo(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+
     photos = message.photo or []
     if not photos:
         await message.answer("Фото не найдено, отправьте еще раз.")
         return
+
     best = photos[-1]
     data = await state.get_data()
     file_ids = list(data.get("photo_file_ids", []))
     if len(file_ids) >= 20:
         await message.answer("Достигнут лимит 20 фото. Нажмите «Готово».")
         return
+
     file_ids.append(best.file_id)
-    await state.update_data(photo_file_ids=file_ids)
+    await state.update_data(photo_file_ids=file_ids, replace_photos=True)
     await message.answer(f"Фото добавлено: {len(file_ids)} шт.")
 
 
 @router.message(ListingFlow.photos)
 async def on_photos_text(message: Message, state: FSMContext) -> None:
-    text = (message.text or "").strip().lower()
-    if text == "отмена":
-        await state.clear()
-        await message.answer("Диалог отменен.", reply_markup=ReplyKeyboardRemove())
+    if await deny_if_no_access(message):
         return
-
-    if text != "готово":
-        await message.answer("Пришлите фото или нажмите «Готово».")
+    if await maybe_cancel(message, state):
         return
 
     data = await state.get_data()
-    if not data.get("photo_file_ids"):
+    txt = (message.text or "").strip().lower()
+    edit_mode = is_edit_mode(data)
+
+    if edit_mode and txt == "оставить фото":
+        await state.update_data(replace_photos=False, photo_file_ids=[])
+        payload = await state.get_data()
+        await message.answer(summarize_payload(payload), reply_markup=CONFIRM_KB)
+        await state.set_state(ListingFlow.confirm)
+        return
+
+    if txt != "готово":
+        await message.answer(
+            "Пришлите фото или нажмите «Готово»." if not edit_mode else "Пришлите фото, нажмите «Оставить фото» или «Готово»."
+        )
+        return
+
+    file_ids = list(data.get("photo_file_ids", []))
+    if file_ids:
+        await state.update_data(replace_photos=True)
+    elif edit_mode:
+        await state.update_data(replace_photos=False)
+    else:
         await message.answer("Нужно загрузить минимум одно фото.")
         return
 
-    await message.answer(summarize_payload(data), reply_markup=CONFIRM_KB)
+    payload = await state.get_data()
+    await message.answer(summarize_payload(payload), reply_markup=CONFIRM_KB)
     await state.set_state(ListingFlow.confirm)
 
 
 @router.message(ListingFlow.confirm)
 async def on_confirm(message: Message, state: FSMContext, bot: Bot) -> None:
-    cmd = (message.text or "").strip().lower()
-
-    if cmd == "отмена":
-        await state.clear()
-        await message.answer("Диалог отменен.", reply_markup=ReplyKeyboardRemove())
+    if await deny_if_no_access(message):
+        return
+    if await maybe_cancel(message, state):
         return
 
+    cmd = (message.text or "").strip().lower()
+
     if cmd == "добавить фото":
-        await message.answer("Загрузите дополнительные фото и нажмите «Готово».", reply_markup=PHOTOS_KB)
+        data = await state.get_data()
+        await state.update_data(photo_file_ids=[], replace_photos=True)
+        await ask_photos(message, data)
         await state.set_state(ListingFlow.photos)
         return
 
@@ -428,15 +1305,18 @@ async def on_confirm(message: Message, state: FSMContext, bot: Bot) -> None:
         return
 
     await state.clear()
-    await message.answer("Карточка успешно создана и отправлена на сайт. Для новой карточки нажмите /new")
+    await send_main_menu(message, "Карточка успешно сохранена. Выберите действие:")
 
 
 @router.message()
 async def fallback(message: Message) -> None:
-    if not check_access(message):
-        await message.answer("Доступ запрещен для этого аккаунта.")
+    if await deny_if_no_access(message):
         return
-    await message.answer("Используйте /new для создания карточки или /cancel для отмены.")
+    await send_main_menu(
+        message,
+        "Выберите действие кнопками ниже.\n"
+        "Также доступны команды: /new, /edit, /delete, /recent, /cancel",
+    )
 
 
 async def main() -> None:

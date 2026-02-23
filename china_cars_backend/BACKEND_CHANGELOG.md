@@ -43,6 +43,45 @@
 
 ---
 
+## 2026-02-23 01:30 (MSK)
+
+### Изменение
+
+Расширен manager-контур для ручных карточек Японии/Кореи:
+
+- в API добавлены операции просмотра, списка и удаления ручных карточек;
+- `POST /api/manager/manual-listing` теперь поддерживает редактирование существующей карточки (`listing_id`) и режим сохранения/замены фото (`replace_photos`);
+- добавлено поле `auction_grade` (оценка по аукционному листу) для японских карточек;
+- `auction_grade` добавлен в list/detail выдачу каталога.
+
+### Причина
+
+Нужно дать менеджеру полноценное управление карточками (создать/изменить/удалить) и сохранить в карточке Японии оценку по аукционному листу.
+
+### Затронутые файлы
+
+- `app/api/routes.py`
+- `BACKEND_RUNBOOK.md`
+
+### Проверка
+
+- `python -m py_compile app/api/routes.py`
+- ручная проверка SQL/JSON-мэппинга:
+  - list/detail каталога отдают `auction_grade`;
+  - manager endpoint-ы покрывают create/edit/delete/list/get.
+
+### Действия на сервере
+
+- выкатить `app/api/routes.py`;
+- перезапустить API:
+  - `systemctl restart primcom-api.service`;
+- проверить manager endpoint-ы:
+  - `GET /api/manager/manual-listings` (с `X-Manager-Api-Key`);
+  - `GET /api/manager/manual-listing/{id}`;
+  - `DELETE /api/manager/manual-listing/{id}`.
+
+---
+
 ## 2026-02-22 13:50 (MSK)
 
 ### Изменение
