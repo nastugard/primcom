@@ -95,10 +95,8 @@ async def process_contact(message: Message, state: FSMContext):
     await message.answer(
         "📞 Наш специалист свяжется с вами в ближайшее время и ответит на все вопросы.\n\n"
         "📌 Пока вы ожидаете, предлагаем ознакомиться:\n"
-        "• [Услуги компании](https://example.com)\n"
-        "• [Наш сайт](https://example.com)\n"
-        "• [Отзывы клиентов](https://example.com)\n"
-        "• [Социальные сети](https://example.com)\n\n"
+        "• [Наш сайт](https://primcom.ru)\n"
+        "• [2ГИС](https://go.2gis.com/w5jVZ)\n\n"
         "Спасибо, что выбрали ПРИМКОМ! 🚗",
         parse_mode="Markdown",
         reply_markup=ReplyKeyboardRemove()
