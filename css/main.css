@@ -714,23 +714,24 @@ body > .site-main:not(.site-main--hero) {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-block-start: 12px;
+  padding-block-start: 4px;
+  --facts-wave-delay: 0s;
 }
 
 .hero__facts-item::before {
-  content: "";
-  position: absolute;
-  inset-inline-start: 50%;
-  inset-block-start: 0;
-  inline-size: 12px;
-  block-size: 12px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  border: 1px solid rgba(154, 190, 255, 0.9);
-  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(124, 170, 255, 0.92));
-  box-shadow:
-    0 0 0 5px rgba(124, 170, 255, 0.12),
-    0 4px 10px rgba(6, 15, 40, 0.35);
+  content: none;
+}
+
+.hero__facts-item:nth-child(2) {
+  --facts-wave-delay: 0.35s;
+}
+
+.hero__facts-item:nth-child(3) {
+  --facts-wave-delay: 0.7s;
+}
+
+.hero__facts-item:nth-child(4) {
+  --facts-wave-delay: 1.05s;
 }
 
 .hero__facts-value {
@@ -740,15 +741,55 @@ body > .site-main:not(.site-main--hero) {
   font-size: clamp(20px, 2.1vw, 28px);
   line-height: 1.05;
   letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.98);
-  text-shadow: 0 4px 14px rgba(5, 12, 36, 0.34);
+  --facts-text-base: rgba(255, 255, 255, 0.96);
+  --facts-text-wave: rgba(244, 250, 255, 1);
+  --facts-shadow-base: 0 4px 14px rgba(5, 12, 36, 0.34);
+  --facts-shadow-wave:
+    0 4px 14px rgba(5, 12, 36, 0.34),
+    0 0 18px rgba(167, 201, 255, 0.2);
 }
 
 .hero__facts-text {
   margin: 0;
   font-size: 14px;
   line-height: 1.45;
-  color: rgba(226, 236, 255, 0.82);
+  --facts-text-base: rgba(226, 236, 255, 0.84);
+  --facts-text-wave: rgba(246, 251, 255, 0.95);
+  --facts-shadow-base: none;
+  --facts-shadow-wave: 0 0 12px rgba(165, 197, 255, 0.16);
+}
+
+.hero__facts-value,
+.hero__facts-text {
+  color: var(--facts-text-base);
+  text-shadow: var(--facts-shadow-base);
+  animation: heroFactsSoftWave 6.8s ease-in-out infinite;
+  animation-delay: var(--facts-wave-delay);
+}
+
+@keyframes heroFactsSoftWave {
+  0%,
+  100% {
+    color: var(--facts-text-base);
+    text-shadow: var(--facts-shadow-base);
+  }
+
+  16% {
+    color: var(--facts-text-wave);
+    text-shadow: var(--facts-shadow-wave);
+  }
+
+  34% {
+    color: var(--facts-text-base);
+    text-shadow: var(--facts-shadow-base);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__facts-value,
+  .hero__facts-text {
+    animation: none;
+  }
 }
 
 @media (max-width: 860px) {
