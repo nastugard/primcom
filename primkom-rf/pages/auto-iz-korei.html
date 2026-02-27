@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru" data-root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <meta name="theme-color" content="#101325" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="robots" content="noindex,follow" />
+
+  <title>Авто из Кореи под заказ во Владивосток и по РФ | Примком</title>
+  <meta name="description" content="Подбор и привоз авто из Кореи под ключ: проверка, выкуп, логистика, таможня и выдача. Актуальные карточки с ценами и фото." />
+
+  <link rel="canonical" href="https://primcom.ru/pages/auto-iz-korei.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Примком" />
+  <meta property="og:title" content="Авто из Кореи под заказ" />
+  <meta property="og:description" content="Актуальные предложения авто из Кореи с фото и параметрами." />
+  <meta property="og:url" content="https://primcom.ru/pages/auto-iz-korei.html" />
+  <meta property="og:image" content="https://primcom.ru/banner/banner_main.png" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="../site.webmanifest" />
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Авто из Кореи под заказ",
+      "url": "https://primcom.ru/pages/auto-iz-korei.html",
+      "description": "Каталог предложений авто из Кореи под заказ",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Примком",
+        "url": "https://primcom.ru/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <noscript>Для корректной работы сайта требуется JavaScript.</noscript>
+
+  <div class="page-bg" aria-hidden="true">
+    <div class="page-bg__base"></div>
+    <div class="page-bg__aurora"></div>
+    <div class="page-bg__grid"></div>
+    <div class="page-bg__grain"></div>
+  </div>
+
+  <div class="modal" data-manual-car-modal hidden>
+    <div class="modal__backdrop" data-manual-car-close></div>
+    <div class="modal__dialog modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="manual-car-title-korea">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-manual-car-close>×</button>
+
+      <div class="manual-car">
+        <div class="manual-car__media">
+          <div class="manual-car__stage-wrap">
+            <button class="manual-car__stage" type="button" aria-label="Открыть фото крупно" data-manual-main-button>
+              <img class="manual-car__img" alt="Фото автомобиля" data-manual-main-image />
+            </button>
+            <button class="manual-car__arrow manual-car__arrow--prev" type="button" aria-label="Предыдущее фото" data-manual-prev>‹</button>
+            <button class="manual-car__arrow manual-car__arrow--next" type="button" aria-label="Следующее фото" data-manual-next>›</button>
+          </div>
+          <div class="manual-car__thumbs" data-manual-thumbs></div>
+        </div>
+
+        <div class="manual-car__info">
+          <h2 class="modal__title" id="manual-car-title-korea" data-manual-car-title>Автомобиль</h2>
+          <p class="manual-car__meta" data-manual-car-meta></p>
+          <p class="manual-car__calc-at">Расчет актуален на <span data-manual-car-calc-at>—</span></p>
+          <div class="manual-car__specs" data-manual-car-specs></div>
+          <button class="btn btn--small manual-car__btn-calc" type="button" data-open-lead-modal>Получить расчет</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal china-lightbox" data-manual-lightbox hidden>
+    <div class="modal__backdrop" data-manual-lightbox-close></div>
+    <div class="china-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+      <button class="china-lightbox__close" type="button" aria-label="Закрыть" data-manual-lightbox-close>×</button>
+      <button class="china-lightbox__nav china-lightbox__nav--prev" type="button" aria-label="Предыдущее фото" data-manual-lightbox-prev>‹</button>
+      <button class="china-lightbox__nav china-lightbox__nav--next" type="button" aria-label="Следующее фото" data-manual-lightbox-next>›</button>
+      <figure class="china-lightbox__stage" data-manual-lightbox-stage>
+        <img class="china-lightbox__img" alt="" data-manual-lightbox-img />
+      </figure>
+      <p class="china-lightbox__counter" data-manual-lightbox-counter>1 / 1</p>
+    </div>
+  </div>
+
+  <div id="site-header"></div>
+
+  <main class="site-main" id="main">
+    <section class="section" aria-label="Актуальные предложения авто из Кореи">
+      <div class="container" data-manual-cars data-market="korea" data-list-api="https://api.primcom.ru/api/auto-iz-korei" data-detail-api="https://api.primcom.ru/api/auto-iz-kitaya">
+        <h1 class="section__title">Актуальные предложения авто из Кореи</h1>
+        <p class="section__lead">Последнее обновление: <span data-manual-cars-last-update>—</span></p>
+
+        <form class="china-cars__filters" data-manual-cars-form>
+          <label class="field">
+            <span class="field__label">Марка</span>
+            <select class="field__control" name="brand">
+              <option value="" selected>Все марки</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Модель</span>
+            <select class="field__control" name="model">
+              <option value="" selected>Все модели</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Год от</span>
+            <select class="field__control" name="year_from">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Год до</span>
+            <select class="field__control" name="year_to">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Пробег от, км</span>
+            <select class="field__control" name="mileage_from">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Пробег до, км</span>
+            <select class="field__control" name="mileage_to">
+              <option value="" selected>Любой</option>
+            </select>
+          </label>
+
+          <div class="china-cars__filter-actions">
+            <button class="btn btn--primary" type="submit">Показать</button>
+            <button class="btn btn--small btn--ghost" type="button" data-manual-cars-reset>Сбросить</button>
+          </div>
+        </form>
+
+        <p class="china-cars__status" data-manual-cars-status aria-live="polite"></p>
+        <div class="china-cars__grid" data-manual-cars-list></div>
+
+        <div class="china-cars__pager" aria-label="Пагинация">
+          <button class="btn btn--small" type="button" data-manual-cars-prev>Назад</button>
+          <span class="china-cars__page" data-manual-cars-page>1 / 1</span>
+          <button class="btn btn--small" type="button" data-manual-cars-next>Вперёд</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <div class="cookie" data-cookie hidden>
+    <p class="cookie__text">
+      Мы используем cookies для корректной работы сайта.
+      <a class="cookie__link" href="../pages/privacy.html">Политика конфиденциальности</a>
+    </p>
+    <button class="btn btn--small" type="button" data-cookie-accept>Принять</button>
+  </div>
+
+  <div class="modal" id="lead-modal" data-lead-modal hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+      <button class="modal__close" type="button" aria-label="Закрыть" data-modal-close>×</button>
+
+      <h2 class="modal__title" id="lead-modal-title">Заявка</h2>
+      <p class="modal__lead">Оставьте контакты, мы свяжемся и уточним задачу.</p>
+
+      <form class="form" data-lead-form>
+        <label class="hp" aria-hidden="true">
+          Company
+          <input type="text" name="company" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Имя</span>
+          <input class="field__control" name="name" type="text" autocomplete="name" required />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Телефон</span>
+          <input class="field__control" name="phone" type="tel" autocomplete="tel" required />
+        </label>
+
+        <label class="field">
+          <span class="field__label">Комментарий</span>
+          <textarea class="field__control" name="comment" rows="3"></textarea>
+        </label>
+
+        <label class="check">
+          <input class="check__control" type="checkbox" name="consent" required />
+          <span class="check__text">
+            Я согласен(на) на обработку персональных данных.
+            <a href="../pages/consent.html">Текст согласия</a>
+          </span>
+        </label>
+
+        <p class="form__disclaimer">
+          Информация на сайте не является публичной офертой. Сроки и стоимость рассчитываются индивидуально.
+        </p>
+
+        <button class="btn btn--primary" type="submit">Отправить</button>
+        <p class="form__status" data-form-status aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/ScrollSmoother.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Observer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.1/dist/Flip.min.js"></script>
+  <script type="module" src="../js/app.js"></script>
+</body>
+</html>
