@@ -14,7 +14,7 @@ const FOOTER_FALLBACK_HTML = `
       <h2 class="footer-title">Контакты</h2>
       <p class="footer-text">Телефон: <a href="tel:+79532222275">+7 (953) 222-22-75</a></p>
       <p class="footer-text">Email: <a href="mailto:info@primcom.ru">info@primcom.ru</a></p>
-      <p class="footer-text">Город: Владивосток</p>
+      <p class="footer-text">Владивосток, проспект Острякова 13, офис 317</p>
     </div>
 
     <div class="footer-col">
@@ -23,13 +23,7 @@ const FOOTER_FALLBACK_HTML = `
       <p class="footer-text"><a href="https://primcom.ru/pages/auto-iz-yaponii.html" rel="noopener" target="_blank">Авто из Японии</a></p>
       <p class="footer-text"><a href="https://primcom.ru/pages/auto-iz-korei.html" rel="noopener" target="_blank">Авто из Кореи</a></p>
       <p class="footer-text"><a href="https://primcom.ru/pages/auto-iz-kitaya.html" rel="noopener" target="_blank">Авто из Китая</a></p>
-    </div>
-
-    <div class="footer-col">
-      <h2 class="footer-title">Юридическая информация</h2>
-      <p class="footer-text"><a href="./pages/privacy.html">Политика конфиденциальности</a></p>
-      <p class="footer-text"><a href="./pages/consent.html">Согласие на обработку персональных данных</a></p>
-      <p class="footer-note">Информация на сайте не является публичной офертой. Сроки и стоимость рассчитываются индивидуально.</p>
+      <p class="footer-text"><a href="./pages/kontakty.html">Контакты на примком.рф</a></p>
     </div>
   </div>
 
@@ -43,7 +37,6 @@ function setLogoSrc(root) {
   const logo = document.querySelector("[data-logo]");
   if (!logo) return;
 
-  // Базово: тёмная тема сайта => используем светлый логотип.
   const src = logo.getAttribute("data-src-light") || "";
   if (!src) return;
 
@@ -51,7 +44,6 @@ function setLogoSrc(root) {
 }
 
 function fixLinksRoot(root) {
-  // Переписываем href вида "./..." на корректный root для вложенных страниц.
   const anchors = document.querySelectorAll("a[href^='./']");
   anchors.forEach((a) => {
     const href = a.getAttribute("href");
@@ -103,7 +95,6 @@ export async function loadSharedComponents() {
     footerTarget.innerHTML = FOOTER_FALLBACK_HTML;
   }
 
-  // После загрузки — гидратация.
   setLogoSrc(root);
   fixLinksRoot(root);
 

@@ -1,8 +1,5 @@
 User-agent: *
 Allow: /
 
-Disallow: /components/
-Disallow: /docs/
-
 Host: xn--h1aefbjch.xn--p1ai
 Sitemap: https://xn--h1aefbjch.xn--p1ai/sitemap.xml

@@ -1,146 +1,34 @@
 <header class="site-header" data-header>
   <div class="container site-header__inner">
     <a class="brand" href="./" aria-label="На главную" data-nav-root>
-      <!-- Логотипы лежат в /logo (dark/light). Пропорции не искажать. -->
       <img
         class="brand__logo"
         data-logo
         data-src-light="logo/logo 3 dark.png"
         data-src-dark="logo/logo 3 dark.png"
-        alt="Логотип компании"
+        alt="Логотип Примком"
         width="112"
         height="26"
       />
     </a>
 
-    <nav class="site-nav" aria-label="Основная навигация" data-nav>
+    <nav class="site-nav" aria-label="Навигация" data-nav>
       <ul class="site-nav__list">
-        <li class="site-nav__item">
-          <details class="nav-dd">
-            <summary class="site-nav__link nav-dd__summary">
-              Авто под заказ
-              <svg class="nav-dd__caret" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </summary>
-            <div class="nav-dd__panel" role="menu">
-              <a class="nav-dd__item" role="menuitem" href="./pages/auto-iz-yaponii.html">
-                <span class="nav-dd__flag" aria-hidden="true">🇯🇵</span>
-                Япония
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/auto-iz-korei.html">
-                <span class="nav-dd__flag" aria-hidden="true">🇰🇷</span>
-                Корея
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/auto-iz-kitaya.html">
-                <span class="nav-dd__flag" aria-hidden="true">🇨🇳</span>
-                Китай
-              </a>
-            </div>
-          </details>
-        </li>
-
-        <li class="site-nav__item">
-          <details class="nav-dd">
-            <summary class="site-nav__link nav-dd__summary">
-              Полезное
-              <svg class="nav-dd__caret" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </summary>
-            <div class="nav-dd__panel" role="menu">
-              <a class="nav-dd__item" role="menuitem" href="./pages/kalkulyator-stoimosti.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M8 7h8M8 11h3M8 15h3M13 11h3M13 15h3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                Калькулятор
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/faq.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 18h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                  <path d="M9.1 9a3 3 0 1 1 5.8 1c-.6 1-1.9 1.4-1.9 2.8v.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" />
-                </svg>
-                FAQ
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/rastamozhka-i-poshliny.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M9 7h6M9 11h6M9 15h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                Растаможка и пошлины
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/dostavka.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 7h11v10H3V7Z" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M14 10h4l3 3v4h-7v-7Z" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M7 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="none" stroke="currentColor" stroke-width="2" />
-                </svg>
-                Доставка
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/process-podbora.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M20 20l-3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                Процесс подбора
-              </a>
-              <a class="nav-dd__item" role="menuitem" href="./pages/dogovor-i-garantii.html">
-                <svg class="nav-dd__icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 3l8 4v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4Z" fill="none" stroke="currentColor" stroke-width="2" />
-                  <path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                Договор и гарантии
-              </a>
-            </div>
-          </details>
-        </li>
-
-        <li class="site-nav__item">
-          <a class="site-nav__link" href="./pages/kontakty.html">Контакты</a>
-        </li>
-
-        <li class="site-nav__item">
-          <a class="site-nav__link" href="./pages/o-kompanii-primkom.html">О Примком</a>
-        </li>
+        <li class="site-nav__item"><a class="site-nav__link" href="./#about">О Примком</a></li>
+        <li class="site-nav__item"><a class="site-nav__link" href="./#why">Почему мы</a></li>
+        <li class="site-nav__item"><a class="site-nav__link" href="./#faq">FAQ</a></li>
+        <li class="site-nav__item"><a class="site-nav__link" href="./pages/kontakty.html">Контакты</a></li>
       </ul>
     </nav>
 
     <div class="site-actions">
-      <a class="btn btn--small btn--ghost header-main-site-link" href="https://primcom.ru/" rel="noopener" target="_blank">
-        Основной сайт
-      </a>
-
-      <button class="btn btn--small" type="button" data-open-lead-modal>
-        Оставить заявку
-      </button>
-
+      <a class="btn btn--small btn--ghost" href="https://primcom.ru/" rel="noopener" target="_blank">Основной сайт</a>
       <a class="header-phone" href="tel:+79532222275" aria-label="Позвонить +7 953 222-22-75">
         <svg class="header-phone__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.59a1 1 0 0 1-.25 1.01l-2.2 2.19Z" fill="currentColor" />
         </svg>
         <span class="header-phone__text">+7 953 222-22-75</span>
       </a>
-
-      <div class="social" aria-label="Социальные сети">
-        <a class="social__link" href="https://vk.com" rel="noopener" target="_blank" aria-label="VK">
-          <svg class="social__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3.6 7.5c.16 7.6 4.02 12.17 10.22 12.17h.35v-4.34c2.45.24 4.3 1.98 5.05 4.34H24v-.62c-1.2-3.72-4.8-5.7-5.07-5.92.27-.16 3.37-2.03 4.28-5.63V7.5h-4.18c-.74 2.59-2.72 4.45-3.62 4.75V7.5H9.23v8.3c-.92-.3-3.1-2.36-3.2-8.3H3.6Z" fill="currentColor" />
-          </svg>
-        </a>
-        <a class="social__link" href="https://t.me/primcom_bot" rel="noopener" target="_blank" aria-label="Telegram">
-          <svg class="social__icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M9.7 15.1 9.4 19c.4 0 .6-.2.9-.4l2.2-2.1 4.5 3.3c.8.4 1.4.2 1.6-.7l2.9-13.6c.3-1.2-.5-1.7-1.4-1.4L2.6 9.7c-1.2.5-1.2 1.2-.2 1.5l4.9 1.5 11.4-7.2c.5-.3 1-.1.6.3L9.7 15.1Z" fill="currentColor" />
-          </svg>
-        </a>
-      </div>
-
-      <!-- Mobile: burger появится на этапе адаптива/анимаций -->
-      <button class="burger" type="button" aria-label="Меню" data-burger hidden>
-        <span class="burger__line"></span>
-        <span class="burger__line"></span>
-      </button>
     </div>
   </div>
 </header>

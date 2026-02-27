@@ -442,12 +442,14 @@ export function initManualMarketCars() {
     clearEl(modalSpecs);
     if (!modalSpecs) return;
 
+    const priceRowLabel = market === "japan" ? "Цена" : "Цена во Владивостоке под ключ";
+
     const rows = [
       ["Марка", item?.brand],
       ["Модель", item?.model],
       ["Год", item?.year],
       ["Пробег", formatMileageKm(item?.mileage_km)],
-      ["Цена во Владивостоке под ключ", formatPriceRub(item?.price_cny)],
+      [priceRowLabel, formatPriceRub(item?.price_cny)],
       ["Привод", item?.drive_type],
       ["Топливо", item?.engine_type],
       ["Объем", item?.engine_volume_l ? `${item.engine_volume_l} л` : ""],
@@ -461,7 +463,7 @@ export function initManualMarketCars() {
     rows.forEach(([label, value]) => {
       const val = value === null || value === undefined ? "" : String(value).trim();
       if (!val) return;
-      const isPriceRow = String(label) === "Цена во Владивостоке под ключ";
+      const isPriceRow = String(label) === priceRowLabel;
       const row = document.createElement("div");
       row.className = isPriceRow ? "manual-car__spec-row manual-car__spec-row--price" : "manual-car__spec-row";
 

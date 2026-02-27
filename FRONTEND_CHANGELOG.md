@@ -25,6 +25,104 @@
 
 ## Записи
 
+### 2026-02-27
+
+Задача: Скорректировать типографику блока «Примком в цифрах» на первом экране.
+
+Зачем: Верхние значения выглядели слишком крупно и визуально перетягивали внимание; подписи второй строки читались слишком мелко.
+
+Изменённые файлы:
+- `css/main.css`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `.hero__facts-item` включено центрирование контента:
+  - добавлены `display: flex`, `flex-direction: column`, `align-items: center`, `text-align: center`.
+- Маркер таймлайна в `.hero__facts-item::before` перемещён в центр колонки (`left: 50%` + `transform`).
+- Верхняя строка (`.hero__facts-value`) уменьшена:
+  - desktop: `clamp(24px, 2.5vw, 34px)` -> `clamp(20px, 2.1vw, 28px)`;
+  - mobile: `clamp(20px, 6vw, 30px)` -> `clamp(18px, 5vw, 24px)`.
+- Нижняя строка (`.hero__facts-text`) увеличена:
+  - desktop: `13px` -> `14px`;
+  - mobile: `12px` -> `13px`.
+
+Проверка:
+- Ручная проверка diff в `css/main.css`.
+- Поиск измененных селекторов: `rg -n "hero__facts-item|hero__facts-value|hero__facts-text" css/main.css`.
+
+Риски/заметки:
+- При последующих правках блока важно сохранять баланс между высотой hero и размерами текста, особенно на ноутбуках с высотой viewport ~800px.
+
+### 2026-02-27
+
+Задача: Закрыть критичные технические SEO-замечания по основному сайту после аудита.
+
+Зачем: На главной был невалидный JSON-LD, в `robots.txt` блокировались общие HTML-компоненты, на страницах Японии/Кореи отсутствовала часть social metadata.
+
+Изменённые файлы:
+- `index.html`
+- `robots.txt`
+- `pages/auto-iz-yaponii.html`
+- `pages/auto-iz-korei.html`
+- `SEO_GUIDE.md`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `index.html` исправлен синтаксис JSON-LD в блоке `AutoDealer/LocalBusiness`:
+  - массив `sameAs` корректно закрывается `]`, из-за чего structured data снова валидна.
+- В `robots.txt` удалён `Disallow: /components/`:
+  - поисковые роботы теперь могут загружать `components/header.html` и `components/footer.html`, которые критичны для полной перелинковки при JS-рендеринге.
+- В `pages/auto-iz-yaponii.html` и `pages/auto-iz-korei.html` добавлены недостающие social-теги:
+  - `og:image:alt`, `og:image:width`, `og:image:height`;
+  - `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:image:alt`.
+- Обновлён `SEO_GUIDE.md`:
+  - дата актуализации и отдельная фиксация внесённых технических SEO-исправлений.
+
+Проверка:
+- `python3`-проверка валидности всех JSON-LD блоков (`ALL_JSONLD_VALID`).
+- `python3`-проверка обязательных `og/twitter` мета-тегов для страниц Японии/Кореи (`OK`).
+- `rg -n '^Disallow: /components/' robots.txt` (подтверждено отсутствие блокировки).
+
+Риски/заметки:
+- В рабочем дереве есть несвязанные изменения в ряде файлов; в этой задаче затронуты только перечисленные выше SEO-файлы и документация.
+
+### 2026-02-27
+
+Задача: Добавить на главный экран визуальный блок с ключевыми фактами компании и упростить подпись цены в модалке Японии.
+
+Зачем: На первом экране не хватало отдельного акцентного блока с доверием/цифрами, а длинная подпись цены в модалке выглядела перегруженно.
+
+Изменённые файлы:
+- `index.html`
+- `css/main.css`
+- `js/modules/animations.js`
+- `js/modules/auto-manual-market.js`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+- `CLIENT_OVERVIEW.md`
+
+Что сделано:
+- На главной (`index.html`) добавлен новый блок `.hero__facts` в нижней части hero:
+  - 4 факта: `5 лет`, `400+`, `Все виды`, `3 страны`;
+  - блок расположен между hero-контентом и следующей секцией.
+- В `css/main.css` добавлены стили блока:
+  - glass-панель, таймлайн-линия и маркеры на desktop;
+  - адаптивная версия 2x2 на mobile без горизонтального сдвига.
+- В `js/modules/animations.js` добавлена плавная анимация появления панели фактов и отдельных пунктов.
+- В `js/modules/auto-manual-market.js` подпись строки цены в detail-модалке изменена на `Цена`.
+
+Проверка:
+- `node --check js/modules/auto-manual-market.js`
+- `node --check js/modules/animations.js`
+- `rg -n "hero__facts|Примком в цифрах|market === \"japan\" \\? \"Цена\"|Цена во Владивостоке под ключ" index.html css/main.css js/modules/auto-manual-market.js js/modules/animations.js`
+- Ручная проверка diff по зонам hero и modal specs.
+
+Риски/заметки:
+- Новый факт-блок влияет на высоту первого экрана; при следующих правках hero важно проверять отступы на viewport ~800-950px.
+- Подпись `Цена` применена только для рынка Японии (`data-market="japan"`); для Кореи оставлена прежняя формулировка.
+
 ### 2026-02-24
 
 Задача: Усилить техническое SEO сайта и подготовить практическую инструкцию по продвижению в Google и Яндексе.
