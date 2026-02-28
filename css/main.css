@@ -1086,11 +1086,20 @@ body > .site-main:not(.site-main--hero) {
 }
 
 .section__lead--contacts {
+  margin: 0 0 8px;
   max-inline-size: none;
   inline-size: 100%;
   font-size: clamp(20px, 2.1vw, 34px);
   line-height: 1.22;
   letter-spacing: 0.008em;
+}
+
+.section--contacts-intro {
+  padding-block-end: 18px;
+}
+
+.section--contacts-content {
+  padding-block-start: 12px;
 }
 
 /* Content subheadings on inner pages: same family as titles, smaller size */
