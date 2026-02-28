@@ -27,6 +27,94 @@
 
 ### 2026-02-28
 
+Задача: Доработать типографику страницы контактов: зафиксировать display-шрифт для `Связь/Офис` и увеличить lead-фразу под заголовком.
+
+Зачем: Визуально казалось, что `Связь`/`Офис` рендерятся не тем же шрифтом; также нужно было растянуть и усилить фразу `Владивосток. Можно написать, позвонить или приехать в офис компании Примком.`.
+
+Изменённые файлы:
+- `css/main.css`
+- `pages/kontakty.html`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `pages/kontakty.html`:
+  - lead-фразе добавлен класс `.section__lead--contacts`;
+  - заголовкам `Связь` и `Офис` добавлен класс `.contacts-section__title`.
+- В `css/main.css`:
+  - `.section__lead--contacts`: снят лимит `max-inline-size`, растянуто на ширину контейнера, увеличен шрифт (`clamp`) и межстрочка;
+  - `.contacts-section__title`: явно задано семейство `GalderGlynnTitlingLight`, uppercase и та же размерная шкала, что у контентных `h2`.
+- Обновлён cache-bust общего CSS на всех страницах:
+  - `?v=20260228-fonts-global-11`.
+
+Проверка:
+- `rg -n "section__lead--contacts|contacts-section__title" pages/kontakty.html css/main.css`
+- `rg -n "main\\.css\\?v=20260228-fonts-global-11" index.html 404.html pages/*.html | wc -l` -> `14`.
+
+Риски/заметки:
+- Lead-фраза на контактах стала заметно крупнее; на узких экранах размер контролируется `clamp`, чтобы сохранить читаемость без переломов.
+
+### 2026-02-28
+
+Задача: Исправить «съезд» пунктов навигации в шапке при переходе в `is-detached` на desktop.
+
+Зачем: При скролле и сжатии glass-шапки ссылки `Авто под заказ`, `Полезное`, `Контакты` переносились/ломали строку.
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Для nav в шапке зафиксирован однострочный режим:
+  - `.site-nav__list` -> `flex-wrap: nowrap`;
+  - `.site-nav__item` -> `flex: 0 0 auto`;
+  - `.site-nav__link` и `.nav-dd__summary` -> `white-space: nowrap`.
+- На desktop применен адаптивный размер nav-ссылок через `clamp()`.
+- Для detached-состояния добавлено дополнительное уплотнение:
+  - меньше gap в `.site-header.is-detached .site-nav__list`;
+  - чуть меньше размер шрифта в `.site-header.is-detached .site-nav__link`;
+  - уменьшен gap в `.site-header.is-detached .site-actions`.
+- Ширина detached-контейнера увеличена до `min(var(--container), calc(100% - 32px))`, чтобы убрать переломы строки в nav при скролле.
+- Обновлён cache-bust общего CSS на всех страницах:
+  - `?v=20260228-fonts-global-10`.
+
+Проверка:
+- `rg -n "site-nav__list|site-nav__item|site-nav__link|nav-dd__summary|site-header\\.is-detached" css/main.css`
+- `rg -n "main\\.css\\?v=20260228-fonts-global-10" index.html 404.html pages/*.html | wc -l` -> `14`.
+
+Риски/заметки:
+- На узких ноутбуках при включённом zoom браузера >100% nav всё равно может стать плотным; базовый перенос строк в меню отключен намеренно по задаче.
+
+### 2026-02-28
+
 Задача: Удержать пункты меню шапки в 1 строку на мобильных за счёт адаптивного уменьшения шрифта.
 
 Зачем: На мобильных экранах пункты `Авто под заказ`, `Полезное`, `Контакты` переносились на вторую строку; требование — всегда одна строка без переносов.

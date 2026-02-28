@@ -205,6 +205,10 @@
   - у `.site-nav__list` отключен перенос (`flex-wrap: nowrap`);
   - у `.site-nav__link` включены `white-space: nowrap` и адаптивный размер через `clamp()`;
   - зазоры между пунктами и размер caret также адаптивные (`clamp()`), чтобы пункты `Авто под заказ`, `Полезное`, `Контакты` не переносились.
+- В `is-detached` на desktop у шапки также отключены переносы в nav и включено более компактное адаптивное меню:
+  - `.site-nav__link` имеет desktop `clamp()`-размер;
+  - `.site-header.is-detached .site-nav__link` и `.site-header.is-detached .site-nav__list` дополнительно уплотняются;
+  - ширина glass-контейнера detached синхронизирована с `--container`, чтобы пункты меню не съезжали и не переносились при скролле.
 
 Hero readability:
 
@@ -230,6 +234,8 @@ Hero readability:
   - подзаголовки используют то же начертание, что и заголовки (light-family), но меньший размер:
     - `.hero__lead`, `.section__lead`, `.china-car__meta`, `.manual-car__meta`.
     - на контентных страницах внутри `.legal` подзаголовки `h2/h3` также используют display-family и `UPPERCASE` с меньшей иерархией размеров.
+  - на странице контактов добавлен явный класс `.contacts-section__title` для заголовков `Связь/Офис`, чтобы гарантировать display-family без зависимости от каскада.
+  - lead-строка страницы контактов (`.section__lead--contacts`) растягивается на всю ширину контейнера и имеет увеличенный адаптивный размер шрифта.
   - для light/thin в `@font-face` используется `font-display: block`, чтобы убрать заметный переход «толстый -> тонкий» после первого рендера.
   - preload `galderglynn-titling.thin.otf` и `galderglynn-titling.light.otf` расположен перед подключением `main.css` на всех страницах.
   - в hero-блоке кнопка `Оставить заявку` использует display-family (`.hero__cta`), чтобы визуально совпадать с остальными display-элементами.

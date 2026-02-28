@@ -354,11 +354,17 @@ body > .site-main:not(.site-main--hero) {
 .site-nav__list {
   display: flex;
   gap: 14px;
+  flex-wrap: nowrap;
+  align-items: center;
   justify-content: center;
   list-style: none;
   padding: 0;
   margin: 0;
   
+}
+
+.site-nav__item {
+  flex: 0 0 auto;
 }
 
 .site-nav__indicator {
@@ -378,8 +384,10 @@ body > .site-main:not(.site-main--hero) {
   text-decoration: none;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 17px;
+  font-size: clamp(15px, 0.92vw, 17px);
   letter-spacing: 0.012em;
+  line-height: 1.1;
+  white-space: nowrap;
   color: rgba(255, 255, 255, 0.86);
 }
 
@@ -392,6 +400,7 @@ body > .site-main:not(.site-main--hero) {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
   cursor: pointer;
   user-select: none;
 }
@@ -524,12 +533,24 @@ body > .site-main:not(.site-main--hero) {
 }
 
 .site-header.is-detached .site-header__inner {
-  inline-size: min(980px, calc(100% - 32px));
+  inline-size: min(var(--container), calc(100% - 32px));
   background: rgba(9, 18, 46, 0.74);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
   padding: 8px 12px;
   backdrop-filter: blur(18px) saturate(140%);
+}
+
+.site-header.is-detached .site-nav__list {
+  gap: clamp(8px, 1vw, 12px);
+}
+
+.site-header.is-detached .site-nav__link {
+  font-size: clamp(14px, 0.84vw, 16px);
+}
+
+.site-header.is-detached .site-actions {
+  gap: 10px;
 }
 
 @media (max-width: 860px) {
@@ -1064,6 +1085,14 @@ body > .site-main:not(.site-main--hero) {
   max-inline-size: 70ch;
 }
 
+.section__lead--contacts {
+  max-inline-size: none;
+  inline-size: 100%;
+  font-size: clamp(20px, 2.1vw, 34px);
+  line-height: 1.22;
+  letter-spacing: 0.008em;
+}
+
 /* Content subheadings on inner pages: same family as titles, smaller size */
 .legal h2,
 .legal h3 {
@@ -1080,6 +1109,14 @@ body > .site-main:not(.site-main--hero) {
 
 .legal h3 {
   font-size: clamp(18px, 2vw, 22px);
+}
+
+.contacts-section__title {
+  font-family: "GalderGlynnTitlingLight", var(--font-sans);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: clamp(24px, 2.6vw, 30px);
 }
 
 /* Reviews carousel placeholder */
