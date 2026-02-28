@@ -215,6 +215,9 @@ Hero readability:
 - Текущий премиальный шрифтовой профиль на главной:
   - `hero__title` и `.section__title` используют `GalderGlynnTitling` с весом `300` (light);
   - `hero__kicker` и `hero__facts-kicker` используют вес `200` (thin) и увеличенный `letter-spacing: 0.22em`.
+  - значения в блоке `.hero__facts-value` синхронизированы с баннером и используют `font-weight: 300`.
+  - для весов `200/300` в `@font-face` используется `font-display: block`, чтобы убрать заметный переход «толстый -> тонкий» после первого рендера.
+  - preload `galderglynn-titling.thin.otf` и `galderglynn-titling.light.otf` размещён перед подключением `main.css` на всех страницах, чтобы ускорить первый корректный рендер.
 
 ## 8. API и fallback-логика фронта
 

@@ -27,6 +27,49 @@
 
 ### 2026-02-28
 
+Задача: Синхронизировать шрифт блока достижений с баннером и убрать визуальный скачок «толстый -> тонкий» при загрузке.
+
+Зачем: В блоке «Примком в цифрах» значения выглядели тяжелее заголовка баннера, а на страницах был заметен переход веса при догрузке шрифта.
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `css/main.css` для блока достижений установлен вес как у баннера:
+  - `.hero__facts-value: font-weight 700 -> 300`.
+- Для новых весов `thin/light` изменён режим загрузки:
+  - `font-display: swap -> block` в `@font-face` (`200` и `300`), чтобы убрать заметную подмену веса после первого рендера.
+- На всех страницах preload шрифтов `thin/light` перенесён перед подключением `main.css`, чтобы шрифты стартовали раньше.
+- На всех страницах обновлён cache-bust CSS:
+  - `main.css?v=20260228-fonts-global-4`.
+
+Проверка:
+- `rg -n "hero__facts-value|font-display" css/main.css`
+- `rg -n "css/main.css\\?v=20260228-fonts-global-4" index.html 404.html pages/*.html | wc -l` -> `14`.
+- Проверка порядка тегов в `head`:
+  - `preload` (`thin/light`) расположен выше `rel=\"stylesheet\"` во всех страницах.
+
+Риски/заметки:
+- `font-display: block` убирает «перещелкивание» веса, но при очень медленном соединении текст display-элементов может кратко появляться с задержкой.
+
+### 2026-02-28
+
 Задача: Перевести заголовки и kicker на новые thin/light веса GalderGlynnTitling для более премиальной типографики.
 
 Зачем: По задаче нужно смягчить подачу заголовков (light) и сделать мелкие капсы более изящными (thin + увеличенный трекинг).
