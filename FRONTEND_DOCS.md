@@ -201,6 +201,10 @@
   - у `.site-header__inner` (ширина, padding, фон, границы, blur);
   - у `.brand__logo` (размер).
 - Для защиты от бокового сдвига страницы на мобильных в корне включено ограничение горизонтального overflow (`html/body`).
+- На мобильных (`max-width: 860px`) навигация шапки держится в 1 строку:
+  - у `.site-nav__list` отключен перенос (`flex-wrap: nowrap`);
+  - у `.site-nav__link` включены `white-space: nowrap` и адаптивный размер через `clamp()`;
+  - зазоры между пунктами и размер caret также адаптивные (`clamp()`), чтобы пункты `Авто под заказ`, `Полезное`, `Контакты` не переносились.
 
 Hero readability:
 
@@ -213,11 +217,23 @@ Hero readability:
   - текущая типографика: верхняя строка сделана компактнее, а нижняя строка чуть крупнее для лучшей читаемости.
   - текущий акцент: мягкая волна свечения текста идет последовательно слева направо (1 -> 4 колонка) через `--facts-wave-delay` и `heroFactsSoftWave`.
 - Текущий премиальный шрифтовой профиль на главной:
-  - `hero__title` и `.section__title` используют `GalderGlynnTitling` с весом `300` (light);
-  - `hero__kicker` и `hero__facts-kicker` используют вес `200` (thin) и увеличенный `letter-spacing: 0.22em`.
-  - значения в блоке `.hero__facts-value` синхронизированы с баннером и используют `font-weight: 300`.
-  - для весов `200/300` в `@font-face` используется `font-display: block`, чтобы убрать заметный переход «толстый -> тонкий» после первого рендера.
-  - preload `galderglynn-titling.thin.otf` и `galderglynn-titling.light.otf` размещён перед подключением `main.css` на всех страницах, чтобы ускорить первый корректный рендер.
+  - display-family разделен на:
+    - `GalderGlynnTitlingLight` (основные заголовки/навигация),
+    - `GalderGlynnTitlingThin` (мелкие капсы/лейблы).
+  - `.hero__title`, `.section__title`, `.hero__facts-value` используют light-family.
+  - `.hero__kicker` и `.hero__facts-kicker` используют thin-family и `letter-spacing: 0.22em`.
+  - в header light-family применен к `.site-nav__link`, `.nav-dd__item`, `.header-phone__text`, `.site-header .btn--small`.
+  - в footer thin-family используется для `.footer-title`, light-family для `.footer-text` и `.footer-copy`.
+  - правила регистра текста:
+    - заголовки (`.hero__title`, `.section__title`) и заголовки карточек (`.china-car-card__title`, `.strip-card__title`, `.review-card__title`, `.info-card__title`, `.step__title`, `.modal__title`, `.calc-result__title`) фиксируются в `UPPERCASE` через CSS (`text-transform: uppercase`);
+    - значения в блоке достижений `.hero__facts-value` также фиксируются в `UPPERCASE`.
+  - подзаголовки используют то же начертание, что и заголовки (light-family), но меньший размер:
+    - `.hero__lead`, `.section__lead`, `.china-car__meta`, `.manual-car__meta`.
+    - на контентных страницах внутри `.legal` подзаголовки `h2/h3` также используют display-family и `UPPERCASE` с меньшей иерархией размеров.
+  - для light/thin в `@font-face` используется `font-display: block`, чтобы убрать заметный переход «толстый -> тонкий» после первого рендера.
+  - preload `galderglynn-titling.thin.otf` и `galderglynn-titling.light.otf` расположен перед подключением `main.css` на всех страницах.
+  - в hero-блоке кнопка `Оставить заявку` использует display-family (`.hero__cta`), чтобы визуально совпадать с остальными display-элементами.
+  - в `hero__actions` оставлена одна CTA-кнопка (`Оставить заявку`); ссылка `Этапы работы` из hero удалена.
 
 ## 8. API и fallback-логика фронта
 

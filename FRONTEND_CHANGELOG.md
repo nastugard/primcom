@@ -27,9 +27,9 @@
 
 ### 2026-02-28
 
-Задача: Синхронизировать шрифт блока достижений с баннером и убрать визуальный скачок «толстый -> тонкий» при загрузке.
+Задача: Удержать пункты меню шапки в 1 строку на мобильных за счёт адаптивного уменьшения шрифта.
 
-Зачем: В блоке «Примком в цифрах» значения выглядели тяжелее заголовка баннера, а на страницах был заметен переход веса при догрузке шрифта.
+Зачем: На мобильных экранах пункты `Авто под заказ`, `Полезное`, `Контакты` переносились на вторую строку; требование — всегда одна строка без переносов.
 
 Изменённые файлы:
 - `css/main.css`
@@ -51,17 +51,154 @@
 - `FRONTEND_CHANGELOG.md`
 
 Что сделано:
-- В `css/main.css` для блока достижений установлен вес как у баннера:
-  - `.hero__facts-value: font-weight 700 -> 300`.
-- Для новых весов `thin/light` изменён режим загрузки:
-  - `font-display: swap -> block` в `@font-face` (`200` и `300`), чтобы убрать заметную подмену веса после первого рендера.
-- На всех страницах preload шрифтов `thin/light` перенесён перед подключением `main.css`, чтобы шрифты стартовали раньше.
-- На всех страницах обновлён cache-bust CSS:
-  - `main.css?v=20260228-fonts-global-4`.
+- В мобильных правилах шапки (`@media (max-width: 860px)`) изменены параметры навигации:
+  - `.site-nav` растянут на ширину ряда (`inline-size: 100%`);
+  - `.site-nav__list` -> `flex-wrap: nowrap`, адаптивный `gap: clamp(...)`;
+  - `.site-nav__link` -> `font-size: clamp(...)`, `white-space: nowrap`, уменьшен `letter-spacing`;
+  - `.nav-dd__summary` и `.nav-dd__caret` получили адаптивные зазоры/размеры для экономии ширины.
+- Для узких экранов (`@media (max-width: 520px)`) добавлено дополнительное уменьшение:
+  - меньший `gap` между пунктами;
+  - меньший адаптивный размер `.site-nav__link`.
+- Обновлён cache-bust общего CSS на всех страницах:
+  - `?v=20260228-fonts-global-9`.
+- Документация (`FRONTEND_DOCS.md`) дополнена правилом «мобильное меню шапки в 1 строку».
 
 Проверка:
-- `rg -n "hero__facts-value|font-display" css/main.css`
-- `rg -n "css/main.css\\?v=20260228-fonts-global-4" index.html 404.html pages/*.html | wc -l` -> `14`.
+- `rg -n "max-width: 860px|max-width: 520px|site-nav__list|site-nav__link|white-space: nowrap|clamp\\(" css/main.css`
+- `rg -n "main\\.css\\?v=20260228-fonts-global-9" index.html 404.html pages/*.html | wc -l` -> `14`.
+
+Риски/заметки:
+- На очень узких экранах (~320px) текст в nav уменьшен сильнее обычного ради сохранения 1 строки.
+
+### 2026-02-28
+
+Задача: Скорректировать hero-кнопки на главной: единый шрифт для `Оставить заявку` и убрать `Этапы работы`.
+
+Зачем: По задаче нужно оставить в баннере только одну CTA и привести её типографику к общему display-стилю сайта.
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `index.html` в блоке `.hero__actions` удалена кнопка-ссылка `Этапы работы`.
+- Кнопке `Оставить заявку` добавлен класс `.hero__cta`.
+- В `css/main.css` для `.hero__cta` задан display-шрифт:
+  - `font-family: var(--font-display)`;
+  - `font-weight: 400`;
+  - `letter-spacing: 0.01em`.
+- Обновлён cache-bust общего CSS на всех страницах:
+  - `?v=20260228-fonts-global-8`.
+- В `FRONTEND_DOCS.md` добавлено правило по hero CTA и составу `.hero__actions`.
+
+Проверка:
+- `rg -n "hero__actions|hero__cta|Оставить заявку|Этапы работы" index.html css/main.css`
+- `rg -n "main\\.css\\?v=20260228-fonts-global-8" index.html 404.html pages/*.html | wc -l` -> `14`.
+
+Риски/заметки:
+- При кэше старого HTML/CSS нужно сделать hard reload, чтобы убрать старую вторую кнопку из hero.
+
+### 2026-02-28
+
+Задача: Вернуть капс в заголовках/карточках на внутренних страницах и привести подзаголовки к тому же шрифтовому начертанию, что и заголовки.
+
+Зачем: На части страниц заголовки и карточки визуально ушли из `UPPERCASE`, а подзаголовки (`h2/h3` в контентных блоках) оставались в другом стиле.
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `css/main.css` добавлены правила для контентных подзаголовков:
+  - `.legal h2`, `.legal h3` переведены на display-family (`var(--font-display)`), с уменьшенной иерархией размеров и `text-transform: uppercase`.
+- Проверена/сохранена типографическая политика капса для:
+  - `.section__title`, `.china-car-card__title` и других title-классов карточек/модалок.
+- Для немедленного применения правок обновлён cache-bust `main.css` на всех страницах:
+  - `?v=20260228-fonts-global-7`.
+- В `FRONTEND_DOCS.md` зафиксировано правило для `.legal h2/h3` (подзаголовки в том же display-начертании, что и заголовки).
+
+Проверка:
+- `rg -n "\\.legal h2|\\.legal h3|\\.section__title|\\.china-car-card__title|text-transform: uppercase;" css/main.css`
+- `rg -n "main\\.css\\?v=20260228-fonts-global-7" index.html 404.html pages/*.html | wc -l` -> `14`.
+- Ручная проверка, что все страницы с общим `main.css` получили новую версию query-параметра.
+
+Риски/заметки:
+- После обновления query-параметра кэш CSS сбрасывается; если где-то виден старый стиль, нужно сделать hard reload страницы.
+
+### 2026-02-28
+
+Задача: Синхронизировать шрифты баннера/достижений и дополнительно скорректировать header/footer в том же профиле.
+
+Зачем: В блоке «Примком в цифрах» значения выглядели тяжелее заголовка баннера; в шапке/футере был разнобой по гарнитуре; на страницах был заметен переход веса при догрузке.
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `css/main.css` шрифты разделены на отдельные семейства:
+  - `GalderGlynnTitlingLight` (light),
+  - `GalderGlynnTitlingThin` (thin),
+  - оба с `font-display: block`.
+- Блок достижений синхронизирован с баннером:
+  - `.hero__facts-value` использует light-family (как `hero__title`).
+- В header переведены на light-family:
+  - `.site-nav__link`, `.nav-dd__item`, `.header-phone__text`, `.site-header .btn--small`.
+- В footer переведены на профиль:
+  - `.footer-title` -> thin-family;
+  - `.footer-text`, `.footer-copy` -> light-family.
+- На всех страницах preload шрифтов `thin/light` расположен перед `main.css`.
+- На всех страницах обновлён cache-bust CSS:
+  - `main.css?v=20260228-fonts-global-5`.
+
+Проверка:
+- `rg -n "GalderGlynnTitlingLight|GalderGlynnTitlingThin|site-nav__link|footer-title|hero__facts-value|font-display" css/main.css`
+- `rg -n "css/main.css\\?v=20260228-fonts-global-5" index.html 404.html pages/*.html | wc -l` -> `14`.
 - Проверка порядка тегов в `head`:
   - `preload` (`thin/light`) расположен выше `rel=\"stylesheet\"` во всех страницах.
 

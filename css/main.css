@@ -541,18 +541,31 @@ body > .site-main:not(.site-main--hero) {
     display: flex;
     grid-column: 1 / -1;
     grid-row: 2;
+    inline-size: 100%;
     justify-self: center;
     justify-content: center;
     margin-block-start: 6px;
   }
 
   .site-nav__list {
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: clamp(6px, 2.2vw, 12px);
+    flex-wrap: nowrap;
+    align-items: center;
   }
 
   .site-nav__link {
-    font-size: 15px;
+    font-size: clamp(11px, 3.3vw, 15px);
+    letter-spacing: 0.006em;
+    white-space: nowrap;
+  }
+
+  .nav-dd__summary {
+    gap: clamp(3px, 1vw, 8px);
+  }
+
+  .nav-dd__caret {
+    inline-size: clamp(10px, 2.2vw, 14px);
+    block-size: clamp(10px, 2.2vw, 14px);
   }
 
   .nav-dd__panel {
@@ -565,6 +578,14 @@ body > .site-main:not(.site-main--hero) {
 @media (max-width: 520px) {
   .brand__logo {
     inline-size: 62px;
+  }
+
+  .site-nav__list {
+    gap: clamp(5px, 1.8vw, 8px);
+  }
+
+  .site-nav__link {
+    font-size: clamp(10px, 3.9vw, 13px);
   }
 
   .site-actions {
@@ -659,6 +680,7 @@ body > .site-main:not(.site-main--hero) {
   font-weight: 400;
   font-size: clamp(36px, 5vw, 40px);
   letter-spacing: 0.02em;
+  text-transform: uppercase;
   text-shadow:
     0 2px 8px rgba(2, 8, 24, 0.62),
     0 10px 28px rgba(2, 8, 24, 0.48),
@@ -668,6 +690,9 @@ body > .site-main:not(.site-main--hero) {
 .hero__lead {
   margin: 0 0 22px;
   max-inline-size: 56ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
   color: var(--color-muted);
   font-size: 16px;
   line-height: 1.55;
@@ -680,6 +705,12 @@ body > .site-main:not(.site-main--hero) {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.hero__cta {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .hero__facts {
@@ -762,6 +793,7 @@ body > .site-main:not(.site-main--hero) {
   font-size: clamp(20px, 2.1vw, 28px);
   line-height: 1.05;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
   --facts-text-base: rgba(255, 255, 255, 0.96);
   --facts-text-wave: rgba(244, 250, 255, 1);
   --facts-shadow-base: 0 4px 14px rgba(5, 12, 36, 0.34);
@@ -989,8 +1021,11 @@ body > .site-main:not(.site-main--hero) {
 
 .strip-card__title {
   margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: 14px;
-  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .strip-card__text {
@@ -1016,12 +1051,35 @@ body > .site-main:not(.site-main--hero) {
   font-weight: 400;
   font-size: 28px;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .section__lead {
   margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
   color: var(--color-muted);
   max-inline-size: 70ch;
+}
+
+/* Content subheadings on inner pages: same family as titles, smaller size */
+.legal h2,
+.legal h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.legal h2 {
+  font-size: clamp(24px, 2.6vw, 30px);
+}
+
+.legal h3 {
+  font-size: clamp(18px, 2vw, 22px);
 }
 
 /* Reviews carousel placeholder */
@@ -1084,7 +1142,11 @@ body > .site-main:not(.site-main--hero) {
 
 .review-card__title {
   margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .review-card__text {
@@ -1141,7 +1203,11 @@ body > .site-main:not(.site-main--hero) {
 
 .info-card__title {
   margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .info-card__text {
@@ -1239,7 +1305,11 @@ body > .site-main:not(.site-main--hero) {
 
 .step__title {
   margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .step__text {
@@ -1391,6 +1461,7 @@ body > .site-main:not(.site-main--hero) {
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .modal__lead {
@@ -1432,7 +1503,11 @@ body > .site-main:not(.site-main--hero) {
 
 .calc-result__title {
   margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-size: 16px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .calc-result__grid {
@@ -1797,6 +1872,7 @@ body > .site-main:not(.site-main--hero) {
   letter-spacing: 0.02em;
   font-size: 18px;
   line-height: 1.2;
+  text-transform: uppercase;
   min-block-size: 44px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1842,8 +1918,11 @@ body > .site-main:not(.site-main--hero) {
 
 .china-car__meta {
   margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 400;
   color: var(--color-muted);
   font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
 .china-car__head {
@@ -2003,8 +2082,11 @@ body > .site-main:not(.site-main--hero) {
 
 .manual-car__meta {
   margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
   color: var(--color-muted);
   font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
 .manual-car__calc-at {
