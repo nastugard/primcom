@@ -25,6 +25,37 @@
 
 ## Записи
 
+### 2026-02-28
+
+Задача: Перевести заголовки и kicker на новые thin/light веса GalderGlynnTitling для более премиальной типографики.
+
+Зачем: По задаче нужно смягчить подачу заголовков (light) и сделать мелкие капсы более изящными (thin + увеличенный трекинг).
+
+Изменённые файлы:
+- `css/main.css`
+- `index.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `css/main.css` подключены новые `@font-face`:
+  - `galderglynn-titling.thin.otf` как `font-weight: 200`;
+  - `galderglynn-titling.light.otf` как `font-weight: 300`.
+- На главной изменена типографика:
+  - `.hero__title` -> `font-weight: 300`;
+  - `.section__title` -> `font-weight: 300`;
+  - `.hero__kicker` и `.hero__facts-kicker` -> `font-family: var(--font-display)`, `font-weight: 200`, `letter-spacing: 0.22em`.
+- В `index.html` обновлён query-параметр CSS для сброса кэша:
+  - `./css/main.css?v=20260228-premium-fonts-1`.
+
+Проверка:
+- `rg -n "@font-face|galderglynn-titling\\.thin|galderglynn-titling\\.light|hero__title|section__title|hero__kicker|hero__facts-kicker" css/main.css`
+- `rg -n "css/main.css\\?v=20260228-premium-fonts-1" index.html`
+- Ручная проверка diff по блокам typography.
+
+Риски/заметки:
+- Новые `otf` подключены для основного сайта из корневой папки `fonts`; в `primkom-rf` эти веса пока не применялись.
+
 ### 2026-02-27
 
 Задача: Убрать маркеры-точки в блоке «Примком в цифрах» и добавить мягкую волну перелива текста слева направо по колонкам.
