@@ -51,13 +51,12 @@
 7. `initAutoIzKitaya()`
 8. `initManualMarketCars()`
 9. `initLatestCarsHome()`
-10. `initVkClips()`
-11. `initAnimations()`
-12. `initReviewsCarousel()`
-13. `initHeroStrip()`
-14. `initTiltCards()`
-15. `initScrollProgress()`
-16. `initAnalytics()`
+10. `initAnimations()`
+11. `initReviewsCarousel()`
+12. `initHeroStrip()`
+13. `initTiltCards()`
+14. `initScrollProgress()`
+15. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
 
@@ -104,11 +103,6 @@
   - каталоги Японии/Кореи;
   - фильтры, пагинация, detail modal, lightbox.
   - в detail-модалке выводит `auction_grade` (оценка аукциона) при наличии.
-- `js/modules/vk-clips.js`
-  - секция VK Клипов на главной (`data-vk-clips`);
-  - валидирует публичные `clip`-ссылки и `video_ext.php` embed URL;
-  - по клику заменяет локальное превью на iframe VK;
-  - при невалидном embed оставляет только fallback-ссылку в VK.
 - `js/modules/animations.js`
   - reveal/hero анимации (GSAP + ScrollTrigger).
 - `js/modules/reviews-carousel.js`
@@ -129,9 +123,9 @@
 ## 5. Карта страниц и привязка к модулям
 
 - `index.html`
-  - hero, блок фактов `.hero__facts`, секции latest (`data-latest-home`), отзывы (`data-carousel="reviews"`), VK Клипы (`data-vk-clips`), этапы;
+  - hero, блок фактов `.hero__facts`, секции latest (`data-latest-home`), отзывы (`data-carousel="reviews"`), VK Клипы (встроенные iframe VK Видео), этапы;
   - модалка карточки latest: `data-latest-card-modal` (подробности, фото, характеристики);
-  - работает `latest-cars-home`, `vk-clips`, `reviews-carousel`, `animations`, `modal-lead`, `cookies`, `header`.
+  - работает `latest-cars-home`, `reviews-carousel`, `animations`, `modal-lead`, `cookies`, `header`.
 - `pages/auto-iz-kitaya.html`
   - root `data-china-cars`;
   - модалки `data-china-car-modal` и `data-china-lightbox`;
@@ -170,10 +164,6 @@
   - `[data-manual-cars]` и дочерние `data-manual-*`.
 - Reviews:
   - `[data-carousel="reviews"]`, `[data-carousel-track]`.
-- VK Clips:
-  - `[data-vk-clips]`, `[data-vk-clip-card]`, `[data-vk-clip-player]`
-  - `[data-vk-clip-load]`, `[data-vk-clip-link]`
-  - `data-vk-clip-embed` на контейнере плеера
 
 ## 7. CSS-структура (основные зоны)
 
