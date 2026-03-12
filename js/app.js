@@ -13,6 +13,7 @@ import { initPageBg } from "./modules/page-bg.js";
 import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js";
 import { initLatestCarsHome } from "./modules/latest-cars-home.js";
 import { initManualMarketCars } from "./modules/auto-manual-market.js";
+import { initVkClips } from "./modules/vk-clips.js";
 
 function safeInit(name, fn) {
   try {
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   safeInit("initAutoIzKitaya", initAutoIzKitaya);
   safeInit("initManualMarketCars", initManualMarketCars);
   safeInit("initLatestCarsHome", initLatestCarsHome);
+  safeInit("initVkClips", initVkClips);
   safeInit("initAnimations", initAnimations);
   safeInit("initReviewsCarousel", initReviewsCarousel);
   safeInit("initHeroStrip", initHeroStrip);
