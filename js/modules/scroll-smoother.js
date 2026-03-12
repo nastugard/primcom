@@ -1,6 +1,11 @@
 export function initScrollSmoother() {
   const root = document.documentElement;
 
+  if (window.__primcomPerformance && window.__primcomPerformance.isLite) {
+    root.classList.remove("has-smoother");
+    return null;
+  }
+
   const wrapper = document.getElementById("smooth-wrapper");
   const content = document.getElementById("smooth-content");
   if (!wrapper || !content) {

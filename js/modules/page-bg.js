@@ -4,6 +4,8 @@ export function initPageBg() {
   const bg = document.querySelector(".page-bg");
   if (!bg) return;
 
+  if (window.__primcomPerformance && window.__primcomPerformance.isLite) return;
+
   const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   if (reduceMotion) return;
 

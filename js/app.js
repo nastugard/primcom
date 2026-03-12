@@ -13,6 +13,7 @@ import { initPageBg } from "./modules/page-bg.js";
 import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js";
 import { initLatestCarsHome } from "./modules/latest-cars-home.js";
 import { initManualMarketCars } from "./modules/auto-manual-market.js";
+import { initPerformanceMode, loadEnhancementRuntime } from "./modules/performance-mode.js";
 
 function safeInit(name, fn) {
   try {
@@ -23,27 +24,38 @@ function safeInit(name, fn) {
 }
 
 // Единая точка входа.
-// Важно: GSAP подключается через CDN в HTML и доступен глобально (window.gsap).
+// GSAP и плагины догружаются только там, где они реально нужны.
 document.addEventListener("DOMContentLoaded", async () => {
+  const performanceProfile = initPerformanceMode();
+
   try {
     await loadSharedComponents();
   } catch (err) {
     console.error("[app] loadSharedComponents failed", err);
   }
 
+  try {
+    await loadEnhancementRuntime(performanceProfile);
+  } catch (err) {
+    console.error("[app] loadEnhancementRuntime failed", err);
+  }
+
   safeInit("initPageBg", initPageBg);
-  safeInit("initScrollSmoother", initScrollSmoother);
   safeInit("initHeader", initHeader);
   safeInit("initCookieNotice", initCookieNotice);
   safeInit("initLeadModal", initLeadModal);
   safeInit("initAutoIzKitaya", initAutoIzKitaya);
   safeInit("initManualMarketCars", initManualMarketCars);
   safeInit("initLatestCarsHome", initLatestCarsHome);
-  safeInit("initAnimations", initAnimations);
-  safeInit("initReviewsCarousel", initReviewsCarousel);
-  safeInit("initHeroStrip", initHeroStrip);
-  safeInit("initTiltCards", initTiltCards);
-  safeInit("initScrollProgress", initScrollProgress);
+
+  if (!performanceProfile.isLite) {
+    safeInit("initScrollSmoother", initScrollSmoother);
+    safeInit("initAnimations", initAnimations);
+    safeInit("initReviewsCarousel", initReviewsCarousel);
+    safeInit("initHeroStrip", initHeroStrip);
+    safeInit("initTiltCards", initTiltCards);
+    safeInit("initScrollProgress", initScrollProgress);
+  }
 
   // Аналитика включается после согласия на cookies (логика в modules/analytics.js).
   safeInit("initAnalytics", initAnalytics);

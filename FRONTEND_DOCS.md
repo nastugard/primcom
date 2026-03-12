@@ -31,7 +31,7 @@
   - HTML страницы (`index.html`, `pages/*.html`, `404.html`);
   - единый CSS: `css/main.css`;
   - нативные ES-модули: `js/app.js` + `js/modules/*.js`;
-  - GSAP и плагины загружаются через CDN в каждой странице.
+  - GSAP и плагины больше не подключаются статически в HTML: они догружаются runtime-модулем `js/modules/performance-mode.js` только там, где реально нужны.
 - Общие компоненты шапки/футера подгружаются динамически через fetch:
   - `components/header.html`
   - `components/footer.html`
@@ -42,23 +42,54 @@
 
 Порядок запуска на `DOMContentLoaded`:
 
-1. `loadSharedComponents()`
-2. `initPageBg()`
-3. `initScrollSmoother()`
-4. `initHeader()`
-5. `initCookieNotice()`
-6. `initLeadModal()`
-7. `initAutoIzKitaya()`
-8. `initManualMarketCars()`
-9. `initLatestCarsHome()`
-10. `initAnimations()`
-11. `initReviewsCarousel()`
-12. `initHeroStrip()`
-13. `initTiltCards()`
-14. `initScrollProgress()`
-15. `initAnalytics()`
+1. `initPerformanceMode()`
+2. `loadSharedComponents()`
+3. `loadEnhancementRuntime()`
+4. `initPageBg()`
+5. `initHeader()`
+6. `initCookieNotice()`
+7. `initLeadModal()`
+8. `initAutoIzKitaya()`
+9. `initManualMarketCars()`
+10. `initLatestCarsHome()`
+11. `initScrollSmoother()` (только вне lite mode)
+12. `initAnimations()` (только вне lite mode)
+13. `initReviewsCarousel()` (только вне lite mode)
+14. `initHeroStrip()` (только вне lite mode)
+15. `initTiltCards()` (только вне lite mode)
+16. `initScrollProgress()` (только вне lite mode)
+17. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
+
+### 3.1 Performance mode
+
+- Новый модуль: `js/modules/performance-mode.js`.
+- Режимы:
+  - `full` — обычное поведение сайта;
+  - `lite` — облегчённый режим для слабых/бережных устройств.
+- Автоматические сигналы для `lite`:
+  - `prefers-reduced-motion: reduce`;
+  - `matchMedia("(update: slow)")`;
+  - `navigator.connection.saveData`;
+  - `navigator.hardwareConcurrency <= 4`;
+  - `navigator.deviceMemory <= 4`.
+- Ручной override через query-string:
+  - `?performance=lite`
+  - `?performance=full`
+  - `?performance=auto` (сброс override)
+- Выбранный режим сохраняется в `localStorage` под ключом `primcom-performance-mode`.
+- В `lite` режиме:
+  - не запускаются `ScrollSmoother`, reveal-анимации, карусель отзывов, hero strip, tilt и scroll progress;
+  - отключается интерактивный фон;
+  - на карточках главной выключается hover-галерея фото;
+  - CSS убирает тяжёлые blur/backdrop-filter/фоновые анимации.
+- В `full` режиме runtime догружает только реально нужные библиотеки:
+  - `gsap.min.js`
+  - `ScrollTrigger.min.js`
+  - `ScrollSmoother.min.js` только если на странице есть `#smooth-wrapper` и `#smooth-content`
+  - `Observer.min.js` только если есть `.hero-strip`
+- `Flip` больше не грузится глобально: модалки и остальные блоки должны корректно работать без него.
 
 ## 4. Карта файлов
 
@@ -72,6 +103,7 @@
 - `css/main.css` — весь UI и адаптив.
 - `js/app.js` — orchestrator инициализации.
 - `js/modules/*.js` — функциональные модули.
+- `js/modules/performance-mode.js` — выбор режима производительности и ленивое подключение GSAP runtime.
 
 ### 4.2 JS-модули и ответственность
 
@@ -94,8 +126,13 @@
   - anti-spam (honeypot).
 - `js/modules/latest-cars-home.js`
   - карточки на главной (`data-latest-home`), автообновление;
-  - hover-галерея фото в карточках (desktop/fine pointer);
+  - hover-галерея фото в карточках (desktop/fine pointer, отключается в lite mode);
   - модалка подробностей с доп. фото и описанием по кнопке `Подробнее`.
+- `js/modules/performance-mode.js`
+  - определяет `full/lite` режим;
+  - сохраняет override в `localStorage`;
+  - выставляет `window.__primcomPerformance`;
+  - догружает GSAP/плагины только при необходимости.
 - `js/modules/auto-iz-kitaya.js`
   - каталог Китая;
   - фильтры, пагинация, карточки, detail modal, lightbox.
@@ -112,11 +149,11 @@
 - `js/modules/tilt-cards.js`
   - tilt эффект карточек на desktop.
 - `js/modules/scroll-smoother.js`
-  - GSAP ScrollSmoother (десктоп, без reduce motion/coarse pointer).
+  - GSAP ScrollSmoother (десктоп, без reduce motion/coarse pointer, отключается в lite mode).
 - `js/modules/scroll-progress.js`
   - верхний прогресс скролла.
 - `js/modules/page-bg.js`
-  - интерактивный фон.
+  - интерактивный фон, отключается в lite mode.
 - `js/modules/analytics.js`
   - заготовка под аналитику, запуск после cookie consent.
 
@@ -291,14 +328,15 @@ Hero readability:
    - добавить стабильный `data-*` селектор в HTML;
    - описать его здесь (раздел 6).
 4. Для любых правок анимаций учитывать fallback без GSAP (в проекте предусмотрен graceful degradation).
-5. Для мобильных правок проверять минимум брейкпоинты:
+5. Если меняется общий `css/main.css` или `js/app.js`, вручную поднимать query-параметр версии на всех HTML-страницах: виртуальный хостинг держит долгий cache-control для статики.
+6. Для мобильных правок проверять минимум брейкпоинты:
    - `max-width: 860px`
    - `max-width: 520px`
    - `max-width: 700px` (catalog/lightbox)
-6. Для секций каталога и "Свежих подборок" всегда проводить мобильную проверку:
-   - главная (`/`) на viewport около `390x844`;
-   - страницы маркетов (`/pages/auto-iz-yaponii.html`, `/pages/auto-iz-kitaya.html`, `/pages/auto-iz-korei.html`);
-   - контроль, что карточки каждой секции соответствуют ее рынку.
+7. Для секций каталога и "Свежих подборок" всегда проводить мобильную проверку:
+  - главная (`/`) на viewport около `390x844`;
+  - страницы маркетов (`/pages/auto-iz-yaponii.html`, `/pages/auto-iz-kitaya.html`, `/pages/auto-iz-korei.html`);
+  - контроль, что карточки каждой секции соответствуют ее рынку.
 
 ## 10. Обязательный процесс обновления документации после правок
 

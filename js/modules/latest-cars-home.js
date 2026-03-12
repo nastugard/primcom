@@ -628,9 +628,10 @@ function createCard({
   let placeholderEl = null;
   let images = coverUrl ? [coverUrl] : [];
   let activeImageIndex = 0;
+  const isLiteMode = !!(window.__primcomPerformance && window.__primcomPerformance.isLite);
   const hasFinePointer = !!(window.matchMedia && window.matchMedia("(pointer: fine)").matches);
   const expectedImageCount = Math.max(1, Number(item?.images_count || 0));
-  const canUseHoverGallery = hasFinePointer && expectedImageCount > 1;
+  const canUseHoverGallery = !isLiteMode && hasFinePointer && expectedImageCount > 1;
   let galleryLoaded = false;
   let galleryLoading = false;
 
