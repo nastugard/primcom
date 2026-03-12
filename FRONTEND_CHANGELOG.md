@@ -25,6 +25,65 @@
 
 ## Записи
 
+### 2026-03-12
+
+Задача: Безопасно встроить VK Клипы на главную страницу без влияния на существующие секции и без автозагрузки плеера VK.
+
+Зачем: Нужно показать короткие видео компании прямо на сайте, но не сломать рабочий frontend и не тянуть внешний плеер до явного клика пользователя.
+
+Изменённые файлы:
+- `index.html`
+- `css/main.css`
+- `js/app.js`
+- `js/modules/vk-clips.js`
+- `assets/vk-clips/clip-2026-03-10-1413.jpg`
+- `assets/vk-clips/clip-2026-03-10-0438.jpg`
+- `assets/vk-clips/clip-2026-03-05-1202.jpg`
+- `404.html`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-korei.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/consent.html`
+- `pages/dogovor-i-garantii.html`
+- `pages/dostavka.html`
+- `pages/faq.html`
+- `pages/kalkulyator-stoimosti.html`
+- `pages/kontakty.html`
+- `pages/privacy.html`
+- `pages/process-podbora.html`
+- `pages/rastamozhka-i-poshliny.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+- `CLIENT_OVERVIEW.md`
+
+Что сделано:
+- На главной после блока отзывов добавлена новая секция `VK Клипы` с тремя публичными клипами сообщества Примком.
+- Для секции использован progressive enhancement:
+  - в базовой разметке остаются локальное превью, заголовок, текст и ссылка `Открыть в VK`;
+  - кнопка `Смотреть на сайте` скрыта без JS и показывается только если embed URL проходит валидацию.
+- Добавлен новый модуль `js/modules/vk-clips.js`, который:
+  - работает только при наличии `data-vk-clips`;
+  - проверяет clip-link и `video_ext.php` URL;
+  - загружает iframe VK только после клика пользователя;
+  - скрывает карточки без валидной публичной ссылки.
+- В `css/main.css` расширены локальные стили `.info-card--vk` и `.vk-video`:
+  - формат превью и плеера приведён к вертикальному `9:16`;
+  - добавлены overlay, badge длительности, локальный footer карточки и desktop-раскладка на 3 карточки.
+- Для превью клипов добавлены локальные изображения в `assets/vk-clips/`, чтобы до клика по плееру не было запросов к VK CDN.
+- Общий cache-bust `main.css` обновлён на всех HTML-страницах.
+- Документация обновлена: новый модуль, селекторы и секция главной добавлены в `FRONTEND_DOCS.md`; заказческое описание обновлено в `CLIENT_OVERVIEW.md`.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/vk-clips.js`
+- `rg -n "data-vk-clips|data-vk-clip-card|data-vk-clip-player|data-vk-clip-load|data-vk-clip-link" index.html js/modules/vk-clips.js FRONTEND_DOCS.md`
+- `rg -n "main\\.css\\?v=20260312-vk-clips-12" index.html 404.html pages/*.html | wc -l`
+- `npx playwright screenshot 'https://vkvideo.ru/video_ext.php?oid=-236271382&id=456239027&hd=2' /tmp/vk-clip-test.png`
+
+Риски/заметки:
+- Для iframe использован публичный `video_ext.php` URL без экспортного `hash`; в браузерной проверке URL открывается, но если VK ужесточит правила embed, fallback-ссылка `Открыть в VK` останется основным безопасным маршрутом.
+- Стили локализованы на `.info-card--vk` и `.vk-clips__grid`, но после будущих правок общего блока `.info-card` секцию VK Клипов нужно проверять отдельно на desktop и mobile.
+
 ### 2026-02-28
 
 Задача: Уменьшить вертикальный разрыв на странице контактов между lead-строкой и блоком `Связь/Офис`.

@@ -1263,22 +1263,28 @@ body > .site-main:not(.site-main--hero) {
 }
 
 .vk-video {
-  margin-block-start: 14px;
-  border-radius: var(--radius);
+  position: relative;
+  margin: 0;
+  border-radius: calc(var(--radius) - 2px);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.04);
+  background:
+    radial-gradient(circle at top, rgba(51, 86, 163, 0.28), transparent 58%),
+    rgba(6, 12, 30, 0.82);
   overflow: hidden;
+  aspect-ratio: 9 / 16;
 }
 
 .info-card--vk {
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  flex: 0 0 min(290px, 84vw);
+  min-inline-size: 0;
+  aspect-ratio: auto;
+  padding: 14px;
 }
 
 .info-card--vk .vk-video {
-  margin-block-start: 12px;
-  border: none;
-  background: transparent;
   flex: 1 1 auto;
   min-block-size: 0;
 }
@@ -1286,18 +1292,95 @@ body > .site-main:not(.site-main--hero) {
 .info-card--vk .vk-video__placeholder {
   block-size: 100%;
   min-block-size: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  background: rgba(255, 255, 255, 0.06);
+  position: relative;
+  display: block;
+  padding: 0;
+  border: none;
+  background: transparent;
 }
 
 .vk-video__placeholder {
-  padding: 18px;
   color: var(--color-muted);
+}
+
+.vk-video__poster,
+.vk-video__frame {
+  inline-size: 100%;
+  block-size: 100%;
+  display: block;
+}
+
+.vk-video__poster {
+  object-fit: cover;
+}
+
+.vk-video__frame {
+  border: 0;
+  background: #000;
+}
+
+.vk-video__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  background:
+    linear-gradient(180deg, rgba(5, 10, 26, 0.18) 0%, rgba(5, 10, 26, 0.68) 100%);
+}
+
+.vk-video__badge {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(8, 15, 35, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.vk-video__action {
+  align-self: stretch;
+  justify-content: center;
+}
+
+.vk-video__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vk-video__link {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.vk-clips__grid {
+  padding-inline: 0;
+  scroll-padding-inline: 0;
+}
+
+.vk-clips__head {
+  gap: 18px;
+}
+
+.vk-video.is-loaded .vk-video__overlay {
+  display: none;
+}
+
+@media (min-inline-size: 861px) {
+  .vk-clips__grid {
+    justify-content: space-between;
+  }
+
+  .vk-clips__grid .info-card--vk {
+    flex: 1 1 calc((100% - 28px) / 3);
+    max-inline-size: calc((100% - 28px) / 3);
+  }
 }
 
 /* Steps */
