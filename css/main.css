@@ -1352,7 +1352,7 @@ body > .site-main:not(.site-main--hero) {
   .vk-clips__rail::after {
     content: "";
     position: absolute;
-    inset: 0 0 8px auto;
+    inset: 0 0 0 auto;
     inline-size: clamp(54px, 7vw, 92px);
     background: linear-gradient(90deg, rgba(6, 12, 30, 0) 0%, rgba(8, 18, 44, 0.46) 34%, rgba(10, 27, 58, 0.92) 100%);
     pointer-events: none;
