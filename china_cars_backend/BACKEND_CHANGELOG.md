@@ -73,6 +73,46 @@
 
 ---
 
+## 2026-03-18 23:20 (VLAT)
+
+### Изменение
+
+Актуализирована документация по эксплуатационным ботам и добавлен новый monitor-контур:
+
+- в `manager-listings-bot` зафиксирована рабочая production-схема с размещением бота на зарубежном сервере;
+- создан отдельный проект `primcom-monitor-bot` с README, `.env.example`, `systemd` unit и реализацией Telegram monitor-бота;
+- обновлены backend-документы, чтобы новая схема и мониторинг были отражены в общем комплекте документации.
+
+### Причина
+
+Нужно закрепить текущую рабочую схему после переноса manager-бота и подготовить прозрачный контур мониторинга `primcom_bot`/`primcom-lead-api`.
+
+### Затронутые файлы
+
+- `manager-listings-bot/README.md`
+- `primcom-monitor-bot/main.py`
+- `primcom-monitor-bot/README.md`
+- `primcom-monitor-bot/.env.example`
+- `primcom-monitor-bot/requirements.txt`
+- `primcom-monitor-bot/deploy/primcom-monitor-bot.service`
+- `china_cars_backend/README.md`
+- `china_cars_backend/BACKEND_RUNBOOK.md`
+- `china_cars_backend/BACKEND_CLIENT_OVERVIEW.md`
+- `china_cars_backend/BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `python3 -m py_compile manager-listings-bot/main.py`
+- `python3 -m py_compile primcom-monitor-bot/main.py`
+
+### Действия на сервере
+
+- выкатить `primcom-monitor-bot` на выделенный сервер;
+- при необходимости обновить `manager-listings-bot/README.md` рядом с production-контуром;
+- использовать обновленные runbook/README как основной источник истины по деплою и мониторингу.
+
+---
+
 ## 2026-02-23 01:30 (MSK)
 
 ### Изменение

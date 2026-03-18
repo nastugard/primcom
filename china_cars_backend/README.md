@@ -9,6 +9,11 @@
 
 Это основной комплект актуальной документации по архитектуре, сервисам, скрейперу, БД и истории изменений.
 
+Связанные эксплуатационные проекты в этом workspace:
+
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/manager-listings-bot`
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/primcom-monitor-bot`
+
 ## Что внутри проекта
 
 - API: FastAPI + SQLAlchemy async + PostgreSQL
@@ -16,6 +21,8 @@
 - Изображения: скачивание и хранение в `MEDIA_DIR`
 - Переводы: OpenAI и/или translation proxy
 - Телеметрия запусков: `scrape_runs`, `raw_listings`
+- Ручные карточки Korea/Japan через отдельный `manager-listings-bot`
+- Отдельный `primcom-monitor-bot` для контроля `primcom_bot`/`primcom-lead-api`
 
 ## Быстрый локальный запуск
 

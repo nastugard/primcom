@@ -1,6 +1,6 @@
 # Primcom Backend Runbook
 
-Дата актуализации: 2026-02-23
+Дата актуализации: 2026-03-18
 
 Этот документ является основным источником знаний по бэкенду `china_cars_backend`.
 Перед любыми правками кода нужно читать этот runbook и релевантные секции.
@@ -34,10 +34,23 @@
 
 используется именно `deploy/hostvds/*`.
 
+Отдельные связанные сервисы вне каталога `china_cars_backend`:
+
+- `manager-listings-bot` - менеджерский Telegram-бот для ручных карточек Японии/Кореи;
+- `primcom-monitor-bot` - отдельный Telegram-бот мониторинга состояния `primcom_bot` и `primcom-lead-api`.
+
 Важно:
 
 - `cv6067041.novalocal` в логах systemd - это hostname машины, а не отдельный сервис.
 - Отсутствие `primcom-api-v2.service` и `primcom-scraper-v2.service` в `systemctl` означает, что v2 контур не активирован.
+
+### 2.1 Актуальная схема на 2026-03-18
+
+- production backend и каталог сайта остаются на российском сервере;
+- `manager-listings-bot` вынесен на зарубежный сервер для стабильного доступа к Telegram API;
+- `manager-listings-bot` отправляет ручные карточки в production backend по `API_BASE_URL=https://api.primcom.ru`;
+- сайт читает карточки по-прежнему из production backend, поэтому VPN пользователю для просмотра не нужен;
+- `primcom-monitor-bot` рекомендуется держать на отдельном сервере от `primcom_bot`, чтобы он мог сообщить о полном падении целевого хоста.
 
 ## 3. Быстрая карта кода
 
@@ -69,6 +82,11 @@
 
 - Скачивание и перекодирование картинок: `app/utils/media.py`
 - Словари перевода брендов/моделей: `app/utils/name_translation.py`
+
+Связанные внешние проекты в workspace:
+
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/manager-listings-bot`
+- `/Volumes/SID/Колян АВТО/CSS&HTML Site/primcom-monitor-bot`
 
 ## 4. Как запускается API
 
@@ -367,6 +385,20 @@ journalctl -u primcom-scraper.service -n 200 --no-pager
 curl -s http://127.0.0.1:8010/health
 curl -s "http://127.0.0.1:8010/api/auto-iz-kitaya?source=guazi&limit=5&offset=0"
 ```
+
+Проверка связанных сервисов:
+
+```bash
+systemctl status primcom-manager-listings-bot.service --no-pager
+systemctl status primcom-monitor-bot.service --no-pager
+journalctl -u primcom-manager-listings-bot.service -n 100 --no-pager
+journalctl -u primcom-monitor-bot.service -n 100 --no-pager
+```
+
+Важно:
+
+- `primcom-manager-listings-bot.service` и `primcom-monitor-bot.service` могут жить не на том же сервере, что и backend;
+- для них нужно проверять именно тот хост, на который они были вынесены.
 
 ## 14. Диагностика типовых проблем
 
