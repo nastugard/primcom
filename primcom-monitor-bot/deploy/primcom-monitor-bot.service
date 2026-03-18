@@ -1,0 +1,15 @@
+[Unit]
+Description=Primcom Monitor Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/primcom/primcom-monitor-bot
+EnvironmentFile=/opt/primcom/primcom-monitor-bot/.env
+ExecStart=/opt/primcom/primcom-monitor-bot/.venv/bin/python /opt/primcom/primcom-monitor-bot/main.py
+Restart=always
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target

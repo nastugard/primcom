@@ -16,6 +16,11 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import KeyboardButton, Message, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from dotenv import load_dotenv
 
+try:
+    from aiogram.fsm.storage.memory import SimpleEventIsolation
+except ImportError:  # pragma: no cover - compatibility with older aiogram builds
+    SimpleEventIsolation = None
+
 
 class ListingFlow(StatesGroup):
     market = State()
@@ -1356,7 +1361,10 @@ async def main() -> None:
     )
 
     bot = Bot(token=CONFIG.token)
-    dp = Dispatcher(storage=MemoryStorage())
+    dispatcher_kwargs = {"storage": MemoryStorage()}
+    if SimpleEventIsolation is not None:
+        dispatcher_kwargs["events_isolation"] = SimpleEventIsolation()
+    dp = Dispatcher(**dispatcher_kwargs)
     dp.include_router(router)
 
     logging.info("manager-listings-bot started")
