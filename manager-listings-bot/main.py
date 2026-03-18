@@ -249,6 +249,15 @@ def parse_decimal(text: str) -> Decimal | None:
         return None
 
 
+def format_decimal_text(value: Decimal | None) -> str:
+    if value is None:
+        return ""
+    text = format(value.normalize(), "f")
+    if "." in text:
+        text = text.rstrip("0").rstrip(".")
+    return text or "0"
+
+
 def parse_int(text: str) -> int | None:
     t = (text or "").strip().replace(" ", "")
     if not t or not t.isdigit():
@@ -338,6 +347,24 @@ def _extract_command_arg(text: str | None) -> str:
     if len(parts) < 2:
         return ""
     return parts[1].strip()
+
+
+def format_exception_message(exc: BaseException) -> str:
+    if isinstance(exc, TimeoutError):
+        return "TimeoutError: таймаут при скачивании фото из Telegram или отправке данных"
+
+    current: BaseException | None = exc
+    seen: set[int] = set()
+    parts: list[str] = []
+
+    while current is not None and id(current) not in seen and len(parts) < 3:
+        seen.add(id(current))
+        name = current.__class__.__name__
+        text = str(current).strip()
+        parts.append(f"{name}: {text}" if text else name)
+        current = current.__cause__ or current.__context__
+
+    return " -> ".join(parts) if parts else exc.__class__.__name__
 
 
 async def _api_json_request(method: str, path: str, *, params: dict | None = None) -> tuple[bool, object]:
@@ -1037,7 +1064,7 @@ async def on_engine_volume(message: Message, state: FSMContext) -> None:
             await message.answer("Объем должен быть числом больше 0 (например 1.6).")
             return
 
-    await state.update_data(engine_volume_l=str(dv.normalize()))
+    await state.update_data(engine_volume_l=format_decimal_text(dv))
     data = await state.get_data()
     await ask_power(message, data)
     await state.set_state(ListingFlow.power_hp)
@@ -1204,7 +1231,7 @@ async def on_price(message: Message, state: FSMContext) -> None:
             await message.answer("Цена должна быть числом больше 0.")
             return
 
-    await state.update_data(price=str(price_dec.normalize()), photo_file_ids=[])
+    await state.update_data(price=format_decimal_text(price_dec), photo_file_ids=[])
     data = await state.get_data()
     await ask_photos(message, data)
     await state.set_state(ListingFlow.photos)
@@ -1297,7 +1324,7 @@ async def on_confirm(message: Message, state: FSMContext, bot: Bot) -> None:
         ok, backend_text = await send_to_backend(bot, data)
     except Exception as exc:
         logging.exception("send_to_backend failed")
-        await message.answer(f"Ошибка отправки: {exc}")
+        await message.answer(f"Ошибка отправки: {format_exception_message(exc)}")
         return
 
     if not ok:
