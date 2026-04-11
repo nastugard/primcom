@@ -53,6 +53,64 @@ function formatDateTimeRu(value) {
   }).format(d);
 }
 
+const LIST_CACHE_PREFIX = "primcom-auto-iz-kitaya-list-cache:v1";
+
+function getLocalStorageSafe() {
+  try {
+    return typeof window !== "undefined" && window.localStorage ? window.localStorage : null;
+  } catch {
+    return null;
+  }
+}
+
+function buildListCacheKey(prefix, params) {
+  const sp = new URLSearchParams();
+  Object.entries(params || {})
+    .sort(([a], [b]) => a.localeCompare(b))
+    .forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") return;
+      sp.set(key, String(value));
+    });
+  return `${prefix}:${sp.toString()}`;
+}
+
+function readListCache(key) {
+  const storage = getLocalStorageSafe();
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || !parsed.data) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeListCache(key, payload) {
+  const storage = getLocalStorageSafe();
+  if (!storage) return;
+  try {
+    storage.setItem(
+      key,
+      JSON.stringify({
+        savedAt: Date.now(),
+        apiOrigin: payload?.apiOrigin || "",
+        data: payload?.data || null,
+      })
+    );
+  } catch {
+    // localStorage может быть недоступен в private mode.
+  }
+}
+
+function getListSignature(data) {
+  const total = Number(data?.total || 0);
+  const last = data?.last_scraped_at ? String(data.last_scraped_at) : "";
+  return `${last}::${total}`;
+}
+
 async function fetchJsonWithTimeout(url, timeoutMs = 12_000) {
   const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   const timer = window.setTimeout(() => controller && controller.abort(), timeoutMs);
@@ -293,6 +351,7 @@ export function initAutoIzKitaya() {
     limit: 12,
     offset: 0,
     apiBase: null,
+    apiBasePromise: null,
     apiOrigin: window.location.origin,
     lastLoadId: 0,
     lightboxImages: [],
@@ -473,6 +532,24 @@ export function initAutoIzKitaya() {
     if (nextBtn) nextBtn.disabled = off + lim >= t;
   };
 
+  const renderListPayload = (data, apiOriginOverride = state.apiOrigin) => {
+    if (lastUpdateEl) {
+      const t = formatDateTimeRu(data?.last_scraped_at);
+      lastUpdateEl.textContent = t || "—";
+    }
+
+    clearEl(listEl);
+
+    const items = Array.isArray(data?.items) ? data.items : [];
+    items.forEach((item) => {
+      const el = createCard(item, apiOriginOverride, openDetail);
+      listEl && listEl.appendChild(el);
+    });
+
+    setPager(data?.total || 0);
+    setStatus(items.length ? "" : "Ничего не найдено.");
+  };
+
   const getFilters = () => {
     const fd = form ? new FormData(form) : null;
     const v = (name) => (fd ? String(fd.get(name) || "").trim() : "");
@@ -502,62 +579,83 @@ export function initAutoIzKitaya() {
 
   const ensureApiBase = async () => {
     if (state.apiBase) return state.apiBase;
+    if (state.apiBasePromise) return state.apiBasePromise;
 
-    const candidates = getApiCandidates();
-    let lastErr = null;
+    state.apiBasePromise = (async () => {
+      const candidates = getApiCandidates();
+      let lastErr = null;
 
-    for (const base of candidates) {
-      try {
-        const u = buildUrl(base, "", { limit: "1", offset: "0", source: "guazi" });
-        await fetchJsonWithTimeout(u.toString(), 10_000);
-        state.apiBase = base;
-        state.apiOrigin = new URL(base, window.location.href).origin;
-        return state.apiBase;
-      } catch (err) {
-        lastErr = err;
-        await sleep(80);
+      for (const base of candidates) {
+        try {
+          const u = buildUrl(base, "", { limit: "1", offset: "0", source: "guazi" });
+          await fetchJsonWithTimeout(u.toString(), 10_000);
+          state.apiBase = base;
+          state.apiOrigin = new URL(base, window.location.href).origin;
+          return state.apiBase;
+        } catch (err) {
+          lastErr = err;
+          await sleep(80);
+        }
       }
-    }
 
-    throw lastErr || new Error("API недоступен");
+      throw lastErr || new Error("API недоступен");
+    })();
+
+    try {
+      return await state.apiBasePromise;
+    } catch (err) {
+      state.apiBasePromise = null;
+      throw err;
+    }
   };
 
   const loadList = async () => {
     const myLoadId = ++state.lastLoadId;
+    const params = getFilters();
+    const cacheKey = buildListCacheKey(LIST_CACHE_PREFIX, params);
+    const cached = readListCache(cacheKey);
 
-    setStatus("Загрузка…");
-    if (prevBtn) prevBtn.disabled = true;
-    if (nextBtn) nextBtn.disabled = true;
+    if (cached?.data) {
+      renderListPayload(cached.data, cached.apiOrigin || state.apiOrigin);
+      setStatus("Проверяем обновления...");
+    } else {
+      setStatus("Загрузка…");
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+    }
 
     try {
       const base = await ensureApiBase();
-      const params = getFilters();
+      const apiOrigin = new URL(base, window.location.href).origin;
+
+      if (cached?.data) {
+        try {
+          const meta = await fetchJsonWithTimeout(
+            buildUrl(base, "", { ...params, meta_only: "1" }).toString(),
+            8_000
+          );
+          if (myLoadId !== state.lastLoadId) return;
+          if (getListSignature(meta) === getListSignature(cached.data)) {
+            renderListPayload(cached.data, cached.apiOrigin || apiOrigin);
+            return;
+          }
+        } catch {
+          // Если лёгкая проверка не удалась, просто переходим к обычной загрузке.
+        }
+      }
+
       const u = buildUrl(base, "", params);
       const data = await fetchJsonWithTimeout(u.toString(), 12_000);
       if (myLoadId !== state.lastLoadId) return;
-
-      if (lastUpdateEl) {
-        const t = formatDateTimeRu(data?.last_scraped_at);
-        lastUpdateEl.textContent = t || "—";
-      }
-
-      clearEl(listEl);
-
-      const items = Array.isArray(data?.items) ? data.items : [];
-      items.forEach((item) => {
-        const el = createCard(item, state.apiOrigin, openDetail);
-        listEl && listEl.appendChild(el);
-      });
-
-      setPager(data?.total || 0);
-
-      if (!items.length) {
-        setStatus("Ничего не найдено.");
-      } else {
-        setStatus("");
-      }
+      renderListPayload(data, apiOrigin);
+      writeListCache(cacheKey, { apiOrigin, data });
     } catch (err) {
       if (myLoadId !== state.lastLoadId) return;
+      if (cached?.data) {
+        renderListPayload(cached.data, cached.apiOrigin || state.apiOrigin);
+        setStatus("Показаны сохраненные объявления. Обновление временно недоступно.");
+        return;
+      }
       const msg = err && typeof err === "object" && "message" in err ? String(err.message || "") : "";
       console.error("[auto-iz-kitaya] loadList failed", err);
       setStatus(`Не удалось загрузить каталог. ${msg || ""}`.trim());
@@ -751,7 +849,6 @@ export function initAutoIzKitaya() {
     });
   }
 
-  loadFacets()
-    .catch(() => {})
-    .finally(() => loadList());
+  loadList();
+  loadFacets().catch(() => {});
 }

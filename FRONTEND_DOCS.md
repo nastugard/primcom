@@ -54,11 +54,10 @@
 10. `initLatestCarsHome()`
 11. `initScrollSmoother()` (только вне lite mode)
 12. `initAnimations()` (только вне lite mode)
-13. `initReviewsCarousel()` (только вне lite mode)
-14. `initHeroStrip()` (только вне lite mode)
-15. `initTiltCards()` (только вне lite mode)
-16. `initScrollProgress()` (только вне lite mode)
-17. `initAnalytics()`
+13. `initHeroStrip()` (только вне lite mode)
+14. `initTiltCards()` (только вне lite mode)
+15. `initScrollProgress()` (только вне lite mode)
+16. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
 
@@ -101,9 +100,11 @@
 - `components/header.html` — общая шапка.
 - `components/footer.html` — общий футер.
 - `css/main.css` — весь UI и адаптив.
+- `data/2gis-reviews.json` — локальный источник отзывов 2ГИС для главной.
 - `js/app.js` — orchestrator инициализации.
 - `js/modules/*.js` — функциональные модули.
 - `js/modules/performance-mode.js` — выбор режима производительности и ленивое подключение GSAP runtime.
+- `scripts/sync-2gis-reviews.mjs` — синхронизация отзывов 2ГИС в локальный JSON и HTML главной.
 
 ### 4.2 JS-модули и ответственность
 
@@ -126,6 +127,7 @@
   - anti-spam (honeypot).
 - `js/modules/latest-cars-home.js`
   - карточки на главной (`data-latest-home`), автообновление;
+  - локальный snapshot самих списков подборок на главной и фоновая `meta_only` проверка обновлений;
   - hover-галерея фото в карточках (desktop/fine pointer, отключается в lite mode);
   - модалка подробностей с доп. фото и описанием по кнопке `Подробнее`.
 - `js/modules/performance-mode.js`
@@ -135,15 +137,15 @@
   - догружает GSAP/плагины только при необходимости.
 - `js/modules/auto-iz-kitaya.js`
   - каталог Китая;
-  - фильтры, пагинация, карточки, detail modal, lightbox.
+  - фильтры, пагинация, карточки, detail modal, lightbox;
+  - локальный snapshot списка в `localStorage` и фоновая `meta_only` проверка обновлений.
 - `js/modules/auto-manual-market.js`
   - каталоги Японии/Кореи;
   - фильтры, пагинация, detail modal, lightbox.
   - в detail-модалке выводит `auction_grade` (оценка аукциона) при наличии.
+  - локальный snapshot списка в `localStorage` и фоновая `meta_only` проверка обновлений.
 - `js/modules/animations.js`
   - reveal/hero анимации (GSAP + ScrollTrigger).
-- `js/modules/reviews-carousel.js`
-  - бесконечная карусель отзывов.
 - `js/modules/hero-strip.js`
   - горизонтальный strip с drag/wheel/snap.
 - `js/modules/tilt-cards.js`
@@ -160,17 +162,20 @@
 ## 5. Карта страниц и привязка к модулям
 
 - `index.html`
-  - hero, блок фактов `.hero__facts`, секции latest (`data-latest-home`), отзывы (`data-carousel="reviews"`), VK Клипы (прямые iframe VK Видео), этапы;
+  - hero, блок фактов `.hero__facts`, секции latest (`data-latest-home`), отзывы 2ГИС (`section--reviews-2gis`), VK Клипы (прямые iframe VK Видео), этапы;
   - модалка карточки latest: `data-latest-card-modal` (подробности, фото, характеристики);
-  - работает `latest-cars-home`, `reviews-carousel`, `animations`, `modal-lead`, `cookies`, `header`.
+  - VK Клипы на главной поддерживаются как ручной хронологический ряд: самые новые ролики должны стоять первыми слева, старые — дальше вправо;
+  - работает `latest-cars-home`, `animations`, `modal-lead`, `cookies`, `header`.
 - `pages/auto-iz-kitaya.html`
   - root `data-china-cars`;
   - модалки `data-china-car-modal` и `data-china-lightbox`;
-  - модуль `auto-iz-kitaya.js`.
+  - модуль `auto-iz-kitaya.js`;
+  - при повторном открытии может мгновенно показать сохранённый локальный снимок каталога до завершения фоновой проверки API.
 - `pages/auto-iz-yaponii.html` и `pages/auto-iz-korei.html`
   - root `data-manual-cars`;
   - модалки `data-manual-car-modal` и `data-manual-lightbox`;
-  - модуль `auto-manual-market.js`.
+  - модуль `auto-manual-market.js`;
+  - при повторном открытии может мгновенно показать сохранённый локальный снимок каталога до завершения фоновой проверки API.
 - `pages/kalkulyator-stoimosti.html`
   - калькулятор реализован inline-скриптом в странице;
   - общие модули (header, modal, cookies, animations) также подключены.
@@ -199,8 +204,9 @@
   - `[data-china-cars]` и дочерние `data-china-*`.
 - Manual market catalog:
   - `[data-manual-cars]` и дочерние `data-manual-*`.
-- Reviews:
-  - `[data-carousel="reviews"]`, `[data-carousel-track]`.
+- Reviews 2ГИС:
+  - секция `#reviews.section--reviews-2gis`;
+  - HTML между комментариями `<!-- 2GIS_REVIEWS:START -->` и `<!-- 2GIS_REVIEWS:END -->` считается генерируемым и обновляется только скриптом `scripts/sync-2gis-reviews.mjs`.
 
 ## 7. CSS-структура (основные зоны)
 
@@ -222,6 +228,40 @@
 Примечание: по проекту используется один общий CSS для всех страниц. Любая правка в хедере/кнопках/модалках почти всегда глобальная.
 
 Дополнительно по шапке и мобильному скроллу:
+
+## 8. Отзывы 2ГИС
+
+- Источник отзывов: публичная страница 2ГИС и публичный review API 2ГИС для branch `70000001110927328`.
+- Локальное хранилище: `data/2gis-reviews.json`.
+- Скрипт `scripts/sync-2gis-reviews.mjs`:
+  - запрашивает summary со страницы `https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews`;
+  - получает последние отзывы с `public-api.reviews.2gis.com`;
+  - нормализует данные;
+  - обновляет `data/2gis-reviews.json`;
+  - перерисовывает HTML секции отзывов в `index.html`.
+- На сайте отзывы не тянутся напрямую из 2ГИС браузером пользователя: главная использует уже локально обновлённый HTML.
+- В карточках отзывов допускаются:
+  - аватар автора из `user.photo_preview_urls`, если 2ГИС реально отдаёт непустой URL;
+  - fallback на инициалы автора, если avatar URL пустой;
+  - мини-галерея фото отзыва из `photos[].preview_urls`.
+- Для автоматизации безопаснее запускать только этот sync-скрипт по расписанию, а не менять отзывы вручную в `index.html`.
+
+## 9. Кэш каталогов
+
+- Каталоги `Китай`, `Япония`, `Корея` сохраняют последний успешно загруженный список в `localStorage`.
+- Ключ кэша включает текущие фильтры, лимит и offset, поэтому кэш раздельный для каждой комбинации выдачи.
+- При загрузке страницы модуль сначала пытается отрисовать локальный snapshot, затем запрашивает у API только метаданные через `meta_only=1`.
+- Если `last_scraped_at` и `total` совпадают, повторный полный запрос списка не выполняется.
+- Если каталог обновился, модуль делает обычный полный запрос, перерисовывает список и обновляет локальный snapshot.
+- Начальный запрос списка больше не ждёт окончания `facets`: filters и list стартуют параллельно.
+
+## 10. Кэш подборок на главной
+
+- Блоки свежих подборок на главной (`Япония`, `Китай`, `Корея`) тоже сохраняют последний успешно загруженный список в `localStorage`.
+- Кэш разделён по секциям главной, API path и источнику данных.
+- При повторном заходе на главную подборки сначала показываются из локального snapshot, затем в фоне проверяются метаданные `last_scraped_at` и `total`.
+- Если изменений нет, полный список заново не запрашивается.
+- Полная загрузка с сервера выполняется только если подборка реально обновилась или локального snapshot ещё нет.
 
 - Размер логотипа (`.brand__logo`) задается через CSS:
   - базовый размер для mobile/tablet: `70px` (и `62px` на `max-width: 520px`);

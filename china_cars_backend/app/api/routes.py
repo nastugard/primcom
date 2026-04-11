@@ -412,6 +412,7 @@ async def list_china_cars(
     price_to: float | None = Query(default=None, ge=0),
     limit: int = Query(default=24, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    meta_only: bool = Query(default=False),
     db: AsyncSession = Depends(_get_db),
 ) -> ListingListOut:
     where_parts = [
@@ -497,48 +498,49 @@ async def list_china_cars(
     )
     total = int(total_res.scalar() or 0)
 
-    rows = await db.execute(
-        text(
-            "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
-            "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
-            "COALESCE(l.raw_data->>'body_type', NULL), "
-            "COALESCE(l.raw_data->>'auction_grade', NULL), "
-            "l.original_url, l.scraped_at, "
-            "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$'), "
-            "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$' ORDER BY li.position ASC LIMIT 1) "
-            "FROM listings l JOIN listing_sources s ON s.id=l.source_id "
-            f"WHERE {where_sql} ORDER BY l.scraped_at DESC LIMIT :limit OFFSET :offset"
-        ),
-        {**params, "limit": limit, "offset": offset},
-    )
-
     items = []
-    for r in rows.all():
-        items.append(
-            ListingCardOut(
-                id=str(r[0]),
-                source=str(r[1]),
-                source_listing_id=str(r[2]),
-                brand=r[3],
-                model=r[4],
-                year=r[5],
-                first_registration_date=r[6],
-                mileage_km=r[7],
-                price_cny=float(r[8]) if r[8] is not None else None,
-                engine_type=r[9],
-                drive_type=r[10],
-                engine_volume_l=float(r[11]) if r[11] is not None else None,
-                power_hp=int(r[12]) if r[12] is not None else None,
-                transmission=r[13],
-                trim=r[14],
-                body_type=r[15],
-                auction_grade=r[16],
-                original_url=r[17],
-                scraped_at=r[18],
-                images_count=int(r[19] or 0),
-                cover_image_url=_media_url(r[20]),
-            )
+    if not meta_only:
+        rows = await db.execute(
+            text(
+                "SELECT l.id, s.code, l.source_listing_id, l.brand, l.model, l.year, l.first_registration_date, l.mileage_km, "
+                "l.price_cny, l.engine_type, l.drive_type, l.engine_volume_l, l.power_hp, l.transmission, l.trim, "
+                "COALESCE(l.raw_data->>'body_type', NULL), "
+                "COALESCE(l.raw_data->>'auction_grade', NULL), "
+                "l.original_url, l.scraped_at, "
+                "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$'), "
+                "(SELECT li.local_path FROM listing_images li WHERE li.listing_id=l.id AND li.local_path IS NOT NULL AND BTRIM(li.local_path) <> '' AND LOWER(BTRIM(li.local_path)) ~ '\\.(webp|jpe?g|png)$' ORDER BY li.position ASC LIMIT 1) "
+                "FROM listings l JOIN listing_sources s ON s.id=l.source_id "
+                f"WHERE {where_sql} ORDER BY l.scraped_at DESC LIMIT :limit OFFSET :offset"
+            ),
+            {**params, "limit": limit, "offset": offset},
         )
+
+        for r in rows.all():
+            items.append(
+                ListingCardOut(
+                    id=str(r[0]),
+                    source=str(r[1]),
+                    source_listing_id=str(r[2]),
+                    brand=r[3],
+                    model=r[4],
+                    year=r[5],
+                    first_registration_date=r[6],
+                    mileage_km=r[7],
+                    price_cny=float(r[8]) if r[8] is not None else None,
+                    engine_type=r[9],
+                    drive_type=r[10],
+                    engine_volume_l=float(r[11]) if r[11] is not None else None,
+                    power_hp=int(r[12]) if r[12] is not None else None,
+                    transmission=r[13],
+                    trim=r[14],
+                    body_type=r[15],
+                    auction_grade=r[16],
+                    original_url=r[17],
+                    scraped_at=r[18],
+                    images_count=int(r[19] or 0),
+                    cover_image_url=_media_url(r[20]),
+                )
+            )
 
     if last_scraped_at is None and items:
         last_scraped_at = items[0].scraped_at
@@ -637,6 +639,7 @@ async def list_korea_cars(
     price_to: float | None = Query(default=None, ge=0),
     limit: int = Query(default=24, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    meta_only: bool = Query(default=False),
     db: AsyncSession = Depends(_get_db),
 ) -> ListingListOut:
     return await list_china_cars(
@@ -651,6 +654,7 @@ async def list_korea_cars(
         price_to=price_to,
         limit=limit,
         offset=offset,
+        meta_only=meta_only,
         db=db,
     )
 
@@ -667,6 +671,7 @@ async def list_japan_cars(
     price_to: float | None = Query(default=None, ge=0),
     limit: int = Query(default=24, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
+    meta_only: bool = Query(default=False),
     db: AsyncSession = Depends(_get_db),
 ) -> ListingListOut:
     return await list_china_cars(
@@ -681,6 +686,7 @@ async def list_japan_cars(
         price_to=price_to,
         limit=limit,
         offset=offset,
+        meta_only=meta_only,
         db=db,
     )
 

@@ -257,8 +257,11 @@ async function fetchJsonWithTimeout(url, timeoutMs = 12_000) {
 }
 
 const DETAIL_STORAGE_KEY = "latest-home-detail-cache:v1";
+const LIST_STORAGE_KEY = "latest-home-list-cache:v1";
 const DETAIL_STORAGE_TTL_MS = 12 * 60 * 60 * 1000;
+const LIST_STORAGE_TTL_MS = 12 * 60 * 60 * 1000;
 const DETAIL_STORAGE_MAX_ITEMS = 120;
+const LIST_STORAGE_MAX_ITEMS = 24;
 const detailCache = new Map();
 
 function getDetailCacheKey(item) {
@@ -279,6 +282,27 @@ function loadPersistedDetails() {
   }
 }
 
+function loadPersistedLists() {
+  if (typeof localStorage === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(LIST_STORAGE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function savePersistedLists(items) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    localStorage.setItem(LIST_STORAGE_KEY, JSON.stringify(items || {}));
+  } catch (_) {
+    // ignore storage quota/privacy errors
+  }
+}
+
 function savePersistedDetails(items) {
   if (typeof localStorage === "undefined") return;
   try {
@@ -295,6 +319,32 @@ function normalizeCachedPayload(payload) {
   if (!detail || typeof detail !== "object") return null;
   if (!apiBase) return null;
   return { detail, apiBase };
+}
+
+function getListCacheKey({ apiPath, source, expectedSource, sectionId }) {
+  return [
+    String(sectionId || "").trim(),
+    String(apiPath || "").trim(),
+    String(source || "").trim(),
+    String(expectedSource || "").trim(),
+    "limit=4",
+    "offset=0",
+  ].join("::");
+}
+
+function normalizeCachedListPayload(payload) {
+  if (!payload || typeof payload !== "object") return null;
+  const data = payload.data;
+  const apiBase = String(payload.apiBase || "").trim();
+  if (!data || typeof data !== "object") return null;
+  if (!apiBase) return null;
+  return { data, apiBase };
+}
+
+function getListSignature(data) {
+  const total = Number(data?.total || 0);
+  const last = data?.last_scraped_at ? String(data.last_scraped_at) : "";
+  return `${last}::${total}`;
 }
 
 function getPersistedDetail(cacheKey) {
@@ -321,6 +371,30 @@ function getPersistedDetail(cacheKey) {
   return payload;
 }
 
+function getPersistedList(cacheKey) {
+  const now = Date.now();
+  const cache = loadPersistedLists();
+  let changed = false;
+
+  Object.entries(cache).forEach(([key, entry]) => {
+    const cachedAt = Number(entry?.cachedAt || 0);
+    if (!cachedAt || now - cachedAt > LIST_STORAGE_TTL_MS) {
+      delete cache[key];
+      changed = true;
+    }
+  });
+
+  const entry = cache[cacheKey];
+  const payload = normalizeCachedListPayload(entry?.payload);
+  if (!payload && entry) {
+    delete cache[cacheKey];
+    changed = true;
+  }
+
+  if (changed) savePersistedLists(cache);
+  return payload;
+}
+
 function setPersistedDetail(cacheKey, payload) {
   const normalized = normalizeCachedPayload(payload);
   if (!normalized) return;
@@ -343,6 +417,30 @@ function setPersistedDetail(cacheKey, payload) {
     next[key] = entry;
   });
   savePersistedDetails(next);
+}
+
+function setPersistedList(cacheKey, payload) {
+  const normalized = normalizeCachedListPayload(payload);
+  if (!normalized) return;
+
+  const now = Date.now();
+  const cache = loadPersistedLists();
+  cache[cacheKey] = { cachedAt: now, payload: normalized };
+
+  const freshEntries = Object.entries(cache)
+    .filter(([, entry]) => {
+      const cachedAt = Number(entry?.cachedAt || 0);
+      if (!cachedAt || now - cachedAt > LIST_STORAGE_TTL_MS) return false;
+      return !!normalizeCachedListPayload(entry?.payload);
+    })
+    .sort((a, b) => Number(b[1]?.cachedAt || 0) - Number(a[1]?.cachedAt || 0))
+    .slice(0, LIST_STORAGE_MAX_ITEMS);
+
+  const next = {};
+  freshEntries.forEach(([key, entry]) => {
+    next[key] = entry;
+  });
+  savePersistedLists(next);
 }
 
 async function fetchCardDetail(item, apiPath = "") {
@@ -837,7 +935,7 @@ function createCard({
   return card;
 }
 
-async function fetchLatest({ apiPath, source }) {
+async function fetchLatest({ apiPath, source, metaOnly = false }) {
   const candidates = getApiCandidates(apiPath);
   let lastErr = null;
   for (const base of candidates) {
@@ -846,6 +944,7 @@ async function fetchLatest({ apiPath, source }) {
       if (source) u.searchParams.set("source", source);
       u.searchParams.set("limit", "4");
       u.searchParams.set("offset", "0");
+      if (metaOnly) u.searchParams.set("meta_only", "1");
       const res = await fetch(u.toString(), { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
@@ -878,51 +977,87 @@ export function initLatestCarsHome() {
       return;
     }
 
-    const render = async () => {
-      try {
-        const { data, apiBase } = await fetchLatest({ apiPath, source });
-        clearEl(listEl);
-        const rawItems = Array.isArray(data?.items) ? data.items : [];
-        const items = expectedSource
-          ? rawItems.filter(
-              (item) => String(item?.source || "").trim().toLowerCase() === expectedSource
-            )
-          : rawItems;
+    const cacheKey = getListCacheKey({
+      apiPath,
+      source,
+      expectedSource,
+      sectionId: root.id || "",
+    });
 
-        if (expectedSource && rawItems.length && items.length !== rawItems.length) {
-          console.warn("[latest-home] source mismatch filtered", {
-            sectionId: root.id || "",
-            expectedSource,
-            received: rawItems.length,
-            kept: items.length,
-          });
+    const renderData = ({ data, apiBase }) => {
+      clearEl(listEl);
+      const rawItems = Array.isArray(data?.items) ? data.items : [];
+      const items = expectedSource
+        ? rawItems.filter(
+            (item) => String(item?.source || "").trim().toLowerCase() === expectedSource
+          )
+        : rawItems;
+
+      if (expectedSource && rawItems.length && items.length !== rawItems.length) {
+        console.warn("[latest-home] source mismatch filtered", {
+          sectionId: root.id || "",
+          expectedSource,
+          received: rawItems.length,
+          kept: items.length,
+        });
+      }
+
+      if (!items.length) {
+        if (statusEl) {
+          statusEl.textContent =
+            expectedSource && rawItems.length
+              ? "Нет подходящих объявлений для этой секции."
+              : "Пока нет объявлений.";
+        }
+        if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+        return;
+      }
+
+      items.forEach((item) => {
+        const card = createCard({
+          item,
+          apiBase,
+          apiPath,
+          pageUrl,
+          marketLabel,
+          currencySign,
+          onOpenDetail: (payload) => modalController.open(payload),
+        });
+        listEl.appendChild(card);
+      });
+      if (statusEl) statusEl.textContent = "";
+      if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+    };
+
+    const render = async () => {
+      const cached = getPersistedList(cacheKey);
+      if (cached?.data) {
+        renderData(cached);
+        if (statusEl) statusEl.textContent = "Проверяем обновления...";
+      }
+
+      try {
+        if (cached?.data) {
+          try {
+            const { data: meta } = await fetchLatest({ apiPath, source, metaOnly: true });
+            if (getListSignature(meta) === getListSignature(cached.data)) {
+              renderData(cached);
+              return;
+            }
+          } catch (_) {
+            // Если лёгкая проверка не удалась, перейдём к обычной загрузке.
+          }
         }
 
-        if (!items.length) {
-          if (statusEl) {
-            statusEl.textContent =
-              expectedSource && rawItems.length
-                ? "Нет подходящих объявлений для этой секции."
-                : "Пока нет объявлений.";
-          }
-          if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+        const payload = await fetchLatest({ apiPath, source });
+        renderData(payload);
+        setPersistedList(cacheKey, payload);
+      } catch (err) {
+        if (cached?.data) {
+          renderData(cached);
+          if (statusEl) statusEl.textContent = "Показаны сохраненные объявления.";
           return;
         }
-        items.forEach((item) => {
-          const card = createCard({
-            item,
-            apiBase,
-            apiPath,
-            pageUrl,
-            marketLabel,
-            currencySign,
-            onOpenDetail: (payload) => modalController.open(payload),
-          });
-          listEl.appendChild(card);
-        });
-        if (statusEl) statusEl.textContent = "";
-        if (updatedEl) updatedEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
-      } catch (err) {
         if (statusEl) statusEl.textContent = "Не удалось загрузить свежую подборку.";
         console.error("[latest-home] load failed", { apiPath, err });
       }

@@ -45,6 +45,64 @@ function formatDateTimeRu(value) {
   }).format(d);
 }
 
+const LIST_CACHE_PREFIX = "primcom-auto-manual-list-cache:v1";
+
+function getLocalStorageSafe() {
+  try {
+    return typeof window !== "undefined" && window.localStorage ? window.localStorage : null;
+  } catch {
+    return null;
+  }
+}
+
+function buildListCacheKey(prefix, params) {
+  const sp = new URLSearchParams();
+  Object.entries(params || {})
+    .sort(([a], [b]) => a.localeCompare(b))
+    .forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") return;
+      sp.set(key, String(value));
+    });
+  return `${prefix}:${sp.toString()}`;
+}
+
+function readListCache(key) {
+  const storage = getLocalStorageSafe();
+  if (!storage) return null;
+  try {
+    const raw = storage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || !parsed.data) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeListCache(key, payload) {
+  const storage = getLocalStorageSafe();
+  if (!storage) return;
+  try {
+    storage.setItem(
+      key,
+      JSON.stringify({
+        savedAt: Date.now(),
+        apiOrigin: payload?.apiOrigin || "",
+        data: payload?.data || null,
+      })
+    );
+  } catch {
+    // localStorage может быть недоступен в private mode.
+  }
+}
+
+function getListSignature(data) {
+  const total = Number(data?.total || 0);
+  const last = data?.last_scraped_at ? String(data.last_scraped_at) : "";
+  return `${last}::${total}`;
+}
+
 async function fetchJsonWithTimeout(url, timeoutMs = 12_000) {
   const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
   const timer = window.setTimeout(() => controller && controller.abort(), timeoutMs);
@@ -268,6 +326,7 @@ export function initManualMarketCars() {
     limit: 12,
     offset: 0,
     listApiBase: null,
+    listApiBasePromise: null,
     detailApiBase: null,
     apiOrigin: window.location.origin,
     facets: null,
@@ -309,6 +368,22 @@ export function initManualMarketCars() {
     };
   };
 
+  const renderListPayload = (data, apiOriginOverride = state.apiOrigin) => {
+    if (lastUpdateEl) {
+      lastUpdateEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+    }
+
+    clearEl(listEl);
+    const items = Array.isArray(data?.items) ? data.items : [];
+    items.forEach((item) => {
+      const card = createCard(item, apiOriginOverride, openDetail);
+      listEl && listEl.appendChild(card);
+    });
+
+    setPager(data?.total || 0);
+    setStatus(items.length ? "" : "Ничего не найдено.");
+  };
+
   const populateSelect = (sel, values, emptyLabel) => {
     if (!sel) return;
     const prev = String(sel.value || "");
@@ -331,22 +406,33 @@ export function initManualMarketCars() {
 
   const ensureListApiBase = async () => {
     if (state.listApiBase) return state.listApiBase;
-    const candidates = getEndpointCandidates(market, customListApi);
-    let lastErr = null;
+    if (state.listApiBasePromise) return state.listApiBasePromise;
 
-    for (const base of candidates) {
-      try {
-        const probe = buildUrl(base, "", { limit: "1", offset: "0" });
-        await fetchJsonWithTimeout(probe.toString(), 10_000);
-        state.listApiBase = base;
-        state.apiOrigin = new URL(base, window.location.href).origin;
-        return base;
-      } catch (e) {
-        lastErr = e;
+    state.listApiBasePromise = (async () => {
+      const candidates = getEndpointCandidates(market, customListApi);
+      let lastErr = null;
+
+      for (const base of candidates) {
+        try {
+          const probe = buildUrl(base, "", { limit: "1", offset: "0" });
+          await fetchJsonWithTimeout(probe.toString(), 10_000);
+          state.listApiBase = base;
+          state.apiOrigin = new URL(base, window.location.href).origin;
+          return base;
+        } catch (e) {
+          lastErr = e;
+        }
       }
-    }
 
-    throw lastErr || new Error("API is unavailable");
+      throw lastErr || new Error("API is unavailable");
+    })();
+
+    try {
+      return await state.listApiBasePromise;
+    } catch (err) {
+      state.listApiBasePromise = null;
+      throw err;
+    }
   };
 
   const ensureDetailApiBase = async () => {
@@ -556,29 +642,48 @@ export function initManualMarketCars() {
 
   const loadList = async () => {
     const loadId = ++state.lastLoadId;
-    setStatus("Загрузка...");
+    const params = getFilters();
+    const cacheKey = buildListCacheKey(`${LIST_CACHE_PREFIX}:${market}`, params);
+    const cached = readListCache(cacheKey);
+
+    if (cached?.data) {
+      renderListPayload(cached.data, cached.apiOrigin || state.apiOrigin);
+      setStatus("Проверяем обновления...");
+    } else {
+      setStatus("Загрузка...");
+    }
 
     try {
       const listBase = await ensureListApiBase();
-      const params = getFilters();
-      const data = await fetchJsonWithTimeout(buildUrl(listBase, "", params).toString(), 12_000);
-      if (loadId !== state.lastLoadId) return;
+      const apiOrigin = new URL(listBase, window.location.href).origin;
 
-      if (lastUpdateEl) {
-        lastUpdateEl.textContent = formatDateTimeRu(data?.last_scraped_at) || "—";
+      if (cached?.data) {
+        try {
+          const meta = await fetchJsonWithTimeout(
+            buildUrl(listBase, "", { ...params, meta_only: "1" }).toString(),
+            8_000
+          );
+          if (loadId !== state.lastLoadId) return;
+          if (getListSignature(meta) === getListSignature(cached.data)) {
+            renderListPayload(cached.data, cached.apiOrigin || apiOrigin);
+            return;
+          }
+        } catch {
+          // Если meta-проверка не удалась, просто делаем полный запрос.
+        }
       }
 
-      clearEl(listEl);
-      const items = Array.isArray(data?.items) ? data.items : [];
-      items.forEach((item) => {
-        const card = createCard(item, state.apiOrigin, openDetail);
-        listEl && listEl.appendChild(card);
-      });
-
-      setPager(data?.total || 0);
-      setStatus(items.length ? "" : "Ничего не найдено.");
+      const data = await fetchJsonWithTimeout(buildUrl(listBase, "", params).toString(), 12_000);
+      if (loadId !== state.lastLoadId) return;
+      renderListPayload(data, apiOrigin);
+      writeListCache(cacheKey, { apiOrigin, data });
     } catch (err) {
       if (loadId !== state.lastLoadId) return;
+      if (cached?.data) {
+        renderListPayload(cached.data, cached.apiOrigin || state.apiOrigin);
+        setStatus("Показаны сохраненные объявления. Обновление временно недоступно.");
+        return;
+      }
       console.error("[manual-market] list load failed", err);
       clearEl(listEl);
       setPager(0);
@@ -728,5 +833,6 @@ export function initManualMarketCars() {
     );
   }
 
-  loadFacets().catch(() => {}).finally(() => loadList());
+  loadList();
+  loadFacets().catch(() => {});
 }

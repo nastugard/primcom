@@ -1,0 +1,99 @@
+{
+  "source": {
+    "platform": "2ГИС",
+    "pageUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews",
+    "apiUrl": "https://public-api.reviews.2gis.com/2.0/branches/70000001110927328/reviews?limit=12&key=6e7e1929-4ea9-4a5d-8c05-d601860389bd",
+    "fetchedAt": "2026-04-11T15:13:13.359Z"
+  },
+  "summary": {
+    "reviewsCount": 3,
+    "rating": 5,
+    "ratingsCount": 5
+  },
+  "reviews": [
+    {
+      "id": "230169076",
+      "authorName": "Александр Григорьев",
+      "authorInitials": "АГ",
+      "authorAvatarUrl": "",
+      "authorReviewsCount": 7,
+      "dateCreated": "2026-03-19T13:12:56.025423+07:00",
+      "dateLabel": "19 марта 2026 г.",
+      "rating": 5,
+      "ratingLabel": "★★★★★",
+      "likesCount": 1,
+      "isVerified": false,
+      "text": "Заказывал через Евгения(компанию)авто в Сентябре 2025.Данная модель 177л.с. в Декабре попадала под повышенный утильсбор. Выбрали хороший вариант + площадка рядом с морским портом.23.09 покупка 11.10 забрал машину.Всё быстро и спокойно.",
+      "photosCount": 4,
+      "photos": [
+        {
+          "id": "28092902",
+          "thumbUrl": "https://cachizer2.2gis.com/reviews-photos/99e0d574-ec64-47c9-9fb4-6d5dfeb84980.jpg?w=320",
+          "fullUrl": "https://cachizer2.2gis.com/reviews-photos/99e0d574-ec64-47c9-9fb4-6d5dfeb84980.jpg?w=1920"
+        },
+        {
+          "id": "28092903",
+          "thumbUrl": "https://cachizer1.2gis.com/reviews-photos/6b48923d-021c-4968-abeb-77cf9db8134c.jpg?w=320",
+          "fullUrl": "https://cachizer1.2gis.com/reviews-photos/6b48923d-021c-4968-abeb-77cf9db8134c.jpg?w=1920"
+        },
+        {
+          "id": "28092904",
+          "thumbUrl": "https://cachizer1.2gis.com/reviews-photos/75035af3-cb3d-44fc-9461-d7059fd6de0a.jpg?w=320",
+          "fullUrl": "https://cachizer1.2gis.com/reviews-photos/75035af3-cb3d-44fc-9461-d7059fd6de0a.jpg?w=1920"
+        },
+        {
+          "id": "28092905",
+          "thumbUrl": "https://cachizer3.2gis.com/reviews-photos/e0ab0a4d-e2f7-4c6e-8c4f-3da1275dbcb8.jpg?w=320",
+          "fullUrl": "https://cachizer3.2gis.com/reviews-photos/e0ab0a4d-e2f7-4c6e-8c4f-3da1275dbcb8.jpg?w=1920"
+        }
+      ],
+      "sourceUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews"
+    },
+    {
+      "id": "228761132",
+      "authorName": "Евгений Кузяев",
+      "authorInitials": "ЕК",
+      "authorAvatarUrl": "",
+      "authorReviewsCount": 3,
+      "dateCreated": "2026-03-13T09:55:49.749296+07:00",
+      "dateLabel": "13 марта 2026 г.",
+      "rating": 5,
+      "ratingLabel": "★★★★★",
+      "likesCount": 1,
+      "isVerified": false,
+      "text": "Заказывали супруге Toyota Rav4, знакомый порекомендовал данную компанию. В процессе поиска аппетит усилился , поэтому выбрали комплектацию лучше , немного увеличив бюджет. Автомобиль купили достаточно быстро ( около 2 недель торговали) С доставкой получилось не так радужно, из за ажиотажа связанного с повышением пошлин боялись не успеть, но как и говорили в компании, зря нервничали т.к. получили автомобиль аккурат к введению новых правил. Состоянием автомобиля довольны на все 100%",
+      "photosCount": 1,
+      "photos": [
+        {
+          "id": "27786116",
+          "thumbUrl": "https://cachizer2.2gis.com/reviews-photos/855e9def-e316-44c5-983f-0c2346714671.jpg?w=320",
+          "fullUrl": "https://cachizer2.2gis.com/reviews-photos/855e9def-e316-44c5-983f-0c2346714671.jpg?w=1920"
+        }
+      ],
+      "sourceUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews"
+    },
+    {
+      "id": "226324613",
+      "authorName": "Ivan Drgt",
+      "authorInitials": "ID",
+      "authorAvatarUrl": "https://i7.photo.2gis.com/images/profile/844424966729207_c3b1_64x64.jpg",
+      "authorReviewsCount": 6,
+      "dateCreated": "2026-03-04T12:23:14.169922+07:00",
+      "dateLabel": "4 марта 2026 г.",
+      "rating": 5,
+      "ratingLabel": "★★★★★",
+      "likesCount": 0,
+      "isVerified": false,
+      "text": "Наткнулся на парней в инсте, попросил лучшее за минимальную цену, в итоге нашли жемчужину: на жирном лифте, с камерами и огромной мультимедией. Сначала не поверил в цену, но она ни на рубль не изменилась (если не считать чуть подросший курс евро). Сами оформили в лаборатории, все доп оборудование вписали. На удивление не предлагали ненужные мне варианты, поняли друг друга с полуслова. Рекомендую!",
+      "photosCount": 1,
+      "photos": [
+        {
+          "id": "28060529",
+          "thumbUrl": "https://cachizer3.2gis.com/reviews-photos/3c594ebd-9fbc-4a2c-8a35-c42eded863d1.jpg?w=320",
+          "fullUrl": "https://cachizer3.2gis.com/reviews-photos/3c594ebd-9fbc-4a2c-8a35-c42eded863d1.jpg?w=1920"
+        }
+      ],
+      "sourceUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews"
+    }
+  ]
+}
