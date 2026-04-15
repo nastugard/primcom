@@ -44,6 +44,8 @@ class Settings(BaseSettings):
     telegram_bot_token: str | None = None
     telegram_group_id: str | None = None
     lead_rate_limit_per_minute: int = 20
+    exchange_rate_api_url_template: str = "https://open.er-api.com/v6/latest/{base}"
+    exchange_rate_api_timeout_ms: int = 4000
 
     @property
     def cors_origins_list(self) -> list[str]:

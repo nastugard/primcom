@@ -14,6 +14,7 @@ import { initLatestCarsHome } from "./modules/latest-cars-home.js?v=20260412-hom
 import { initManualMarketCars } from "./modules/auto-manual-market.js?v=20260411-catalog-cache-1";
 import { initVkClipsCarousel } from "./modules/vk-clips-carousel.js";
 import { initPerformanceMode, loadEnhancementRuntime } from "./modules/performance-mode.js";
+import { initImportCalculator } from "./modules/import-calculator.js?v=20260415-import-calculator-1";
 
 function safeInit(name, fn) {
   try {
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   safeInit("initManualMarketCars", initManualMarketCars);
   safeInit("initLatestCarsHome", initLatestCarsHome);
   safeInit("initVkClipsCarousel", initVkClipsCarousel);
+  safeInit("initImportCalculator", initImportCalculator);
 
   if (!performanceProfile.isLite) {
     safeInit("initScrollSmoother", initScrollSmoother);

@@ -3,26 +3,32 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import logging
 import os
 import pathlib
 import time
 import uuid
+from decimal import Decimal
 from typing import Literal
 
 import httpx
 from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Query, Request, UploadFile
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import SessionLocal
 from app.repositories.catalog import list_recent_runs
 from app.core import settings
+from app.services.import_calculator.exceptions import CalculatorValidationError
+from app.services.import_calculator.service import calculate_import_cost
+from app.services.import_calculator.types import CalculatorInput
 from app.utils.media import save_upload_image_bytes
 
 
 router = APIRouter()
 _lead_ip_hits: dict[str, list[float]] = {}
+logger = logging.getLogger(__name__)
 
 
 async def _get_db() -> AsyncSession:
@@ -340,6 +346,43 @@ class LeadOut(BaseModel):
     ok: bool
 
 
+class ImportCalculatorIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    car_price_foreign: float = Field(gt=0)
+    currency: Literal["USD", "EUR", "JPY"]
+    engine_volume: float = Field(ge=0)
+    engine_power_hp: int = Field(ge=0)
+    vehicle_age: Literal["new", "used"]
+    fuel_type: Literal["petrol", "diesel", "hybrid", "electric"]
+    is_personal_use: bool
+    rule_version: str | None = None
+    exchange_rate_override: float | None = Field(default=None, gt=0)
+    debug: bool = False
+
+
+class ImportCalculatorBreakdownOut(BaseModel):
+    car_price_rub: float
+    duty: float
+    excise: float
+    util: float
+    vat: float
+
+
+class ImportCalculatorMetaOut(BaseModel):
+    rule_version: str
+    exchange_rate: float
+    exchange_rate_source: str
+    util_mode: Literal["privileged", "commercial"]
+
+
+class ImportCalculatorOut(BaseModel):
+    total_cost: float
+    breakdown: ImportCalculatorBreakdownOut
+    meta: ImportCalculatorMetaOut
+    debug_trace: dict[str, object] | None = None
+
+
 @router.get("/", tags=["meta"])
 async def root():
     return {"status": "ok", "docs": "/docs", "catalog": "/api/auto-iz-kitaya"}
@@ -348,6 +391,84 @@ async def root():
 @router.get("/health", tags=["meta"])
 async def health():
     return {"status": "ok"}
+
+
+@router.post(
+    "/api/import-calculator/calculate",
+    response_model=ImportCalculatorOut,
+    response_model_exclude_none=True,
+    tags=["calculator"],
+)
+async def import_calculator_calculate(
+    payload: ImportCalculatorIn,
+) -> ImportCalculatorOut:
+    rule_version = str(payload.rule_version or "2026").strip() or "2026"
+    log_payload = {
+        "car_price_foreign": payload.car_price_foreign,
+        "currency": payload.currency,
+        "engine_volume": payload.engine_volume,
+        "engine_power_hp": payload.engine_power_hp,
+        "vehicle_age": payload.vehicle_age,
+        "fuel_type": payload.fuel_type,
+        "is_personal_use": payload.is_personal_use,
+        "rule_version": rule_version,
+        "debug": payload.debug,
+        "has_exchange_rate_override": payload.exchange_rate_override is not None,
+    }
+
+    try:
+        result = await calculate_import_cost(
+            CalculatorInput(
+                car_price_foreign=Decimal(str(payload.car_price_foreign)),
+                currency=payload.currency,
+                engine_volume=Decimal(str(payload.engine_volume)),
+                engine_power_hp=payload.engine_power_hp,
+                vehicle_age=payload.vehicle_age,
+                fuel_type=payload.fuel_type,
+                is_personal_use=payload.is_personal_use,
+                rule_version=rule_version,
+            ),
+            exchange_rate_override=(
+                Decimal(str(payload.exchange_rate_override))
+                if payload.exchange_rate_override is not None
+                else None
+            ),
+            debug=payload.debug,
+        )
+    except CalculatorValidationError as exc:
+        logger.warning(
+            "import_calculator_validation_error %s",
+            json.dumps(
+                {
+                    "payload": log_payload,
+                    "error": str(exc),
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+        )
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.exception(
+            "import_calculator_unexpected_error %s",
+            json.dumps(log_payload, ensure_ascii=False, sort_keys=True),
+        )
+        raise HTTPException(status_code=502, detail="Calculator service unavailable") from exc
+
+    logger.info(
+        "import_calculator_result %s",
+        json.dumps(
+            {
+                "payload": log_payload,
+                "meta": result["meta"],
+                "breakdown": result["breakdown"],
+                "total_cost": result["total_cost"],
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        ),
+    )
+    return ImportCalculatorOut(**result)
 
 
 @router.post("/api/lead", response_model=LeadOut, tags=["lead"])

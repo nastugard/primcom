@@ -43,6 +43,51 @@
 
 ---
 
+## 2026-04-15 12:06 (+10)
+
+### Изменение
+
+Добавлен production-ready контур калькулятора ввоза авто:
+
+- новый пакет `app/services/import_calculator/` с versioned config, core-формулами и exchange adapter;
+- новый endpoint `POST /api/import-calculator/calculate`;
+- controlled validation errors для неподдержанных `rule_version`/`fuel_type`;
+- structured logging по каждому расчёту.
+
+### Причина
+
+Нужно было вынести расчёт пошлины, акциза, НДС и утильсбора из фронтовой страницы в backend-authoritative сервис, пригодный для сайта и B2B/API-интеграций.
+
+### Затронутые файлы
+
+- `app/api/routes.py`
+- `app/core/settings.py`
+- `app/services/import_calculator/__init__.py`
+- `app/services/import_calculator/adapters.py`
+- `app/services/import_calculator/config.py`
+- `app/services/import_calculator/core.py`
+- `app/services/import_calculator/exceptions.py`
+- `app/services/import_calculator/service.py`
+- `app/services/import_calculator/types.py`
+- `tests/test_import_calculator.py`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `.venv/bin/python -m py_compile app/api/routes.py app/services/import_calculator/*.py tests/test_import_calculator.py`
+- `.venv/bin/python -m unittest tests.test_import_calculator.ImportCalculatorCoreTests tests.test_import_calculator.ImportCalculatorExchangeTests -v`
+- `.venv/bin/python -m unittest tests.test_import_calculator -v` -> API subset skipped locally из-за отсутствующего `python-multipart` в `.venv`
+
+### Действия на сервере
+
+- выкатить новый пакет `app/services/import_calculator/` и обновлённый `app/api/routes.py`;
+- проверить, что в окружении установлен `python-multipart`, как и указано в `requirements.txt`;
+- перезапустить API:
+  - `systemctl restart primcom-api.service`;
+- проверить endpoint:
+  - `POST /api/import-calculator/calculate`.
+
 ## 2026-02-24 21:49 (+10)
 
 ### Изменение

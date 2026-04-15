@@ -77,6 +77,7 @@
 - Репозиторий листингов/изображений: `app/storage/repository.py`
 - Репозиторий telemetry/translation cache: `app/repositories/catalog.py`
 - Канонический слой марки/модели: `app/services/canonical.py`
+- Калькулятор ввоза авто: `app/services/import_calculator/*`
 
 Утилиты:
 
@@ -98,6 +99,23 @@
    - поднимает FastAPI;
    - монтирует `/media` из `settings.media_dir`;
    - подключает роутер из `app/api/routes.py`.
+
+### 4.1 Import calculator API
+
+- Endpoint: `POST /api/import-calculator/calculate`
+- Назначение:
+  - backend-authoritative расчёт обязательных платежей по ввозу авто в РФ;
+  - единый контур для сайта и будущих B2B/API-интеграций.
+- Внутренняя структура:
+  - `app/services/import_calculator/config.py` - versioned rules (`2025`, `2026`);
+  - `app/services/import_calculator/adapters.py` - exchange rate provider/fallback;
+  - `app/services/import_calculator/core.py` - pure расчётные функции;
+  - `app/services/import_calculator/service.py` - orchestration layer.
+- Важно:
+  - ставки и коэффициенты не хардкодятся в роуте;
+  - при проблеме с rate provider расчёт падает не должен: используется fallback на config;
+  - если для `fuel_type` нет явного правила в выбранной версии, API возвращает controlled validation error;
+  - structured logs по расчётам пишутся в `app/api/routes.py`.
 
 Проверка:
 

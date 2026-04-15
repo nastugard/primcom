@@ -177,7 +177,9 @@
   - модуль `auto-manual-market.js`;
   - при повторном открытии может мгновенно показать сохранённый локальный снимок каталога до завершения фоновой проверки API.
 - `pages/kalkulyator-stoimosti.html`
-  - калькулятор реализован inline-скриптом в странице;
+  - root `data-import-calculator`;
+  - модуль `import-calculator.js`;
+  - страница работает как thin client к backend endpoint `/api/import-calculator/calculate`;
   - общие модули (header, modal, cookies, animations) также подключены.
 - Контентные страницы (`faq`, `dostavka`, `process-podbora`, `dogovor-i-garantii`, `kontakty`, `rastamozhka-i-poshliny`, `privacy`, `consent`, `404`)
   - используют общую шапку/футер;
@@ -204,6 +206,12 @@
   - `[data-china-cars]` и дочерние `data-china-*`.
 - Manual market catalog:
   - `[data-manual-cars]` и дочерние `data-manual-*`.
+- Import calculator:
+  - `[data-import-calculator]`, `[data-calc-form]`, `[data-calc-submit]`, `[data-calc-status]`
+  - output selectors:
+    - `[data-out-car-price]`, `[data-out-duty]`, `[data-out-excise]`, `[data-out-util]`, `[data-out-vat]`, `[data-out-total]`
+    - `[data-out-rule-version]`, `[data-out-exchange-rate]`, `[data-out-util-mode]`
+    - `[data-calc-debug]`, `[data-calc-debug-pre]`
 - Reviews 2ГИС:
   - секция `#reviews.section--reviews-2gis`;
   - HTML между комментариями `<!-- 2GIS_REVIEWS:START -->` и `<!-- 2GIS_REVIEWS:END -->` считается генерируемым и обновляется только скриптом `scripts/sync-2gis-reviews.mjs`.
@@ -516,3 +524,16 @@ Hero readability:
   - исправлена синтаксическая ошибка JSON-LD в `index.html` (валидная structured data на главной);
   - из `robots.txt` убрана блокировка `/components/`, чтобы header/footer оставались доступными роботам;
   - в `pages/auto-iz-yaponii.html` и `pages/auto-iz-korei.html` добавлен полный набор `og/twitter` мета-тегов для корректных social-превью.
+
+### 2026-04-15
+
+- Мобильное модальное окно характеристик авто использует компактный двухколоночный layout:
+  - слева ключ (`.manual-car__spec-key`);
+  - справа значение (`.manual-car__spec-val`).
+- Layout общий для главной и страниц Японии/Кореи/Китая, потому что все они используют одни и те же классы `manual-car__spec-*`.
+
+### 2026-04-15
+
+- Мобильные модалки с классами `.modal__dialog` и `.modal__dialog--wide` раскрываются на всю ширину/высоту экрана от `700px` и ниже.
+- Кнопка `.modal__close` в мобильной версии намеренно сделана более контрастной, потому что лежит поверх фото и тёмного контента.
+- У wide-модалок карточек авто (`.modal__dialog--wide`) mobile override должен идти позже базового desktop-правила, иначе ширина снова схлопывается и справа становится видна страница под модалкой.
