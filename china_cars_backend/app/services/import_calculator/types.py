@@ -6,7 +6,7 @@ from typing import Literal
 
 
 CurrencyCode = Literal["USD", "EUR", "JPY"]
-VehicleAge = Literal["new", "used"]
+VehicleAge = Literal["new", "3-5", "5+"]
 FuelType = Literal["petrol", "diesel", "hybrid", "electric"]
 UtilMode = Literal["privileged", "commercial"]
 
@@ -25,7 +25,7 @@ class DutyNewBand:
 
 
 @dataclass(frozen=True)
-class DutyUsedBand:
+class DutyVolumeBand:
     max_engine_volume_l: Decimal
     eur_per_cc: Decimal
 
@@ -56,8 +56,7 @@ class RuleSet:
     version: str
     default_exchange_rates: dict[CurrencyCode, Decimal]
     fuel_rules: dict[FuelType, FuelRule]
-    new_duty_bands: tuple[DutyNewBand, ...]
-    used_duty_bands: tuple[DutyUsedBand, ...]
+    duty_config: dict[VehicleAge, tuple[DutyNewBand | DutyVolumeBand, ...]]
     excise_bands: tuple[ExciseBand, ...]
     util_base_amount_rub: Decimal
     util_privileged_rates: tuple[UtilPrivilegedRate, ...]
@@ -74,6 +73,7 @@ class CalculatorInput:
     vehicle_age: VehicleAge
     fuel_type: FuelType
     is_personal_use: bool
+    is_legal_entity: bool
     rule_version: str
 
 
@@ -83,4 +83,3 @@ class ResolvedRates:
     currency_source: str
     eur_to_rub: Decimal
     eur_source: str
-

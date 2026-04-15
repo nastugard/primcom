@@ -113,10 +113,10 @@ function buildPayload(form) {
     currency: String(form.elements.currency?.value || "USD").toUpperCase(),
     engine_volume: Number(form.elements.engineVolume?.value || 0),
     engine_power_hp: Number(form.elements.enginePowerHp?.value || 0),
-    vehicle_age: String(form.elements.vehicleAge?.value || "used"),
+    vehicle_age: String(form.elements.vehicleAge?.value || "3-5"),
     fuel_type: String(form.elements.fuelType?.value || "petrol"),
     is_personal_use: !!form.elements.isPersonalUse?.checked,
-    debug: !!form.elements.debug?.checked,
+    is_legal_entity: !!form.elements.isLegalEntity?.checked,
   };
 }
 
@@ -133,8 +133,6 @@ function renderResult(root, payload, data) {
   const outRuleVersion = qs("[data-out-rule-version]", root);
   const outExchangeRate = qs("[data-out-exchange-rate]", root);
   const outUtilMode = qs("[data-out-util-mode]", root);
-  const debugBox = qs("[data-calc-debug]", root);
-  const debugPre = qs("[data-calc-debug-pre]", root);
 
   if (outCarPrice) outCarPrice.textContent = formatMoney(breakdown.car_price_rub);
   if (outDuty) outDuty.textContent = formatMoney(breakdown.duty);
@@ -145,20 +143,9 @@ function renderResult(root, payload, data) {
   if (outRuleVersion) outRuleVersion.textContent = String(meta.rule_version || "—");
   if (outExchangeRate) {
     const rate = formatRate(meta.exchange_rate);
-    const source = String(meta.exchange_rate_source || "").trim();
-    outExchangeRate.textContent = `${payload.currency}/RUB: ${rate}${source ? ` (${source})` : ""}`;
+    outExchangeRate.textContent = `${payload.currency}/RUB: ${rate}`;
   }
   if (outUtilMode) outUtilMode.textContent = humanizeUtilMode(meta.util_mode);
-
-  if (debugBox && debugPre) {
-    if (payload.debug && data.debug_trace) {
-      debugBox.hidden = false;
-      debugPre.textContent = JSON.stringify(data.debug_trace, null, 2);
-    } else {
-      debugBox.hidden = true;
-      debugPre.textContent = "";
-    }
-  }
 }
 
 export function initImportCalculator() {
@@ -187,7 +174,9 @@ export function initImportCalculator() {
       renderResult(root, payload, data);
       setStatus(
         statusEl,
-        "Расчёт выполнен. Точный коммерческий расчёт с логистикой и сопровождением уточняется отдельно.",
+        payload.is_legal_entity
+          ? "Расчёт выполнен. Для юрлица НДС включён в итог."
+          : "Расчёт выполнен. Для физлица НДС не начисляется.",
         "success"
       );
     } catch (err) {

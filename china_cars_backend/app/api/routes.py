@@ -353,9 +353,10 @@ class ImportCalculatorIn(BaseModel):
     currency: Literal["USD", "EUR", "JPY"]
     engine_volume: float = Field(ge=0)
     engine_power_hp: int = Field(ge=0)
-    vehicle_age: Literal["new", "used"]
+    vehicle_age: Literal["new", "3-5", "5+"]
     fuel_type: Literal["petrol", "diesel", "hybrid", "electric"]
     is_personal_use: bool
+    is_legal_entity: bool = False
     rule_version: str | None = None
     exchange_rate_override: float | None = Field(default=None, gt=0)
     debug: bool = False
@@ -411,6 +412,7 @@ async def import_calculator_calculate(
         "vehicle_age": payload.vehicle_age,
         "fuel_type": payload.fuel_type,
         "is_personal_use": payload.is_personal_use,
+        "is_legal_entity": payload.is_legal_entity,
         "rule_version": rule_version,
         "debug": payload.debug,
         "has_exchange_rate_override": payload.exchange_rate_override is not None,
@@ -426,6 +428,7 @@ async def import_calculator_calculate(
                 vehicle_age=payload.vehicle_age,
                 fuel_type=payload.fuel_type,
                 is_personal_use=payload.is_personal_use,
+                is_legal_entity=payload.is_legal_entity,
                 rule_version=rule_version,
             ),
             exchange_rate_override=(

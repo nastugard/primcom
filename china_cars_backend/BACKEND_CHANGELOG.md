@@ -43,6 +43,43 @@
 
 ---
 
+## 2026-04-16 00:18 (+10)
+
+### Изменение
+
+Доработан существующий import calculator без смены архитектуры:
+
+- `vehicle_age` переведён с 2 состояний на 3 диапазона: `new`, `3-5`, `5+`;
+- duty config перестроен по возрастным таблицам, включая отдельные ставки для `3-5` и `5+`;
+- НДС теперь начисляется только для `is_legal_entity=true`;
+- логика акциза и утильсбора сохранена, но привязана к новым age enum без изменения формул.
+
+### Причина
+
+Нужно было адаптировать текущий калькулятор под новые правила расчёта пошлины и НДС, не переписывая сервис заново и не ломая уже существующий API/UI-контур.
+
+### Затронутые файлы
+
+- `app/api/routes.py`
+- `app/services/import_calculator/config.py`
+- `app/services/import_calculator/core.py`
+- `app/services/import_calculator/service.py`
+- `app/services/import_calculator/types.py`
+- `tests/test_import_calculator.py`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `python3 -m py_compile china_cars_backend/app/api/routes.py china_cars_backend/app/services/import_calculator/*.py china_cars_backend/tests/test_import_calculator.py`
+- `cd china_cars_backend && .venv/bin/python -m unittest tests.test_import_calculator.ImportCalculatorCoreTests tests.test_import_calculator.ImportCalculatorExchangeTests -v`
+- `git diff --check`
+
+### Действия на сервере
+
+- выкатить обновлённые файлы `app/api/routes.py` и `app/services/import_calculator/*`;
+- перезапустить `primcom-api.service`;
+- проверить `POST /api/import-calculator/calculate` с `vehicle_age=3-5` и двумя вариантами `is_legal_entity` (`true` и `false`).
+
 ## 2026-04-15 12:06 (+10)
 
 ### Изменение

@@ -7,7 +7,7 @@ from app.services.import_calculator.exceptions import CalculatorValidationError
 from app.services.import_calculator.types import (
     CalculatorInput,
     DutyNewBand,
-    DutyUsedBand,
+    DutyVolumeBand,
     ExciseBand,
     FuelRule,
     RuleSet,
@@ -44,17 +44,41 @@ def select_fuel_rule(rule_set: RuleSet, fuel_type: str) -> FuelRule:
 
 
 def select_new_duty_band(rule_set: RuleSet, price_eur: Decimal) -> DutyNewBand:
-    for band in rule_set.new_duty_bands:
+    bands = rule_set.duty_config.get("new")
+    if not bands:
+        raise CalculatorValidationError(
+            f"Duty config for vehicle_age 'new' is not configured in version {rule_set.version}"
+        )
+    for band in bands:
+        if not isinstance(band, DutyNewBand):
+            raise CalculatorValidationError("Invalid duty config for vehicle_age 'new'")
         if price_eur <= band.max_value_eur:
             return band
-    return rule_set.new_duty_bands[-1]
+    raise CalculatorValidationError(
+        f"Duty band was not found for vehicle_age 'new' and price_eur={price_eur}"
+    )
 
 
-def select_used_duty_band(rule_set: RuleSet, engine_volume: Decimal) -> DutyUsedBand:
-    for band in rule_set.used_duty_bands:
+def select_volume_duty_band(
+    rule_set: RuleSet,
+    vehicle_age: str,
+    engine_volume: Decimal,
+) -> DutyVolumeBand:
+    bands = rule_set.duty_config.get(vehicle_age)
+    if not bands:
+        raise CalculatorValidationError(
+            f"Duty config for vehicle_age '{vehicle_age}' is not configured in version {rule_set.version}"
+        )
+    for band in bands:
+        if not isinstance(band, DutyVolumeBand):
+            raise CalculatorValidationError(
+                f"Invalid duty config for vehicle_age '{vehicle_age}'"
+            )
         if engine_volume <= band.max_engine_volume_l:
             return band
-    return rule_set.used_duty_bands[-1]
+    raise CalculatorValidationError(
+        f"Duty band was not found for vehicle_age '{vehicle_age}' and engine_volume={engine_volume}"
+    )
 
 
 def calculate_duty(
@@ -80,35 +104,40 @@ def calculate_duty(
         }
         return duty, trace
 
+    engine_cc = input_data.engine_volume * Decimal("1000")
+    if engine_cc < 0:
+        raise CalculatorValidationError("engine_volume must produce non-negative engine_volume_cc")
+
     if input_data.vehicle_age == "new":
         band = select_new_duty_band(rule_set, price_eur)
         by_pct = car_price_rub * band.pct
-        engine_cc = input_data.engine_volume * Decimal("1000")
         by_min = engine_cc * band.min_eur_per_cc * eur_to_rub
         duty = quantize_money(max(by_pct, by_min))
         trace = {
             "strategy": "new_unified_rate",
             "price_eur": float(price_eur),
+            "vehicle_age": input_data.vehicle_age,
             "band": {
                 "max_value_eur": float(band.max_value_eur),
                 "pct": float(band.pct),
                 "min_eur_per_cc": float(band.min_eur_per_cc),
             },
+            "engine_volume_cc": float(engine_cc),
             "by_pct_rub": float(quantize_money(by_pct)),
             "by_min_rub": float(quantize_money(by_min)),
         }
         return duty, trace
 
-    band = select_used_duty_band(rule_set, input_data.engine_volume)
-    engine_cc = input_data.engine_volume * Decimal("1000")
+    band = select_volume_duty_band(rule_set, input_data.vehicle_age, input_data.engine_volume)
     duty = quantize_money(engine_cc * band.eur_per_cc * eur_to_rub)
     trace = {
-        "strategy": "used_eur_per_cc",
+        "strategy": "volume_based_eur_per_cc",
+        "vehicle_age": input_data.vehicle_age,
         "band": {
             "max_engine_volume_l": float(band.max_engine_volume_l),
             "eur_per_cc": float(band.eur_per_cc),
         },
-        "engine_cc": float(engine_cc),
+        "engine_volume_cc": float(engine_cc),
         "price_eur": float(price_eur),
     }
     return duty, trace
@@ -227,4 +256,3 @@ def calculate_total(
     vat: Decimal,
 ) -> Decimal:
     return quantize_money(car_price_rub + duty + excise + util + vat)
-

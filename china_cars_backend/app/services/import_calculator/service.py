@@ -41,13 +41,21 @@ async def calculate_import_cost(
     )
     excise, excise_trace = calculate_excise(input_data, rule_set)
     util, util_mode, util_trace = calculate_util(input_data, rule_set)
-    vat, vat_trace = calculate_vat(
-        rule_set,
-        car_price_rub=car_price_rub,
-        duty=duty,
-        excise=excise,
-        util=util,
-    )
+    if input_data.is_legal_entity:
+        vat, vat_trace = calculate_vat(
+            rule_set,
+            car_price_rub=car_price_rub,
+            duty=duty,
+            excise=excise,
+            util=util,
+        )
+    else:
+        vat = Decimal("0.00")
+        vat_trace = {
+            "vat_base_rub": float(quantize_money(car_price_rub + duty + excise + util)),
+            "vat_rate": float(rule_set.vat_rate),
+            "applied": False,
+        }
     total = calculate_total(
         car_price_rub=car_price_rub,
         duty=duty,
@@ -83,6 +91,7 @@ async def calculate_import_cost(
                 "vehicle_age": input_data.vehicle_age,
                 "fuel_type": input_data.fuel_type,
                 "is_personal_use": input_data.is_personal_use,
+                "is_legal_entity": input_data.is_legal_entity,
                 "rule_version": input_data.rule_version,
             },
             "exchange": {
@@ -102,4 +111,3 @@ async def calculate_import_cost(
         }
 
     return response
-

@@ -25,7 +25,7 @@ from app.services.import_calculator.core import (
     determine_util_mode,
     quantize_money,
     select_fuel_rule,
-    select_used_duty_band,
+    select_volume_duty_band,
 )
 from app.services.import_calculator.exceptions import CalculatorValidationError
 from app.services.import_calculator.types import CalculatorInput
@@ -44,6 +44,7 @@ class ImportCalculatorCoreTests(unittest.TestCase):
             vehicle_age="new",
             fuel_type="petrol",
             is_personal_use=True,
+            is_legal_entity=False,
             rule_version="2026",
         )
         fuel_rule = select_fuel_rule(self.rule_set, input_data.fuel_type)
@@ -62,18 +63,32 @@ class ImportCalculatorCoreTests(unittest.TestCase):
         self.assertEqual(trace["by_pct_rub"], 271350.0)
         self.assertEqual(trace["by_min_rub"], 753750.0)
 
-    def test_used_duty_band_boundaries(self) -> None:
+    def test_duty_band_boundaries_for_3_to_5_years(self) -> None:
         expectations = {
             Decimal("1.0"): Decimal("1.5"),
             Decimal("1.5"): Decimal("1.7"),
             Decimal("1.8"): Decimal("2.5"),
-            Decimal("2.3"): Decimal("2.7"),
+            Decimal("2.0"): Decimal("2.7"),
             Decimal("3.0"): Decimal("3.0"),
             Decimal("3.1"): Decimal("3.6"),
         }
         for volume, expected in expectations.items():
             with self.subTest(engine_volume=volume):
-                band = select_used_duty_band(self.rule_set, volume)
+                band = select_volume_duty_band(self.rule_set, "3-5", volume)
+                self.assertEqual(band.eur_per_cc, expected)
+
+    def test_duty_band_boundaries_for_5_plus_years(self) -> None:
+        expectations = {
+            Decimal("1.0"): Decimal("3.0"),
+            Decimal("1.5"): Decimal("3.2"),
+            Decimal("1.8"): Decimal("3.5"),
+            Decimal("2.0"): Decimal("4.8"),
+            Decimal("3.0"): Decimal("5.0"),
+            Decimal("3.1"): Decimal("5.7"),
+        }
+        for volume, expected in expectations.items():
+            with self.subTest(engine_volume=volume):
+                band = select_volume_duty_band(self.rule_set, "5+", volume)
                 self.assertEqual(band.eur_per_cc, expected)
 
     def test_excise_bands_cover_boundaries(self) -> None:
@@ -94,9 +109,10 @@ class ImportCalculatorCoreTests(unittest.TestCase):
                     currency="USD",
                     engine_volume=Decimal("2.0"),
                     engine_power_hp=hp,
-                    vehicle_age="used",
+                    vehicle_age="3-5",
                     fuel_type="petrol",
                     is_personal_use=True,
+                    is_legal_entity=False,
                     rule_version="2026",
                 )
                 excise, trace = calculate_excise(input_data, self.rule_set)
@@ -107,7 +123,7 @@ class ImportCalculatorCoreTests(unittest.TestCase):
         base_kwargs = {
             "car_price_foreign": Decimal("10000"),
             "currency": "USD",
-            "vehicle_age": "used",
+            "vehicle_age": "3-5",
             "fuel_type": "petrol",
             "rule_version": "2026",
         }
@@ -115,18 +131,21 @@ class ImportCalculatorCoreTests(unittest.TestCase):
             engine_volume=Decimal("3.0"),
             engine_power_hp=160,
             is_personal_use=True,
+            is_legal_entity=False,
             **base_kwargs,
         )
         commercial_hp = CalculatorInput(
             engine_volume=Decimal("3.0"),
             engine_power_hp=161,
             is_personal_use=True,
+            is_legal_entity=False,
             **base_kwargs,
         )
         commercial_volume = CalculatorInput(
             engine_volume=Decimal("3.1"),
             engine_power_hp=160,
             is_personal_use=True,
+            is_legal_entity=False,
             **base_kwargs,
         )
 
@@ -145,15 +164,24 @@ class ImportCalculatorCoreTests(unittest.TestCase):
         self.assertEqual(Decimal(str(trace["vat_base_rub"])), Decimal("3344990.0"))
         self.assertEqual(vat, Decimal("668998.00"))
 
+    def test_case_1_for_3_to_5_years_uses_2_7_eur_per_cc(self) -> None:
+        band = select_volume_duty_band(self.rule_set, "3-5", Decimal("2.0"))
+        self.assertEqual(band.eur_per_cc, Decimal("2.7"))
+
+    def test_case_2_for_5_plus_years_uses_4_8_eur_per_cc(self) -> None:
+        band = select_volume_duty_band(self.rule_set, "5+", Decimal("2.0"))
+        self.assertEqual(band.eur_per_cc, Decimal("4.8"))
+
     def test_acceptance_case_hits_expected_util_range(self) -> None:
         input_data = CalculatorInput(
             car_price_foreign=Decimal("10000"),
             currency="USD",
             engine_volume=Decimal("2.0"),
             engine_power_hp=238,
-            vehicle_age="used",
+            vehicle_age="3-5",
             fuel_type="petrol",
             is_personal_use=True,
+            is_legal_entity=False,
             rule_version="2026",
         )
         util, util_mode, _trace = calculate_util(input_data, self.rule_set)
@@ -227,7 +255,8 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
                 "currency": "USD",
                 "engine_volume": 2.0,
                 "engine_power_hp": 238,
-                "vehicle_age": "used",
+                "vehicle_age": "3-5",
+                "is_legal_entity": False,
                 "fuel_type": "petrol",
                 "is_personal_use": True,
             },
@@ -238,7 +267,7 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("debug_trace", data)
         self.assertEqual(data["meta"]["rule_version"], "2026")
         self.assertEqual(data["meta"]["util_mode"], "commercial")
-        self.assertGreater(data["breakdown"]["vat"], 0)
+        self.assertEqual(data["breakdown"]["vat"], 0)
 
     async def test_calculate_success_with_debug(self) -> None:
         response = await self.client.post(
@@ -248,9 +277,10 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
                 "currency": "USD",
                 "engine_volume": 2.0,
                 "engine_power_hp": 238,
-                "vehicle_age": "used",
+                "vehicle_age": "3-5",
                 "fuel_type": "petrol",
                 "is_personal_use": True,
+                "is_legal_entity": True,
                 "debug": True,
             },
         )
@@ -258,7 +288,46 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertIn("debug_trace", data)
-        self.assertEqual(data["debug_trace"]["duty"]["strategy"], "used_eur_per_cc")
+        self.assertEqual(data["debug_trace"]["duty"]["strategy"], "volume_based_eur_per_cc")
+        self.assertGreater(data["breakdown"]["vat"], 0)
+
+    async def test_case_3_legal_entity_adds_vat(self) -> None:
+        response = await self.client.post(
+            "/api/import-calculator/calculate",
+            json={
+                "car_price_foreign": 10000,
+                "currency": "USD",
+                "engine_volume": 2.0,
+                "engine_power_hp": 238,
+                "vehicle_age": "3-5",
+                "fuel_type": "petrol",
+                "is_personal_use": True,
+                "is_legal_entity": True,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertGreater(data["breakdown"]["vat"], 0)
+
+    async def test_case_4_individual_has_zero_vat(self) -> None:
+        response = await self.client.post(
+            "/api/import-calculator/calculate",
+            json={
+                "car_price_foreign": 10000,
+                "currency": "USD",
+                "engine_volume": 2.0,
+                "engine_power_hp": 238,
+                "vehicle_age": "3-5",
+                "fuel_type": "petrol",
+                "is_personal_use": True,
+                "is_legal_entity": False,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["breakdown"]["vat"], 0)
 
     async def test_invalid_currency_returns_422(self) -> None:
         response = await self.client.post(
@@ -268,9 +337,10 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
                 "currency": "CNY",
                 "engine_volume": 2.0,
                 "engine_power_hp": 238,
-                "vehicle_age": "used",
+                "vehicle_age": "3-5",
                 "fuel_type": "petrol",
                 "is_personal_use": True,
+                "is_legal_entity": False,
             },
         )
 
@@ -284,9 +354,10 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
                 "currency": "USD",
                 "engine_volume": 2.0,
                 "engine_power_hp": 238,
-                "vehicle_age": "used",
+                "vehicle_age": "3-5",
                 "fuel_type": "petrol",
                 "is_personal_use": True,
+                "is_legal_entity": False,
                 "rule_version": "2099",
             },
         )
@@ -302,9 +373,10 @@ class ImportCalculatorApiTests(unittest.IsolatedAsyncioTestCase):
                 "currency": "USD",
                 "engine_volume": 0,
                 "engine_power_hp": 150,
-                "vehicle_age": "used",
+                "vehicle_age": "3-5",
                 "fuel_type": "electric",
                 "is_personal_use": True,
+                "is_legal_entity": False,
                 "rule_version": "2025",
             },
         )

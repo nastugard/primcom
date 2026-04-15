@@ -71,17 +71,16 @@
   <div id="site-header"></div>
 
   <main class="site-main" id="main">
-    <section class="section" aria-label="Калькулятор стоимости">
+    <section class="section section--calculator-intro" aria-label="Калькулятор стоимости">
       <div class="container">
         <h1 class="section__title">Калькулятор стоимости привоза</h1>
-        <p class="section__lead">
+        <p class="section__lead section__lead--calculator-intro">
           Калькулятор рассчитывает обязательные платежи при ввозе автомобиля в РФ: таможенную пошлину, акциз, НДС и утилизационный сбор.
-          Методика вынесена в backend и использует версию правил 2026, поэтому страница показывает результат по тем же данным, что и API.
         </p>
       </div>
     </section>
 
-    <section class="section" aria-label="Форма расчёта">
+    <section class="section section--calculator-form" aria-label="Форма расчёта">
       <div class="container">
         <h2 class="section__title">Параметры автомобиля</h2>
         <p class="section__lead">Введите цену за границей и параметры авто, чтобы получить расчёт обязательных платежей и итоговую стоимость.</p>
@@ -117,7 +116,8 @@
                 <span class="field__label">Возраст автомобиля</span>
                 <select class="field__control" name="vehicleAge" required>
                   <option value="new">До 3 лет включительно</option>
-                  <option value="used" selected>Старше 3 лет</option>
+                  <option value="3-5" selected>От 3 до 5 лет</option>
+                  <option value="5+">Старше 5 лет</option>
                 </select>
               </label>
 
@@ -138,8 +138,8 @@
                 <span class="check__text">Ввоз для личного пользования</span>
               </label>
               <label class="check calc-check">
-                <input class="check__control" type="checkbox" name="debug" />
-                <span class="check__text">Показать debug trace расчёта</span>
+                <input class="check__control" type="checkbox" name="isLegalEntity" />
+                <span class="check__text">Расчёт для юридического лица</span>
               </label>
             </div>
 
@@ -185,14 +185,9 @@
                 <div class="calc-meta__item">Режим утиля: <span data-out-util-mode>—</span></div>
               </div>
 
-              <details class="calc-debug" data-calc-debug hidden>
-                <summary>Debug trace</summary>
-                <pre class="calc-debug__pre" data-calc-debug-pre></pre>
-              </details>
-
               <p class="calc-note">
                 Страница показывает обязательные платежи по методике 2026: пошлина, акциз, НДС и утильсбор.
-                Логистика, агентские услуги, СВХ и прочие коммерческие расходы в этот итог не входят и уточняются отдельно.
+                Для физлица НДС не начисляется. Логистика, агентские услуги, СВХ и прочие коммерческие расходы в этот итог не входят и уточняются отдельно.
               </p>
             </div>
           </form>
