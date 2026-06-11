@@ -48,6 +48,14 @@ function formatPrice(value, currencySign = "¥") {
   }).format(Math.round(n))}`;
 }
 
+function isManualChinaItem(item) {
+  return String(item?.source_listing_id || "").startsWith("mgr-china-");
+}
+
+function getItemCurrencySign(item, fallbackSign = "¥") {
+  return isManualChinaItem(item) ? "₽" : fallbackSign;
+}
+
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
@@ -497,12 +505,13 @@ function getDetailImages(detail, apiBase, coverUrl = "") {
 function renderSpecRows(specsEl, item, currencySign) {
   if (!specsEl) return;
   clearEl(specsEl);
+  const itemCurrencySign = getItemCurrencySign(item, currencySign);
   const rows = [
     ["Марка", item?.brand],
     ["Модель", item?.model],
     ["Год", item?.year],
     ["Пробег", item?.mileage_km ? `${formatInt(item.mileage_km)} км` : ""],
-    ["Цена", formatPrice(item?.price_cny, currencySign)],
+    ["Цена", formatPrice(item?.price_cny, itemCurrencySign)],
     ["Привод", item?.drive_type],
     ["Топливо", item?.engine_type],
     ["Объем", item?.engine_volume_l ? `${item.engine_volume_l} л` : ""],
@@ -654,12 +663,13 @@ function createLatestModalController() {
   const open = async ({ item, pageUrl, currencySign, coverUrl, apiPath }) => {
     const token = ++openToken;
     const baseTitle = getTitle(item);
+    const itemCurrencySign = getItemCurrencySign(item, currencySign);
     if (titleEl) titleEl.textContent = baseTitle;
-    if (metaEl) metaEl.textContent = formatMeta(item, currencySign);
+    if (metaEl) metaEl.textContent = formatMeta(item, itemCurrencySign);
     if (updatedEl) updatedEl.textContent = formatDateTimeRu(item?.scraped_at) || "—";
     if (sectionLinkEl) sectionLinkEl.href = pageUrl;
     setDescription(resolveDescription(item, item));
-    renderSpecRows(specsEl, item, currencySign);
+    renderSpecRows(specsEl, item, itemCurrencySign);
 
     images = coverUrl ? [coverUrl] : [];
     imageIndex = 0;
@@ -678,10 +688,11 @@ function createLatestModalController() {
       const detailTitle = getTitle(detail || item);
 
       if (titleEl) titleEl.textContent = detailTitle;
-      if (metaEl) metaEl.textContent = formatMeta(detail || item, currencySign);
+      const detailCurrencySign = getItemCurrencySign(detail || item, itemCurrencySign);
+      if (metaEl) metaEl.textContent = formatMeta(detail || item, detailCurrencySign);
       if (updatedEl) updatedEl.textContent = formatDateTimeRu((detail || item)?.scraped_at) || "—";
       setDescription(resolveDescription(detail || item, item));
-      renderSpecRows(specsEl, detail || item, currencySign);
+      renderSpecRows(specsEl, detail || item, detailCurrencySign);
 
       const nextImages = getDetailImages(detail, detailApiBase, coverUrl);
       images = nextImages;
@@ -896,7 +907,7 @@ function createCard({
 
   const meta = document.createElement("p");
   meta.className = "china-car-card__meta";
-  meta.textContent = formatMeta(item, currencySign);
+  meta.textContent = formatMeta(item, getItemCurrencySign(item, currencySign));
 
   const actions = document.createElement("div");
   actions.className = "china-car-card__actions";

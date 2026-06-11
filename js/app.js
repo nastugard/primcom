@@ -1,26 +1,36 @@
 import { loadSharedComponents } from "./modules/components.js";
 import { initHeader } from "./modules/header.js";
 import { initCookieNotice } from "./modules/cookies.js";
-import { initLeadModal } from "./modules/modal-lead.js";
-import { initAnalytics } from "./modules/analytics.js";
+import { initLeadModal } from "./modules/modal-lead.js?v=20260611-conversion-goals-1";
+import { initAnalytics } from "./modules/analytics.js?v=20260607-yandex-metrika-1";
 import { initAnimations } from "./modules/animations.js";
 import { initHeroStrip } from "./modules/hero-strip.js";
 import { initTiltCards } from "./modules/tilt-cards.js";
 import { initScrollProgress } from "./modules/scroll-progress.js";
 import { initScrollSmoother } from "./modules/scroll-smoother.js";
 import { initPageBg } from "./modules/page-bg.js";
-import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js?v=20260411-catalog-cache-1";
-import { initLatestCarsHome } from "./modules/latest-cars-home.js?v=20260412-home-list-cache-1";
-import { initManualMarketCars } from "./modules/auto-manual-market.js?v=20260411-catalog-cache-1";
+import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js?v=20260611-conversion-goals-1";
+import { initLatestCarsHome } from "./modules/latest-cars-home.js?v=20260607-manual-china-rub-1";
+import { initManualMarketCars } from "./modules/auto-manual-market.js?v=20260611-conversion-goals-1";
 import { initVkClipsCarousel } from "./modules/vk-clips-carousel.js";
 import { initPerformanceMode, loadEnhancementRuntime } from "./modules/performance-mode.js";
-import { initImportCalculator } from "./modules/import-calculator.js?v=20260415-import-calculator-1";
 
 function safeInit(name, fn) {
   try {
     fn();
   } catch (err) {
     console.error(`[app] ${name} failed`, err);
+  }
+}
+
+async function initImportCalculatorIfNeeded() {
+  if (!document.querySelector("[data-import-calculator]")) return;
+
+  try {
+    const module = await import("./modules/import-calculator.js?v=20260607-yandex-goal-3");
+    safeInit("initImportCalculator", module.initImportCalculator);
+  } catch (err) {
+    console.error("[app] initImportCalculator module failed", err);
   }
 }
 
@@ -49,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   safeInit("initManualMarketCars", initManualMarketCars);
   safeInit("initLatestCarsHome", initLatestCarsHome);
   safeInit("initVkClipsCarousel", initVkClipsCarousel);
-  safeInit("initImportCalculator", initImportCalculator);
+  void initImportCalculatorIfNeeded();
 
   if (!performanceProfile.isLite) {
     safeInit("initScrollSmoother", initScrollSmoother);

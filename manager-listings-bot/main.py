@@ -1,6 +1,7 @@
 import asyncio
 import io
 import logging
+import mimetypes
 import os
 import uuid
 from dataclasses import dataclass
@@ -73,7 +74,7 @@ MAIN_MENU_KB = ReplyKeyboardMarkup(
 
 
 MARKET_KB = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Корея"), KeyboardButton(text="Япония")]],
+    keyboard=[[KeyboardButton(text="Китай"), KeyboardButton(text="Корея"), KeyboardButton(text="Япония")]],
     resize_keyboard=True,
 )
 
@@ -272,11 +273,24 @@ def parse_int(text: str) -> int | None:
 
 def market_to_api(value: str) -> str | None:
     v = (value or "").strip().lower()
+    if v == "китай":
+        return "china"
     if v == "корея":
         return "korea"
     if v == "япония":
         return "japan"
     return None
+
+
+def market_to_human(value: str) -> str:
+    market = str(value or "").strip().lower()
+    if market == "china":
+        return "Китай"
+    if market == "korea":
+        return "Корея"
+    if market == "japan":
+        return "Япония"
+    return "—"
 
 
 def is_edit_mode(data: dict) -> bool:
@@ -309,7 +323,7 @@ def body_mapping() -> dict[str, str]:
 def summarize_payload(data: dict) -> str:
     mode = "редактирование" if is_edit_mode(data) else "создание"
     market = str(data.get("market") or "")
-    market_human = "Корея" if market == "korea" else "Япония"
+    market_human = market_to_human(market)
     trim_val = str(data.get("trim") or "").strip()
     auction_grade_val = str(data.get("auction_grade") or "").strip()
 
@@ -370,6 +384,90 @@ def format_exception_message(exc: BaseException) -> str:
         current = current.__cause__ or current.__context__
 
     return " -> ".join(parts) if parts else exc.__class__.__name__
+
+
+def is_supported_image_document(message: Message) -> bool:
+    document = message.document
+    if document is None:
+        return False
+
+    mime_type = str(document.mime_type or "").strip().lower()
+    if mime_type.startswith("image/"):
+        return True
+
+    filename = str(document.file_name or "").strip().lower()
+    return filename.endswith((".jpg", ".jpeg", ".png", ".webp"))
+
+
+def extract_image_file_id(message: Message) -> str | None:
+    photos = message.photo or []
+    if photos:
+        return photos[-1].file_id
+
+    document = message.document
+    if document is not None and is_supported_image_document(message):
+        return document.file_id
+
+    sticker = message.sticker
+    if sticker is not None and not bool(sticker.is_animated) and not bool(sticker.is_video):
+        return sticker.file_id
+
+    animation = message.animation
+    if animation is not None:
+        mime_type = str(animation.mime_type or "").strip().lower()
+        filename = str(animation.file_name or "").strip().lower()
+        if mime_type.startswith("image/") or filename.endswith((".jpg", ".jpeg", ".png", ".webp")):
+            return animation.file_id
+
+    return None
+
+
+def describe_message_payload(message: Message) -> str:
+    parts: list[str] = []
+    if message.content_type:
+        parts.append(f"type={message.content_type}")
+    if message.document:
+        parts.append(f"document_mime={message.document.mime_type or '—'}")
+        parts.append(f"document_name={message.document.file_name or '—'}")
+    if message.sticker:
+        parts.append(
+            "sticker="
+            f"animated:{bool(message.sticker.is_animated)},video:{bool(message.sticker.is_video)}"
+        )
+    if message.animation:
+        parts.append(f"animation_mime={message.animation.mime_type or '—'}")
+        parts.append(f"animation_name={message.animation.file_name or '—'}")
+    return ", ".join(parts) or "type=unknown"
+
+
+def guess_upload_meta(tg_file_path: str | None, fallback_name: str) -> tuple[str, str]:
+    path = str(tg_file_path or "").strip()
+    ext = os.path.splitext(path)[1].lower()
+    if ext not in {".jpg", ".jpeg", ".png", ".webp"}:
+        ext = ".jpg"
+
+    content_type = mimetypes.types_map.get(ext)
+    if ext in {".jpg", ".jpeg"}:
+        content_type = "image/jpeg"
+        ext = ".jpg"
+    elif ext == ".png":
+        content_type = "image/png"
+    elif ext == ".webp":
+        content_type = "image/webp"
+
+    return f"{fallback_name}{ext}", content_type or "image/jpeg"
+
+
+async def add_photo_file_id(message: Message, state: FSMContext, file_id: str) -> None:
+    data = await state.get_data()
+    file_ids = list(data.get("photo_file_ids", []))
+    if len(file_ids) >= 20:
+        await message.answer("Достигнут лимит 20 фото. Нажмите «Готово».")
+        return
+
+    file_ids.append(file_id)
+    await state.update_data(photo_file_ids=file_ids, replace_photos=True)
+    await message.answer(f"Фото добавлено: {len(file_ids)} шт.")
 
 
 async def _api_json_request(method: str, path: str, *, params: dict | None = None) -> tuple[bool, object]:
@@ -438,11 +536,12 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
         stream = io.BytesIO()
         await bot.download(tg_file, destination=stream)
         stream.seek(0)
+        filename, content_type = guess_upload_meta(tg_file.file_path, f"photo_{idx + 1}")
         form.add_field(
             "photos",
             stream.read(),
-            filename=f"photo_{idx + 1}.jpg",
-            content_type="image/jpeg",
+            filename=filename,
+            content_type=content_type,
         )
 
     url = f"{CONFIG.api_base_url}/api/manager/manual-listing"
@@ -599,7 +698,7 @@ async def ask_photos(message: Message, data: dict) -> None:
         )
     else:
         await message.answer(
-            "Загрузите фото (можно несколько сообщений). Когда закончите, нажмите «Готово».",
+            "Загрузите фото или файлы-изображения JPG/PNG/WEBP (можно несколько сообщений). Когда закончите, нажмите «Готово».",
             reply_markup=PHOTOS_KB,
         )
 
@@ -633,8 +732,8 @@ async def start_edit_flow(message: Message, state: FSMContext, listing_id: str) 
         return
 
     market = str(payload.get("market") or "").strip().lower()
-    if market not in {"korea", "japan"}:
-        await message.answer("Карточка не относится к рынкам Корея/Япония.")
+    if market not in {"china", "korea", "japan"}:
+        await message.answer("Карточка не относится к рынкам Китай/Корея/Япония.")
         return
 
     await state.clear()
@@ -662,7 +761,7 @@ async def start_edit_flow(message: Message, state: FSMContext, listing_id: str) 
     await message.answer(
         "Режим редактирования карточки.\n"
         f"ID: {payload.get('id')}\n"
-        f"Площадка: {'Корея' if market == 'korea' else 'Япония'}\n"
+        f"Площадка: {market_to_human(market)}\n"
         f"Текущая карточка: {title or '—'}",
         reply_markup=ReplyKeyboardRemove(),
     )
@@ -690,7 +789,7 @@ async def show_recent_listings(message: Message, market: str = "all") -> None:
         if not isinstance(item, dict):
             continue
         listing_id = str(item.get("id") or "")
-        market_human = "Корея" if str(item.get("market") or "") == "korea" else "Япония"
+        market_human = market_to_human(str(item.get("market") or ""))
         title = f"{str(item.get('brand') or '').strip()} {str(item.get('model') or '').strip()}".strip() or "Без названия"
         lines.append(f"• {listing_id} | {market_human} | {title}")
     await message.answer("\n".join(lines))
@@ -870,7 +969,9 @@ async def recent_listings(message: Message) -> None:
 
     arg = _extract_command_arg(message.text).lower()
     market = "all"
-    if arg in {"korea", "корея"}:
+    if arg in {"china", "китай"}:
+        market = "china"
+    elif arg in {"korea", "корея"}:
         market = "korea"
     elif arg in {"japan", "япония"}:
         market = "japan"
@@ -899,7 +1000,7 @@ async def on_market(message: Message, state: FSMContext) -> None:
 
     market = market_to_api(message.text or "")
     if not market:
-        await message.answer("Нужно выбрать: Корея или Япония.", reply_markup=MARKET_KB)
+        await message.answer("Нужно выбрать: Китай, Корея или Япония.", reply_markup=MARKET_KB)
         return
 
     await state.update_data(market=market, photo_file_ids=[], replace_photos=True)
@@ -1247,21 +1348,25 @@ async def on_photo(message: Message, state: FSMContext) -> None:
     if await deny_if_no_access(message):
         return
 
-    photos = message.photo or []
-    if not photos:
+    file_id = extract_image_file_id(message)
+    if not file_id:
         await message.answer("Фото не найдено, отправьте еще раз.")
         return
 
-    best = photos[-1]
-    data = await state.get_data()
-    file_ids = list(data.get("photo_file_ids", []))
-    if len(file_ids) >= 20:
-        await message.answer("Достигнут лимит 20 фото. Нажмите «Готово».")
+    await add_photo_file_id(message, state, file_id)
+
+
+@router.message(ListingFlow.photos, F.document)
+async def on_photo_document(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
         return
 
-    file_ids.append(best.file_id)
-    await state.update_data(photo_file_ids=file_ids, replace_photos=True)
-    await message.answer(f"Фото добавлено: {len(file_ids)} шт.")
+    file_id = extract_image_file_id(message)
+    if not file_id:
+        await message.answer("Файл не похож на изображение. Пришлите JPG, PNG или WEBP.")
+        return
+
+    await add_photo_file_id(message, state, file_id)
 
 
 @router.message(ListingFlow.photos)
@@ -1269,6 +1374,11 @@ async def on_photos_text(message: Message, state: FSMContext) -> None:
     if await deny_if_no_access(message):
         return
     if await maybe_cancel(message, state):
+        return
+
+    file_id = extract_image_file_id(message)
+    if file_id:
+        await add_photo_file_id(message, state, file_id)
         return
 
     data = await state.get_data()
@@ -1283,6 +1393,13 @@ async def on_photos_text(message: Message, state: FSMContext) -> None:
         return
 
     if txt != "готово":
+        if not txt:
+            await message.answer(
+                "Не смог распознать файл как фото. "
+                f"Диагностика: {describe_message_payload(message)}. "
+                "Пришлите JPG, PNG или WEBP как файл."
+            )
+            return
         await message.answer(
             "Пришлите фото или нажмите «Готово»." if not edit_mode else "Пришлите фото, нажмите «Оставить фото» или «Готово»."
         )

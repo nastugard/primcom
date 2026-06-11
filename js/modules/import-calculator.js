@@ -1,5 +1,13 @@
+const CALCULATOR_SUBMIT_GOAL = "calculator_calculate_click";
+
 function qs(sel, root = document) {
   return root.querySelector(sel);
+}
+
+function trackCalculatorSubmitGoal() {
+  if (typeof window.ym !== "function") return;
+
+  window.ym(109674829, "reachGoal", CALCULATOR_SUBMIT_GOAL);
 }
 
 function getApiCandidates(apiPath) {
@@ -187,10 +195,20 @@ export function initImportCalculator() {
     }
   };
 
+  const handleManualCalculate = () => {
+    if (typeof form.reportValidity === "function" && !form.reportValidity()) return;
+    trackCalculatorSubmitGoal();
+    void calculate();
+  };
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    void calculate();
+    handleManualCalculate();
   });
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", () => handleManualCalculate());
+  }
 
   form.addEventListener("input", () => {
     if (String(statusEl?.dataset.type || "") === "error") {

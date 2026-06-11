@@ -112,7 +112,7 @@
         <h1 class="section__title">Актуальные предложения авто из Кореи</h1>
         <p class="section__lead">Последнее обновление: <span data-manual-cars-last-update>—</span></p>
 
-        <form class="china-cars__filters" data-manual-cars-form>
+        <form class="china-cars__filters ym-disable-submit" data-manual-cars-form>
           <label class="field">
             <span class="field__label">Марка</span>
             <select class="field__control" name="brand">
@@ -156,7 +156,7 @@
           </label>
 
           <div class="china-cars__filter-actions">
-            <button class="btn btn--primary" type="submit">Показать</button>
+            <button class="btn btn--primary" type="button" data-manual-cars-apply>Показать</button>
             <button class="btn btn--small btn--ghost" type="button" data-manual-cars-reset>Сбросить</button>
           </div>
         </form>
@@ -191,7 +191,7 @@
       <h2 class="modal__title" id="lead-modal-title">Заявка</h2>
       <p class="modal__lead">Оставьте контакты, мы свяжемся и уточним задачу.</p>
 
-      <form class="form" data-lead-form>
+      <form class="form ym-disable-submit" data-lead-form>
         <label class="hp" aria-hidden="true">
           Company
           <input type="text" name="company" tabindex="-1" autocomplete="off" />
@@ -230,6 +230,6 @@
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20260415-import-calculator-1"></script>
+  <script type="module" src="../js/app.js?v=20260611-conversion-goals-1"></script>
 </body>
 </html>

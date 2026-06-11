@@ -78,8 +78,16 @@ def _media_url(local_path: str | None) -> str | None:
     return None
 
 
+def _public_original_url(source_listing_id: str | None, original_url: str | None) -> str:
+    if str(source_listing_id or "").startswith("external_"):
+        return ""
+    return str(original_url or "")
+
+
 def _market_source_code(market: str) -> str:
     v = str(market or "").strip().lower()
+    if v in {"china", "auto-iz-kitaya", "kitaya"}:
+        return "guazi"
     if v in {"korea", "auto-iz-korei", "korei"}:
         return "korea_manual"
     if v in {"japan", "auto-iz-yaponii", "yaponii"}:
@@ -146,10 +154,12 @@ def _parse_listing_uuid(value: str) -> uuid.UUID:
         raise HTTPException(status_code=400, detail="Invalid listing id format") from exc
 
 
-def _manual_market_from_source_code(source_code: str) -> Literal["korea", "japan"]:
+def _manual_market_from_source_code(source_code: str) -> Literal["china", "korea", "japan"]:
     code = str(source_code or "").strip().lower()
     if code == "japan_manual":
         return "japan"
+    if code == "guazi":
+        return "china"
     return "korea"
 
 
@@ -209,6 +219,20 @@ async def _send_lead_to_telegram(*, bot_token: str, chat_id: str, text_message: 
         res = await client.post(url, json=payload)
     if res.status_code >= 400:
         raise RuntimeError(f"Telegram sendMessage failed: HTTP {res.status_code} {res.text}")
+
+
+async def _forward_lead_to_relay(*, url: str, token: str | None, payload: dict[str, object]) -> None:
+    headers: dict[str, str] = {}
+    if token:
+        headers["X-Primcom-Token"] = token
+
+    timeout = max(1000, int(settings.lead_relay_timeout_ms or 15000)) / 1000.0
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        res = await client.post(url, json=payload, headers=headers)
+
+    if res.status_code >= 400:
+        body = res.text.strip()
+        raise RuntimeError(f"Lead relay failed: HTTP {res.status_code} {body}")
 
 
 class ListingCardOut(BaseModel):
@@ -308,7 +332,7 @@ class ManagerDeleteOut(BaseModel):
 
 class ManagerManualListingOut(BaseModel):
     id: str
-    market: Literal["korea", "japan"]
+    market: Literal["china", "korea", "japan"]
     source: str
     source_listing_id: str
     brand: str | None = None
@@ -494,6 +518,20 @@ async def create_lead(
     if not phone:
         raise HTTPException(status_code=400, detail="Телефон обязателен")
 
+    relay_url = (settings.lead_relay_url or os.getenv("LEAD_RELAY_URL") or "").strip()
+    if relay_url:
+        relay_token = (settings.lead_relay_token or os.getenv("LEAD_RELAY_TOKEN") or "").strip()
+        try:
+            await _forward_lead_to_relay(
+                url=relay_url,
+                token=relay_token or None,
+                payload=data,
+            )
+        except Exception as exc:
+            logger.exception("lead_relay_error url=%s", relay_url)
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
+        return LeadOut(ok=True)
+
     bot_token = (
         settings.telegram_bot_token
         or os.getenv("TELEGRAM_BOT_TOKEN")
@@ -517,6 +555,7 @@ async def create_lead(
             text_message=text_message,
         )
     except Exception as exc:
+        logger.exception("lead_telegram_error")
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 
     return LeadOut(ok=True)
@@ -659,7 +698,7 @@ async def list_china_cars(
                     trim=r[14],
                     body_type=r[15],
                     auction_grade=r[16],
-                    original_url=r[17],
+                    original_url=_public_original_url(r[2], r[17]),
                     scraped_at=r[18],
                     images_count=int(r[19] or 0),
                     cover_image_url=_media_url(r[20]),
@@ -741,7 +780,7 @@ async def get_listing_detail(listing_id: str, db: AsyncSession = Depends(_get_db
         trim=row[14],
         body_type=row[15],
         auction_grade=row[16],
-        original_url=row[17],
+        original_url=_public_original_url(row[2], row[17]),
         scraped_at=row[18],
         make_id=row[19],
         model_id=row[20],
@@ -851,7 +890,7 @@ def _manager_row_to_out(row: tuple[object, ...]) -> ManagerManualListingOut:
 
 @router.get("/api/manager/manual-listings", response_model=ManagerManualListOut, tags=["manager"])
 async def list_manager_manual_listings(
-    market: Literal["all", "korea", "japan"] = Query(default="all"),
+    market: Literal["all", "china", "korea", "japan"] = Query(default="all"),
     limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
     x_manager_api_key: str | None = Header(default=None),
@@ -859,10 +898,10 @@ async def list_manager_manual_listings(
 ) -> ManagerManualListOut:
     _require_manager_key(x_manager_api_key)
 
-    where = ["s.code IN ('korea_manual','japan_manual')", "l.status!='deleted'"]
+    where = ["s.code IN ('guazi','korea_manual','japan_manual')", "l.raw_data->>'manual' = 'true'", "l.status!='deleted'"]
     params: dict[str, object] = {"limit": int(limit), "offset": int(offset)}
     if market != "all":
-        source_code = "korea_manual" if market == "korea" else "japan_manual"
+        source_code = _market_source_code(market)
         where.append("s.code=:source_code")
         params["source_code"] = source_code
 
@@ -904,7 +943,7 @@ async def get_manager_manual_listing(
                 "(SELECT COUNT(*) FROM listing_images li WHERE li.listing_id=l.id) "
                 "FROM listings l "
                 "JOIN listing_sources s ON s.id=l.source_id "
-                "WHERE l.id=:id AND s.code IN ('korea_manual','japan_manual') AND l.status!='deleted'"
+                "WHERE l.id=:id AND s.code IN ('guazi','korea_manual','japan_manual') AND l.raw_data->>'manual' = 'true' AND l.status!='deleted'"
             ),
             {"id": str(listing_uuid)},
         )
@@ -916,7 +955,7 @@ async def get_manager_manual_listing(
 
 @router.post("/api/manager/manual-listing", response_model=ManagerCreateOut, tags=["manager"])
 async def create_manual_listing(
-    market: Literal["korea", "japan"] | None = Form(default=None),
+    market: Literal["china", "korea", "japan"] | None = Form(default=None),
     brand: str = Form(...),
     model: str = Form(...),
     year: str | None = Form(default=None),
@@ -953,7 +992,7 @@ async def create_manual_listing(
                     "SELECT l.id, l.source_id, s.code, l.source_listing_id, l.original_url, l.raw_data "
                     "FROM listings l "
                     "JOIN listing_sources s ON s.id=l.source_id "
-                    "WHERE l.id=:id AND s.code IN ('korea_manual','japan_manual')"
+                    "WHERE l.id=:id AND s.code IN ('guazi','korea_manual','japan_manual') AND l.raw_data->>'manual' = 'true'"
                 ),
                 {"id": str(listing_uuid)},
             )
@@ -975,7 +1014,7 @@ async def create_manual_listing(
             except Exception:
                 existing_raw_data_obj = {}
 
-    resolved_market: Literal["korea", "japan"]
+    resolved_market: Literal["china", "korea", "japan"]
     if listing_uuid:
         resolved_market = _manual_market_from_source_code(str(existing_source_code or ""))
         if market is not None and str(market) != resolved_market:
@@ -992,7 +1031,11 @@ async def create_manual_listing(
         source_id = int(existing_source_id or 0)
         source_listing_id = str(existing_source_listing_id or "")
     else:
-        source_name = "Korea Manual" if source_code == "korea_manual" else "Japan Manual"
+        source_name = {
+            "guazi": "Guazi",
+            "korea_manual": "Korea Manual",
+            "japan_manual": "Japan Manual",
+        }.get(source_code, source_code)
         source_id = await _ensure_source(
             db,
             code=source_code,
@@ -1007,7 +1050,12 @@ async def create_manual_listing(
         if listing_uuid and existing_original_url:
             original_link = existing_original_url
         else:
-            original_link = f"https://primcom.ru/pages/auto-iz-{'korei' if resolved_market == 'korea' else 'yaponii'}.html"
+            page_slug = {
+                "china": "kitaya",
+                "korea": "korei",
+                "japan": "yaponii",
+            }[resolved_market]
+            original_link = f"https://primcom.ru/pages/auto-iz-{page_slug}.html"
 
     ad_hash = hashlib.sha256(f"{source_code}:{source_listing_id}".encode("utf-8")).hexdigest()
     payload_sig = "|".join(
@@ -1205,7 +1253,8 @@ async def delete_manager_manual_listing(
                 "WHERE l.source_id=s.id "
                 "  AND l.id=:id "
                 "  AND l.status!='deleted' "
-                "  AND s.code IN ('korea_manual','japan_manual') "
+                "  AND s.code IN ('guazi','korea_manual','japan_manual') "
+                "  AND l.raw_data->>'manual' = 'true' "
                 "RETURNING l.id, l.source_listing_id"
             ),
             {"id": str(listing_uuid)},

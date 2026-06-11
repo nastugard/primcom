@@ -52,14 +52,16 @@
 8. `initAutoIzKitaya()`
 9. `initManualMarketCars()`
 10. `initLatestCarsHome()`
-11. `initScrollSmoother()` (только вне lite mode)
-12. `initAnimations()` (только вне lite mode)
-13. `initHeroStrip()` (только вне lite mode)
-14. `initTiltCards()` (только вне lite mode)
-15. `initScrollProgress()` (только вне lite mode)
-16. `initAnalytics()`
+11. `initImportCalculator()` (лениво, только если есть `[data-import-calculator]`)
+12. `initScrollSmoother()` (только вне lite mode)
+13. `initAnimations()` (только вне lite mode)
+14. `initHeroStrip()` (только вне lite mode)
+15. `initTiltCards()` (только вне lite mode)
+16. `initScrollProgress()` (только вне lite mode)
+17. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
+Модуль калькулятора не импортируется на верхнем уровне общего `app.js`: он догружается динамически только на странице с `[data-import-calculator]`, чтобы проблема с файлом калькулятора не могла остановить модалку заявки и остальные общие блоки сайта.
 
 ### 3.1 Performance mode
 
@@ -124,12 +126,15 @@
   - модалка заявки;
   - auto-open логика;
   - отправка заявки в API (`/api/lead` и fallback);
+  - после успешного ответа API отправляет JavaScript-цель Яндекс.Метрики `lead_submit_success`;
+  - HTML-формы заявки помечены `ym-disable-submit`, чтобы автоцель Метрики "Отправка формы" не считала попытки без успешного API-ответа;
   - anti-spam (honeypot).
 - `js/modules/latest-cars-home.js`
   - карточки на главной (`data-latest-home`), автообновление;
   - локальный snapshot самих списков подборок на главной и фоновая `meta_only` проверка обновлений;
   - hover-галерея фото в карточках (desktop/fine pointer, отключается в lite mode);
   - модалка подробностей с доп. фото и описанием по кнопке `Подробнее`.
+  - для ручных карточек Китая (`source_listing_id` с префиксом `mgr-china-`) цена отображается в рублях, даже если секция Китая по умолчанию настроена на юани.
 - `js/modules/performance-mode.js`
   - определяет `full/lite` режим;
   - сохраняет override в `localStorage`;
@@ -138,7 +143,9 @@
 - `js/modules/auto-iz-kitaya.js`
   - каталог Китая;
   - фильтры, пагинация, карточки, detail modal, lightbox;
-  - локальный snapshot списка в `localStorage` и фоновая `meta_only` проверка обновлений.
+  - локальный snapshot списка в `localStorage` и фоновая `meta_only` проверка обновлений;
+  - если обложка из сохраненного snapshot больше не открывается, карточка подтягивает detail и подставляет первое актуальное фото.
+  - ручные карточки Китая из manager bot (`mgr-china-*`) показывают цену с символом рубля; остальные карточки Китая сохраняют символ юаня.
 - `js/modules/auto-manual-market.js`
   - каталоги Японии/Кореи;
   - фильтры, пагинация, detail modal, lightbox.
@@ -157,7 +164,10 @@
 - `js/modules/page-bg.js`
   - интерактивный фон, отключается в lite mode.
 - `js/modules/analytics.js`
-  - заготовка под аналитику, запуск после cookie consent.
+  - единая точка подключения Яндекс.Метрики;
+  - счетчик `109674829` запускается после cookie consent;
+  - экспортирует `trackYandexGoal(goalName, params)` для отправки JavaScript-целей;
+  - подгружает `https://mc.yandex.ru/metrika/tag.js?id=109674829`, включает webvisor, clickmap, ecommerce через `dataLayer`, accurateTrackBounce и trackLinks.
 
 ## 5. Карта страниц и привязка к модулям
 
@@ -170,16 +180,22 @@
   - root `data-china-cars`;
   - модалки `data-china-car-modal` и `data-china-lightbox`;
   - модуль `auto-iz-kitaya.js`;
+  - форма фильтров помечена `ym-disable-submit`, а кнопка `Показать` имеет `type="button"` и `data-china-cars-apply`, чтобы Метрика не считала фильтрацию отправкой заявки;
   - при повторном открытии может мгновенно показать сохранённый локальный снимок каталога до завершения фоновой проверки API.
 - `pages/auto-iz-yaponii.html` и `pages/auto-iz-korei.html`
   - root `data-manual-cars`;
   - модалки `data-manual-car-modal` и `data-manual-lightbox`;
   - модуль `auto-manual-market.js`;
+  - форма фильтров помечена `ym-disable-submit`, а кнопка `Показать` имеет `type="button"` и `data-manual-cars-apply`, чтобы Метрика не считала фильтрацию отправкой заявки;
   - при повторном открытии может мгновенно показать сохранённый локальный снимок каталога до завершения фоновой проверки API.
 - `pages/kalkulyator-stoimosti.html`
   - root `data-import-calculator`;
   - модуль `import-calculator.js`;
   - страница работает как thin client к backend endpoint `/api/import-calculator/calculate`;
+  - при ручном submit формы отправляет JavaScript-цель Яндекс.Метрики `calculator_calculate_click`;
+  - форма калькулятора помечена `ym-disable-submit`, чтобы автоцель Метрики "Отправка формы" не смешивалась с целью расчёта;
+  - поле цены авто использует `step="any"`, чтобы Safari и другие браузеры не блокировали произвольную сумму;
+  - кнопка `Рассчитать` имеет `type="button"`; модуль калькулятора обрабатывает и click кнопки, и submit формы по Enter, чтобы при сбое JS форма не отправлялась GET-запросом в URL;
   - общие модули (header, modal, cookies, animations) также подключены.
 - Контентные страницы (`faq`, `dostavka`, `process-podbora`, `dogovor-i-garantii`, `kontakty`, `rastamozhka-i-poshliny`, `privacy`, `consent`, `404`)
   - используют общую шапку/футер;
@@ -193,6 +209,8 @@
   - `[data-header]`, `[data-nav]`, `[data-logo]`.
 - Lead modal:
   - `[data-lead-modal]`, `[data-open-lead-modal]`, `[data-modal-close]`, `[data-lead-form]`.
+  - успешная отправка заявки трекается только через JavaScript-цель `lead_submit_success` после ответа API; автоцель Метрики "Отправка формы" для оптимизации рекламы не использовать.
+  - формы заявки должны сохранять класс `ym-disable-submit`.
 - Cookie:
   - `[data-cookie]`, `[data-cookie-accept]`.
 - Latest home:
@@ -203,15 +221,18 @@
     - `[data-latest-card-description]`, `[data-latest-card-main-img]`, `[data-latest-card-thumbs]`, `[data-latest-card-specs]`
     - `[data-latest-card-status]`, `[data-latest-card-section-link]`
 - China catalog:
-  - `[data-china-cars]` и дочерние `data-china-*`.
+  - `[data-china-cars]` и дочерние `data-china-*`;
+  - кнопка применения фильтров: `[data-china-cars-apply]`.
 - Manual market catalog:
-  - `[data-manual-cars]` и дочерние `data-manual-*`.
+  - `[data-manual-cars]` и дочерние `data-manual-*`;
+  - кнопка применения фильтров: `[data-manual-cars-apply]`.
 - Import calculator:
   - `[data-import-calculator]`, `[data-calc-form]`, `[data-calc-submit]`, `[data-calc-status]`
   - output selectors:
     - `[data-out-car-price]`, `[data-out-duty]`, `[data-out-excise]`, `[data-out-util]`, `[data-out-vat]`, `[data-out-total]`
     - `[data-out-rule-version]`, `[data-out-exchange-rate]`, `[data-out-util-mode]`
     - `[data-calc-debug]`, `[data-calc-debug-pre]`
+  - форма калькулятора должна сохранять класс `ym-disable-submit`; расчет трекается через JavaScript-цель `calculator_calculate_click`.
 - Reviews 2ГИС:
   - секция `#reviews.section--reviews-2gis`;
   - HTML между комментариями `<!-- 2GIS_REVIEWS:START -->` и `<!-- 2GIS_REVIEWS:END -->` считается генерируемым и обновляется только скриптом `scripts/sync-2gis-reviews.mjs`.
@@ -261,6 +282,7 @@
 - При загрузке страницы модуль сначала пытается отрисовать локальный snapshot, затем запрашивает у API только метаданные через `meta_only=1`.
 - Если `last_scraped_at` и `total` совпадают, повторный полный запрос списка не выполняется.
 - Если каталог обновился, модуль делает обычный полный запрос, перерисовывает список и обновляет локальный snapshot.
+- Для каталога Китая есть точечный fallback на случай сервисной очистки изображений: если сохраненный `cover_image_url` из snapshot больше не грузится, карточка запрашивает detail конкретного объявления и показывает первое доступное актуальное фото.
 - Начальный запрос списка больше не ждёт окончания `facets`: filters и list стартуют параллельно.
 
 ## 10. Кэш подборок на главной
@@ -338,6 +360,7 @@ Hero readability:
   - возможен токен через `window.PRIMCOM_LEAD_TOKEN`.
 - China catalog:
   - endpoint кандидаты формируются в `auto-iz-kitaya.js`.
+  - цена ручных карточек Китая (`mgr-china-*`) отображается как финальная цена во Владивостоке в рублях; парсерные карточки Китая продолжают использовать валюту секции.
 - Japan/Korea:
   - list и detail endpoint в `auto-manual-market.js`;
   - поддерживаются `data-list-api`, `data-detail-api` на странице.
@@ -350,6 +373,7 @@ Hero readability:
     - `latest-korea-home`
   - если у секции отсутствует `data-api-path`, модуль НЕ уходит в fallback на Китай, а показывает статус ошибки секции.
   - карточки дополнительно фильтруются по `item.source` через `data-expected-source`, чтобы исключить смешивание рынков при кэше/некорректном ответе API.
+  - валюту можно задать секционно через `data-currency`, но ручные карточки Китая (`mgr-china-*`) имеют item-level override на рубли.
   - detail-данные карточек кэшируются на клиенте:
     - in-memory map на время текущей страницы;
     - `localStorage` (`latest-home-detail-cache:v1`) с TTL ~12 часов и лимитом записей, чтобы при повторном заходе не ждать загрузку уже известных карточек.

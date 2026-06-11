@@ -25,6 +25,255 @@
 
 ## Записи
 
+### 2026-06-11
+
+Задача: Исключить фильтры каталогов из конверсий заявки Яндекс.Метрики.
+
+Зачем: В Яндекс.Директе появились конверсии "отправка формы", но Telegram-заявки не приходили. По вебвизору достижение цели совпадало с нажатием `Показать` в фильтрах каталогов Японии/Китая, потому что фильтры были обычными HTML-формами с submit-кнопкой.
+
+Изменённые файлы:
+- `js/modules/modal-lead.js`
+- `js/modules/auto-iz-kitaya.js`
+- `js/modules/auto-manual-market.js`
+- `js/app.js`
+- `pages/auto-iz-kitaya.html`
+- `pages/auto-iz-yaponii.html`
+- `pages/auto-iz-korei.html`
+- `index.html`, `404.html`, `pages/*.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Для реальной заявки добавлена JavaScript-цель `lead_submit_success`; она отправляется только после успешного ответа `/api/lead`.
+- Фильтры каталогов Китая, Японии и Кореи помечены классом `ym-disable-submit`.
+- Формы заявки и калькулятора тоже помечены `ym-disable-submit`, чтобы автоцель "Отправка формы" не смешивалась с точными JavaScript-целями.
+- Кнопки фильтров `Показать` переведены с `type="submit"` на `type="button"` и получили явные атрибуты `data-china-cars-apply` / `data-manual-cars-apply`.
+- В модулях каталогов добавлены click-обработчики этих кнопок; автоматическая фильтрация при изменении select сохранена.
+- Поднят cache-bust общего `app.js` и изменённых модулей.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/modal-lead.js`
+- `node --check js/modules/auto-iz-kitaya.js`
+- `node --check js/modules/auto-manual-market.js`
+- `rg -n "<form" index.html pages/*.html`
+- `rg -n "data-(china|manual)-cars-apply|ym-disable-submit|lead_submit_success|20260611-conversion-goals-1" index.html 404.html pages/*.html js/app.js js/modules/*.js`
+- `git diff --check`
+
+Риски/заметки:
+- В Метрике/Директе нужно использовать JavaScript-событие `lead_submit_success` для заявки. Старую цель типа "Отправка формы" лучше отключить или убрать из оптимизации кампании, иначе она может считать технические submit-события не как реальные лиды.
+
+### 2026-06-07
+
+Задача: Показывать цену ручных карточек Китая в рублях.
+
+Зачем: Карточки Китая, добавленные менеджером через бот, содержат финальную цену во Владивостоке с комиссией. На фронте они отображались как цена в юанях, потому что секция Китая исторически использует `¥`.
+
+Изменённые файлы:
+- `js/modules/auto-iz-kitaya.js`
+- `js/modules/latest-cars-home.js`
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Для карточек с `source_listing_id` вида `mgr-china-*` добавлен item-level override валюты на `₽`.
+- Каталог Китая и блок свежей подборки на главной теперь показывают такие карточки с рублем в списке, meta-строке и detail-модалке.
+- Старые парсерные карточки Китая не затронуты и продолжают использовать валюту секции (`¥`).
+- Логика `localStorage`-кэша списков и detail-кэша не менялась.
+- Обновлены cache-bust версии импортов `auto-iz-kitaya.js`, `latest-cars-home.js` и подключения `app.js`, чтобы браузер забрал новые модули.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/auto-iz-kitaya.js`
+- `node --check js/modules/latest-cars-home.js`
+- `git diff --check`
+
+Риски/заметки:
+- Признак ручной китайской карточки берётся из публичного `source_listing_id`. Если backend изменит префикс `mgr-china-`, фронтовый override валюты нужно синхронно обновить.
+
+### 2026-06-07
+
+Задача: Защитить калькулятор от повторного GET-submit и URL-параметров.
+
+Зачем: После предыдущей регрессии обычный HTML-submit мог записать параметры калькулятора в URL, из-за чего на странице сохранялись ошибочные крупные значения вроде `456739 USD`.
+
+Изменённые файлы:
+- `js/modules/import-calculator.js`
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `pages/kalkulyator-stoimosti.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Кнопка `Рассчитать` переведена с `type="submit"` на `type="button"`, чтобы при сбое JS она не отправляла форму GET-запросом.
+- В `js/modules/import-calculator.js` добавлен единый ручной обработчик расчёта для клика по кнопке и submit формы по Enter.
+- Перед ручным расчетом сохраняется браузерная проверка валидности через `form.reportValidity()`.
+- В `js/app.js` поднят cache-bust dynamic import калькулятора до `20260607-yandex-goal-3`.
+- В HTML-страницах поднят cache-bust подключения `js/app.js`.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/analytics.js`
+- `node --check js/modules/import-calculator.js`
+- `cd china_cars_backend && .venv/bin/python -m unittest tests.test_import_calculator` (`OK`, 7 API-тестов пропущены из-за локально неустановленного `python-multipart`)
+- ручная проверка локально: ввод `12345.67`, клик `Рассчитать`, URL не меняется, значение поля сохраняется, расчет выполняется.
+- `git diff --check`
+
+Риски/заметки:
+- Формула расчета backend не менялась; frontend по-прежнему отправляет те же поля в `/api/import-calculator/calculate`.
+- Если в поле указать `456739` и оставить валюту `USD`, backend корректно считает цену авто как `456739 USD`, что даёт десятки миллионов рублей только по цене авто.
+
+### 2026-06-07
+
+Задача: Исправить регрессию калькулятора после добавления цели Яндекс.Метрики.
+
+Зачем: В Chrome при смене стоимости и нажатии `Рассчитать` форма могла отправляться как обычный HTML-submit с перезагрузкой страницы. В Safari поле цены могло ограничивать произвольные суммы.
+
+Изменённые файлы:
+- `js/modules/import-calculator.js`
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `pages/kalkulyator-stoimosti.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Убрана статическая зависимость `import-calculator.js` от export `trackYandexGoal` из `analytics.js`.
+- Отправка цели `calculator_calculate_click` теперь выполняется напрямую через `window.ym`, если Метрика уже доступна.
+- Если Метрика не загрузилась, заблокирована или закеширован старый модуль аналитики, калькулятор продолжает работать.
+- В `js/app.js` поднят cache-bust dynamic import калькулятора до `20260607-yandex-goal-2`.
+- В HTML-страницах поднят cache-bust подключения `js/app.js`.
+- У поля `carPriceForeign` на странице калькулятора заменён `step="100"` на `step="any"`, чтобы не блокировать произвольную сумму.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/analytics.js`
+- `node --check js/modules/import-calculator.js`
+- `git diff --check`
+
+Риски/заметки:
+- Цель по-прежнему отправляется только если `window.ym` уже существует, то есть после cookie consent в текущей архитектуре.
+- Калькулятор больше не зависит от успешной загрузки/версии `analytics.js`.
+
+### 2026-06-07
+
+Задача: Добавить JavaScript-цель Яндекс.Метрики для кнопки калькулятора `Рассчитать`.
+
+Зачем: Для рекламной кампании нужно отслеживать нажатия на кнопку расчёта стоимости привоза в Яндекс.Метрике.
+
+Изменённые файлы:
+- `js/modules/analytics.js`
+- `js/modules/import-calculator.js`
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В `js/modules/analytics.js` добавлен helper `trackYandexGoal(goalName, params)`.
+- В `js/modules/import-calculator.js` при ручном submit формы отправляется цель `calculator_calculate_click`.
+- Автоматический расчет при загрузке страницы цель не отправляет.
+- В `js/app.js` поднят cache-bust dynamic import модуля калькулятора.
+- В HTML-страницах поднят cache-bust подключения `js/app.js`, чтобы браузеры забрали обновленный общий entrypoint.
+- Документация дополнена идентификатором цели.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/analytics.js`
+- `node --check js/modules/import-calculator.js`
+- `git diff --check`
+
+Риски/заметки:
+- Цель отправляется только когда Яндекс.Метрика уже запущена, то есть после cookie consent в текущей архитектуре сайта.
+- В интерфейсе Яндекс.Метрики для типа цели `JavaScript-событие` нужно указать идентификатор `calculator_calculate_click`.
+
+### 2026-06-07
+
+Задача: Подключить счетчик Яндекс.Метрики для рекламной кампании Яндекс.Директа.
+
+Зачем: Нужно, чтобы счетчик `109674829` работал на всех страницах основного сайта без ручной вставки кода в каждый HTML-файл.
+
+Изменённые файлы:
+- `js/modules/analytics.js`
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- В общий модуль `js/modules/analytics.js` добавлена интеграция Яндекс.Метрики `109674829`.
+- Сохранена существующая архитектура запуска аналитики после cookie consent.
+- Включены параметры счетчика: `ssr`, `webvisor`, `clickmap`, `ecommerce: "dataLayer"`, `accurateTrackBounce`, `trackLinks`, `referrer`, `url`.
+- В `js/app.js` поднят cache-bust импорта `analytics.js`.
+- В HTML-страницах поднят cache-bust подключения `js/app.js`, чтобы браузеры забрали обновленный общий entrypoint.
+- Обновлена документация по ответственности `js/modules/analytics.js`.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/analytics.js`
+- `rg -n "app\\.js\\?v=20260607-yandex-metrika-1|analytics\\.js\\?v=20260607-yandex-metrika-1" index.html 404.html pages/*.html js/app.js`
+- `git diff --check`
+
+Риски/заметки:
+- Код размещён в общем JS-модуле, а не в `components/header.html`, потому что header/footer подгружаются через `innerHTML`, где inline `<script>` не является надежной точкой исполнения.
+- В текущей архитектуре счетчик стартует после принятия cookies; если для рекламной кампании нужен учет до согласия, нужно отдельно изменить cookie-политику запуска аналитики.
+- Для выката на хостинг нужны минимум `js/modules/analytics.js`, `js/app.js` и HTML-файлы с обновленным query-параметром `js/app.js`.
+
+### 2026-04-26
+
+Задача: Исправить отображение обложек после сервисной очистки фото.
+
+Зачем: После удаления служебных Guazi-баннеров backend уже отдавал корректный `cover_image_url` (`001.webp` вместо удаленного `000.webp`), но фронт мог показывать старый snapshot списка из `localStorage`. Из-за этого карточка пыталась загрузить удаленный `000.webp` и показывала placeholder "Фото", хотя detail-модалка уже видела нормальные изображения.
+
+Изменённые файлы:
+- `js/modules/auto-iz-kitaya.js`
+- `js/app.js`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Логика кэша списка сохранена: ключ остался `primcom-auto-iz-kitaya-list-cache:v1`, TTL не добавлялся.
+- Добавлен точечный fallback для обложки: если картинка из cached `cover_image_url` не загрузилась, карточка запрашивает detail конкретного объявления и подставляет первое актуальное фото.
+- Поднят query-параметр импорта `auto-iz-kitaya.js` в `js/app.js`, чтобы браузер забрал исправленный модуль.
+- Документация дополнена поведением fallback для обложек.
+
+Проверка:
+- `node --check js/app.js`
+- `node --check js/modules/auto-iz-kitaya.js`
+- API вручную проверен: проблемные карточки уже получают `cover_image_url=/media/guazi/.../001.webp`.
+
+Риски/заметки:
+- Если меняется только модуль, но не query-параметр `app.js` на HTML-страницах, старые браузеры могут держать прежний `app.js`. Для полного выката при необходимости поднять query-параметр `js/app.js` в HTML.
+
+### 2026-04-24
+
+Задача: Защитить форму заявки от ошибок загрузки модуля калькулятора.
+
+Зачем: После добавления калькулятора общий `app.js` получил статический import нового модуля. Если на проде файл калькулятора не доехал, отдался с ошибкой или оказался в кеше несогласованным с `app.js`, браузер мог остановить весь entrypoint до запуска `initLeadModal()`.
+
+Изменённые файлы:
+- `js/app.js`
+- `index.html`, `404.html`, `pages/*.html`
+- `FRONTEND_DOCS.md`
+- `FRONTEND_CHANGELOG.md`
+
+Что сделано:
+- Убран верхнеуровневый import `js/modules/import-calculator.js` из общего `js/app.js`.
+- Добавлена ленивая загрузка калькулятора через dynamic import только при наличии `[data-import-calculator]`.
+- Ошибка загрузки калькуляторного модуля теперь логируется отдельно и не блокирует модалку заявки, шапку, cookie banner и остальные общие модули.
+- Обновлён cache-bust `app.js` на HTML-страницах, чтобы браузеры забрали исправленный общий entrypoint.
+- Обновлена документация по порядку инициализации.
+
+Проверка:
+- `node --check js/app.js`
+- `git diff --check`
+
+Риски/заметки:
+- На странице калькулятора файл `js/modules/import-calculator.js` всё ещё должен быть доступен, иначе не будет работать только расчёт, а не весь общий frontend.
+
 ### 2026-04-16
 
 Задача: Подчистить UI калькулятора после предыдущего обновления логики.

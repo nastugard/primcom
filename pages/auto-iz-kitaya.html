@@ -112,7 +112,7 @@
           <span data-china-cars-last-update>—</span>
         </p>
 
-        <form class="china-cars__filters" data-china-cars-form>
+        <form class="china-cars__filters ym-disable-submit" data-china-cars-form>
           <label class="field">
             <span class="field__label">Источник</span>
             <select class="field__control" name="source">
@@ -163,7 +163,7 @@
           </label>
 
           <div class="china-cars__filter-actions">
-            <button class="btn btn--primary" type="submit">Показать</button>
+            <button class="btn btn--primary" type="button" data-china-cars-apply>Показать</button>
             <button class="btn btn--small btn--ghost" type="button" data-china-cars-reset>Сбросить</button>
           </div>
         </form>
@@ -199,7 +199,7 @@
       <h2 class="modal__title" id="lead-modal-title">Заявка</h2>
       <p class="modal__lead">Оставьте контакты, мы свяжемся и уточним задачу.</p>
 
-      <form class="form" data-lead-form>
+      <form class="form ym-disable-submit" data-lead-form>
         <label class="hp" aria-hidden="true">
           Company
           <input type="text" name="company" tabindex="-1" autocomplete="off" />
@@ -242,6 +242,6 @@
   window.PRIMCOM_AUTO_IZ_KITAYA_API = "https://api.primcom.ru/api/auto-iz-kitaya";
 </script>
 
-  <script type="module" src="../js/app.js?v=20260415-import-calculator-1"></script>
+  <script type="module" src="../js/app.js?v=20260611-conversion-goals-1"></script>
 </body>
 </html>

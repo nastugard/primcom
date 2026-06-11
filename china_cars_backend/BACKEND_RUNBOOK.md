@@ -1,6 +1,6 @@
 # Primcom Backend Runbook
 
-Дата актуализации: 2026-03-18
+Дата актуализации: 2026-06-07
 
 Этот документ является основным источником знаний по бэкенду `china_cars_backend`.
 Перед любыми правками кода нужно читать этот runbook и релевантные секции.
@@ -16,7 +16,7 @@
 - Скрейпинг объявлений из внешних источников.
 - Загрузка и хранение изображений.
 - Нормализация данных и перевод китайских названий.
-- Ручное добавление карточек (Korea/Japan) через manager endpoint.
+- Ручное добавление карточек (China/Korea/Japan) через manager endpoint.
 - Логирование запусков скрейпера (`scrape_runs`) и raw-данных (`raw_listings`).
 
 ## 2. Текущий рабочий контур
@@ -36,7 +36,7 @@
 
 Отдельные связанные сервисы вне каталога `china_cars_backend`:
 
-- `manager-listings-bot` - менеджерский Telegram-бот для ручных карточек Японии/Кореи;
+- `manager-listings-bot` - менеджерский Telegram-бот для ручных карточек Китая/Японии/Кореи;
 - `primcom-monitor-bot` - отдельный Telegram-бот мониторинга состояния `primcom_bot` и `primcom-lead-api`.
 
 Важно:
@@ -44,13 +44,28 @@
 - `cv6067041.novalocal` в логах systemd - это hostname машины, а не отдельный сервис.
 - Отсутствие `primcom-api-v2.service` и `primcom-scraper-v2.service` в `systemctl` означает, что v2 контур не активирован.
 
-### 2.1 Актуальная схема на 2026-03-18
+### 2.1 Актуальная схема серверов
 
-- production backend и каталог сайта остаются на российском сервере;
-- `manager-listings-bot` вынесен на зарубежный сервер для стабильного доступа к Telegram API;
-- `manager-listings-bot` отправляет ручные карточки в production backend по `API_BASE_URL=https://api.primcom.ru`;
+- production backend: `ssh root@168.222.194.128`, рабочая папка `/opt/primcom/china_cars_backend`;
+- production backend и каталог сайта остаются на сервере `168.222.194.128`;
 - сайт читает карточки по-прежнему из production backend, поэтому VPN пользователю для просмотра не нужен;
-- `primcom-monitor-bot` рекомендуется держать на отдельном сервере от `primcom_bot`, чтобы он мог сообщить о полном падении целевого хоста.
+- заявки сайта можно принимать на production backend, но пересылать в зарубежный `primcom-lead-api` через `LEAD_RELAY_URL`, чтобы российский backend не зависел от доступа к Telegram API.
+
+Сервисы на сервере Telegram-ботов `ssh root@213.232.204.127`:
+
+| Контур | Что делает | Как запущен | Где смотреть |
+| --- | --- | --- | --- |
+| `manager-listings-bot` | Ручное добавление/редактирование/удаление карточек Китая/Японии/Кореи | `primcom-manager-listings-bot.service` | `/opt/primcom/manager-listings-bot` |
+| `primcom-bot` | Основной Telegram-бот/информационный бот, связанный с заявками | Docker-контейнер `primcom-bot` | проект `telegram-bot_clean_2026-01-23`, production-контур обычно в `/root/telegram-bot` |
+| `primcom-lead-api` | HTTP API приема заявок сайта `POST /api/lead` и отправка уведомлений в Telegram | Docker-контейнер `primcom-lead-api` | проект `telegram-bot_clean_2026-01-23`, production-контур обычно в `/root/telegram-bot` |
+| `primcom-monitor-bot` | Проверяет живы ли `primcom-bot` и `primcom-lead-api`, присылает alert | `primcom-monitor-bot.service` или ручной python-процесс | `/opt/primcom/primcom-monitor-bot` |
+
+Важно по процессам на `213.232.204.127`:
+
+- один `python main.py` может относиться к Docker-контейнеру `primcom-bot`, а не к `manager-listings-bot`;
+- перед остановкой любого процесса нужно проверить `docker top primcom-bot`, `docker top primcom-lead-api`, `readlink -f /proc/<PID>/cwd` и `tr '\0' ' ' < /proc/<PID>/cmdline`;
+- `manager-listings-bot` отправляет ручные карточки в production backend по `API_BASE_URL=https://api.primcom.ru`;
+- `primcom-monitor-bot` надежнее держать на отдельном сервере от `primcom-bot`, иначе он не увидит полное падение хоста.
 
 ## 3. Быстрая карта кода
 
@@ -65,12 +80,14 @@
 Скрейпинг:
 
 - Legacy runner (используется `primcom-scraper.service`): `app/scripts/scrape_che168.py`
+- Daily external market runner: `app/scripts/scrape_external_market_daily.py`
 - Multi-source runner (используется только в v2 контуре): `app/jobs/run_ingest.py`
 - Сервис ingestion для v2 runner: `app/services/ingest.py`
 - Скрейперы источников:
   - `app/scrapers/che168.py`
   - `app/scrapers/dongchedi.py`
   - `app/scrapers/guazi.py`
+  - `app/scrapers/external_market.py`
 
 Работа с БД:
 
@@ -201,6 +218,53 @@ curl -s http://127.0.0.1:8010/health
 
 Это сделано для отключения случайного автоудаления карточек по умолчанию.
 
+### 7.1 Нейтральный daily-импорт external market
+
+Файлы:
+
+- `app/scrapers/external_market.py`
+- `app/scripts/scrape_external_market_daily.py`
+- `deploy/hostvds/run_external_market_scrape.sh`
+- `deploy/hostvds/primcom-external-market-scraper.service`
+- `deploy/hostvds/primcom-external-market-scraper.timer`
+
+Назначение:
+
+- пополняет раздел Китая и раздел Кореи из внешнего каталога, URL которого хранится только в `.env`;
+- по умолчанию добавляет до 3 карточек Китая и до 3 карточек Кореи за запуск;
+- выбирает случайные страницы в пределах `EXTERNAL_MARKET_MAX_PAGES`;
+- не обходит антибот-защиту: если источник возвращает verification/captcha/KillBot-экран, запуск завершается ошибкой `external_market_blocked`.
+
+Параметры `.env`:
+
+- `EXTERNAL_MARKET_BASE_URL` - базовый URL внешнего каталога, не коммитить в git;
+- `EXTERNAL_MARKET_CHINA_PATH` (default `/catalog`);
+- `EXTERNAL_MARKET_KOREA_PATH` (default `/korea`);
+- `EXTERNAL_MARKET_CHINA_DAILY_LIMIT` (default `3`);
+- `EXTERNAL_MARKET_KOREA_DAILY_LIMIT` (default `3`);
+- `EXTERNAL_MARKET_MAX_PAGES` (default `20`);
+- `EXTERNAL_MARKET_MAX_IMAGES` (default `10`);
+- `EXTERNAL_MARKET_THROTTLE_MS` (default `1000`).
+
+Сохранение:
+
+- карточки Китая пишутся в источник `guazi`, чтобы существующий frontend-раздел Китая продолжал работать без изменений;
+- карточки Кореи пишутся в `korea_manual`, потому что `/api/auto-iz-korei` читает этот источник;
+- `source_listing_id` имеет формат `external_china_<id>` или `external_korea_<id>`;
+- реальный URL хранится только во внутреннем `raw_data.private_source_url` и не отдается публичным API.
+
+Ручная проверка:
+
+```bash
+python -m app.scripts.scrape_external_market_daily --dry-run
+python -m app.scripts.scrape_external_market_daily --china-limit 3 --korea-limit 3 --max-pages 20 --max-images 10
+```
+
+Таймер:
+
+- `primcom-external-market-scraper.timer` запускается один раз в сутки со случайной задержкой до 23 часов (`RandomizedDelaySec=23h`);
+- старые карточки этот импорт автоматически не удаляет.
+
 ## 8. Модель данных (БД)
 
 DDL:
@@ -226,7 +290,12 @@ DDL:
 
 - `app/utils/media.py::download_image`
 - Сначала скачивание по URL с `Referer` по домену источника.
+- Для `guazi` после скачивания дополнительно проверяется содержимое файла:
+  - служебные бренд-картинки Guazi с крупным зеленым логотипом/иероглифом на темном фоне отбрасываются до сохранения;
+  - отдельное правило ловит низкий широкий Guazi-баннер примерно `293x56`, который источник иногда ставит первым кадром галереи;
+  - это защищает от CDN-картинок, которые выглядят как обычный `.jpg/.webp`, но не являются фото автомобиля.
 - Затем конвертация в `.webp` (или сохранение webp как есть).
+- Для external market importer используется принудительное перекодирование в `.webp` даже если исходник уже WebP. Это убирает EXIF/metadata и дополнительно отбрасывает слишком маленькие изображения.
 
 Путь хранения:
 
@@ -263,6 +332,25 @@ python -m app.scripts.cleanup_empty_image_listings --source guazi --dry-run --pr
 python -m app.scripts.cleanup_empty_image_listings --source guazi --preview-limit 100
 ```
 
+### 9.3 Скрипт очистки служебных Guazi-картинок
+
+Файл:
+
+- `app/scripts/cleanup_guazi_brand_images.py`
+
+Назначение:
+
+- Находит уже сохраненные служебные Guazi-картинки с зеленым бренд-артом.
+- Удаляет только записи `listing_images`, не всю карточку.
+- После удаления пересобирает позиции оставшихся фото.
+
+Команды:
+
+```bash
+python -m app.scripts.cleanup_guazi_brand_images --source guazi --dry-run --preview-limit 50
+python -m app.scripts.cleanup_guazi_brand_images --source guazi --preview-limit 50 --delete-files
+```
+
 ## 10. Источники и особенности
 
 ### 10.1 guazi
@@ -278,6 +366,7 @@ python -m app.scripts.cleanup_empty_image_listings --source guazi --preview-limi
 - Жесткий фильтр изображений (`_filter_and_limit_guazi_image_urls`):
   - блок QR/mini/wechat/icon/logo/sprite и т.п.
   - ранжирование URL, похожих на реальные фото авто.
+- Дополнительная content-проверка в `app/utils/media.py` отбрасывает Guazi-бренд-арт, если он пришел с нейтрального CDN URL.
 - Лимит изображений `_GZ_MAX_IMAGES=10`.
 
 ### 10.2 che168
@@ -304,6 +393,19 @@ python -m app.scripts.cleanup_empty_image_listings --source guazi --preview-limi
 - extraction ссылок через URL pattern `/usedcar/<id>`;
 - fallback по JSON id extraction.
 
+### 10.4 external_market
+
+Файл:
+
+- `app/scrapers/external_market.py`
+
+Особенности:
+
+- реальный домен не хранится в коде, только в `.env`;
+- DOM/JSON parser извлекает ссылки деталей, характеристики и изображения по нейтральным правилам;
+- публичные endpoint-ы не отдают внешний `original_url` для карточек `external_*`;
+- если источник показывает anti-bot/verification/captcha-экран, запуск падает с диагностикой и не создает карточки.
+
 ## 11. API endpoints (основные)
 
 Meta:
@@ -329,12 +431,21 @@ Meta:
   - `GET /api/manager/manual-listings` — список ручных карточек (для поиска/редактирования в боте);
   - `GET /api/manager/manual-listing/{listing_id}` — детали карточки;
   - `DELETE /api/manager/manual-listing/{listing_id}` — мягкое удаление карточки (`status='deleted'`).
+- Поддерживаемые рынки:
+  - `china` - сохраняется в source `guazi`, чтобы текущая страница Китая и блок главной продолжили читать карточки без frontend-миграции;
+  - `korea` - сохраняется в `korea_manual`;
+  - `japan` - сохраняется в `japan_manual`.
+- Manager API для `guazi` работает только с карточками, у которых `raw_data.manual=true`; старые парсерные карточки Guazi через manager-bot не редактируются и не удаляются.
 - Для рынка Японии поддерживается поле `auction_grade` (оценка по аукционному листу), хранится в `raw_data`.
+- Фото от manager-bot backend принимает как multipart `photos` и сам перекодирует в `.webp` через `save_upload_image_bytes`.
+- Manager-bot принимает обычные Telegram-фото и изображения, отправленные как файлы-документы (`JPG`, `PNG`, `WEBP`).
 
 Лиды:
 
 - `POST /api/lead`
 - Rate limit по IP + отправка в Telegram.
+- Если задан `LEAD_RELAY_URL`, production backend не отправляет сообщение в Telegram напрямую, а пересылает JSON заявки в relay endpoint.
+- Рекомендуемый relay - зарубежный `primcom-lead-api` на сервере с доступом к Telegram API. Каталог и медиа при этом остаются на production backend.
 
 Ops:
 
@@ -376,6 +487,9 @@ API:
 
 - `MANAGER_API_KEY`
 - `LEAD_API_TOKEN`
+- `LEAD_RELAY_URL`
+- `LEAD_RELAY_TOKEN`
+- `LEAD_RELAY_TIMEOUT_MS`
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_GROUP_ID`
 - `LEAD_RATE_LIMIT_PER_MINUTE`
@@ -407,6 +521,7 @@ curl -s "http://127.0.0.1:8010/api/auto-iz-kitaya?source=guazi&limit=5&offset=0"
 Проверка связанных сервисов:
 
 ```bash
+ssh root@213.232.204.127
 systemctl status primcom-manager-listings-bot.service --no-pager
 systemctl status primcom-monitor-bot.service --no-pager
 journalctl -u primcom-manager-listings-bot.service -n 100 --no-pager
@@ -448,15 +563,21 @@ journalctl -u primcom-monitor-bot.service -n 100 --no-pager
    - затем реальный delete.
 3. Перезапустить скрейпер.
 
-### 14.3 В карточку попали не те изображения (QR/иконки)
+### 14.3 В карточку попали не те изображения (QR/иконки/зеленый бренд-арт Guazi)
 
 Причина:
 
 - слишком широкий сбор URL изображений на стороне источника.
+- часть служебных картинок Guazi приходит как обычный CDN `.jpg/.webp` без слов `logo`, `qr`, `icon` в URL, поэтому URL-фильтр не всегда достаточен.
+- частый общий признак проблемных файлов: позиция `000.webp`, размер около `293x56`, крупный зеленый текст/логотип Guazi на темном фоне.
 
 Текущее решение:
 
 - усиленная фильтрация и ранжирование URL в `guazi.py`.
+- content-проверка скачанного изображения в `app/utils/media.py`.
+- очистка уже сохраненных плохих фото:
+  - `python -m app.scripts.cleanup_guazi_brand_images --source guazi --dry-run --preview-limit 50`
+  - `python -m app.scripts.cleanup_guazi_brand_images --source guazi --preview-limit 50 --delete-files`
 
 ### 14.4 Таймауты перевода при массовом парсинге
 

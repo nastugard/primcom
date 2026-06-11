@@ -300,6 +300,7 @@ export function initManualMarketCars() {
   const prevBtn = qs("[data-manual-cars-prev]", root);
   const nextBtn = qs("[data-manual-cars-next]", root);
   const pageEl = qs("[data-manual-cars-page]", root);
+  const applyBtn = qs("[data-manual-cars-apply]", root);
   const resetBtn = qs("[data-manual-cars-reset]", root);
 
   const modal = qs("[data-manual-car-modal]");
@@ -692,11 +693,15 @@ export function initManualMarketCars() {
     }
   };
 
+  const applyFilters = () => {
+    state.offset = 0;
+    loadList();
+  };
+
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      state.offset = 0;
-      loadList();
+      applyFilters();
     });
 
     const inputs = qsa("input, select", form);
@@ -713,6 +718,10 @@ export function initManualMarketCars() {
       el.addEventListener("input", onChange);
       el.addEventListener("change", onChange);
     });
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener("click", applyFilters);
   }
 
   if (resetBtn && form) {

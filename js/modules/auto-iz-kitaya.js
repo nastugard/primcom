@@ -22,10 +22,18 @@ function formatMileageKm(value) {
   return `${s} км`;
 }
 
-function formatPriceCny(value) {
+function isManualChinaItem(item) {
+  return String(item?.source_listing_id || "").startsWith("mgr-china-");
+}
+
+function getCurrencySign(item) {
+  return isManualChinaItem(item) ? "₽" : "¥";
+}
+
+function formatPrice(value, currencySign = "¥") {
   const n = typeof value === "number" ? value : Number(value);
   if (!Number.isFinite(n) || n <= 0) return "";
-  return `¥ ${new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Math.round(n))}`;
+  return `${currencySign} ${new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(Math.round(n))}`;
 }
 
 function formatRegDate(value) {
@@ -231,7 +239,7 @@ function getMeta(item) {
   }
   const m = formatMileageKm(item?.mileage_km);
   if (m) meta.push(m);
-  const p = formatPriceCny(item?.price_cny);
+  const p = formatPrice(item?.price_cny, getCurrencySign(item));
   if (p) meta.push(p);
   return meta.join(" • ");
 }
@@ -244,7 +252,7 @@ function getSpecs(item) {
   return specs.join(" • ");
 }
 
-function createCard(item, apiOrigin, onOpen) {
+function createCard(item, apiOrigin, onOpen, resolveCoverImage) {
   const card = document.createElement("article");
   card.className = "china-car-card";
 
@@ -261,7 +269,17 @@ function createCard(item, apiOrigin, onOpen) {
     img.decoding = "async";
     img.alt = getTitle(item);
     img.src = imgUrl;
-    img.addEventListener("error", () => {
+    let triedFallbackCover = false;
+    img.addEventListener("error", async () => {
+      if (!triedFallbackCover && typeof resolveCoverImage === "function") {
+        triedFallbackCover = true;
+        const fallbackUrl = await resolveCoverImage(item);
+        if (fallbackUrl && fallbackUrl !== img.src) {
+          img.src = fallbackUrl;
+          return;
+        }
+      }
+
       try {
         clearEl(mediaBtn);
         const ph = document.createElement("div");
@@ -331,6 +349,7 @@ export function initAutoIzKitaya() {
   const prevBtn = qs("[data-china-cars-prev]", root);
   const nextBtn = qs("[data-china-cars-next]", root);
   const pageEl = qs("[data-china-cars-page]", root);
+  const applyBtn = qs("[data-china-cars-apply]", root);
   const resetBtn = qs("[data-china-cars-reset]", root);
 
   const modal = qs("[data-china-car-modal]");
@@ -542,7 +561,7 @@ export function initAutoIzKitaya() {
 
     const items = Array.isArray(data?.items) ? data.items : [];
     items.forEach((item) => {
-      const el = createCard(item, apiOriginOverride, openDetail);
+      const el = createCard(item, apiOriginOverride, openDetail, resolveCoverImage);
       listEl && listEl.appendChild(el);
     });
 
@@ -607,6 +626,26 @@ export function initAutoIzKitaya() {
       state.apiBasePromise = null;
       throw err;
     }
+  };
+
+  const resolveCoverImage = async (item) => {
+    const id = item?.id ? String(item.id) : "";
+    if (!id) return null;
+
+    try {
+      const base = await ensureApiBase();
+      const apiOrigin = new URL(base, window.location.href).origin;
+      const data = await fetchJsonWithTimeout(buildUrl(base, id, null).toString(), 12_000);
+      const rawImages = Array.isArray(data?.images) ? data.images : [];
+      for (const image of rawImages) {
+        const abs = normalizeImageUrl(apiOrigin, image);
+        if (abs) return abs;
+      }
+    } catch (err) {
+      console.warn("[auto-iz-kitaya] cover fallback failed", err);
+    }
+
+    return null;
   };
 
   const loadList = async () => {
@@ -685,11 +724,12 @@ export function initAutoIzKitaya() {
       const base = await ensureApiBase();
       const u = buildUrl(base, String(item?.id || ""), null);
       const data = await fetchJsonWithTimeout(u.toString(), 12_000);
-      const detailTitle = getTitle(data) || titleText;
+      const detail = { ...item, ...(data || {}) };
+      const detailTitle = getTitle(detail) || titleText;
 
       if (modalTitle) modalTitle.textContent = detailTitle;
-      if (modalMeta) modalMeta.textContent = getMeta(data);
-      if (modalSpecs) modalSpecs.textContent = getSpecs(data);
+      if (modalMeta) modalMeta.textContent = getMeta(detail);
+      if (modalSpecs) modalSpecs.textContent = getSpecs(detail);
       const rawImages = Array.isArray(data?.images) ? data.images : [];
       const lightboxImages = rawImages
         .map((img) => normalizeImageUrl(state.apiOrigin, img))
@@ -800,11 +840,19 @@ export function initAutoIzKitaya() {
   }
 
   if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    const applyFilters = () => {
       state.offset = 0;
       loadList();
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      applyFilters();
     });
+
+    if (applyBtn) {
+      applyBtn.addEventListener("click", applyFilters);
+    }
 
     const inputs = qsa("input, select", form);
     let t = 0;

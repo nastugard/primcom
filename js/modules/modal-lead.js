@@ -9,6 +9,8 @@ const LS_KEY_AUTOSHOW_DISMISSED = "primcom_lead_autoshow_dismissed_v1";
 
 const DEFAULT_LEAD_ENDPOINT = "https://api.primcom.ru/api/lead";
 const TARGET_GROUP_ID = -1003540261166;
+const YANDEX_METRIKA_ID = 109674829;
+const LEAD_SUBMIT_SUCCESS_GOAL = "lead_submit_success";
 
 function qs(sel) {
   return document.querySelector(sel);
@@ -182,6 +184,16 @@ function humanizeLeadError(err) {
     return "Сервер не ответил вовремя. Попробуйте ещё раз.";
   }
   return "Не удалось отправить. Попробуйте позже.";
+}
+
+function trackLeadSubmitSuccessGoal(payload) {
+  if (typeof window.ym !== "function") return;
+
+  window.ym(YANDEX_METRIKA_ID, "reachGoal", LEAD_SUBMIT_SUCCESS_GOAL, {
+    source: payload?.source || "site_modal",
+    page_url: payload?.page_url || window.location.href,
+    has_comment: payload?.comment ? "1" : "0",
+  });
 }
 
 export function initLeadModal() {
@@ -406,6 +418,7 @@ export function initLeadModal() {
         };
 
         await postLeadWithFallback(payload, 12_000);
+        trackLeadSubmitSuccessGoal(payload);
 
         setStatus("Заявка отправлена. Мы свяжемся с вами.", "success");
         form.reset();

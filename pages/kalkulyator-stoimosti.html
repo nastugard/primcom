@@ -86,11 +86,11 @@
         <p class="section__lead">Введите цену за границей и параметры авто, чтобы получить расчёт обязательных платежей и итоговую стоимость.</p>
 
         <div class="legal" data-import-calculator data-api-path="/api/import-calculator/calculate">
-          <form class="form" data-calc-form>
+          <form class="form ym-disable-submit" data-calc-form>
             <div class="calc-grid">
               <label class="field">
                 <span class="field__label">Цена авто за границей</span>
-                <input class="field__control" name="carPriceForeign" type="number" inputmode="decimal" min="0" step="100" value="10000" required />
+                <input class="field__control" name="carPriceForeign" type="number" inputmode="decimal" min="0" step="any" value="10000" required />
               </label>
 
               <label class="field">
@@ -144,7 +144,7 @@
             </div>
 
             <div class="calc-actions">
-              <button class="btn btn--primary" type="submit" data-calc-submit>Рассчитать</button>
+              <button class="btn btn--primary" type="button" data-calc-submit>Рассчитать</button>
               <button class="btn" type="button" data-open-lead-modal>Нужен точный расчёт</button>
             </div>
 
@@ -214,7 +214,7 @@
       <h2 class="modal__title" id="lead-modal-title">Заявка</h2>
       <p class="modal__lead">Оставьте контакты, мы свяжемся и уточним задачу.</p>
 
-      <form class="form" data-lead-form>
+      <form class="form ym-disable-submit" data-lead-form>
         <label class="hp" aria-hidden="true">
           Company
           <input type="text" name="company" tabindex="-1" autocomplete="off" />
@@ -253,6 +253,6 @@
     </div>
   </div>
 
-  <script type="module" src="../js/app.js?v=20260415-import-calculator-1"></script>
+  <script type="module" src="../js/app.js?v=20260611-conversion-goals-1"></script>
 </body>
 </html>

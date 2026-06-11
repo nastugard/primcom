@@ -43,6 +43,248 @@
 
 ---
 
+## 2026-06-07 21:15 (+10)
+
+### Изменение
+
+Уточнена эксплуатационная документация по Telegram-ботам на сервере `213.232.204.127`.
+
+Зафиксировано:
+
+- `manager-listings-bot` работает отдельно через `primcom-manager-listings-bot.service`;
+- основной бот заявок/информационный бот работает в Docker-контейнере `primcom-bot`;
+- API заявок сайта работает в Docker-контейнере `primcom-lead-api`;
+- monitor-bot проверяет `primcom-bot` и `primcom-lead-api`;
+- `python main.py` на сервере ботов нельзя останавливать без проверки `docker top` и `/proc/<PID>/cwd`, потому что это может быть не manager-bot.
+
+### Причина
+
+На сервере ботов одновременно работают несколько разных Telegram-контуров. При диагностике загрузки фото в manager-bot появился риск принять процесс другого бота за дубль manager-bot и случайно остановить уведомления с сайта.
+
+### Затронутые файлы
+
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- Прочитаны `primcom-monitor-bot/README.md` и `telegram-bot_clean_2026-01-23/deployment_manual.md`.
+
+### Действия на сервере
+
+- Не требуются. Это документационная правка.
+
+---
+
+## 2026-06-07 20:35 (+10)
+
+### Изменение
+
+Manager-bot начал принимать изображения, отправленные как файлы-документы (`JPG`, `PNG`, `WEBP`), а не только обычные Telegram `photo`.
+
+Реализовано:
+
+- добавлен handler `ListingFlow.photos + F.document`;
+- документ принимается, если `mime_type` начинается с `image/` или имя файла заканчивается на `.jpg/.jpeg/.png/.webp`;
+- общий helper добавляет file_id в состояние и выводит счетчик `Фото добавлено: N шт.`;
+- при отправке в backend filename/content-type теперь определяются по Telegram `file_path`, поэтому `.webp` уходит как `image/webp`;
+- backend менять не пришлось: он уже читает байты `UploadFile` и перекодирует все изображения в `.webp`;
+- runbook дополнен актуальными IP серверов backend/bot и поддержкой WEBP в manager-bot.
+
+### Причина
+
+При загрузке `.webp` Telegram отправлял файл как `document`, а бот слушал только `message.photo`. Из-за этого на шаге загрузки фото бот отвечал "Пришлите фото", хотя изображение было отправлено.
+
+### Затронутые файлы
+
+- `../manager-listings-bot/main.py`
+- `../manager-listings-bot/README.md`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile main.py` в `manager-listings-bot`
+- `git diff --check -- manager-listings-bot/main.py manager-listings-bot/README.md`
+
+### Действия на сервере
+
+- выкатить `manager-listings-bot/main.py` и `manager-listings-bot/README.md` на сервер бота `213.232.204.127`;
+- перезапустить `primcom-manager-listings-bot.service`;
+- проверить в Telegram: на шаге загрузки фото отправить `.webp` как файл и убедиться, что бот отвечает `Фото добавлено: 1 шт.`.
+
+---
+
+## 2026-06-07 17:10 (+10)
+
+### Изменение
+
+Расширен ручной manager-контур карточек: добавлен рынок `china` в backend manager API и Telegram manager-bot.
+
+Реализовано:
+
+- `POST /api/manager/manual-listing` принимает `market=china`;
+- ручные карточки Китая сохраняются в source `guazi`, чтобы текущая страница Китая и блок главной продолжили работать без frontend-миграции;
+- операции просмотра/редактирования/удаления через manager API для `guazi` ограничены только карточками с `raw_data.manual=true`;
+- manager-bot получил кнопку `Китай`, поддержку `/recent china`, создание и редактирование китайских карточек;
+- оценка по аукционному листу по-прежнему спрашивается только для Японии.
+
+### Причина
+
+Автоматические парсеры начали упираться в anti-bot/verification, поэтому пополнение Китая нужно перевести в уже рабочий ручной контур, аналогичный Японии и Корее.
+
+### Затронутые файлы
+
+- `app/api/routes.py`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CLIENT_OVERVIEW.md`
+- `BACKEND_CHANGELOG.md`
+- `../manager-listings-bot/main.py`
+- `../manager-listings-bot/README.md`
+
+### Проверка
+
+- `.venv/bin/python -m py_compile app/api/routes.py`
+- `python3 -m py_compile main.py` в `manager-listings-bot`
+
+### Действия на сервере
+
+- выкатить `app/api/routes.py` на backend-сервер и перезапустить `primcom-api.service`;
+- выкатить `manager-listings-bot/main.py` на сервер бота и перезапустить `primcom-manager-listings-bot.service`;
+- в боте проверить создание карточки с площадкой `Китай` и появление карточки на странице авто из Китая.
+
+---
+
+## 2026-06-07 16:30 (+10)
+
+### Изменение
+
+Добавлен нейтральный daily-импорт `external_market` для пополнения карточек Китая и Кореи из внешнего каталога без хранения реального домена в коде.
+
+Реализовано:
+
+- новый scraper `app/scrapers/external_market.py`;
+- новый runner `app/scripts/scrape_external_market_daily.py`;
+- отдельные deploy-файлы systemd для ежедневного запуска со случайной задержкой;
+- настройки `EXTERNAL_MARKET_*` в `app/core/settings.py`;
+- принудительное перекодирование изображений в `.webp` для нового импорта;
+- публичный API не отдает `original_url` для карточек с `source_listing_id` формата `external_*`;
+- при detection verification/captcha/KillBot запуск завершается ошибкой, без обхода защиты.
+
+### Причина
+
+Текущий автоматический источник Китая начал отдавать anti-bot verification вместо списка объявлений, из-за чего каталог перестал пополняться. Нужен отдельный безопасный контур пополнения карточек Китая и Кореи без изменения frontend-кэша и без публикации внешнего URL в API.
+
+### Затронутые файлы
+
+- `app/core/settings.py`
+- `app/utils/media.py`
+- `app/api/routes.py`
+- `app/scrapers/external_market.py`
+- `app/scripts/scrape_external_market_daily.py`
+- `deploy/hostvds/run_external_market_scrape.sh`
+- `deploy/hostvds/primcom-external-market-scraper.service`
+- `deploy/hostvds/primcom-external-market-scraper.timer`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CLIENT_OVERVIEW.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `python3 -m py_compile app/scrapers/external_market.py app/scripts/scrape_external_market_daily.py app/api/routes.py app/core/settings.py app/utils/media.py`
+- проверено, что в tracked-файлах нет буквального названия или домена реального внешнего источника.
+- `git diff --check`
+
+### Действия на сервере
+
+- выкатить новые и измененные файлы;
+- в `/opt/primcom/china_cars_backend/.env` добавить `EXTERNAL_MARKET_BASE_URL`, `EXTERNAL_MARKET_CHINA_PATH`, `EXTERNAL_MARKET_KOREA_PATH`, лимиты и throttle;
+- выполнить dry-run:
+  - `python -m app.scripts.scrape_external_market_daily --dry-run`
+- выполнить ручной запуск и проверить API Китая/Кореи;
+- установить и включить `primcom-external-market-scraper.timer`.
+
+---
+
+## 2026-04-26 17:30 (+10)
+
+### Изменение
+
+Добавлена content-проверка изображений `guazi` и скрипт очистки уже сохраненных служебных Guazi-картинок.
+
+Скрипт очистки дополнительно:
+
+- разрешает относительные пути через текущую папку проекта и `MEDIA_DIR`;
+- выводит диагностические счетчики `db_rows`, `scanned_files`, `missing_files`, `unreadable_files`.
+- выводит `top_green_preview` с метриками самых похожих на Guazi-бренд-арт изображений.
+- добавлено отдельное правило для реального проблемного файла: низкий широкий Guazi-баннер около `293x56`, который сохранялся как `000.webp` и становился обложкой карточки.
+
+### Причина
+
+В карточки снова попадал зеленый бренд-арт Guazi: источник отдавал его как обычный CDN `.jpg/.webp`, без явных URL-маркеров `logo`, `qr`, `icon`. Старый фильтр проверял в основном адрес картинки и поэтому не мог надежно отличить такую служебную графику от фото автомобиля.
+
+### Затронутые файлы
+
+- `app/utils/media.py`
+- `app/scripts/cleanup_guazi_brand_images.py`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CLIENT_OVERVIEW.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `python -m py_compile app/utils/media.py app/scripts/cleanup_guazi_brand_images.py`
+- smoke-проверка `is_guazi_brand_art_image` на скриншоте с зеленым Guazi-артом.
+- проверка на реальных файлах `https://api.primcom.ru/media/guazi/<source_listing_id>/000.webp`: проблемный `293x56` баннер определяется как служебный, нормальное фото `001.webp` не отбрасывается.
+
+### Действия на сервере
+
+- выкатить обновленные файлы;
+- выполнить dry-run очистки:
+  - `python -m app.scripts.cleanup_guazi_brand_images --source guazi --dry-run --preview-limit 50`
+- если список корректный, удалить плохие фото:
+  - `python -m app.scripts.cleanup_guazi_brand_images --source guazi --preview-limit 50 --delete-files`
+- следующий запуск `primcom-scraper.service` будет сохранять новые фото уже с content-защитой.
+
+---
+
+## 2026-04-26 17:20 (+10)
+
+### Изменение
+
+Добавлен relay-режим для заявок сайта:
+
+- `POST /api/lead` сохраняет текущую валидацию, rate limit и API-контракт;
+- если задан `LEAD_RELAY_URL`, заявка пересылается в внешний lead relay вместо прямой отправки в Telegram;
+- добавлены `LEAD_RELAY_TOKEN` и `LEAD_RELAY_TIMEOUT_MS`;
+- прямой Telegram-режим остаётся fallback-поведением, если relay не настроен.
+
+### Причина
+
+Production backend находится на российском сервере, где доступ к Telegram API может быть заблокирован. Старый рабочий подход проекта уже выносил Telegram-сервисы на зарубежный сервер; теперь сайт может принимать заявки на российском backend и пересылать их в зарубежный `primcom-lead-api`.
+
+### Затронутые файлы
+
+- `app/api/routes.py`
+- `app/core/settings.py`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `python -m py_compile app/api/routes.py app/core/settings.py`
+- `git diff --check`
+
+### Действия на сервере
+
+- выкатить `app/api/routes.py` и `app/core/settings.py` на production backend;
+- в `/opt/primcom/china_cars_backend/.env` задать `LEAD_RELAY_URL` на зарубежный relay endpoint;
+- если relay защищён токеном, задать `LEAD_RELAY_TOKEN`;
+- перезапустить `primcom-api.service`;
+- проверить `POST /api/lead`.
+
+---
+
 ## 2026-04-16 00:18 (+10)
 
 ### Изменение

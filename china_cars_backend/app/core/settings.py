@@ -41,11 +41,24 @@ class Settings(BaseSettings):
 
     # lead notifications from site modal
     lead_api_token: str | None = None
+    lead_relay_url: str | None = None
+    lead_relay_token: str | None = None
+    lead_relay_timeout_ms: int = 15000
     telegram_bot_token: str | None = None
     telegram_group_id: str | None = None
     lead_rate_limit_per_minute: int = 20
     exchange_rate_api_url_template: str = "https://open.er-api.com/v6/latest/{base}"
     exchange_rate_api_timeout_ms: int = 4000
+
+    # neutral external catalog importer
+    external_market_base_url: str | None = None
+    external_market_china_path: str = "/catalog"
+    external_market_korea_path: str = "/korea"
+    external_market_china_daily_limit: int = 3
+    external_market_korea_daily_limit: int = 3
+    external_market_max_pages: int = 20
+    external_market_max_images: int = 10
+    external_market_throttle_ms: int = 1000
 
     @property
     def cors_origins_list(self) -> list[str]:
