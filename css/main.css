@@ -1269,15 +1269,27 @@ body > .site-main:not(.site-main--hero) {
 }
 
 .reviews-2gis__list {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  display: flex;
   gap: 14px;
   margin-block-start: 20px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-block-end: 8px;
+  scroll-padding-inline: 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+}
+
+.reviews-2gis__list::-webkit-scrollbar {
+  display: none;
 }
 
 .review-card--2gis {
-  min-inline-size: 0;
-  inline-size: 100%;
+  flex: 0 0 min(420px, 86vw);
+  min-inline-size: min(420px, 86vw);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1437,11 +1449,12 @@ body > .site-main:not(.site-main--hero) {
 
  @media (min-width: 861px) {
    .reviews-2gis__list {
-     grid-template-columns: repeat(3, minmax(0, 1fr));
      align-items: stretch;
    }
 
    .review-card--2gis {
+     flex-basis: clamp(320px, 31vw, 390px);
+     min-inline-size: clamp(320px, 31vw, 390px);
      min-block-size: 460px;
    }
 
