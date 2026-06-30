@@ -739,10 +739,17 @@ function createCard({
   let activeImageIndex = 0;
   const isLiteMode = !!(window.__primcomPerformance && window.__primcomPerformance.isLite);
   const hasFinePointer = !!(window.matchMedia && window.matchMedia("(pointer: fine)").matches);
+  const isMobileViewport = !!(window.matchMedia && window.matchMedia("(max-width: 739px)").matches);
   const expectedImageCount = Math.max(1, Number(item?.images_count || 0));
-  const canUseHoverGallery = !isLiteMode && hasFinePointer && expectedImageCount > 1;
+  const canUseHoverGallery = !isLiteMode && hasFinePointer && !isMobileViewport && expectedImageCount > 1;
+  const canUseSwipeGallery = (!hasFinePointer || isMobileViewport) && expectedImageCount > 1;
   let galleryLoaded = false;
   let galleryLoading = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchTracking = false;
+  let touchHorizontal = false;
+  let suppressMediaClickUntil = 0;
 
   const ensureImageEl = (src) => {
     if (imageEl) {
@@ -831,7 +838,7 @@ function createCard({
 
   const syncGalleryHint = () => {
     const ready = images.length > 1;
-    loadingHint.hidden = !canUseHoverGallery || ready;
+    loadingHint.hidden = !galleryLoading && (!canUseHoverGallery || ready);
     loadingHint.classList.toggle("is-loading", !!galleryLoading);
   };
 
@@ -898,6 +905,75 @@ function createCard({
     }, preloadDelayMs);
   }
 
+  if (canUseSwipeGallery) {
+    media.classList.add("latest-home-card__media--swipe");
+
+    media.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length !== 1) {
+          touchTracking = false;
+          return;
+        }
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchTracking = true;
+        touchHorizontal = false;
+      },
+      { passive: true },
+    );
+
+    media.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!touchTracking || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
+        if (!touchHorizontal && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+          touchHorizontal = true;
+        }
+        if (touchHorizontal) e.preventDefault();
+      },
+      { passive: false },
+    );
+
+    media.addEventListener(
+      "touchend",
+      async (e) => {
+        if (!touchTracking) return;
+        touchTracking = false;
+        const touch = e.changedTouches[0];
+        if (!touch) return;
+
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
+        const isSwipe = touchHorizontal && Math.abs(dx) >= 36 && Math.abs(dx) > Math.abs(dy);
+        touchHorizontal = false;
+        if (!isSwipe) return;
+
+        e.preventDefault();
+        suppressMediaClickUntil = Date.now() + 700;
+        await ensureGalleryLoaded();
+        if (images.length <= 1) return;
+        const direction = dx < 0 ? 1 : -1;
+        const nextIndex = (activeImageIndex + direction + images.length) % images.length;
+        setImageByIndex(nextIndex);
+      },
+      { passive: false },
+    );
+
+    media.addEventListener(
+      "touchcancel",
+      () => {
+        touchTracking = false;
+        touchHorizontal = false;
+      },
+      { passive: true },
+    );
+  }
+
   const body = document.createElement("div");
   body.className = "china-car-card__body";
 
@@ -926,7 +1002,11 @@ function createCard({
     });
   });
 
-  media.addEventListener("click", () => {
+  media.addEventListener("click", (e) => {
+    if (Date.now() < suppressMediaClickUntil) {
+      e.preventDefault();
+      return;
+    }
     onOpenDetail({
       item,
       apiPath,

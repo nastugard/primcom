@@ -3,8 +3,9 @@ import io
 import logging
 import mimetypes
 import os
+import re
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 
@@ -21,6 +22,203 @@ try:
     from aiogram.fsm.storage.memory import SimpleEventIsolation
 except ImportError:  # pragma: no cover - compatibility with older aiogram builds
     SimpleEventIsolation = None
+
+
+IMPORT_MARKETS = {
+    "китай": "china",
+    "china": "china",
+    "кнр": "china",
+    "корея": "korea",
+    "korea": "korea",
+    "южная корея": "korea",
+    "япония": "japan",
+    "japan": "japan",
+}
+IMPORT_DRIVES = {
+    "передний": "Передний",
+    "передний привод": "Передний",
+    "front": "Передний",
+    "fwd": "Передний",
+    "задний": "Задний",
+    "задний привод": "Задний",
+    "rear": "Задний",
+    "rwd": "Задний",
+    "полный": "Полный",
+    "полный привод": "Полный",
+    "4wd": "Полный",
+    "awd": "Полный",
+}
+IMPORT_BODY_TYPES = {
+    "седан": "Седан",
+    "универсал": "Универсал",
+    "хэтчбек": "Хэтчбек",
+    "хетчбек": "Хэтчбек",
+    "купе": "Купе",
+    "джип": "Джип",
+    "внедорожник": "Джип",
+    "кроссовер": "Кроссовер",
+    "suv": "Кроссовер",
+    "минивэн": "Минивэн",
+    "минивен": "Минивэн",
+    "пикап": "Пикап",
+    "лифтбек": "Лифтбек",
+}
+IMPORT_KNOWN_BRANDS = sorted(
+    {
+        "Alfa Romeo", "Aston Martin", "BYD", "BMW", "Changan", "Chery", "Chevrolet",
+        "Citroen", "Exeed", "Ford", "Geely", "Genesis", "Great Wall", "Haval", "Honda",
+        "Hongqi", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "Land Rover", "Lexus",
+        "Li Auto", "Mazda", "Mercedes-Benz", "Mercedes Benz", "Mitsubishi", "Nissan",
+        "Omoda", "Peugeot", "Porsche", "Renault", "Skoda", "Subaru", "Suzuki", "Tank",
+        "Tesla", "Toyota", "Volkswagen", "Volvo", "Zeekr", "Ауди", "БМВ", "Лада",
+        "Лексус", "Мерседес", "Тойота",
+    },
+    key=len,
+    reverse=True,
+)
+IMPORT_FIELD_ALIASES = {
+    "year": ("год", "year"),
+    "engine_volume_l": ("двигатель", "объем двигателя", "объём двигателя", "мотор"),
+    "mileage_km": ("пробег", "mileage"),
+    "drive_type": ("привод", "drive"),
+    "body_type": ("кузов", "тип кузова", "body"),
+    "power_hp": ("мощность", "л.с.", "лс", "power"),
+    "trim": ("комплектация", "комплект", "trim"),
+    "auction_grade": ("оценка", "аукционная оценка", "auction grade"),
+    "price": ("цена", "стоимость", "price"),
+}
+
+
+def _import_clean_line(value: str) -> str:
+    return re.sub(r"\s+", " ", str(value or "")).strip(" \t\r\n|•—–-")
+
+
+def _import_positive_int(value: str) -> int | None:
+    digits = re.sub(r"\D", "", str(value or ""))
+    number = int(digits) if digits else 0
+    return number if number > 0 else None
+
+
+def _import_decimal(value: str) -> str | None:
+    number = re.sub(r"[^0-9,.\-]", "", str(value or "")).replace(",", ".")
+    try:
+        decimal = Decimal(number)
+    except (InvalidOperation, ValueError):
+        return None
+    if decimal <= 0:
+        return None
+    text = format(decimal.normalize(), "f")
+    return text.rstrip("0").rstrip(".") if "." in text else text
+
+
+def _import_labeled_values(text: str) -> dict[str, str]:
+    found: dict[str, str] = {}
+    aliases = sorted(
+        ((alias, field) for field, names in IMPORT_FIELD_ALIASES.items() for alias in names),
+        key=lambda item: len(item[0]),
+        reverse=True,
+    )
+    pattern = re.compile(
+        rf"^\s*(?P<label>{'|'.join(re.escape(alias) for alias, _ in aliases)})"
+        r"\s*(?:[-–—:=]|→|->)+\s*(?P<value>.+?)\s*$",
+        re.IGNORECASE,
+    )
+    for raw_line in str(text or "").splitlines():
+        match = pattern.match(_import_clean_line(raw_line))
+        if not match:
+            continue
+        label = match.group("label").casefold()
+        for alias, field_name in aliases:
+            if label == alias.casefold():
+                found.setdefault(field_name, _import_clean_line(match.group("value")))
+                break
+    price_match = re.search(
+        r"(?:цена|стоимость|price)\s*(?:[-–—:=]|→|->)*\s*([0-9][0-9\s.,]*)",
+        str(text or ""),
+        re.IGNORECASE,
+    )
+    if price_match:
+        found.setdefault("price", price_match.group(1))
+    return found
+
+
+def _import_title(text: str) -> str:
+    labels = {alias.casefold() for names in IMPORT_FIELD_ALIASES.values() for alias in names}
+    for raw_line in str(text or "").splitlines():
+        line = _import_clean_line(raw_line)
+        lowered = re.sub(r"[^\w\s-]", "", line, flags=re.UNICODE).casefold().strip()
+        if not lowered or lowered in {"характеристики", "характеристика", "описание", "автомобиль"}:
+            continue
+        if any(re.search(rf"(?<!\w){re.escape(label)}(?!\w)", lowered) for label in IMPORT_MARKETS):
+            continue
+        if any(lowered.startswith(label) for label in labels):
+            continue
+        if re.search(r"\d[\d\s.,]*\s*(?:₽|руб)", line, re.IGNORECASE):
+            continue
+        if len(line) >= 3:
+            return line
+    return ""
+
+
+def _import_brand_model(title: str) -> tuple[str, str]:
+    clean = _import_clean_line(title)
+    lowered = clean.casefold()
+    for brand in IMPORT_KNOWN_BRANDS:
+        if lowered == brand.casefold():
+            return clean, ""
+        if lowered.startswith(brand.casefold() + " "):
+            return clean[: len(brand)], clean[len(brand):].strip()
+    parts = clean.split(maxsplit=1)
+    return (parts[0], parts[1]) if len(parts) == 2 else (clean, "")
+
+
+def parse_forwarded_listing(text: str) -> dict[str, object]:
+    raw = str(text or "").strip()
+    if not raw:
+        return {}
+    values = _import_labeled_values(raw)
+    brand, model = _import_brand_model(_import_title(raw))
+    payload: dict[str, object] = {}
+
+    lowered = raw.casefold()
+    for label, market in IMPORT_MARKETS.items():
+        if re.search(rf"(?<!\w){re.escape(label)}(?!\w)", lowered):
+            payload["market"] = market
+            break
+    if brand:
+        payload["brand"] = brand
+    if model:
+        payload["model"] = model
+
+    year = _import_positive_int(values.get("year", ""))
+    if year and 1980 <= year <= 2100:
+        payload["year"] = year
+    mileage = _import_positive_int(values.get("mileage_km", ""))
+    if mileage:
+        payload["mileage_km"] = mileage
+    engine = _import_decimal(values.get("engine_volume_l", ""))
+    if engine:
+        payload["engine_volume_l"] = engine
+    power = _import_positive_int(values.get("power_hp", ""))
+    if power:
+        payload["power_hp"] = power
+    price = _import_positive_int(values.get("price", ""))
+    if price:
+        payload["price"] = str(price)
+
+    drive = _import_clean_line(values.get("drive_type", "")).casefold()
+    if drive:
+        payload["drive_type"] = IMPORT_DRIVES.get(drive, drive.capitalize())
+    body = _import_clean_line(values.get("body_type", "")).casefold()
+    if body:
+        payload["body_type"] = IMPORT_BODY_TYPES.get(body, body.capitalize())
+    trim = _import_clean_line(values.get("trim", ""))
+    if trim:
+        payload["trim"] = trim
+    grade = _import_clean_line(values.get("auction_grade", ""))
+    if grade:
+        payload["auction_grade"] = grade
+    return payload
 
 
 class ListingFlow(StatesGroup):
@@ -58,16 +256,24 @@ class BotConfig:
     allowed_ids: set[int]
 
 
+@dataclass
+class AlbumBuffer:
+    messages: list[Message] = field(default_factory=list)
+    task: asyncio.Task | None = None
+
+
 BTN_NEW = "Добавить карточку"
 BTN_EDIT = "Изменить карточку"
 BTN_DELETE = "Удалить карточку"
 BTN_RECENT = "Показать последние карточки"
+BTN_IMPORT_HELP = "Импорт из Telegram"
 
 
 MAIN_MENU_KB = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text=BTN_NEW), KeyboardButton(text=BTN_EDIT)],
         [KeyboardButton(text=BTN_DELETE), KeyboardButton(text=BTN_RECENT)],
+        [KeyboardButton(text=BTN_IMPORT_HELP)],
     ],
     resize_keyboard=True,
 )
@@ -180,6 +386,9 @@ DELETE_CONFIRM_KB = ReplyKeyboardMarkup(
 
 router = Router()
 CONFIG: BotConfig | None = None
+ALBUM_BUFFERS: dict[tuple[int, str], AlbumBuffer] = {}
+ALBUM_WAIT_SECONDS = 1.2
+APP_VERSION = "2026-06-22.telegram-import-v3"
 
 
 def load_config() -> BotConfig:
@@ -511,18 +720,21 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
     form.add_field("market", str(payload.get("market") or ""))
     form.add_field("brand", str(payload.get("brand") or ""))
     form.add_field("model", str(payload.get("model") or ""))
-    form.add_field("year", str(payload.get("year") or ""))
-    form.add_field("mileage_km", str(payload.get("mileage_km") or ""))
-    form.add_field("drive_type", str(payload.get("drive_type") or ""))
-    form.add_field("engine_volume_l", str(payload.get("engine_volume_l") or ""))
-    form.add_field("power_hp", str(payload.get("power_hp") or ""))
-    form.add_field("body_type", str(payload.get("body_type") or ""))
-    form.add_field("trim", str(payload.get("trim") or ""))
-    form.add_field("price", str(payload.get("price") or ""))
-
-    auction_grade = str(payload.get("auction_grade") or "").strip()
-    if auction_grade:
-        form.add_field("auction_grade", auction_grade)
+    optional_fields = (
+        "year",
+        "mileage_km",
+        "drive_type",
+        "engine_volume_l",
+        "power_hp",
+        "body_type",
+        "trim",
+        "price",
+        "auction_grade",
+    )
+    for field_name in optional_fields:
+        field_value = str(payload.get(field_name) or "").strip()
+        if field_value:
+            form.add_field(field_name, field_value)
 
     listing_id = str(payload.get("edit_listing_id") or "").strip()
     if listing_id:
@@ -715,6 +927,107 @@ async def ask_delete_listing_id(message: Message, state: FSMContext) -> None:
     await state.set_state(DeleteFlow.listing_id)
 
 
+async def process_forwarded_listing(
+    message: Message,
+    state: FSMContext,
+    *,
+    caption: str,
+    photo_file_ids: list[str],
+) -> None:
+    logging.info(
+        "telegram_import_received chat_id=%s caption_length=%s photos=%s",
+        message.chat.id,
+        len(caption),
+        len(photo_file_ids),
+    )
+    parsed = parse_forwarded_listing(caption)
+    if not parsed:
+        logging.warning("telegram_import_parse_empty chat_id=%s", message.chat.id)
+        await message.answer(
+            "Не удалось распознать карточку. Перешлите исходную публикацию с подписью и фотографиями "
+            "или используйте «Добавить карточку» для ручного ввода."
+        )
+        return
+
+    unique_file_ids = list(dict.fromkeys(photo_file_ids))[:20]
+    if not parsed.get("market"):
+        logging.warning("telegram_import_market_missing chat_id=%s parsed=%s", message.chat.id, parsed)
+        await message.answer(
+            "Не удалось определить площадку (Китай, Корея или Япония), поэтому карточку нельзя направить "
+            "в нужный раздел сайта. Публикация не импортирована."
+        )
+        return
+    if not unique_file_ids:
+        logging.warning("telegram_import_photos_missing chat_id=%s", message.chat.id)
+        await message.answer("В публикации нет фотографий. Публикация не импортирована.")
+        return
+
+    await state.clear()
+    imported_data = {
+        "mode": "create",
+        "trim": "",
+        "auction_grade": "",
+        "replace_photos": True,
+        "photo_file_ids": unique_file_ids,
+        **parsed,
+    }
+    await state.update_data(**imported_data)
+    data = await state.get_data()
+    recognized_title = f"{str(data.get('brand') or '').strip()} {str(data.get('model') or '').strip()}".strip()
+    status_lines = [
+        "Карточка из Telegram распознана.",
+        f"Автомобиль: {recognized_title or 'не определен'}",
+        f"Фото: {len(unique_file_ids)} шт.",
+        "На сайт будут отправлены только данные из публикации.",
+    ]
+    await message.answer("\n".join(status_lines), reply_markup=ReplyKeyboardRemove())
+    await message.answer(summarize_payload(data), reply_markup=CONFIRM_KB)
+    await state.set_state(ListingFlow.confirm)
+    logging.info(
+        "telegram_import_ready chat_id=%s market=%s title=%r photos=%s",
+        message.chat.id,
+        data.get("market"),
+        recognized_title,
+        len(unique_file_ids),
+    )
+
+
+async def _finish_album(key: tuple[int, str], state: FSMContext) -> None:
+    try:
+        await asyncio.sleep(ALBUM_WAIT_SECONDS)
+    except asyncio.CancelledError:
+        return
+
+    buffer: AlbumBuffer | None = None
+    try:
+        buffer = ALBUM_BUFFERS.pop(key, None)
+        if buffer is None or not buffer.messages:
+            return
+        messages = sorted(buffer.messages, key=lambda item: item.message_id)
+        caption = next(
+            (str(item.caption or item.text or "").strip() for item in messages if str(item.caption or item.text or "").strip()),
+            "",
+        )
+        file_ids = [file_id for item in messages if (file_id := extract_image_file_id(item))]
+        logging.info(
+            "telegram_import_album_ready chat_id=%s media_group_id=%s messages=%s photos=%s",
+            key[0],
+            key[1],
+            len(messages),
+            len(file_ids),
+        )
+        await process_forwarded_listing(messages[0], state, caption=caption, photo_file_ids=file_ids)
+    except Exception:
+        logging.exception("telegram_import_album_failed chat_id=%s media_group_id=%s", key[0], key[1])
+        if buffer is not None and buffer.messages:
+            try:
+                await buffer.messages[0].answer(
+                    "Ошибка обработки пересланной публикации. Подробности записаны в журнал бота."
+                )
+            except Exception:
+                logging.exception("telegram_import_error_reply_failed chat_id=%s", key[0])
+
+
 async def start_new_flow(message: Message, state: FSMContext) -> None:
     await state.clear()
     await state.update_data(mode="create", photo_file_ids=[], replace_photos=True)
@@ -815,6 +1128,53 @@ async def start_new_button(message: Message, state: FSMContext) -> None:
     if await deny_if_no_access(message):
         return
     await start_new_flow(message, state)
+
+
+@router.message(StateFilter(None), F.text == BTN_IMPORT_HELP)
+async def import_help(message: Message) -> None:
+    if await deny_if_no_access(message):
+        return
+    await message.answer(
+        "Перешлите боту публикацию из Telegram-канала целиком: подпись и альбом фотографий. "
+        "Бот заполнит найденные поля и покажет карточку перед сохранением. "
+        "Отсутствующие характеристики запрашиваться не будут.",
+        reply_markup=MAIN_MENU_KB,
+    )
+
+
+@router.message(StateFilter(None), F.photo | F.document)
+async def import_forwarded_media(message: Message, state: FSMContext) -> None:
+    if await deny_if_no_access(message):
+        return
+
+    file_id = extract_image_file_id(message)
+    if not file_id:
+        await message.answer("Файл не похож на изображение. Перешлите публикацию с JPG, PNG или WEBP.")
+        return
+
+    media_group_id = str(message.media_group_id or "").strip()
+    logging.info(
+        "telegram_import_media chat_id=%s message_id=%s media_group_id=%s has_caption=%s",
+        message.chat.id,
+        message.message_id,
+        media_group_id or "single",
+        bool(message.caption or message.text),
+    )
+    if not media_group_id:
+        await process_forwarded_listing(
+            message,
+            state,
+            caption=str(message.caption or message.text or "").strip(),
+            photo_file_ids=[file_id],
+        )
+        return
+
+    key = (int(message.chat.id), media_group_id)
+    buffer = ALBUM_BUFFERS.setdefault(key, AlbumBuffer())
+    buffer.messages.append(message)
+    if buffer.task is not None and not buffer.task.done():
+        buffer.task.cancel()
+    buffer.task = asyncio.create_task(_finish_album(key, state))
 
 
 @router.message(Command("edit"))
@@ -1430,7 +1790,7 @@ async def on_confirm(message: Message, state: FSMContext, bot: Bot) -> None:
 
     if cmd == "добавить фото":
         data = await state.get_data()
-        await state.update_data(photo_file_ids=[], replace_photos=True)
+        await state.update_data(replace_photos=True)
         await ask_photos(message, data)
         await state.set_state(ListingFlow.photos)
         return
@@ -1464,7 +1824,8 @@ async def fallback(message: Message) -> None:
     await send_main_menu(
         message,
         "Выберите действие кнопками ниже.\n"
-        "Также доступны команды: /new, /edit, /delete, /recent, /cancel",
+        "Можно также переслать публикацию с карточкой и фото.\n"
+        "Команды: /new, /edit, /delete, /recent, /cancel",
     )
 
 
@@ -1484,7 +1845,7 @@ async def main() -> None:
     dp = Dispatcher(**dispatcher_kwargs)
     dp.include_router(router)
 
-    logging.info("manager-listings-bot started")
+    logging.info("manager-listings-bot started version=%s", APP_VERSION)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

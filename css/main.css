@@ -2239,6 +2239,12 @@ body > .site-main:not(.site-main--hero) {
   overflow: hidden;
 }
 
+.latest-home-card__media--swipe {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .china-car-card__img,
 .china-car-card__placeholder {
   inline-size: 100%;

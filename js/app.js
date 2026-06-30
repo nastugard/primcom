@@ -10,7 +10,7 @@ import { initScrollProgress } from "./modules/scroll-progress.js";
 import { initScrollSmoother } from "./modules/scroll-smoother.js";
 import { initPageBg } from "./modules/page-bg.js";
 import { initAutoIzKitaya } from "./modules/auto-iz-kitaya.js?v=20260611-conversion-goals-1";
-import { initLatestCarsHome } from "./modules/latest-cars-home.js?v=20260607-manual-china-rub-1";
+import { initLatestCarsHome } from "./modules/latest-cars-home.js?v=20260622-mobile-card-swipe-1";
 import { initManualMarketCars } from "./modules/auto-manual-market.js?v=20260611-conversion-goals-1";
 import { initVkClipsCarousel } from "./modules/vk-clips-carousel.js";
 import { initPerformanceMode, loadEnhancementRuntime } from "./modules/performance-mode.js";

@@ -3,20 +3,60 @@
     "platform": "2ГИС",
     "pageUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews",
     "apiUrl": "https://public-api.reviews.2gis.com/2.0/branches/70000001110927328/reviews?limit=12&key=6e7e1929-4ea9-4a5d-8c05-d601860389bd",
-    "fetchedAt": "2026-04-11T15:13:13.359Z"
+    "fetchedAt": "2026-06-30T05:53:45.592Z"
   },
   "summary": {
-    "reviewsCount": 3,
+    "reviewsCount": 5,
     "rating": 5,
-    "ratingsCount": 5
+    "ratingsCount": 7
   },
   "reviews": [
+    {
+      "id": "253288694",
+      "authorName": "Марина Решетова",
+      "authorInitials": "МР",
+      "authorAvatarUrl": "",
+      "authorReviewsCount": 1,
+      "dateCreated": "2026-06-26T19:20:41.808479+07:00",
+      "dateLabel": "26 июня 2026 г.",
+      "rating": 5,
+      "ratingLabel": "★★★★★",
+      "likesCount": 0,
+      "isVerified": false,
+      "text": "Suzuki xbee прибыла в Егорьевск!!! Спасибо за рекомендацию, подбор и полное сопровождение по оформлению ! Машина огонь! Превзошла все мои ожидания!",
+      "photosCount": 0,
+      "photos": [],
+      "sourceUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews"
+    },
+    {
+      "id": "247309245",
+      "authorName": "Vladimir Z",
+      "authorInitials": "VZ",
+      "authorAvatarUrl": "",
+      "authorReviewsCount": 6,
+      "dateCreated": "2026-06-03T18:27:34.862339+07:00",
+      "dateLabel": "3 июня 2026 г.",
+      "rating": 5,
+      "ratingLabel": "★★★★★",
+      "likesCount": 0,
+      "isVerified": false,
+      "text": "Заказывал в данной компании авто с Японии, с момента обращения до получения авто в руки, прошло менее двух месяцев и это не смотря на то, что автомобиль санкционный. В общем и целом всем доволен, всем рекомендую данную компанию, ставлю заслуженную пятерку❗️",
+      "photosCount": 1,
+      "photos": [
+        {
+          "id": "32193090",
+          "thumbUrl": "https://cachizer1.2gis.com/reviews-photos/d9b97e13-d681-498b-ae3e-f683cff2db06.jpg?w=320",
+          "fullUrl": "https://cachizer1.2gis.com/reviews-photos/d9b97e13-d681-498b-ae3e-f683cff2db06.jpg?w=1920"
+        }
+      ],
+      "sourceUrl": "https://2gis.ru/vladivostok/firm/70000001110927328/tab/reviews"
+    },
     {
       "id": "230169076",
       "authorName": "Александр Григорьев",
       "authorInitials": "АГ",
       "authorAvatarUrl": "",
-      "authorReviewsCount": 7,
+      "authorReviewsCount": 8,
       "dateCreated": "2026-03-19T13:12:56.025423+07:00",
       "dateLabel": "19 марта 2026 г.",
       "rating": 5,
@@ -77,7 +117,7 @@
       "authorName": "Ivan Drgt",
       "authorInitials": "ID",
       "authorAvatarUrl": "https://i7.photo.2gis.com/images/profile/844424966729207_c3b1_64x64.jpg",
-      "authorReviewsCount": 6,
+      "authorReviewsCount": 5,
       "dateCreated": "2026-03-04T12:23:14.169922+07:00",
       "dateLabel": "4 марта 2026 г.",
       "rating": 5,

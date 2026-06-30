@@ -43,6 +43,166 @@
 
 ---
 
+## 2026-06-22 20:27 (+10)
+
+### Изменение
+
+В `manager-listings-bot` добавлен импорт готовых Telegram-публикаций с автомобилями.
+
+Реализовано:
+
+- сбор пересланного Telegram-альбома по `media_group_id`;
+- извлечение из подписи рынка, марки, модели, года, пробега, двигателя, привода, кузова, мощности, комплектации, аукционной оценки и цены;
+- сохранение фотографий альбома в исходном порядке;
+- отправка только распознанных данных без запроса отсутствующих характеристик;
+- стандартное подтверждение перед отправкой в существующий `POST /api/manager/manual-listing`;
+- отдельная кнопка меню с инструкцией по импорту;
+- unit-тесты парсера на формате реальной карточки и альтернативной записи полей.
+
+### Причина
+
+Менеджер уже публикует готовые карточки в Telegram-канале. Повторный полный ввод тех же данных в manager-bot занимал время и создавал риск расхождений между каналом и сайтом.
+
+### Затронутые файлы
+
+- `../manager-listings-bot/main.py`
+- `../manager-listings-bot/tests/test_listing_import.py`
+- `../manager-listings-bot/tests/test_import_flow.py`
+- `../manager-listings-bot/requirements.txt`
+- `../manager-listings-bot/README.md`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CLIENT_OVERVIEW.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- `PYTHONPATH=/tmp/manager-listings-bot-deps:. python3 -m unittest discover -s tests -v` — 5 тестов, включая сбор альбома и прямой FSM-переход к подтверждению без дозапроса отсутствующей мощности.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile listing_import.py main.py tests/test_listing_import.py tests/test_import_flow.py`
+- загрузка `main.py` и регистрация 33 handlers на `aiogram 3.29.0`.
+- загрузка `main.py`, регистрация 33 handlers и 5 тестов на минимальной поддерживаемой версии `aiogram 3.7.0` + `aiohttp 3.9.5`.
+- чистая установка зависимостей из `requirements.txt` и импорт `main.py`.
+- `git diff --check`
+
+### Действия на сервере
+
+- выкатить каталог `manager-listings-bot` на сервер бота `213.232.204.127`;
+- перезапустить только `primcom-manager-listings-bot.service`;
+- переслать боту публикацию с альбомом и проверить, что он собрал все фото, не запросил отсутствующую мощность и сразу показал подтверждение;
+- backend `primcom-api.service` перезапускать не требуется.
+
+---
+
+## 2026-06-22 21:35 (+10)
+
+### Изменение
+
+Зафиксирован результат production-проверки импорта Telegram-карточек.
+
+Подтверждено:
+
+- `manager-listings-bot` работает с версией `2026-06-22.telegram-import-v3`;
+- systemd запускает правильный файл из `/opt/primcom/manager-listings-bot`;
+- токены manager-бота и Docker-бота разные, конфликта polling нет;
+- импорт пересланной публикации работает;
+- высокий `restart_count` на экране monitor-bot относится к накопленной истории другого контура — Docker-контейнера `primcom-bot`.
+
+### Причина
+
+После выката запуск polling занял несколько минут, из-за чего исправный сервис был принят за неработающий. Требовалось документально разделить manager-service и Docker-контуры.
+
+### Затронутые файлы
+
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- В journal подтверждены строки `manager-listings-bot started version=2026-06-22.telegram-import-v3`, `Start polling` и `Run polling`.
+- Проверены PID, рабочая директория и командная строка systemd-процесса.
+- Функциональность подтверждена пользователем.
+
+### Действия на сервере
+
+- Не требуются.
+
+---
+
+## 2026-06-22 21:20 (+10)
+
+### Изменение
+
+Добавлена production-диагностика импорта Telegram-альбомов в manager-bot:
+
+- явная версия приложения в стартовом логе;
+- логи получения сообщения, сборки альбома и готовности карточки;
+- перехват и полный traceback ошибок фоновой обработки альбома;
+- пользовательское сообщение при внутренней ошибке импорта.
+
+### Причина
+
+Manager-service успешно запускается, но без диагностических событий невозможно отличить старую версию файла, пересылку не в тот бот, отсутствие срабатывания handler и исключение фоновой задачи.
+
+### Затронутые файлы
+
+- `../manager-listings-bot/main.py`
+- `../manager-listings-bot/tests/test_import_flow.py`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- 5 тестов успешно на `aiogram 3.7.0`.
+- `python -m py_compile` успешно.
+- импорт сообщает версию `2026-06-22.telegram-import-v3` и 33 handlers.
+
+### Действия на сервере
+
+- выкатить новый `main.py`;
+- проверить SHA-256 и версию;
+- перезапустить только `primcom-manager-listings-bot.service`;
+- открыть journal в follow-режиме и переслать тестовый альбом.
+
+---
+
+## 2026-06-22 20:57 (+10)
+
+### Изменение
+
+Исправлена надежность выката импорта Telegram-карточек:
+
+- парсер перенесен внутрь `manager-listings-bot/main.py`, поэтому сервис больше не падает при отсутствии отдельного `listing_import.py`;
+- устранен конфликт зависимостей: нижняя граница `aiohttp` изменена с `3.10.0` на `3.9.0`, совместимую с минимальной заявленной версией `aiogram 3.7.0`;
+- повторно проверены импорт приложения, регистрация handlers и тесты на старой и актуальной версиях aiogram.
+
+### Причина
+
+Первоначальный выкат мог не стартовать, если на сервер был доставлен только `main.py`, без нового модуля `listing_import.py`. Кроме того, `requirements.txt` содержал несовместимые требования для чистой установки `aiogram 3.7.0`.
+
+### Затронутые файлы
+
+- `../manager-listings-bot/main.py`
+- `../manager-listings-bot/requirements.txt`
+- `../manager-listings-bot/tests/test_listing_import.py`
+- `../manager-listings-bot/README.md`
+- `BACKEND_RUNBOOK.md`
+- `BACKEND_CHANGELOG.md`
+
+### Проверка
+
+- 5 тестов успешно на `aiogram 3.7.0` + `aiohttp 3.9.5`.
+- 5 тестов успешно на `aiogram 3.29.0` + `aiohttp 3.14.1`.
+- чистая установка `requirements.txt` и успешный импорт `main.py` с 33 handlers.
+- systemd-подобный запуск дошел до обращения к Telegram API; с тестовым токеном ожидаемо завершился `TelegramUnauthorizedError`, то есть загрузка приложения и конфигурации прошла.
+
+### Действия на сервере
+
+- выкатить только обновленный `manager-listings-bot/main.py`;
+- проверить импорт через `.venv/bin/python -c "import main; print(len(main.router.observers['message'].handlers))"`;
+- перезапустить `primcom-manager-listings-bot.service`;
+- если сервис не стартует, снять полный traceback через `journalctl -u primcom-manager-listings-bot.service -n 100 --no-pager -l`.
+
+---
+
 ## 2026-06-07 21:15 (+10)
 
 ### Изменение

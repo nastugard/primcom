@@ -439,6 +439,24 @@ Meta:
 - Для рынка Японии поддерживается поле `auction_grade` (оценка по аукционному листу), хранится в `raw_data`.
 - Фото от manager-bot backend принимает как multipart `photos` и сам перекодирует в `.webp` через `save_upload_image_bytes`.
 - Manager-bot принимает обычные Telegram-фото и изображения, отправленные как файлы-документы (`JPG`, `PNG`, `WEBP`).
+- Manager-bot умеет импортировать пересланную публикацию из Telegram-канала:
+  - сообщения одного альбома объединяются по `media_group_id`;
+  - из подписи извлекаются доступные поля карточки;
+  - отсутствующие характеристики не запрашиваются и отправляются пустыми;
+  - перед отправкой используется тот же экран подтверждения, что и при ручном вводе.
+- Парсер подписи встроен в `../manager-listings-bot/main.py`, чтобы production-запуск не зависел от доставки дополнительного Python-модуля; backend endpoint и env-параметры для импорта не менялись.
+- Диагностика production-импорта:
+  - стартовая версия пишется как `manager-listings-bot started version=...`;
+  - получение частей альбома пишется как `telegram_import_media`;
+  - завершение сборки альбома — `telegram_import_album_ready`;
+  - готовность карточки к подтверждению — `telegram_import_ready`;
+  - исключения фоновой обработки — `telegram_import_album_failed` с traceback.
+- Production-проверка 2026-06-22:
+  - версия `2026-06-22.telegram-import-v3` успешно запущена сервисом `primcom-manager-listings-bot.service`;
+  - рабочий процесс: `/opt/primcom/manager-listings-bot/.venv/bin/python /opt/primcom/manager-listings-bot/main.py`;
+  - manager-bot использует отдельный Telegram-токен, не совпадающий с токеном Docker-контейнера `primcom-bot`;
+  - значение `restart_count=1416` в monitor-bot относится к накопленной истории контейнера `primcom-bot`; контейнер непрерывно работает с 2026-06-15, поэтому это не перезапуски manager-bot;
+  - сообщения `Received SIGTERM` при ручном `systemctl restart` являются штатной остановкой polling.
 
 Лиды:
 
