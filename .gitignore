@@ -1,0 +1,25 @@
+# Секреты: реальные .env никогда не попадают в репозиторий, .env.example — попадают
+.env
+.env.local
+.env.prod
+!.env.example
+!*.env.example
+
+# Сборочные пакеты релизов в корне: собираются локально, в git не версионируются.
+# Слэш в начале обязателен, иначе шаблон скрыл бы и china_cars_backend/deploy/
+/deploy/
+
+# Вывод внешних инструментов аудита
+/seo-audit-*/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
