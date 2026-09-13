@@ -1800,9 +1800,20 @@ body > .site-main:not(.site-main--hero) {
   color: rgba(255, 255, 255, 0.68);
 }
 
-@media (min-width: 900px) {
+/* В подвале четыре блока. Раньше сетка задавала три колонки,
+   и «Юридическая информация» переносилась на вторую строку под контактами. */
+@media (min-width: 640px) {
   .site-footer__inner {
-    grid-template-columns: 1.2fr 0.8fr 1.2fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .site-footer__inner {
+    /* Последняя колонка шире: в ней самая длинная ссылка и примечание об оферте. */
+    grid-template-columns: 1.1fr 0.7fr 1fr 1.4fr;
+    gap: 24px 32px;
   }
 }
 
