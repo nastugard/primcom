@@ -45,7 +45,7 @@
   src: url("../fonts/galderglynn-titling.thin.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
 @font-face {
@@ -53,7 +53,7 @@
   src: url("../fonts/galderglynn-titling.light.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  font-display: block;
+  font-display: swap;
 }
 
 *,
@@ -683,7 +683,10 @@ body > .site-main:not(.site-main--hero) {
 .hero__bg {
   position: absolute;
   inset: 0;
+  /* PNG-фолбэк для браузеров без image-set; они не скачивают webp */
   background: url("../banner/banner_main.png") center/cover no-repeat;
+  background-image: -webkit-image-set(url("../banner/banner_main.webp") type("image/webp"), url("../banner/banner_main.png") type("image/png"));
+  background-image: image-set(url("../banner/banner_main.webp") type("image/webp"), url("../banner/banner_main.png") type("image/png"));
   filter: saturate(110%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 100%);

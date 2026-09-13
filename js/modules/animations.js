@@ -22,7 +22,7 @@ export function initAnimations() {
       const heroTl = gsap.timeline({ defaults: { ease: "power2.out" } });
       heroTl
         .from(".hero__kicker", { autoAlpha: 0, y: 10, duration: 0.6 }, 0)
-        .from(".hero__title", { autoAlpha: 0, y: 18, duration: 0.75 }, 0.05)
+        .from(".hero__title", { y: 18, duration: 0.75 }, 0.05)
         .from(".hero__lead", { autoAlpha: 0, y: 14, duration: 0.65 }, 0.15)
         .from(".hero__actions", { autoAlpha: 0, y: 10, duration: 0.6 }, 0.25)
         .from(".hero__facts-panel", { autoAlpha: 0, y: 14, duration: 0.7 }, 0.34)

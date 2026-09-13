@@ -11,6 +11,7 @@
 
 # Вывод внешних инструментов аудита
 /seo-audit-*/
+/geo-audit-*/
 
 # Python
 __pycache__/

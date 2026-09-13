@@ -34,12 +34,12 @@
 
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 
-  <link rel="preload" as="image" href="./banner/banner_main.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="./banner/banner_main.webp" type="image/webp" fetchpriority="high" />
 
   <link rel="preload" href="./fonts/galderglynn-titling.thin.otf" as="font" type="font/otf" crossorigin />
   <link rel="preload" href="./fonts/galderglynn-titling.light.otf" as="font" type="font/otf" crossorigin />
 
-  <link rel="stylesheet" href="./css/main.css?v=20260814-seo-topics-1" />
+  <link rel="stylesheet" href="./css/main.css?v=20260913-trust-lcp-1" />
 
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="./site.webmanifest" />
@@ -52,10 +52,18 @@
         "@id": "https://primcom.ru/#organization",
         "name": "Примком",
         "legalName": "ИП Овчаренко Николай Николаевич",
+        "taxID": "250214294027",
+        "identifier": {
+          "@type": "PropertyValue",
+          "propertyID": "OGRNIP",
+          "value": "322253600067330"
+        },
         "url": "https://primcom.ru/",
         "logo": "https://primcom.ru/logo/logo%203%20dark.png",
         "sameAs": [
-          "https://t.me/primcom_bot"
+          "https://t.me/primcom_bot",
+          "https://vk.com/club236271382",
+          "https://2gis.ru/vladivostok/firm/70000001110927328"
         ],
         "contactPoint": [
           {
@@ -99,6 +107,8 @@
         },
         "sameAs": [
           "https://t.me/primcom_bot",
+          "https://vk.com/club236271382",
+          "https://2gis.ru/vladivostok/firm/70000001110927328",
           "https://yandex.com/maps/75/vladivostok/house/prospekt_ostryakova_13/ZUoHaA9pQEEPXEJuYGJwcn9rYAk=/"
         ]
       }
@@ -694,6 +704,6 @@
 
 
   <!-- Важно: аналитику подключаем из отдельного файла (js/modules/analytics.js) -->
-  <script type="module" src="./js/app.js?v=20260814-seo-topics-1"></script>
+  <script type="module" src="./js/app.js?v=20260913-trust-lcp-1"></script>
 </body>
 </html>
