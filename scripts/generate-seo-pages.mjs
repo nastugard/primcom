@@ -7,7 +7,7 @@ const OUTPUT_ROOT = path.resolve(process.env.SEO_OUTPUT_ROOT || ROOT);
 const REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(ROOT, "seo/content-registry.json"));
 const registry = JSON.parse(await fs.readFile(REGISTRY_PATH, "utf8"));
 const SITE = "https://primcom.ru";
-const VERSION = "20260913-oswald-1";
+const VERSION = "20260913-ux-typo-1";
 
 for (const generatedDir of ["cars", "guides", "cases"]) {
   await fs.rm(path.join(OUTPUT_ROOT, generatedDir), {recursive:true, force:true});
@@ -77,6 +77,7 @@ function layout({title, description, canonical, h1, body, crumbs, robots = "inde
   <script type="application/ld+json">${JSON.stringify(schema)}</script>
 </head>
 <body>
+  <a class="skip-link" href="#main">К основному содержимому</a>
   <div class="page-bg" aria-hidden="true"><div class="page-bg__base"></div><div class="page-bg__aurora"></div><div class="page-bg__grid"></div><div class="page-bg__grain"></div></div>
   <div id="site-header"></div>
   <main class="site-main" id="main"><div class="container seo-page">${breadcrumbs(crumbs)}<h1 class="section__title">${escapeHtml(h1)}</h1>${body}</div></main>
