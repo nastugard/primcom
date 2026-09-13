@@ -51,7 +51,7 @@
 
 ## 2. Что именно заливать
 
-**184 файла, 3.1 МБ.** Полный список:
+**179 файлов, 2.7 МБ.** Полный список:
 
 ```bash
 cd "/Volumes/SID/Колян АВТО/CSS&HTML Site"
@@ -70,12 +70,37 @@ cd "/Volumes/SID/Колян АВТО/CSS&HTML Site"
 | `guides/` | 5 | 4 руководства + индекс |
 | `js/` | 20 | `app.js` и модули |
 | `css/` | 1 | `main.css` |
-| `fonts/` | 7 | шрифты |
+| `fonts/` | 2 | `galderglynn-titling.light.otf`, `galderglynn-titling.thin.otf` |
 | `components/` | 2 | шапка и подвал |
 | `banner/` | 2 | `banner_main.png` и **новый** `banner_main.webp` |
 | `logo/`, `assets/` | 6 | логотипы, favicon |
 
 `data/2gis-reviews.json` на сервере уже есть, сайтом не читается — не трогайте.
+
+
+### 2.1 Удалить с сервера лишние шрифты
+
+На production сейчас лежат и публично скачиваются пять шрифтов, которые сайтом не используются.
+Они удалены из репозитория, но заливка «без удаления» их не уберёт — **удалить вручную по SFTP**:
+
+```
+fonts/Racama.otf
+fonts/Vladivostok regular.ttf
+fonts/galderglynntitlingbk_regular.ttf
+fonts/galderglynntitlingbl_regular.ttf
+fonts/galderglynntitlingrg_bold.ttf
+```
+
+Причина не только в 400 КБ. Это платные шрифты сторонних авторов, и метаданные
+`Vladivostok regular.ttf` прямо запрещают их передачу: «This font may not be given away».
+Сейчас любой может скачать их с сайта. Подробности — в `FONTS_LICENSE_CHECK.md`.
+
+После удаления проверить, что оставшиеся два отдаются:
+
+```bash
+curl -I https://primcom.ru/fonts/galderglynn-titling.light.otf   # 200
+curl -I https://primcom.ru/fonts/Racama.otf                       # ожидается 404
+```
 
 ---
 
