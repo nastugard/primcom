@@ -388,7 +388,7 @@ router = Router()
 CONFIG: BotConfig | None = None
 ALBUM_BUFFERS: dict[tuple[int, str], AlbumBuffer] = {}
 ALBUM_WAIT_SECONDS = 1.2
-APP_VERSION = "2026-06-22.telegram-import-v3"
+APP_VERSION = "2026-08-14.seo-publish-v1"
 
 
 def load_config() -> BotConfig:
@@ -686,7 +686,9 @@ async def _api_json_request(method: str, path: str, *, params: dict | None = Non
 
     url = f"{CONFIG.api_base_url}{path}"
     headers = {"X-Manager-Api-Key": CONFIG.manager_api_key}
-    timeout = aiohttp.ClientTimeout(total=40)
+    # DELETE also triggers the atomic SEO rebuild; keep the client timeout above
+    # the backend SEO_PUBLISH_TIMEOUT_SECONDS value.
+    timeout = aiohttp.ClientTimeout(total=180)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         async with session.request(method=method.upper(), url=url, headers=headers, params=params) as resp:
             text = await resp.text()
@@ -711,7 +713,23 @@ async def delete_manual_listing(listing_id: str) -> tuple[bool, object]:
     return await _api_json_request("DELETE", f"/api/manager/manual-listing/{listing_id}")
 
 
-async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
+def format_seo_publish_message(payload: object) -> str:
+    if not isinstance(payload, dict):
+        return ""
+    status = str(payload.get("seo_status") or "").strip().lower()
+    url = str(payload.get("seo_url") or "").strip()
+    reason = str(payload.get("seo_reason") or "").strip()
+    if status == "published":
+        return f"\nSEO-страница опубликована: https://primcom.ru{url}" if url else "\nSEO-страница опубликована."
+    if status == "updated":
+        return f"\nSEO-страница обновлена: https://primcom.ru{url}" if url else "\nSEO-страницы каталога обновлены."
+    if status == "catalog_only":
+        suffix = f" Причина: {reason}" if reason else ""
+        return f"\nSEO-страница не обновлена; карточка каталога сохранена.{suffix}"
+    return ""
+
+
+async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, object]:
     global CONFIG
     if CONFIG is None:
         return False, "CONFIG is not initialized"
@@ -764,7 +782,10 @@ async def send_to_backend(bot: Bot, payload: dict) -> tuple[bool, str]:
             text = await resp.text()
             if resp.status >= 300:
                 return False, f"Backend error {resp.status}: {text[:600]}"
-            return True, text
+            try:
+                return True, await resp.json()
+            except Exception:
+                return False, "Backend returned non-JSON response"
 
 
 async def maybe_cancel(message: Message, state: FSMContext) -> bool:
@@ -1319,7 +1340,8 @@ async def delete_confirm(message: Message, state: FSMContext) -> None:
         return
 
     await state.clear()
-    await send_main_menu(message, f"Карточка удалена: {listing_id}")
+    seo_message = format_seo_publish_message(payload)
+    await send_main_menu(message, f"Карточка удалена: {listing_id}{seo_message}")
 
 
 @router.message(Command("recent"))
@@ -1803,18 +1825,19 @@ async def on_confirm(message: Message, state: FSMContext, bot: Bot) -> None:
     await message.answer("Отправляю на сервер...", reply_markup=ReplyKeyboardRemove())
 
     try:
-        ok, backend_text = await send_to_backend(bot, data)
+        ok, backend_payload = await send_to_backend(bot, data)
     except Exception as exc:
         logging.exception("send_to_backend failed")
         await message.answer(f"Ошибка отправки: {format_exception_message(exc)}")
         return
 
     if not ok:
-        await message.answer(f"Сервер вернул ошибку:\n{backend_text}")
+        await message.answer(f"Сервер вернул ошибку:\n{backend_payload}")
         return
 
     await state.clear()
-    await send_main_menu(message, "Карточка успешно сохранена. Выберите действие:")
+    seo_message = format_seo_publish_message(backend_payload)
+    await send_main_menu(message, f"Карточка успешно сохранена.{seo_message}\nВыберите действие:")
 
 
 @router.message()

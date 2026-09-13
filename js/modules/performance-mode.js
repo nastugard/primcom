@@ -91,14 +91,12 @@ function applyMode(mode, signals, override) {
 }
 
 function getScriptNeeds() {
-  const hasSmoothWrapper = !!document.getElementById("smooth-wrapper");
-  const hasSmoothContent = !!document.getElementById("smooth-content");
   const hasHeroStrip = !!document.querySelector(".hero-strip");
 
   return {
     core: true,
     scrollTrigger: true,
-    scrollSmoother: hasSmoothWrapper && hasSmoothContent,
+    scrollSmoother: false,
     observer: hasHeroStrip,
   };
 }

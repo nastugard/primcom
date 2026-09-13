@@ -38,6 +38,10 @@ class Settings(BaseSettings):
 
     # manager bot ingest
     manager_api_key: str | None = None
+    seo_publish_command: str | None = None
+    seo_publish_workdir: str = "."
+    seo_publish_timeout_seconds: int = 90
+    primcom_site_root: str | None = None
 
     # lead notifications from site modal
     lead_api_token: str | None = None

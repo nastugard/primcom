@@ -302,6 +302,7 @@ export function initManualMarketCars() {
   const pageEl = qs("[data-manual-cars-page]", root);
   const applyBtn = qs("[data-manual-cars-apply]", root);
   const resetBtn = qs("[data-manual-cars-reset]", root);
+  const initialUrlFilters = new URLSearchParams(window.location.search);
 
   const modal = qs("[data-manual-car-modal]");
   const modalTitle = qs("[data-manual-car-title]", modal || document);
@@ -470,6 +471,14 @@ export function initManualMarketCars() {
     populateSelect(yearToSel, facets?.years || [], "Любой");
     populateSelect(mileageFromSel, facets?.mileages || [], "Любой");
     populateSelect(mileageToSel, facets?.mileages || [], "Любой");
+
+    ["brand", "model", "year_from", "year_to", "mileage_from", "mileage_to"].forEach((name) => {
+      const value = String(initialUrlFilters.get(name) || "").trim();
+      const control = form.elements.namedItem(name);
+      if (value && control && Array.from(control.options || []).some((option) => option.value === value)) {
+        control.value = value;
+      }
+    });
   };
 
   const renderLightbox = () => {
@@ -842,6 +851,7 @@ export function initManualMarketCars() {
     );
   }
 
-  loadList();
-  loadFacets().catch(() => {});
+  loadFacets()
+    .catch(() => {})
+    .finally(() => loadList());
 }

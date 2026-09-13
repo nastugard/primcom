@@ -31,7 +31,10 @@
   - HTML страницы (`index.html`, `pages/*.html`, `404.html`);
   - единый CSS: `css/main.css`;
   - нативные ES-модули: `js/app.js` + `js/modules/*.js`;
+  - SEO-разделы `cars/` и `guides/` генерируются статически из проверяемого реестра;
   - GSAP и плагины больше не подключаются статически в HTML: они догружаются runtime-модулем `js/modules/performance-mode.js` только там, где реально нужны.
+- Локальный предпросмотр релиза до выката: `.claude/launch.json`, конфигурация `primcom-preview`,
+  статический сервер `python3 -m http.server 8123` из корня репозитория. Открывается на `http://localhost:8123`.
 - Общие компоненты шапки/футера подгружаются динамически через fetch:
   - `components/header.html`
   - `components/footer.html`
@@ -53,12 +56,11 @@
 9. `initManualMarketCars()`
 10. `initLatestCarsHome()`
 11. `initImportCalculator()` (лениво, только если есть `[data-import-calculator]`)
-12. `initScrollSmoother()` (только вне lite mode)
-13. `initAnimations()` (только вне lite mode)
-14. `initHeroStrip()` (только вне lite mode)
-15. `initTiltCards()` (только вне lite mode)
-16. `initScrollProgress()` (только вне lite mode)
-17. `initAnalytics()`
+12. `initAnimations()` (только вне lite mode)
+13. `initHeroStrip()` (только вне lite mode)
+14. `initTiltCards()` (только вне lite mode)
+15. `initScrollProgress()` (только вне lite mode)
+16. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
 Модуль калькулятора не импортируется на верхнем уровне общего `app.js`: он догружается динамически только на странице с `[data-import-calculator]`, чтобы проблема с файлом калькулятора не могла остановить модалку заявки и остальные общие блоки сайта.
@@ -107,6 +109,25 @@
 - `js/modules/*.js` — функциональные модули.
 - `js/modules/performance-mode.js` — выбор режима производительности и ленивое подключение GSAP runtime.
 - `scripts/sync-2gis-reviews.mjs` — синхронизация отзывов 2ГИС в локальный JSON и HTML главной.
+- `seo/content-registry.json` — источник подтверждённых данных и статусов SEO-страниц.
+- `scripts/generate-seo-pages.mjs` — выпуск SEO-страниц и sitemap.
+- `scripts/check-seo-pages.mjs` — проверка метаданных, H1, canonical, JSON-LD и sitemap.
+- `scripts/sync-seo-catalog.mjs` — синхронизация SEO-реестра с полными ручными карточками production API; содержит защиту от массовой деиндексации (`SEO_MIN_ACTIVE_RATIO`, обход через `SEO_ALLOW_CATALOG_SHRINK=1`).
+- `scripts/publish-seo-catalog.mjs` — атомарная синхронизация, генерация, QA и публикация SEO-разделов.
+- `scripts/test-seo-publisher.mjs` — изолированный интеграционный тест активной и снятой с публикации модели.
+
+### 4.3 SEO-разделы
+
+- `cars/` содержит каталог, марочные и модельные посадочные страницы.
+- `guides/` содержит полезные информационно-коммерческие материалы.
+- Кейсы и FAQ-кандидаты не генерируются как публичные страницы до подтверждения цен, сроков, фото, юридических формулировок и согласия клиента.
+- Основной контент находится в статическом HTML и доступен без JavaScript.
+- Фильтры существующих каталогов не создают отдельные индексируемые URL.
+- На главной, страницах стран, марок и моделей используется нативный `<details class="seo-topics">`: в исходном HTML находятся 4–12 полезных внутренних ссылок, без скрытого SEO-текста и фильтровых URL.
+- Полный автоматический выпуск: `node scripts/publish-seo-catalog.mjs`.
+- Повторный выпуск без обновления данных: `node scripts/generate-seo-pages.mjs`, затем `node scripts/check-seo-pages.mjs`.
+- Если каталог API вернул пустой или резко сокращённый список, синхронизация падает и рабочие `cars/`, `guides/`, `sitemap.xml` остаются прежними: успешный ответ с пустым `items` иначе перевёл бы все модели в `noindex,follow`.
+- На 2026-08-14 production-каталог сформировал 90 активных модельных страниц, 34 марочных раздела и 130 индексируемых сгенерированных URL.
 
 ### 4.2 JS-модули и ответственность
 
@@ -159,7 +180,7 @@
 - `js/modules/tilt-cards.js`
   - tilt эффект карточек на desktop.
 - `js/modules/scroll-smoother.js`
-  - GSAP ScrollSmoother (десктоп, без reduce motion/coarse pointer, отключается в lite mode).
+  - сохранён в репозитории для истории, но больше не подключается: сайт использует нативную прокрутку без transform всего документа.
 - `js/modules/scroll-progress.js`
   - верхний прогресс скролла.
 - `js/modules/page-bg.js`
@@ -355,7 +376,7 @@ Hero readability:
   - для light/thin в `@font-face` используется `font-display: block`, чтобы убрать заметный переход «толстый -> тонкий» после первого рендера.
   - preload `galderglynn-titling.thin.otf` и `galderglynn-titling.light.otf` расположен перед подключением `main.css` на всех страницах.
   - в hero-блоке кнопка `Оставить заявку` использует display-family (`.hero__cta`), чтобы визуально совпадать с остальными display-элементами.
-  - в `hero__actions` оставлена одна CTA-кнопка (`Оставить заявку`); ссылка `Этапы работы` из hero удалена.
+  - в `hero__actions` находятся две основные CTA: `Оставить заявку` открывает форму, `Таможенный калькулятор` ведёт на страницу расчёта обязательных платежей.
 
 ## 8. API и fallback-логика фронта
 
@@ -431,6 +452,13 @@ Hero readability:
    - если правка связана с SEO (meta, robots, sitemap, structured data, индексация, продвижение), фиксировать изменение и ожидаемый эффект.
 
 ## 11. Журнал изменений документации
+
+### 2026-09-13
+
+- Зафиксирован статус SEO-релиза: пакет `deploy/primcom-seo-20260814` готов и проверен, на production не загружен.
+  Полные таблицы «готово / не сделано» и разбор ложных срабатываний аудита — в `SEO_GUIDE.md`, раздел `0.4`.
+- В технологический профиль добавлена конфигурация локального предпросмотра `primcom-preview` (`.claude/launch.json`, порт 8123).
+- Актуальные проверяемые числа релиза: 130 сгенерированных URL, 141 URL в sitemap, 90 активных моделей, 34 марки.
 
 ### 2026-02-27
 

@@ -23,6 +23,7 @@ from app.core import settings
 from app.services.import_calculator.exceptions import CalculatorValidationError
 from app.services.import_calculator.service import calculate_import_cost
 from app.services.import_calculator.types import CalculatorInput
+from app.services.seo_publish import evaluate_listing_for_seo, publish_catalog_seo, seo_model_url
 from app.utils.media import save_upload_image_bytes
 
 
@@ -322,12 +323,18 @@ class ManagerCreateOut(BaseModel):
     source: str
     source_listing_id: str
     images_count: int
+    seo_status: Literal["published", "updated", "catalog_only"] = "catalog_only"
+    seo_url: str | None = None
+    seo_reason: str | None = None
 
 
 class ManagerDeleteOut(BaseModel):
     ok: bool
     id: str
     source_listing_id: str
+    seo_status: Literal["published", "updated", "catalog_only"] = "catalog_only"
+    seo_url: str | None = None
+    seo_reason: str | None = None
 
 
 class ManagerManualListingOut(BaseModel):
@@ -1229,11 +1236,52 @@ async def create_manual_listing(
 
     await db.commit()
 
+    eligibility = evaluate_listing_for_seo(
+        market=resolved_market,
+        brand=normalized["brand"],
+        model=normalized["model"],
+        year=normalized["year"],
+        price=normalized["price_cny"],
+        images_count=image_count,
+    )
+    seo_status: Literal["published", "updated", "catalog_only"] = "catalog_only"
+    seo_reason = eligibility.reason
+    if eligibility.eligible:
+        sibling_count = int(
+            (
+                await db.execute(
+                    text(
+                        "SELECT COUNT(*) FROM listings l "
+                        "JOIN listing_sources s ON s.id=l.source_id "
+                        "WHERE s.code=:source_code AND l.status!='deleted' AND l.id!=:listing_id "
+                        "AND LOWER(TRIM(l.brand))=LOWER(TRIM(:brand)) "
+                        "AND LOWER(TRIM(l.model))=LOWER(TRIM(:model))"
+                    ),
+                    {
+                        "source_code": source_code,
+                        "listing_id": str(listing_id),
+                        "brand": normalized["brand"],
+                        "model": normalized["model"],
+                    },
+                )
+            ).scalar()
+            or 0
+        )
+        publish_result = await publish_catalog_seo()
+        if publish_result.ok:
+            seo_status = "updated" if listing_uuid or sibling_count > 0 else "published"
+            seo_reason = None
+        else:
+            seo_reason = publish_result.reason
+
     return ManagerCreateOut(
         id=str(listing_id),
         source=source_code,
         source_listing_id=source_listing_id,
         images_count=image_count,
+        seo_status=seo_status,
+        seo_url=eligibility.url,
+        seo_reason=seo_reason,
     )
 
 
@@ -1255,7 +1303,7 @@ async def delete_manager_manual_listing(
                 "  AND l.status!='deleted' "
                 "  AND s.code IN ('guazi','korea_manual','japan_manual') "
                 "  AND l.raw_data->>'manual' = 'true' "
-                "RETURNING l.id, l.source_listing_id"
+                "RETURNING l.id, l.source_listing_id, s.code, l.brand, l.model"
             ),
             {"id": str(listing_uuid)},
         )
@@ -1263,7 +1311,17 @@ async def delete_manager_manual_listing(
     if not row:
         raise HTTPException(status_code=404, detail="Manual listing not found")
     await db.commit()
-    return ManagerDeleteOut(ok=True, id=str(row[0]), source_listing_id=str(row[1]))
+    market = _manual_market_from_source_code(str(row[2] or ""))
+    seo_url = seo_model_url(market=market, brand=row[3], model=row[4])
+    publish_result = await publish_catalog_seo()
+    return ManagerDeleteOut(
+        ok=True,
+        id=str(row[0]),
+        source_listing_id=str(row[1]),
+        seo_status="updated" if publish_result.ok else "catalog_only",
+        seo_url=seo_url,
+        seo_reason=publish_result.reason,
+    )
 
 
 @router.get("/api/scrape-runs", response_model=ScrapeRunsOut, tags=["ops"])

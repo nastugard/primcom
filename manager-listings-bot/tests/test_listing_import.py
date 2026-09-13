@@ -1,6 +1,6 @@
 import unittest
 
-from main import parse_forwarded_listing
+from main import format_seo_publish_message, parse_forwarded_listing
 
 
 class ForwardedListingParserTests(unittest.TestCase):
@@ -62,6 +62,20 @@ class ForwardedListingParserTests(unittest.TestCase):
 
     def test_empty_text_returns_empty_payload(self) -> None:
         self.assertEqual(parse_forwarded_listing(""), {})
+
+    def test_formats_published_seo_page(self) -> None:
+        text = format_seo_publish_message(
+            {"seo_status": "published", "seo_url": "/cars/japan/toyota/raize/"}
+        )
+        self.assertIn("SEO-страница опубликована", text)
+        self.assertIn("https://primcom.ru/cars/japan/toyota/raize/", text)
+
+    def test_formats_catalog_only_reason(self) -> None:
+        text = format_seo_publish_message(
+            {"seo_status": "catalog_only", "seo_reason": "Для SEO-страницы не хватает: цена."}
+        )
+        self.assertIn("карточка каталога сохранена", text)
+        self.assertIn("не хватает: цена", text)
 
 
 if __name__ == "__main__":

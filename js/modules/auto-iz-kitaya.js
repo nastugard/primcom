@@ -351,6 +351,7 @@ export function initAutoIzKitaya() {
   const pageEl = qs("[data-china-cars-page]", root);
   const applyBtn = qs("[data-china-cars-apply]", root);
   const resetBtn = qs("[data-china-cars-reset]", root);
+  const initialUrlFilters = new URLSearchParams(window.location.search);
 
   const modal = qs("[data-china-car-modal]");
   const modalTitle = qs("[data-china-car-title]", modal || document);
@@ -535,6 +536,14 @@ export function initAutoIzKitaya() {
     populateSelect(mileageFromSel, facets?.mileages || [], "Любой");
     populateSelect(mileageToSel, facets?.mileages || [], "Любой");
     populateModelsForBrand();
+    ["source", "brand", "model", "year_from", "year_to", "mileage_from", "mileage_to"].forEach((name) => {
+      const value = String(initialUrlFilters.get(name) || "").trim();
+      const control = form.elements.namedItem(name);
+      if (value && control && Array.from(control.options || []).some((option) => option.value === value)) {
+        control.value = value;
+        if (name === "brand") populateModelsForBrand();
+      }
+    });
     applyRangeConstraints();
   };
 
@@ -897,6 +906,7 @@ export function initAutoIzKitaya() {
     });
   }
 
-  loadList();
-  loadFacets().catch(() => {});
+  loadFacets()
+    .catch(() => {})
+    .finally(() => loadList());
 }

@@ -444,6 +444,20 @@ Meta:
   - из подписи извлекаются доступные поля карточки;
   - отсутствующие характеристики не запрашиваются и отправляются пустыми;
   - перед отправкой используется тот же экран подтверждения, что и при ручном вводе.
+- Статус на 2026-09-13: SEO-публикация на production **не включена**. Код `app/services/seo_publish.py` готов и покрыт тестами,
+  но `SEO_PUBLISH_COMMAND` и `PRIMCOM_SITE_ROOT` не заданы, потому что фактический document root nginx не подтверждён.
+  Пока `SEO_PUBLISH_COMMAND` пуста, карточка сохраняется нормально, а `seo_reason` возвращает
+  «Автопубликация SEO не настроена на сервере.» (`app/services/seo_publish.py:98`). Порядок включения — в
+  `deploy/primcom-seo-20260814/DEPLOY.md`, сводный статус релиза — в `SEO_GUIDE.md`, раздел `0.4`.
+- После commit ручной карточки backend проверяет SEO-полноту и запускает команду из `SEO_PUBLISH_COMMAND`.
+- Обязательные поля SEO-публикации: market, brand, model, year, положительная price и хотя бы одно изображение.
+- Публикатор должен находиться отдельно от document root, например `/opt/primcom/seo-publisher`; публичный корень передается через `PRIMCOM_SITE_ROOT`.
+- Рекомендуемая команда: `/usr/bin/node /opt/primcom/seo-publisher/scripts/publish-seo-catalog.mjs`.
+- Ответы create/delete содержат `seo_status`, `seo_url`, `seo_reason`; ошибка SEO-сборки не откатывает сохранённую карточку.
+- После удаления последней карточки страница модели остаётся доступной с `noindex,follow` и исчезает из sitemap.
+- Публикатор отказывается собирать каталог, если ответ каталога API внезапно опустел: страна с активными моделями обнулилась или общее число активных моделей упало ниже `SEO_MIN_ACTIVE_RATIO` (по умолчанию `0.5`). В журнале это видно как `seo_publish_failed` с текстом `catalog shrink guard`.
+- Такая ошибка означает проблему каталога, а не публикатора: сначала проверять `GET /api/auto-iz-yaponii`, `/api/auto-iz-kitaya?source=guazi`, `/api/auto-iz-korei` и скрейперы. Работающие SEO-страницы при этом не изменены.
+- Намеренное сокращение каталога публикуется только вручную: `SEO_ALLOW_CATALOG_SHRINK=1 /usr/bin/node /opt/primcom/seo-publisher/scripts/publish-seo-catalog.mjs`.
 - Парсер подписи встроен в `../manager-listings-bot/main.py`, чтобы production-запуск не зависел от доставки дополнительного Python-модуля; backend endpoint и env-параметры для импорта не менялись.
 - Диагностика production-импорта:
   - стартовая версия пишется как `manager-listings-bot started version=...`;
@@ -452,7 +466,7 @@ Meta:
   - готовность карточки к подтверждению — `telegram_import_ready`;
   - исключения фоновой обработки — `telegram_import_album_failed` с traceback.
 - Production-проверка 2026-06-22:
-  - версия `2026-06-22.telegram-import-v3` успешно запущена сервисом `primcom-manager-listings-bot.service`;
+  - версия импорта `2026-06-22.telegram-import-v3` была успешно проверена; после SEO-релиза ожидаемая версия — `2026-08-14.seo-publish-v1`;
   - рабочий процесс: `/opt/primcom/manager-listings-bot/.venv/bin/python /opt/primcom/manager-listings-bot/main.py`;
   - manager-bot использует отдельный Telegram-токен, не совпадающий с токеном Docker-контейнера `primcom-bot`;
   - значение `restart_count=1416` в monitor-bot относится к накопленной истории контейнера `primcom-bot`; контейнер непрерывно работает с 2026-06-15, поэтому это не перезапуски manager-bot;

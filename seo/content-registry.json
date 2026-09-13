@@ -1,0 +1,2193 @@
+{
+  "generatedAt": "2026-08-14",
+  "catalogSnapshotAt": "2026-08-14",
+  "source": "https://api.primcom.ru",
+  "caseStudies": [
+    {
+      "slug": "case-01",
+      "status": "draft",
+      "reason": "Нужны подтвержденные данные клиента, цена, срок и фотографии."
+    },
+    {
+      "slug": "case-02",
+      "status": "draft",
+      "reason": "Нужны подтвержденные данные клиента, цена, срок и фотографии."
+    },
+    {
+      "slug": "case-03",
+      "status": "draft",
+      "reason": "Нужны подтвержденные данные клиента, цена, срок и фотографии."
+    },
+    {
+      "slug": "case-04",
+      "status": "draft",
+      "reason": "Нужны подтвержденные данные клиента, цена, срок и фотографии."
+    }
+  ],
+  "faqCandidates": [
+    {
+      "slug": "kak-proverit-aukcionnyy-list",
+      "status": "draft",
+      "reason": "Требуется экспертная инструкция Primcom и проверенный пример листа."
+    },
+    {
+      "slug": "kakie-dokumenty-poluchaet-klient",
+      "status": "draft",
+      "reason": "Требуется юридическая проверка точного перечня документов."
+    },
+    {
+      "slug": "iz-chego-skladyvaetsya-stoimost-pod-klyuch",
+      "status": "draft",
+      "reason": "Требуется утвержденная коммерческая формула расчета."
+    }
+  ],
+  "brandHubs": [
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "models": [
+        "q2l"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "models": [
+        "x1"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Changan",
+      "makeSlug": "changan",
+      "models": [
+        "qiyuan-a06-240-laser-ultra"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Chery",
+      "makeSlug": "chery",
+      "models": [
+        "tiggo-3x"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Geely",
+      "makeSlug": "geely",
+      "models": [
+        "emgrand-gs"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "models": [
+        "crider",
+        "fit",
+        "xr-v"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Jetour",
+      "makeSlug": "jetour",
+      "models": [
+        "x70"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Lexus",
+      "makeSlug": "lexus",
+      "models": [
+        "es",
+        "nxc"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "models": [
+        "cx-50"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "models": [
+        "gla"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "MG",
+      "makeSlug": "mg",
+      "models": [
+        "zs"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "models": [
+        "tiida"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Subaru",
+      "makeSlug": "subaru",
+      "models": [
+        "forester"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Tank",
+      "makeSlug": "tank",
+      "models": [
+        "300"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "models": [
+        "levin",
+        "yaris"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "models": [
+        "golf",
+        "tayron",
+        "tiguan-l"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "models": [
+        "a1",
+        "a3",
+        "q2",
+        "q3"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "models": [
+        "1-series",
+        "mini",
+        "x1",
+        "x2"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Daihatsu",
+      "makeSlug": "daihatsu",
+      "models": [
+        "copen",
+        "mira-es",
+        "thor"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "models": [
+        "fit",
+        "freed",
+        "n-box",
+        "n-wgn",
+        "step-wagon",
+        "step-wgn"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Lexus",
+      "makeSlug": "lexus",
+      "models": [
+        "lbx"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "models": [
+        "3",
+        "cx-3",
+        "cx-30",
+        "flair-crossover",
+        "mazda2",
+        "mazda3"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "models": [
+        "a-class",
+        "c-class",
+        "cla-class",
+        "gla-class"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mitsubishi",
+      "makeSlug": "mitsubishi",
+      "models": [
+        "eclipse-cross"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "models": [
+        "dayz",
+        "march",
+        "x-trail"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Subaru",
+      "makeSlug": "subaru",
+      "models": [
+        "legacy-outback"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "models": [
+        "escudo",
+        "fronx",
+        "jimny",
+        "jimny-nomade",
+        "solio",
+        "xbee"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "models": [
+        "corolla",
+        "corolla-axio",
+        "corolla-cross",
+        "corolla-touring",
+        "harrier",
+        "passo",
+        "pixis-van",
+        "premio",
+        "probox",
+        "raize",
+        "roomy",
+        "sienta",
+        "tank",
+        "vits"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "models": [
+        "golf",
+        "golf-variant",
+        "passat",
+        "passat-variant",
+        "polo",
+        "t-roc",
+        "t-rock",
+        "tiguan"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "models": [
+        "5"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Hyundai",
+      "makeSlug": "hyundai",
+      "models": [
+        "sonata"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Kia",
+      "makeSlug": "kia",
+      "models": [
+        "k5",
+        "niro",
+        "seltos"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Mini",
+      "makeSlug": "mini",
+      "models": [
+        "clubman"
+      ],
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "SsangYong",
+      "makeSlug": "ssangyong",
+      "models": [
+        "rexton"
+      ],
+      "status": "approved"
+    }
+  ],
+  "models": [
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "model": "Q2L",
+      "slug": "q2l",
+      "years": [
+        2023
+      ],
+      "prices": [
+        2020000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260611145939-248d47f3/000.webp",
+      "summary": "Audi Q2L 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "X1",
+      "slug": "x1",
+      "years": [
+        2019
+      ],
+      "prices": [
+        1710000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260622114246-2eccfe8a/000.webp",
+      "summary": "BMW X1 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Changan",
+      "makeSlug": "changan",
+      "model": "Qiyuan A06 240 Laser Ultra+",
+      "slug": "qiyuan-a06-240-laser-ultra",
+      "years": [
+        2026
+      ],
+      "prices": [
+        2670000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260708025851-7c71eb01/000.webp",
+      "summary": "Changan Qiyuan A06 240 Laser Ultra+ 2026 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Chery",
+      "makeSlug": "chery",
+      "model": "Tiggo 3x",
+      "slug": "tiggo-3x",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1000000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260701073613-5f18f72e/000.webp",
+      "summary": "Chery Tiggo 3x 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Geely",
+      "makeSlug": "geely",
+      "model": "Emgrand GS",
+      "slug": "emgrand-gs",
+      "years": [
+        2020
+      ],
+      "prices": [
+        1050000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260701073108-871900a3/000.webp",
+      "summary": "Geely Emgrand GS 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Crider",
+      "slug": "crider",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1450000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260710121447-9d2cf218/000.webp",
+      "summary": "В каталоге зафиксировано актуальное предложение Honda Crider 2022 года с фотографиями и указанной ценой.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Fit",
+      "slug": "fit",
+      "years": [
+        2021,
+        2023
+      ],
+      "prices": [
+        1150000,
+        1230000,
+        1320000
+      ],
+      "listingCount": 3,
+      "image": "/media/guazi/mgr-china-20260710121958-26329a6b/000.webp",
+      "summary": "Несколько актуальных Honda Fit дают понятный ориентир по предложениям, доступным через китайское направление.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "XR-V",
+      "slug": "xr-v",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1450000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260710120651-9028ebc2/000.webp",
+      "summary": "Страница собирает в одном месте актуальное предложение XR-V и путь к индивидуальному расчету импорта.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Jetour",
+      "makeSlug": "jetour",
+      "model": "X70",
+      "slug": "x70",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1160000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260701073000-22f1bbea/000.webp",
+      "summary": "Jetour X70 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Lexus",
+      "makeSlug": "lexus",
+      "model": "ES",
+      "slug": "es",
+      "years": [
+        2023
+      ],
+      "prices": [
+        4925000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260607095641-0bdd53a2/000.webp",
+      "summary": "Lexus ES 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Lexus",
+      "makeSlug": "lexus",
+      "model": "NXc",
+      "slug": "nxc",
+      "years": [
+        2021
+      ],
+      "prices": [
+        2800000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260721113501-cf2f13a7/000.webp",
+      "summary": "Lexus NXc 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "CX-50",
+      "slug": "cx-50",
+      "years": [
+        2023
+      ],
+      "prices": [
+        2700000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260721093042-85b47204/000.webp",
+      "summary": "Mazda CX-50 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "model": "GLA",
+      "slug": "gla",
+      "years": [
+        2019
+      ],
+      "prices": [
+        1690000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260622114540-91b922eb/000.webp",
+      "summary": "Mercedes-Benz GLA 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "MG",
+      "makeSlug": "mg",
+      "model": "ZS",
+      "slug": "zs",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1070000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260701073324-b38dd4f4/000.webp",
+      "summary": "MG ZS 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "model": "Tiida",
+      "slug": "tiida",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1570000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260706054530-ed540415/000.webp",
+      "summary": "Nissan Tiida 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Subaru",
+      "makeSlug": "subaru",
+      "model": "Forester",
+      "slug": "forester",
+      "years": [
+        2022
+      ],
+      "prices": [
+        2700000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260721092955-334310a4/000.webp",
+      "summary": "Subaru Forester 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Tank",
+      "makeSlug": "tank",
+      "model": "300",
+      "slug": "300",
+      "years": [
+        2023
+      ],
+      "prices": [
+        4900000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260607101808-d7da4425/000.webp",
+      "summary": "Tank 300 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Levin",
+      "slug": "levin",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1200000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260624071059-a2be1ce1/000.webp",
+      "summary": "В китайском каталоге есть Toyota Levin; перед заказом важно сравнить конкретную комплектацию и полный бюджет.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Yaris",
+      "slug": "yaris",
+      "years": [
+        2023
+      ],
+      "prices": [
+        1270000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260706054337-9c278dbe/000.webp",
+      "summary": "Toyota Yaris 2023 года опубликована в китайском направлении с фотографиями и ориентиром цены.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Golf",
+      "slug": "golf",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1620000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260706054425-377d08f7/000.webp",
+      "summary": "Volkswagen Golf 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Tayron",
+      "slug": "tayron",
+      "years": [
+        2022
+      ],
+      "prices": [
+        2650000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260721092905-ede348a4/000.webp",
+      "summary": "Volkswagen Tayron 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "china",
+      "countryName": "Китая",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Tiguan L",
+      "slug": "tiguan-l",
+      "years": [
+        2023
+      ],
+      "prices": [
+        2700000
+      ],
+      "listingCount": 1,
+      "image": "/media/guazi/mgr-china-20260624070958-edde7806/000.webp",
+      "summary": "Volkswagen Tiguan L 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "model": "A1",
+      "slug": "a1",
+      "years": [
+        2018
+      ],
+      "prices": [
+        1100000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260812051747-48d7d514/000.webp",
+      "summary": "Audi A1 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "model": "A3",
+      "slug": "a3",
+      "years": [
+        2022,
+        2023
+      ],
+      "prices": [
+        1200000,
+        1450000,
+        1500000,
+        2300000
+      ],
+      "listingCount": 4,
+      "image": "/media/japan_manual/mgr-japan-20260715022853-30a9398a/000.webp",
+      "summary": "Audi A3 2022–2023 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "model": "Q2",
+      "slug": "q2",
+      "years": [
+        2018
+      ],
+      "prices": [
+        1100000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260715022424-bcb3a0b4/000.webp",
+      "summary": "Audi Q2 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Audi",
+      "makeSlug": "audi",
+      "model": "Q3",
+      "slug": "q3",
+      "years": [
+        2015
+      ],
+      "prices": [
+        1000000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260721092737-618497a1/000.webp",
+      "summary": "Audi Q3 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "1 Series",
+      "slug": "1-series",
+      "years": [
+        2015,
+        2024
+      ],
+      "prices": [
+        850000,
+        1350000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260803150721-b83c87db/000.webp",
+      "summary": "BMW 1 Series 2015–2024 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Bmw",
+      "makeSlug": "bmw",
+      "model": "mini",
+      "slug": "mini",
+      "years": [
+        2015
+      ],
+      "prices": [
+        650000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260721092651-d4022ff3/000.webp",
+      "summary": "Bmw mini 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "X1",
+      "slug": "x1",
+      "years": [
+        2016,
+        2017
+      ],
+      "prices": [
+        1380000,
+        1430000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260803151449-01267247/000.webp",
+      "summary": "BMW X1 2016–2017 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "X2",
+      "slug": "x2",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1750000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803150843-018e9980/000.webp",
+      "summary": "BMW X2 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Daihatsu",
+      "makeSlug": "daihatsu",
+      "model": "Copen",
+      "slug": "copen",
+      "years": [
+        2021
+      ],
+      "prices": [
+        900000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260702042815-14c361de/000.webp",
+      "summary": "Daihatsu Copen 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Daihatsu",
+      "makeSlug": "daihatsu",
+      "model": "Mira ES",
+      "slug": "mira-es",
+      "years": [
+        2013
+      ],
+      "prices": [
+        450000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260227000528-0d6af676/000.webp",
+      "summary": "Daihatsu Mira ES 2013 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Daihatsu",
+      "makeSlug": "daihatsu",
+      "model": "Thor",
+      "slug": "thor",
+      "years": [
+        2019
+      ],
+      "prices": [
+        710000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260806073522-7b4b6ef3/000.webp",
+      "summary": "Daihatsu Thor 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Fit",
+      "slug": "fit",
+      "years": [
+        2022
+      ],
+      "prices": [
+        850000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260227010342-d374f566/000.webp",
+      "summary": "Honda Fit 2022 года представлена отдельным предложением японского каталога с фото и ценой.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Freed",
+      "slug": "freed",
+      "years": [
+        2018,
+        2020,
+        2023
+      ],
+      "prices": [
+        800000,
+        1470000,
+        1500000
+      ],
+      "listingCount": 3,
+      "image": "/media/japan_manual/mgr-japan-20260702042905-dbf529b8/000.webp",
+      "summary": "В каталоге есть несколько Honda Freed, поэтому можно сравнить год и ориентир цены до запроса точного расчета.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "N Box",
+      "slug": "n-box",
+      "years": [
+        2015
+      ],
+      "prices": [
+        700000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803151551-ab98ec4f/000.webp",
+      "summary": "Honda N Box 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "N-WGN",
+      "slug": "n-wgn",
+      "years": [
+        2016
+      ],
+      "prices": [
+        390000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260223052659-91843a9b/000.webp",
+      "summary": "Honda N-WGN 2016 года доступна в каталоге для проверки предложения и расчёта импорта.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Step Wagon",
+      "slug": "step-wagon",
+      "years": [
+        2016,
+        2017
+      ],
+      "prices": [
+        1200000,
+        1500000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260623074841-3d90e39f/000.webp",
+      "summary": "Honda Step Wagon 2016–2017 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Honda",
+      "makeSlug": "honda",
+      "model": "Step WGN",
+      "slug": "step-wgn",
+      "years": [
+        2021,
+        2022,
+        2023
+      ],
+      "prices": [
+        2300000,
+        2700000
+      ],
+      "listingCount": 3,
+      "image": "/media/japan_manual/mgr-japan-20260707221914-963c06f8/000.webp",
+      "summary": "Вместительный минивэн представлен одним из самых широких наборов годов среди японских предложений Primcom.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Lexus",
+      "makeSlug": "lexus",
+      "model": "LBX",
+      "slug": "lbx",
+      "years": [
+        2025
+      ],
+      "prices": [
+        3500000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260222055049-14cd2d8c/000.webp",
+      "summary": "Lexus LBX 2025 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "3",
+      "slug": "3",
+      "years": [
+        2020
+      ],
+      "prices": [
+        1350000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260703042525-889ab536/000.webp",
+      "summary": "Mazda 3 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "CX-3",
+      "slug": "cx-3",
+      "years": [
+        2017
+      ],
+      "prices": [
+        930000,
+        950000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260703042315-e4786342/000.webp",
+      "summary": "Два предложения одного года позволяют сравнить конкретные автомобили, фотографии и параметры.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "CX-30",
+      "slug": "cx-30",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1800000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260702042720-556971b4/000.webp",
+      "summary": "Mazda CX-30 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "Flair Crossover",
+      "slug": "flair-crossover",
+      "years": [
+        2016
+      ],
+      "prices": [
+        490000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260806073544-d8b2e6f2/000.webp",
+      "summary": "Mazda Flair Crossover 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "Mazda2",
+      "slug": "mazda2",
+      "years": [
+        2022
+      ],
+      "prices": [
+        900000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260227002902-c41b2f24/000.webp",
+      "summary": "Mazda Mazda2 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mazda",
+      "makeSlug": "mazda",
+      "model": "Mazda3",
+      "slug": "mazda3",
+      "years": [
+        2019
+      ],
+      "prices": [
+        1350000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260806073445-e3a742e4/000.webp",
+      "summary": "Mazda Mazda3 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "model": "A Class",
+      "slug": "a-class",
+      "years": [
+        2016
+      ],
+      "prices": [
+        920000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260806073506-b66b68c4/000.webp",
+      "summary": "Mercedes-Benz A Class 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "model": "C Class",
+      "slug": "c-class",
+      "years": [
+        2014,
+        2015,
+        2016,
+        2017,
+        2020
+      ],
+      "prices": [
+        1250000,
+        1300000,
+        1400000,
+        2000000
+      ],
+      "listingCount": 5,
+      "image": "/media/japan_manual/mgr-japan-20260812051548-cb53f16d/000.webp",
+      "summary": "Mercedes-Benz C Class 2014–2020 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "model": "CLA Class",
+      "slug": "cla-class",
+      "years": [
+        2016,
+        2017,
+        2024
+      ],
+      "prices": [
+        900000,
+        950000,
+        1170000,
+        2400000
+      ],
+      "listingCount": 4,
+      "image": "/media/japan_manual/mgr-japan-20260803150803-d4e58537/000.webp",
+      "summary": "Mercedes-Benz CLA Class 2016–2024 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mercedes-Benz",
+      "makeSlug": "mercedes-benz",
+      "model": "GLA Class",
+      "slug": "gla-class",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1750000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260812051711-46d1964f/000.webp",
+      "summary": "Mercedes-Benz GLA Class 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Mitsubishi",
+      "makeSlug": "mitsubishi",
+      "model": "Eclipse Cross",
+      "slug": "eclipse-cross",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1850000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260225011239-a7e4bac3/000.webp",
+      "summary": "Mitsubishi Eclipse Cross 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "model": "Dayz",
+      "slug": "dayz",
+      "years": [
+        2021
+      ],
+      "prices": [
+        600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260225012211-852128e5/000.webp",
+      "summary": "Nissan Dayz 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "model": "March",
+      "slug": "march",
+      "years": [
+        2022
+      ],
+      "prices": [
+        600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260303005239-8e8cf559/000.webp",
+      "summary": "Nissan March 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "model": "X-Trail",
+      "slug": "x-trail",
+      "years": [
+        2021
+      ],
+      "prices": [
+        2100000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260225012938-362aceb6/000.webp",
+      "summary": "Nissan X-Trail 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Subaru",
+      "makeSlug": "subaru",
+      "model": "Legacy outback",
+      "slug": "legacy-outback",
+      "years": [
+        2024
+      ],
+      "prices": [
+        3500000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803150657-8cc23d38/000.webp",
+      "summary": "Subaru Legacy outback 2024 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Escudo",
+      "slug": "escudo",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260318235510-9917f4d8/000.webp",
+      "summary": "Suzuki Escudo 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Fronx",
+      "slug": "fronx",
+      "years": [
+        2024
+      ],
+      "prices": [
+        1800000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260222135036-aa321819/000.webp",
+      "summary": "Suzuki Fronx 2024 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Jimny",
+      "slug": "jimny",
+      "years": [
+        2015,
+        2018
+      ],
+      "prices": [
+        548000,
+        950000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260710120248-3f0f26bf/000.webp",
+      "summary": "В каталоге доступны Suzuki Jimny разных годов; итог зависит от конкретного состояния и расходов на импорт.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Jimny Nomade",
+      "slug": "jimny-nomade",
+      "years": [
+        2025
+      ],
+      "prices": [
+        2200000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803151150-bd91dc7d/000.webp",
+      "summary": "Suzuki Jimny Nomade 2025 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Solio",
+      "slug": "solio",
+      "years": [
+        2019
+      ],
+      "prices": [
+        1000000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260623102430-50e44fa8/000.webp",
+      "summary": "Suzuki Solio 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Suzuki",
+      "makeSlug": "suzuki",
+      "model": "Xbee",
+      "slug": "xbee",
+      "years": [
+        2018
+      ],
+      "prices": [
+        650000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803151625-a2bcbbdc/000.webp",
+      "summary": "Suzuki Xbee 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corolla",
+      "slug": "corolla",
+      "years": [
+        2020
+      ],
+      "prices": [
+        1350000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260629215327-714b7d2f/000.webp",
+      "summary": "Страница объединяет актуальное предложение Toyota Corolla 2020 года и связанные условия заказа из Японии.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corolla Axio",
+      "slug": "corolla-axio",
+      "years": [
+        2019
+      ],
+      "prices": [
+        1050000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260806144930-1e778319/000.webp",
+      "summary": "В каталоге Primcom представлена Toyota Corolla Axio 2019 года с фото и указанной стоимостью предложения.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corolla Cross",
+      "slug": "corolla-cross",
+      "years": [
+        2022
+      ],
+      "prices": [
+        2250000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803150917-4925e665/000.webp",
+      "summary": "Toyota Corolla Cross 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corolla Touring",
+      "slug": "corolla-touring",
+      "years": [
+        2023
+      ],
+      "prices": [
+        1600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260710120111-316add41/000.webp",
+      "summary": "В актуальном каталоге опубликована Toyota Corolla Touring 2023 года с фотографиями и ориентиром цены.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Harrier",
+      "slug": "harrier",
+      "years": [
+        2016
+      ],
+      "prices": [
+        1950000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260222133640-d965d49e/000.webp",
+      "summary": "Актуальная карточка Toyota Harrier 2016 года ведёт к предложению и индивидуальному расчёту расходов.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Passo",
+      "slug": "passo",
+      "years": [
+        2021
+      ],
+      "prices": [
+        600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803151003-87aa6e44/000.webp",
+      "summary": "Toyota Passo 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Pixis Van",
+      "slug": "pixis-van",
+      "years": [
+        2020
+      ],
+      "prices": [
+        650000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260629215223-05d920ab/000.webp",
+      "summary": "Toyota Pixis Van 2020 года опубликована с фотографиями и ориентиром цены конкретного предложения.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Premio",
+      "slug": "premio",
+      "years": [
+        2017
+      ],
+      "prices": [
+        1600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260227010052-b77c8e83/000.webp",
+      "summary": "Toyota Premio 2017 года добавлена в модельный каталог для сравнения и запроса точного расчёта.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Probox",
+      "slug": "probox",
+      "years": [
+        2017,
+        2019,
+        2021
+      ],
+      "prices": [
+        830000,
+        850000,
+        950000,
+        1050000
+      ],
+      "listingCount": 4,
+      "image": "/media/japan_manual/mgr-japan-20260806145016-e8b4c602/000.webp",
+      "summary": "Практичная модель представлена в каталоге предложениями разных годов и бюджетов.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Raize",
+      "slug": "raize",
+      "years": [
+        2021,
+        2022
+      ],
+      "prices": [
+        870000,
+        1050000,
+        1400000
+      ],
+      "listingCount": 3,
+      "image": "/media/japan_manual/mgr-japan-20260702043003-a599eb59/000.webp",
+      "summary": "Компактный кроссовер представлен в актуальном каталоге несколькими предложениями 2021–2022 годов.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Roomy",
+      "slug": "roomy",
+      "years": [
+        2022
+      ],
+      "prices": [
+        800000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260806144900-3df2e40e/000.webp",
+      "summary": "Toyota Roomy 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Sienta",
+      "slug": "sienta",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1200000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260223043457-464c35b1/000.webp",
+      "summary": "Toyota Sienta 2021 года представлена реальным объявлением в японском каталоге Primcom.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Tank",
+      "slug": "tank",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1050000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260703042451-4cc71a11/000.webp",
+      "summary": "Toyota Tank 2021 года доступна в каталоге как компактный вариант для индивидуального расчёта импорта.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Vits",
+      "slug": "vits",
+      "years": [
+        2026
+      ],
+      "prices": [
+        620000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260703042228-80e28edd/000.webp",
+      "summary": "Toyota Vits 2026 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Golf",
+      "slug": "golf",
+      "years": [
+        2014
+      ],
+      "prices": [
+        790000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260715022457-b7e105ff/000.webp",
+      "summary": "Volkswagen Golf 2014 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Golf Variant",
+      "slug": "golf-variant",
+      "years": [
+        2015
+      ],
+      "prices": [
+        720000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260803151516-51e57eac/000.webp",
+      "summary": "Volkswagen Golf Variant 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Passat",
+      "slug": "passat",
+      "years": [
+        2016
+      ],
+      "prices": [
+        1350000,
+        1400000
+      ],
+      "listingCount": 2,
+      "image": "/media/japan_manual/mgr-japan-20260730002948-06e8804a/000.webp",
+      "summary": "Volkswagen Passat 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Passat Variant",
+      "slug": "passat-variant",
+      "years": [
+        2013,
+        2017,
+        2018
+      ],
+      "prices": [
+        650000,
+        1150000,
+        1200000
+      ],
+      "listingCount": 3,
+      "image": "/media/japan_manual/mgr-japan-20260714090124-daf8511a/000.webp",
+      "summary": "Volkswagen Passat Variant 2013–2018 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Polo",
+      "slug": "polo",
+      "years": [
+        2012,
+        2019
+      ],
+      "prices": [
+        600000,
+        870000,
+        1100000
+      ],
+      "listingCount": 3,
+      "image": "/media/japan_manual/mgr-japan-20260630044140-71ba3897/000.webp",
+      "summary": "Volkswagen Polo 2012–2019 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "T-ROC",
+      "slug": "t-roc",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1600000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260710120210-6cb4f70a/000.webp",
+      "summary": "Volkswagen T-ROC 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "T-Rock",
+      "slug": "t-rock",
+      "years": [
+        2023
+      ],
+      "prices": [
+        1500000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260715022709-a8370ba7/000.webp",
+      "summary": "Volkswagen T-Rock 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Tiguan",
+      "slug": "tiguan",
+      "years": [
+        2023
+      ],
+      "prices": [
+        2500000
+      ],
+      "listingCount": 1,
+      "image": "/media/japan_manual/mgr-japan-20260715022743-6bb3c1b8/000.webp",
+      "summary": "Volkswagen Tiguan 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "5",
+      "slug": "5",
+      "years": [
+        2022
+      ],
+      "prices": [
+        6000000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260611142839-1497e2f9/000.webp",
+      "summary": "BMW 5 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Hyundai",
+      "makeSlug": "hyundai",
+      "model": "Sonata",
+      "slug": "sonata",
+      "years": [
+        2020
+      ],
+      "prices": [
+        3820000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260611143242-d7452b8d/000.webp",
+      "summary": "Hyundai Sonata 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Kia",
+      "makeSlug": "kia",
+      "model": "K5",
+      "slug": "k5",
+      "years": [
+        2022
+      ],
+      "prices": [
+        1730000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260318054856-805a77c0/000.webp",
+      "summary": "Kia K5 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Kia",
+      "makeSlug": "kia",
+      "model": "Niro",
+      "slug": "niro",
+      "years": [
+        2020
+      ],
+      "prices": [
+        1400000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260611141901-709a7f8f/000.webp",
+      "summary": "Актуальное предложение Kia Niro из Кореи опубликовано с годом, ценой и фотографиями автомобиля.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Kia",
+      "makeSlug": "kia",
+      "model": "Seltos",
+      "slug": "seltos",
+      "years": [
+        2022
+      ],
+      "prices": [
+        2010000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260607110427-cb3d951d/000.webp",
+      "summary": "В каталоге Primcom есть Kia Seltos 2022 года; точная стоимость под ключ рассчитывается отдельно.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "Mini",
+      "makeSlug": "mini",
+      "model": "Clubman",
+      "slug": "clubman",
+      "years": [
+        2023
+      ],
+      "prices": [
+        2000000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260611142312-9061ffad/000.webp",
+      "summary": "Mini Clubman 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "korea",
+      "countryName": "Кореи",
+      "make": "SsangYong",
+      "makeSlug": "ssangyong",
+      "model": "Rexton",
+      "slug": "rexton",
+      "years": [
+        2022
+      ],
+      "prices": [
+        5980000
+      ],
+      "listingCount": 1,
+      "image": "/media/korea_manual/mgr-korea-20260611143726-434c2eb6/000.webp",
+      "summary": "SsangYong Rexton 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    }
+  ],
+  "guides": [
+    {
+      "slug": "kak-rasschitat-stoimost-avto-pod-klyuch",
+      "title": "Как рассчитать стоимость авто под ключ",
+      "description": "Из каких этапов складывается расчет автомобиля из Азии и где проверить обязательные платежи до заявки.",
+      "sections": [
+        [
+          "Начните с параметров автомобиля",
+          "Для предварительного расчета нужны цена автомобиля, возраст, объем и тип двигателя. Эти данные можно взять из конкретного предложения каталога."
+        ],
+        [
+          "Проверьте обязательные платежи",
+          "Калькулятор Primcom показывает расчет пошлины, акциза, НДС и утильсбора по введенным параметрам. Итоговая коммерческая стоимость уточняется индивидуально."
+        ],
+        [
+          "Учтите логистику и сопровождение",
+          "Маршрут, доставка по России и дополнительные услуги зависят от страны, автомобиля и города выдачи. Не переносите расчет одного автомобиля на другой без проверки."
+        ]
+      ]
+    },
+    {
+      "slug": "yaponiya-koreya-ili-kitay-otkuda-zakazat-avto",
+      "title": "Япония, Корея или Китай: откуда заказать автомобиль",
+      "description": "Как сравнить три направления Primcom по каталогу, бюджету и процессу покупки без универсальных обещаний.",
+      "sections": [
+        [
+          "Сравнивайте реальные предложения",
+          "Начните не со страны вообще, а с доступных автомобилей нужного класса, года и бюджета в каждом каталоге."
+        ],
+        [
+          "Проверяйте полный бюджет",
+          "Цена в объявлении не заменяет расчет обязательных платежей, логистики и сопровождения. Сравнивать нужно итоговые сценарии."
+        ],
+        [
+          "Оценивайте конкретный автомобиль",
+          "Фотографии, параметры и документы конкретного предложения важнее общих представлений о рынке. Primcom проверяет и согласовывает вариант до покупки."
+        ]
+      ]
+    },
+    {
+      "slug": "kak-prohodit-pokupka-avto-iz-azii",
+      "title": "Как проходит покупка авто из Азии под заказ",
+      "description": "Последовательность выбора, проверки, расчета, договора, доставки и выдачи автомобиля через Primcom.",
+      "sections": [
+        [
+          "Подбор предложения",
+          "Клиент задает бюджет и требования, после чего сравниваются актуальные варианты из Японии, Кореи или Китая."
+        ],
+        [
+          "Проверка и согласование",
+          "До покупки уточняются параметры автомобиля, доступные материалы и расчет. Условия сделки фиксируются договором."
+        ],
+        [
+          "Доставка и оформление",
+          "После выкупа начинается логистика, таможенное оформление и передача автомобиля. Статус и сроки зависят от выбранного маршрута."
+        ]
+      ]
+    },
+    {
+      "slug": "kak-sravnivat-predlozheniya-avto",
+      "title": "Как сравнивать предложения авто из Японии, Кореи и Китая",
+      "description": "Практический порядок сравнения года, цены, фотографий и полного бюджета автомобилей под заказ.",
+      "sections": [
+        [
+          "Сначала одинаковые критерии",
+          "Сопоставляйте автомобили одного класса по году, пробегу, комплектации и состоянию, а не только по цене в карточке."
+        ],
+        [
+          "Отделяйте цену автомобиля от бюджета под ключ",
+          "Валюта и смысл цены зависят от источника объявления. Для решения нужен отдельный расчет обязательных платежей и доставки."
+        ],
+        [
+          "Сохраняйте выбранные варианты",
+          "Перед обращением запишите ссылки или названия моделей. Менеджер сможет быстрее проверить доступность и подготовить сопоставимый расчет."
+        ]
+      ]
+    }
+  ]
+}
