@@ -1,6 +1,6 @@
 # Выкат на production: пошаговый гайд
 
-Обновлено: 2026-09-13. Актуальная версия ресурсов: `20260913-customs-rates-1`.
+Обновлено: 2026-09-13. Актуальная версия ресурсов: `20260913-oswald-1`.
 
 ---
 
@@ -23,7 +23,7 @@
 ### 1.1 Не выкладывайте из папки `deploy/`
 
 Пакет `deploy/primcom-seo-20260814/` собран 14 августа и **устарел**:
-в нём версия ресурсов `20260814-seo-topics-1`, а в рабочем дереве `20260913-customs-rates-1`.
+в нём версия ресурсов `20260814-seo-topics-1`, а в рабочем дереве `20260913-oswald-1`.
 Он не содержит ни заполненных ОГРНИП и ИНН, ни таблиц ставок, ни WebP-баннера,
 ни исправления LCP.
 
@@ -51,7 +51,10 @@
 
 ## 2. Что именно заливать
 
-**179 файлов, 2.7 МБ.** Полный список:
+**Готовый пакет: `deploy/primcom-20260913/site/` — 177 файлов, 2.9 МБ.**
+В нём уже нет ничего лишнего, список — в `deploy/primcom-20260913/FILES.txt`.
+
+Собрать заново или проверить состав:
 
 ```bash
 cd "/Volumes/SID/Колян АВТО/CSS&HTML Site"
@@ -70,10 +73,10 @@ cd "/Volumes/SID/Колян АВТО/CSS&HTML Site"
 | `guides/` | 5 | 4 руководства + индекс |
 | `js/` | 20 | `app.js` и модули |
 | `css/` | 1 | `main.css` |
-| `fonts/` | 2 | `galderglynn-titling.light.otf`, `galderglynn-titling.thin.otf` |
+| `fonts/` | 4 | три `oswald-*.woff2` и `OFL.txt` |
 | `components/` | 2 | шапка и подвал |
 | `banner/` | 2 | `banner_main.png` и **новый** `banner_main.webp` |
-| `logo/`, `assets/` | 6 | логотипы, favicon |
+| `logo/`, `assets/` | 2 | логотип и favicon |
 
 `data/2gis-reviews.json` на сервере уже есть, сайтом не читается — не трогайте.
 
@@ -84,12 +87,20 @@ cd "/Volumes/SID/Колян АВТО/CSS&HTML Site"
 Они удалены из репозитория, но заливка «без удаления» их не уберёт — **удалить вручную по SFTP**:
 
 ```
+fonts/galderglynn-titling.light.otf
+fonts/galderglynn-titling.thin.otf
 fonts/Racama.otf
 fonts/Vladivostok regular.ttf
 fonts/galderglynntitlingbk_regular.ttf
 fonts/galderglynntitlingbl_regular.ttf
 fonts/galderglynntitlingrg_bold.ttf
+logo/logo 3 dark.svg
+logo/logo 3 light.svg
+logo/logo 3 dark — копия.jpg
 ```
+
+Первые семь — платные шрифты, заменённые на Oswald. Последние три не используются,
+причём `— копия.jpg` на деле SVG с чужим расширением и браузером не отрисовывается.
 
 Причина не только в 400 КБ. Это платные шрифты сторонних авторов, и метаданные
 `Vladivostok regular.ttf` прямо запрещают их передачу: «This font may not be given away».
@@ -98,8 +109,8 @@ fonts/galderglynntitlingrg_bold.ttf
 После удаления проверить, что оставшиеся два отдаются:
 
 ```bash
-curl -I https://primcom.ru/fonts/galderglynn-titling.light.otf   # 200
-curl -I https://primcom.ru/fonts/Racama.otf                       # ожидается 404
+curl -I https://primcom.ru/fonts/oswald-cyrillic.woff2            # 200
+curl -I https://primcom.ru/fonts/galderglynn-titling.light.otf    # ожидается 404
 ```
 
 ---
@@ -184,7 +195,7 @@ curl -s https://primcom.ru/sitemap.xml | grep -c '<loc>'
 
 ```bash
 # версия ресурсов должна быть customs-rates-1
-curl -s https://primcom.ru/ | grep -o 'v=20260913-customs-rates-1' | head -1
+curl -s https://primcom.ru/ | grep -o 'v=20260913-oswald-1' | head -1
 
 # реквизиты заполнены, прочерков быть не должно
 curl -s https://primcom.ru/pages/privacy.html | grep -o 'ОГРНИП: [0-9]*'
