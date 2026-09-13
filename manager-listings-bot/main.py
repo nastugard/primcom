@@ -713,6 +713,15 @@ async def delete_manual_listing(listing_id: str) -> tuple[bool, object]:
     return await _api_json_request("DELETE", f"/api/manager/manual-listing/{listing_id}")
 
 
+# Причины, на которые менеджер повлиять не может: это состояние сервера,
+# а не результат обработки конкретной карточки. Формулировки зеркалят
+# china_cars_backend/app/services/seo_publish.py; при их изменении править здесь же.
+SEO_SERVER_STATE_REASONS = (
+    "автопубликация seo не настроена",
+    "команда seo-публикации пуста",
+)
+
+
 def format_seo_publish_message(payload: object) -> str:
     if not isinstance(payload, dict):
         return ""
@@ -724,6 +733,11 @@ def format_seo_publish_message(payload: object) -> str:
     if status == "updated":
         return f"\nSEO-страница обновлена: https://primcom.ru{url}" if url else "\nSEO-страницы каталога обновлены."
     if status == "catalog_only":
+        # Автопубликация не настроена на сервере — карточка сохранена штатно,
+        # сообщать менеджеру не о чем: действий с его стороны не требуется.
+        lowered = reason.lower()
+        if any(marker in lowered for marker in SEO_SERVER_STATE_REASONS):
+            return ""
         suffix = f" Причина: {reason}" if reason else ""
         return f"\nSEO-страница не обновлена; карточка каталога сохранена.{suffix}"
     return ""

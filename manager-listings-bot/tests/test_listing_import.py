@@ -77,6 +77,29 @@ class ForwardedListingParserTests(unittest.TestCase):
         self.assertIn("карточка каталога сохранена", text)
         self.assertIn("не хватает: цена", text)
 
+    def test_silences_unconfigured_publisher(self) -> None:
+        """Не настроенный публикатор — состояние сервера, а не проблема карточки."""
+        for reason in (
+            "Автопубликация SEO не настроена на сервере.",
+            "Команда SEO-публикации пуста.",
+        ):
+            with self.subTest(reason=reason):
+                text = format_seo_publish_message(
+                    {"seo_status": "catalog_only", "seo_reason": reason}
+                )
+                self.assertEqual(text, "")
+
+    def test_still_reports_real_build_failure(self) -> None:
+        """Сбой сборки менеджер видеть должен: страницы не обновились."""
+        text = format_seo_publish_message(
+            {
+                "seo_status": "catalog_only",
+                "seo_reason": "SEO-сборка завершилась ошибкой; рабочие страницы не изменены.",
+            }
+        )
+        self.assertIn("карточка каталога сохранена", text)
+        self.assertIn("завершилась ошибкой", text)
+
 
 if __name__ == "__main__":
     unittest.main()
