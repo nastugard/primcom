@@ -2998,3 +2998,71 @@ body > .site-main:not(.site-main--hero) {
   .seo-facts dl > div { align-items: flex-start; flex-direction: column; gap: 4px; }
   .seo-facts dd { text-align: left; }
 }
+
+/* ===== Таблицы ставок (страница растаможки) ===== */
+.rate-table__caption {
+  margin: 28px 0 8px;
+  font-family: var(--font-display);
+  font-size: clamp(17px, 2.2vw, 20px);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.rate-table__note {
+  margin: 0 0 14px;
+  max-width: 68ch;
+  color: var(--color-text-muted, rgba(226, 232, 240, 0.72));
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Широкая таблица скроллится внутри себя, страница по горизонтали не едет. */
+.rate-table__scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 8px;
+}
+
+.rate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  min-width: 460px;
+}
+
+.rate-table th,
+.rate-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  vertical-align: top;
+}
+
+.rate-table thead th {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, rgba(226, 232, 240, 0.72));
+  border-bottom-color: rgba(148, 163, 184, 0.32);
+  white-space: nowrap;
+}
+
+.rate-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rate-table td:not(:first-child) {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .rate-table {
+    font-size: 14px;
+  }
+
+  .rate-table th,
+  .rate-table td {
+    padding: 9px 10px;
+  }
+}
