@@ -1,0 +1,141 @@
+# Primcom — конфигурация Apache для reg.ru
+# Обновлено 2026-09-20.
+#
+# ВАЖНО про схему хостинга: nginx отдаёт часть типов файлов сам (css, js, png, jpg),
+# а остальное пробрасывает на Apache. Видно по формату ETag: у css/js он nginx-овский,
+# у woff2 и webp — apache-овский. Поэтому правила ниже гарантированно применяются
+# к тому, что отдаёт Apache, и могут не примениться к css/js.
+# Проверка после заливки описана в DEPLOY_REGRU.md.
+#
+# Все блоки обёрнуты в IfModule: если модуля нет, сервер не отдаст 500.
+
+# ----------------------------------------------------------------------
+# 1. Собственная страница 404
+# ----------------------------------------------------------------------
+# Без этой строки reg.ru отдаёт свою служебную заглушку на 769 КБ
+# со ссылкой на панель управления вместо страницы сайта.
+ErrorDocument 404 /404.html
+
+# ----------------------------------------------------------------------
+# 2. Канонический хост: www -> без www
+# ----------------------------------------------------------------------
+# Сейчас www.primcom.ru отвечает 200 и обходится поисковыми роботами
+# как самостоятельный сайт. Canonical снижает риск, но дубль хоста лучше убрать.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTP_HOST} ^www\.primcom\.ru$ [NC]
+  RewriteRule ^(.*)$ https://primcom.ru/$1 [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 3. Заголовки безопасности
+# ----------------------------------------------------------------------
+# Сейчас сайт не отдаёт ни одного из них.
+<IfModule mod_headers.c>
+  # Запрет подмены типа файла браузером
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Запрет встраивания сайта в чужие фреймы
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Реферер: домен передаём, путь — нет
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Доступ к камере, микрофону и геолокации сайту не нужен
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # HSTS. Включать только когда HTTPS точно работает на всех поддоменах:
+  # браузер запомнит запрет на http и откатить это быстро нельзя.
+  # Начните с короткого срока, через неделю можно поднять до года.
+  Header always set Strict-Transport-Security "max-age=604800"
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 4. Кэширование статики
+# ----------------------------------------------------------------------
+# Шрифты и WebP сейчас отдаются без Cache-Control и перепроверяются
+# при каждом заходе. Баннер при этом — LCP-элемент первого экрана.
+# Имена файлов версионируются через ?v=, поэтому длинный срок безопасен.
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  ExpiresByType font/woff2                "access plus 1 year"
+  ExpiresByType image/webp                "access plus 1 year"
+  ExpiresByType image/avif                "access plus 1 year"
+  ExpiresByType image/png                 "access plus 6 months"
+  ExpiresByType image/jpeg                "access plus 6 months"
+  ExpiresByType image/svg+xml             "access plus 6 months"
+  ExpiresByType text/css                  "access plus 6 months"
+  ExpiresByType application/javascript    "access plus 6 months"
+
+  # HTML не кэшируем надолго: иначе правки не доедут до вернувшихся посетителей
+  ExpiresByType text/html                 "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 5. Правильные типы для шрифтов и современных изображений
+# ----------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType font/woff2  .woff2
+  AddType image/webp  .webp
+  AddType image/avif  .avif
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 6. Сжатие
+# ----------------------------------------------------------------------
+# gzip на сервере уже включён; блок оставлен на случай,
+# если файл окажется на хосте без такой настройки.
+# woff2 и webp сжимать не нужно — они уже сжаты.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------
+# 7. Служебные файлы наружу не отдаём
+# ----------------------------------------------------------------------
+# Публикатор SEO-страниц оставляет .primcom-seo-publish.lock
+# и временные .primcom-seo-stage-*, если его когда-нибудь поставят рядом с сайтом.
+# Синтаксис запрета различается в Apache 2.2 и 2.4. Проверяем наличие модуля,
+# иначе неверная директива уронит весь сайт в 500.
+<FilesMatch "^\.">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<Files ".htaccess">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</Files>
+
+# ----------------------------------------------------------------------
+# Чего здесь намеренно нет
+# ----------------------------------------------------------------------
+# - Редиректа http -> https: сервер уже отдаёт 301, дублировать не нужно.
+# - Правил для /cars/ и /guides/: это обычные папки с index.html,
+#   переписывание адресов им не требуется и может сломать выдачу.
+# - Content-Security-Policy: на сайте есть внешние скрипты и iframe VK,
+#   политику нужно собирать отдельно и проверять, иначе поломается функциональность.
