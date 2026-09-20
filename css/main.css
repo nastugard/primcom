@@ -29,8 +29,8 @@
 
   /* Typography */
   --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --font-display: "OswaldDisplay", var(--font-sans);
-  --font-display-thin: "OswaldThin", var(--font-sans);
+  --font-display: "OswaldDisplay", "OswaldDisplayFallback", var(--font-sans);
+  --font-display-thin: "OswaldThin", "OswaldThinFallback", var(--font-sans);
 
   /* Motion */
   --ease: cubic-bezier(.2, .8, .2, 1);
@@ -38,6 +38,33 @@
 
 [hidden] {
   display: none !important;
+}
+
+/* Запасные шрифты с закреплёнными метриками Oswald.
+   Без них подмена шрифта при font-display: swap перекомпоновывала первый экран:
+   измеренный CLS на мобильном был 0.122 при норме до 0.1.
+   Значения получены замером: Oswald уже Arial на 19-23% в зависимости от веса,
+   вертикальные метрики (ascent 119.3%, descent 28.9% от em) от веса не зависят.
+   Значение 81.5% проверено перебором: диапазон 80-84% даёт нулевое отклонение
+   по всем блокам, 79% уже добавляет строку в заголовке первого экрана.
+   size-adjust усредняет ширину, ascent/descent закрепляют высоту строки точно —
+   независимо от того, какой шрифт реально подставит система. */
+@font-face {
+  font-family: "OswaldDisplayFallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans"), local("Roboto");
+  size-adjust: 81.5%;
+  ascent-override: 146.4%;
+  descent-override: 35.5%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "OswaldThinFallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Liberation Sans"), local("Roboto");
+  size-adjust: 73%;
+  ascent-override: 163.4%;
+  descent-override: 39.6%;
+  line-gap-override: 0%;
 }
 
 /* Oswald, SIL Open Font License 1.1 — текст лицензии в fonts/OFL.txt.

@@ -7,7 +7,7 @@ const OUTPUT_ROOT = path.resolve(process.env.SEO_OUTPUT_ROOT || ROOT);
 const REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(ROOT, "seo/content-registry.json"));
 const registry = JSON.parse(await fs.readFile(REGISTRY_PATH, "utf8"));
 const SITE = "https://primcom.ru";
-const VERSION = "20260913-ux-typo-1";
+const VERSION = "20260920-cls-fix-2";
 
 for (const generatedDir of ["cars", "guides", "cases"]) {
   await fs.rm(path.join(OUTPUT_ROOT, generatedDir), {recursive:true, force:true});
