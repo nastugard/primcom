@@ -22,6 +22,30 @@ const countryLabel = {japan:"Япония", china:"Китай", korea:"Коре�
 const countryCatalog = {japan:"/pages/auto-iz-yaponii.html", china:"/pages/auto-iz-kitaya.html", korea:"/pages/auto-iz-korei.html"};
 const activeModels = registry.models.filter((model) => model.status !== "inactive");
 
+// Таблица конкретных автомобилей модели. Колонка появляется, только если значение есть
+// хотя бы у одного автомобиля; всё берётся из каталога, ничего не домысливается.
+function listingsTable(m) {
+  const list = Array.isArray(m.listings) ? m.listings : [];
+  if (!list.length) return "";
+  const nf = new Intl.NumberFormat("ru-RU");
+  const cols = [
+    {key:"year", head:"Год", cell:(x) => x.year},
+    {key:"trim", head:"Комплектация", cell:(x) => escapeHtml(x.trim)},
+    {key:"body", head:"Кузов", cell:(x) => escapeHtml(x.body)},
+    {key:"engineVolumeL", head:"Объём", cell:(x) => `${String(x.engineVolumeL).replace(".", ",")} л`},
+    {key:"powerHp", head:"Мощность", cell:(x) => `${x.powerHp} л.с.`},
+    {key:"drive", head:"Привод", cell:(x) => escapeHtml(x.drive)},
+    {key:"transmission", head:"КПП", cell:(x) => escapeHtml(x.transmission)},
+    {key:"mileageKm", head:"Пробег", cell:(x) => `${nf.format(x.mileageKm)} км`},
+    {key:"grade", head:"Оценка", cell:(x) => escapeHtml(x.grade)},
+    {key:"price", head:"Цена", cell:(x) => money(x.price)},
+  ].filter((c) => list.some((x) => x[c.key] !== undefined));
+  if (cols.length < 3) return "";
+  const head = cols.map((c) => `<th scope="col">${c.head}</th>`).join("");
+  const rows = list.map((x) => `<tr>${cols.map((c) => `<td>${x[c.key] === undefined ? "—" : c.cell(x)}</td>`).join("")}</tr>`).join("");
+  return `<section class="seo-section"><h2>Автомобили ${escapeHtml(m.make)} ${escapeHtml(m.model)} в каталоге</h2><p>Параметры взяты из карточек каталога на ${dateRu(registry.catalogSnapshotAt)} Цена относится к автомобилю в каталоге и не включает доставку, таможенные платежи и услуги.</p><div class="rate-table__scroll"><table class="rate-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
+}
+
 function topicLinks(links) {
   const seenHrefs = new Set();
   const seenLabels = new Set();
@@ -172,7 +196,7 @@ for (const m of registry.models) {
     crumbs:modelCrumbs,
     body:isInactive
       ? `<p class="section__lead">Сейчас в каталоге нет актуальных предложений ${m.make} ${m.model} из ${m.countryName}. Посмотрите другие модели или оставьте заявку на индивидуальный подбор.</p>${topicLinks(modelTopics)}<section class="seo-section"><h2>Что можно сделать сейчас</h2><div class="seo-link-grid"><a href="${countryCatalog[m.country]}">Открыть каталог</a><a href="/pages/process-podbora.html">Изучить процесс подбора</a><a href="/pages/kontakty.html">Связаться с Primcom</a></div></section>`
-      : `<p class="section__lead">В каталоге Primcom ${countText} ${m.make} ${m.model} ${yearText}. Перейдите к автомобилям, чтобы посмотреть фотографии и подробные параметры.</p><div class="seo-model-hero"><img src="https://api.primcom.ru${m.image}" alt="${escapeHtml(`${m.make} ${m.model} из ${m.countryName}`)}" width="720" height="480" loading="eager" /><div class="seo-facts"><h2>${m.make} ${m.model} в каталоге</h2><dl><div><dt>Автомобилей</dt><dd>${m.listingCount}</dd></div><div><dt>Годы выпуска</dt><dd>${years.join(", ")}</dd></div><div><dt>${m.prices.length > 1 ? "Диапазон цен" : "Цена автомобиля"}</dt><dd>${priceText}</dd></div><div><dt>Данные обновлены</dt><dd>${dateRu(registry.catalogSnapshotAt)}</dd></div></dl><a class="btn btn--primary" href="${catalogQuery}">Посмотреть автомобили</a></div></div>${topicLinks(modelTopics)}<section class="seo-section"><h2>Что входит в подбор</h2><p>Primcom проверяет данные выбранного автомобиля, согласовывает бюджет и условия покупки, организует выкуп, доставку и оформление. Указанная выше цена относится к автомобилю в каталоге; итоговая стоимость зависит от обязательных платежей, логистики и выбранных услуг.</p></section><section class="seo-section"><h2>Как получить расчёт стоимости</h2><ol class="seo-steps"><li>Откройте предложения ${m.make} ${m.model}.</li><li>Выберите автомобиль по году, фотографиям и параметрам.</li><li>Рассчитайте обязательные платежи и отправьте выбранный вариант менеджеру для полного расчёта.</li></ol><div class="seo-link-grid"><a href="/pages/kalkulyator-stoimosti.html">Калькулятор стоимости</a><a href="/pages/dostavka.html">Доставка</a><a href="/pages/rastamozhka-i-poshliny.html">Растаможка и пошлины</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>${related.length ? `<section class="seo-section"><h2>${brandRelated.length ? `Другие модели ${m.make}` : `Другие модели из ${m.countryName}`}</h2><div class="seo-link-grid">${related.map((x) => `<a href="${modelUrl(x)}">${x.make} ${x.model}</a>`).join("")}</div></section>` : ""}`
+      : `<p class="section__lead">В каталоге Primcom ${countText} ${m.make} ${m.model} ${yearText}. Перейдите к автомобилям, чтобы посмотреть фотографии и подробные параметры.</p><div class="seo-model-hero"><img src="https://api.primcom.ru${m.image}" alt="${escapeHtml(`${m.make} ${m.model} из ${m.countryName}`)}" width="720" height="480" loading="eager" /><div class="seo-facts"><h2>${m.make} ${m.model} в каталоге</h2><dl><div><dt>Автомобилей</dt><dd>${m.listingCount}</dd></div><div><dt>Годы выпуска</dt><dd>${years.join(", ")}</dd></div><div><dt>${m.prices.length > 1 ? "Диапазон цен" : "Цена автомобиля"}</dt><dd>${priceText}</dd></div><div><dt>Данные обновлены</dt><dd>${dateRu(registry.catalogSnapshotAt)}</dd></div></dl><a class="btn btn--primary" href="${catalogQuery}">Посмотреть автомобили</a></div></div>${listingsTable(m)}${topicLinks(modelTopics)}<section class="seo-section"><h2>Что входит в подбор</h2><p>Primcom проверяет данные выбранного автомобиля, согласовывает бюджет и условия покупки, организует выкуп, доставку и оформление. Указанная выше цена относится к автомобилю в каталоге; итоговая стоимость зависит от обязательных платежей, логистики и выбранных услуг.</p></section><section class="seo-section"><h2>Как получить расчёт стоимости</h2><ol class="seo-steps"><li>Откройте предложения ${m.make} ${m.model}.</li><li>Выберите автомобиль по году, фотографиям и параметрам.</li><li>Рассчитайте обязательные платежи и отправьте выбранный вариант менеджеру для полного расчёта.</li></ol><div class="seo-link-grid"><a href="/pages/kalkulyator-stoimosti.html">Калькулятор стоимости</a><a href="/pages/dostavka.html">Доставка</a><a href="/pages/rastamozhka-i-poshliny.html">Растаможка и пошлины</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>${related.length ? `<section class="seo-section"><h2>${brandRelated.length ? `Другие модели ${m.make}` : `Другие модели из ${m.countryName}`}</h2><div class="seo-link-grid">${related.map((x) => `<a href="${modelUrl(x)}">${x.make} ${x.model}</a>`).join("")}</div></section>` : ""}`
   });
 }
 

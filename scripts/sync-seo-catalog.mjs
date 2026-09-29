@@ -46,6 +46,26 @@ function cleanText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+// Параметры конкретного автомобиля для таблицы на странице модели.
+// Берём только то, что реально есть в карточке каталога; пустые поля не выдумываем.
+function listingFacts(item) {
+  const num = (v) => (v === null || v === undefined || v === "" || !Number.isFinite(Number(v)) ? undefined : Number(v));
+  const txt = (v) => { const t = cleanText(v); return t || undefined; };
+  const facts = {
+    year:num(item.year),
+    trim:txt(item.trim),
+    body:txt(item.body_type),
+    engineVolumeL:num(item.engine_volume_l),
+    powerHp:num(item.power_hp),
+    drive:txt(item.drive_type),
+    transmission:txt(item.transmission),
+    mileageKm:num(item.mileage_km),
+    grade:txt(item.auction_grade),
+    price:num(item.price_cny) === undefined ? undefined : Math.round(Number(item.price_cny)),
+  };
+  return Object.fromEntries(Object.entries(facts).filter(([, v]) => v !== undefined));
+}
+
 function isEligible(country, item) {
   const expectedPrefix = `mgr-${country}-`;
   return String(item?.source_listing_id || "").startsWith(expectedPrefix)
@@ -146,6 +166,7 @@ for (const group of [...grouped.values()].sort((a, b) => key(a.country, a.make, 
     years,
     prices,
     listingCount:group.items.length,
+    listings:group.items.map(listingFacts).sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity)),
     image:newest.cover_image_url,
     summary:old?.summary || `${group.make} ${group.model} ${yearText} представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.`,
     status:"approved",

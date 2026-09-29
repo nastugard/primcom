@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-20",
-  "catalogSnapshotAt": "2026-09-20",
+  "generatedAt": "2026-09-29",
+  "catalogSnapshotAt": "2026-09-29",
   "source": "https://api.primcom.ru",
   "caseStudies": [
     {
@@ -228,6 +228,7 @@
       "makeSlug": "bmw",
       "models": [
         "1-series",
+        "2-series",
         "mini",
         "x1",
         "x2"
@@ -330,6 +331,7 @@
         "dayz",
         "march",
         "note",
+        "roox",
         "x-trail"
       ],
       "status": "approved"
@@ -366,9 +368,11 @@
       "make": "Toyota",
       "makeSlug": "toyota",
       "models": [
+        "corola-alion",
         "corolla",
         "corolla-axio",
         "corolla-cross",
+        "corolla-fielder",
         "corolla-touring",
         "harrier",
         "passo",
@@ -391,6 +395,7 @@
       "makeSlug": "volkswagen",
       "models": [
         "golf",
+        "golf-touran",
         "golf-variant",
         "passat",
         "passat-variant",
@@ -398,6 +403,7 @@
         "t-cross",
         "t-roc",
         "t-rock",
+        "the-beetle",
         "tiguan"
       ],
       "status": "approved"
@@ -470,6 +476,17 @@
         2020000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "powerHp": 114,
+          "drive": "Передний",
+          "mileageKm": 25000,
+          "price": 2020000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260611145939-248d47f3/000.webp",
       "summary": "Audi Q2L 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -488,6 +505,16 @@
         1710000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2019,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 46000,
+          "price": 1710000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260622114246-2eccfe8a/000.webp",
       "summary": "BMW X1 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -506,6 +533,15 @@
         2670000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2026,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "price": 2670000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260708025851-7c71eb01/000.webp",
       "summary": "Changan Qiyuan A06 240 Laser Ultra+ 2026 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -524,6 +560,16 @@
         1000000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 21000,
+          "price": 1000000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260701073613-5f18f72e/000.webp",
       "summary": "Chery Tiggo 3x 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -542,6 +588,16 @@
         1050000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 26900,
+          "price": 1050000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260701073108-871900a3/000.webp",
       "summary": "Geely Emgrand GS 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -560,6 +616,16 @@
         1450000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 54801,
+          "price": 1450000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260710121447-9d2cf218/000.webp",
       "summary": "В каталоге зафиксировано актуальное предложение Honda Crider 2022 года с фотографиями и указанной ценой.",
       "status": "approved"
@@ -581,6 +647,32 @@
         1320000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2021,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 29000,
+          "price": 1150000
+        },
+        {
+          "year": 2023,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 80000,
+          "price": 1230000
+        },
+        {
+          "year": 2023,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 20000,
+          "price": 1320000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260710121958-26329a6b/000.webp",
       "summary": "Несколько актуальных Honda Fit дают понятный ориентир по предложениям, доступным через китайское направление.",
       "status": "approved"
@@ -599,6 +691,16 @@
         1450000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 19000,
+          "price": 1450000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260710120651-9028ebc2/000.webp",
       "summary": "Страница собирает в одном месте актуальное предложение XR-V и путь к индивидуальному расчету импорта.",
       "status": "approved"
@@ -617,6 +719,16 @@
         1160000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 60000,
+          "price": 1160000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260701073000-22f1bbea/000.webp",
       "summary": "Jetour X70 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -635,6 +747,17 @@
         4925000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Седан",
+          "engineVolumeL": 2,
+          "powerHp": 173,
+          "drive": "Передний",
+          "mileageKm": 58500,
+          "price": 4925000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260607095641-0bdd53a2/000.webp",
       "summary": "Lexus ES 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -653,6 +776,16 @@
         2800000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "body": "Кроссовер",
+          "engineVolumeL": 2,
+          "drive": "Передний",
+          "mileageKm": 77100,
+          "price": 2800000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260721113501-cf2f13a7/000.webp",
       "summary": "Lexus NXc 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -671,6 +804,16 @@
         2700000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Кроссовер",
+          "engineVolumeL": 2,
+          "drive": "Передний",
+          "mileageKm": 29000,
+          "price": 2700000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260721093042-85b47204/000.webp",
       "summary": "Mazda CX-50 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -689,6 +832,16 @@
         1690000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2019,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 98000,
+          "price": 1690000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260622114540-91b922eb/000.webp",
       "summary": "Mercedes-Benz GLA 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -707,6 +860,16 @@
         1070000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 57900,
+          "price": 1070000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260701073324-b38dd4f4/000.webp",
       "summary": "MG ZS 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -725,6 +888,16 @@
         1570000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 13000,
+          "price": 1570000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260706054530-ed540415/000.webp",
       "summary": "Nissan Tiida 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -743,6 +916,16 @@
         2700000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Кроссовер",
+          "engineVolumeL": 2,
+          "drive": "Полный",
+          "mileageKm": 71000,
+          "price": 2700000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260721092955-334310a4/000.webp",
       "summary": "Subaru Forester 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -761,6 +944,18 @@
         4900000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "trim": "off-road Challenger",
+          "body": "Джип",
+          "engineVolumeL": 2,
+          "powerHp": 227,
+          "drive": "Полный",
+          "mileageKm": 38500,
+          "price": 4900000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260607101808-d7da4425/000.webp",
       "summary": "Tank 300 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -779,6 +974,16 @@
         1200000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 46200,
+          "price": 1200000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260624071059-a2be1ce1/000.webp",
       "summary": "В китайском каталоге есть Toyota Levin; перед заказом важно сравнить конкретную комплектацию и полный бюджет.",
       "status": "approved"
@@ -797,6 +1002,16 @@
         1270000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 56400,
+          "price": 1270000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260706054337-9c278dbe/000.webp",
       "summary": "Toyota Yaris 2023 года опубликована в китайском направлении с фотографиями и ориентиром цены.",
       "status": "approved"
@@ -815,6 +1030,16 @@
         1620000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 20000,
+          "price": 1620000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260706054425-377d08f7/000.webp",
       "summary": "Volkswagen Golf 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -833,6 +1058,16 @@
         2650000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 24000,
+          "price": 2650000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260721092905-ede348a4/000.webp",
       "summary": "Volkswagen Tayron 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -851,6 +1086,16 @@
         2700000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 37000,
+          "price": 2700000
+        }
+      ],
       "image": "/media/guazi/mgr-china-20260624070958-edde7806/000.webp",
       "summary": "Volkswagen Tiguan L 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -869,6 +1114,18 @@
         1100000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "A1 SB 1.0TFSI SP",
+          "body": "Хетчбэк",
+          "engineVolumeL": 0.99,
+          "drive": "Передний",
+          "mileageKm": 35000,
+          "grade": "4 балла",
+          "price": 1100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260812051747-48d7d514/000.webp",
       "summary": "Audi A1 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -893,6 +1150,57 @@
         2300000
       ],
       "listingCount": 5,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "Sportback",
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1,
+          "powerHp": 150,
+          "drive": "Передний",
+          "mileageKm": 36000,
+          "price": 1200000
+        },
+        {
+          "year": 2018,
+          "trim": "A3 SB 1.4TFSI SP",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 33000,
+          "grade": "4 балла",
+          "price": 1250000
+        },
+        {
+          "year": 2023,
+          "trim": "A3 SB 30TFSI Advanced",
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 9000,
+          "grade": "4.5 балла",
+          "price": 1450000
+        },
+        {
+          "year": 2022,
+          "trim": "Sports Back 30TFSI S Line",
+          "body": "Кроссовер",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 24000,
+          "grade": "4.5 балла",
+          "price": 1500000
+        },
+        {
+          "year": 2023,
+          "trim": "30TFSI S Line Пробег → 12000км",
+          "body": "Седан",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "grade": "4.5 балла",
+          "price": 2300000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073654-44bb2801/000.webp",
       "summary": "Audi A3 2022–2023 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -911,6 +1219,18 @@
         1100000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "Q2 10TFSI SP",
+          "body": "Кроссовер",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 80000,
+          "grade": "4.5 балла",
+          "price": 1100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260715022424-bcb3a0b4/000.webp",
       "summary": "Audi Q2 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -929,6 +1249,18 @@
         1000000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "Q3 1.4TFSI Sports",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 77000,
+          "grade": "4.5 балла",
+          "price": 1000000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260721092737-618497a1/000.webp",
       "summary": "Audi Q3 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -949,8 +1281,60 @@
         1350000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "118i",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Задний",
+          "mileageKm": 98000,
+          "grade": "4 балла",
+          "price": 850000
+        },
+        {
+          "year": 2024,
+          "trim": "118i",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 23000,
+          "grade": "4.5 балла",
+          "price": 1350000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803150721-b83c87db/000.webp",
       "summary": "BMW 1 Series 2015–2024 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "BMW",
+      "makeSlug": "bmw",
+      "model": "2 Series",
+      "slug": "2-series",
+      "years": [
+        2018
+      ],
+      "prices": [
+        1300000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "218 I A T Luxury",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 6000,
+          "grade": "5 баллов",
+          "price": 1300000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061326-313477f7/000.webp",
+      "summary": "BMW 2 Series 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -967,6 +1351,18 @@
         650000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "F550NE",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 14000,
+          "grade": "3.5 балла",
+          "price": 650000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260721092651-d4022ff3/000.webp",
       "summary": "Bmw mini 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -987,6 +1383,27 @@
         1430000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "SDRIVE18I X Line",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 67000,
+          "grade": "4 балла",
+          "price": 1380000
+        },
+        {
+          "year": 2016,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 68000,
+          "grade": "4.5 балла",
+          "price": 1430000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803151449-01267247/000.webp",
       "summary": "BMW X1 2016–2017 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1005,6 +1422,18 @@
         1750000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "X2 sDrive 18I MSP X High Line P Comfort P",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 36000,
+          "grade": "4 балла",
+          "price": 1750000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803150843-018e9980/000.webp",
       "summary": "BMW X2 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1023,6 +1452,18 @@
         2100000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "trim": "Long Blue -HDi",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 11000,
+          "grade": "4 балла",
+          "price": 2100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074317-cc9e90cd/000.webp",
       "summary": "Citroen Berlingo 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1043,6 +1484,28 @@
         1100000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "Low",
+          "body": "Купе",
+          "engineVolumeL": 0.6,
+          "drive": "Передний",
+          "mileageKm": 104000,
+          "grade": "4 балла",
+          "price": 900000
+        },
+        {
+          "year": 2022,
+          "trim": "Low S",
+          "body": "Кабриолет",
+          "engineVolumeL": 0.66,
+          "drive": "Передний",
+          "mileageKm": 24000,
+          "grade": "4.5 балла",
+          "price": 1100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073318-ac2f0fc2/000.webp",
       "summary": "Daihatsu Copen 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1061,6 +1524,18 @@
         450000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2013,
+          "body": "Хэтчбек",
+          "engineVolumeL": 0.66,
+          "powerHp": 52,
+          "drive": "Передний",
+          "mileageKm": 123000,
+          "grade": "4",
+          "price": 450000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260227000528-0d6af676/000.webp",
       "summary": "Daihatsu Mira ES 2013 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1079,6 +1554,18 @@
         710000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2019,
+          "trim": "G LTD SA III",
+          "body": "Минивэн",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 44000,
+          "grade": "3.5 балла",
+          "price": 710000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260806073522-7b4b6ef3/000.webp",
       "summary": "Daihatsu Thor 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1099,6 +1586,28 @@
         950000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.3,
+          "powerHp": 98,
+          "drive": "Передний",
+          "mileageKm": 78000,
+          "grade": "4",
+          "price": 850000
+        },
+        {
+          "year": 2019,
+          "trim": "4WD 13G L Honda Sensing",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.3,
+          "drive": "Полный",
+          "mileageKm": 85000,
+          "grade": "4 балла",
+          "price": 950000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260902081136-08f89b57/000.webp",
       "summary": "Honda Fit 2022 года представлена отдельным предложением японского каталога с фото и ценой.",
       "status": "approved"
@@ -1114,16 +1623,71 @@
         2017,
         2018,
         2020,
+        2022,
         2023
       ],
       "prices": [
         800000,
         1100000,
+        1400000,
         1470000,
         1500000
       ],
-      "listingCount": 4,
-      "image": "/media/japan_manual/mgr-japan-20260902081224-8cb47fd9/000.webp",
+      "listingCount": 5,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "G Honda Sensing",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "powerHp": 131,
+          "drive": "Передний",
+          "mileageKm": 95000,
+          "grade": "4",
+          "price": 800000
+        },
+        {
+          "year": 2017,
+          "trim": "G Honda Sensing",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 98000,
+          "grade": "4 балла",
+          "price": 1100000
+        },
+        {
+          "year": 2022,
+          "trim": "Cross Honda Sensing 6seats",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 42000,
+          "grade": "4 балла",
+          "price": 1400000
+        },
+        {
+          "year": 2023,
+          "trim": "G 6seats",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 17000,
+          "grade": "4.5 балла",
+          "price": 1470000
+        },
+        {
+          "year": 2020,
+          "trim": "G Honda Sensing",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 77000,
+          "grade": "4.5 балла",
+          "price": 1500000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061828-8f0c7973/000.webp",
       "summary": "В каталоге есть несколько Honda Freed, поэтому можно сравнить год и ориентир цены до запроса точного расчета.",
       "status": "approved"
     },
@@ -1144,6 +1708,38 @@
         800000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2019,
+          "trim": "G L Honda Sensing",
+          "body": "Кейкар",
+          "engineVolumeL": 0.66,
+          "drive": "Передний",
+          "mileageKm": 116000,
+          "grade": "4 балла",
+          "price": 700000
+        },
+        {
+          "year": 2015,
+          "trim": "Custom L",
+          "body": "Кейкар",
+          "engineVolumeL": 0.66,
+          "drive": "Передний",
+          "mileageKm": 53000,
+          "grade": "3.5 балла",
+          "price": 700000
+        },
+        {
+          "year": 2020,
+          "trim": "Custom G L Turbo Honda Sensing",
+          "body": "Кейкар",
+          "engineVolumeL": 0.66,
+          "drive": "Передний",
+          "mileageKm": 108000,
+          "grade": "4 балла",
+          "price": 800000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074131-365e8e36/000.webp",
       "summary": "Honda N Box 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1162,6 +1758,19 @@
         390000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "Custom G",
+          "body": "Хэтчбек",
+          "engineVolumeL": 0.7,
+          "powerHp": 52,
+          "drive": "Передний",
+          "mileageKm": 131000,
+          "grade": "3.5",
+          "price": 390000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260223052659-91843a9b/000.webp",
       "summary": "Honda N-WGN 2016 года доступна в каталоге для проверки предложения и расчёта импорта.",
       "status": "approved"
@@ -1186,6 +1795,48 @@
         2000000
       ],
       "listingCount": 4,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "4WD G 7seats",
+          "body": "Минивэн",
+          "engineVolumeL": 1,
+          "drive": "Полный",
+          "mileageKm": 161000,
+          "grade": "3.5 балла",
+          "price": 1200000
+        },
+        {
+          "year": 2015,
+          "trim": "Spada",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 80000,
+          "grade": "4 балла",
+          "price": 1400000
+        },
+        {
+          "year": 2017,
+          "trim": "Cool Spirit Honda Sensing 8seats",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 120000,
+          "grade": "4 балла",
+          "price": 1500000
+        },
+        {
+          "year": 2023,
+          "trim": "7seats",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 27000,
+          "grade": "4 балла",
+          "price": 2000000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260902081048-581f0c25/000.webp",
       "summary": "Honda Step Wagon 2016–2017 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1207,6 +1858,38 @@
         2700000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2023,
+          "trim": "4WD 7 PERSON 5D",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 64000,
+          "grade": "4 балла",
+          "price": 2300000
+        },
+        {
+          "year": 2021,
+          "trim": "4WD COOL SPIRIT HONDA SENSING7 PERSON 5D",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 53000,
+          "grade": "4 балла",
+          "price": 2300000
+        },
+        {
+          "year": 2022,
+          "trim": "4WD PREMIUM LINE 5D",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 40000,
+          "grade": "4.5 балла",
+          "price": 2700000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260707221914-963c06f8/000.webp",
       "summary": "Вместительный минивэн представлен одним из самых широких наборов годов среди японских предложений Primcom.",
       "status": "approved"
@@ -1225,6 +1908,18 @@
         3500000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2025,
+          "trim": "Elegant",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.5,
+          "powerHp": 136,
+          "drive": "Передний",
+          "mileageKm": 2000,
+          "price": 3500000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260222055049-14cd2d8c/000.webp",
       "summary": "Lexus LBX 2025 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1243,6 +1938,18 @@
         1350000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "15S Touring 360",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 53000,
+          "grade": "4 балла",
+          "price": 1350000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260703042525-889ab536/000.webp",
       "summary": "Mazda 3 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1261,6 +1968,18 @@
         900000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "4WD 15S",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 104000,
+          "grade": "3.5 балла",
+          "price": 900000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074421-ef0d100f/000.webp",
       "summary": "Mazda Axela 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1280,6 +1999,28 @@
         950000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "XD Touring",
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 68000,
+          "grade": "4 балла",
+          "price": 930000
+        },
+        {
+          "year": 2017,
+          "trim": "XD",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 53000,
+          "grade": "3.5 балла",
+          "price": 950000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260703042315-e4786342/000.webp",
       "summary": "Два предложения одного года позволяют сравнить конкретные автомобили, фотографии и параметры.",
       "status": "approved"
@@ -1297,8 +2038,30 @@
       "prices": [
         1800000
       ],
-      "listingCount": 1,
-      "image": "/media/japan_manual/mgr-japan-20260702042720-556971b4/000.webp",
+      "listingCount": 2,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "XD Pro Active 4WD",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.8,
+          "drive": "Полный",
+          "mileageKm": 32000,
+          "grade": "4 балла",
+          "price": 1800000
+        },
+        {
+          "year": 2022,
+          "trim": "XD L Package",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.8,
+          "drive": "Передний",
+          "mileageKm": 25000,
+          "grade": "4.5 балла",
+          "price": 1800000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061847-92bc3fda/000.webp",
       "summary": "Mazda CX-30 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
@@ -1316,6 +2079,18 @@
         490000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "XS",
+          "body": "Кейкар",
+          "engineVolumeL": 0.66,
+          "drive": "Передний",
+          "mileageKm": 99000,
+          "grade": "4 балла",
+          "price": 490000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260806073544-d8b2e6f2/000.webp",
       "summary": "Mazda Flair Crossover 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1334,6 +2109,19 @@
         900000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "15C",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.5,
+          "powerHp": 105,
+          "drive": "Передний",
+          "mileageKm": 79000,
+          "grade": "4",
+          "price": 900000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260227002902-c41b2f24/000.webp",
       "summary": "Mazda Mazda2 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1353,6 +2141,28 @@
         1350000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2019,
+          "trim": "XD Pro Active Touring Selection",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.8,
+          "drive": "Передний",
+          "mileageKm": 99000,
+          "grade": "4.5 балла",
+          "price": 1300000
+        },
+        {
+          "year": 2019,
+          "trim": "4WD 15S Touring",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 72000,
+          "grade": "4 балла",
+          "price": 1350000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074213-de102465/000.webp",
       "summary": "Mazda Mazda3 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1371,6 +2181,18 @@
         920000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "A180",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 89000,
+          "grade": "4 балла",
+          "price": 920000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260806073506-b66b68c4/000.webp",
       "summary": "Mercedes-Benz A Class 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1396,6 +2218,67 @@
         2000000
       ],
       "listingCount": 6,
+      "listings": [
+        {
+          "year": 2014,
+          "trim": "C 180 Wagon AV",
+          "body": "Универсал",
+          "engineVolumeL": 1.6,
+          "drive": "Задний",
+          "mileageKm": 71000,
+          "grade": "4.5 балла",
+          "price": 1250000
+        },
+        {
+          "year": 2015,
+          "trim": "C 180 Radar",
+          "body": "Седан",
+          "engineVolumeL": 1.59,
+          "drive": "Передний",
+          "mileageKm": 89000,
+          "grade": "4 балла",
+          "price": 1300000
+        },
+        {
+          "year": 2016,
+          "trim": "C 180 Coupe SP Plus",
+          "body": "Купе",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 164000,
+          "grade": "3.5 балла",
+          "price": 1400000
+        },
+        {
+          "year": 2017,
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 60000,
+          "grade": "4 балла",
+          "price": 1400000
+        },
+        {
+          "year": 2020,
+          "trim": "C 180 AV AMG Line",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 49000,
+          "grade": "4.5 балла",
+          "price": 2000000
+        },
+        {
+          "year": 2020,
+          "trim": "C180 AVANT GAMGLA 4D",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 26000,
+          "grade": "4 балла",
+          "price": 2000000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260914045220-e73ca7f0/000.webp",
       "summary": "Mercedes-Benz C Class 2014–2020 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1421,6 +2304,58 @@
         3022000
       ],
       "listingCount": 5,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "CLA180 Sports",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 97000,
+          "grade": "3.5 балла",
+          "price": 900000
+        },
+        {
+          "year": 2017,
+          "trim": "CLA180",
+          "body": "Универсал",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 93000,
+          "grade": "4 балла",
+          "price": 950000
+        },
+        {
+          "year": 2016,
+          "trim": "CLA180 sport",
+          "body": "Универсал",
+          "engineVolumeL": 1.6,
+          "drive": "Передний",
+          "mileageKm": 59000,
+          "grade": "4.5 балла",
+          "price": 1170000
+        },
+        {
+          "year": 2024,
+          "trim": "CLA 180 AMG Line P Advanced P",
+          "body": "Седан",
+          "engineVolumeL": 1.3,
+          "drive": "Передний",
+          "mileageKm": 39000,
+          "grade": "4.5 балла",
+          "price": 2400000
+        },
+        {
+          "year": 2023,
+          "trim": "CLA180",
+          "body": "Седан",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 10000,
+          "grade": "4.5 балла",
+          "price": 3022000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073854-2615bb4f/000.webp",
       "summary": "Mercedes-Benz CLA Class 2016–2024 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1439,6 +2374,18 @@
         1750000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "GLA 180",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 63000,
+          "grade": "4.5 балла",
+          "price": 1750000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260812051711-46d1964f/000.webp",
       "summary": "Mercedes-Benz GLA Class 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1457,6 +2404,19 @@
         1850000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "G Plus Package",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "powerHp": 150,
+          "drive": "Передний",
+          "mileageKm": 74000,
+          "grade": "4",
+          "price": 1850000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260225011239-a7e4bac3/000.webp",
       "summary": "Mitsubishi Eclipse Cross 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1475,6 +2435,18 @@
         530000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "Custom T",
+          "body": "Кейкар",
+          "engineVolumeL": 0.66,
+          "drive": "Полный",
+          "mileageKm": 105000,
+          "grade": "4 балла",
+          "price": 530000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073438-5f64cd35/000.webp",
       "summary": "Mitsubishi EK Space 2017 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1493,6 +2465,19 @@
         600000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "Highway Star - X pro",
+          "body": "Хэтчбек",
+          "engineVolumeL": 0.66,
+          "powerHp": 54,
+          "drive": "Передний",
+          "mileageKm": 45000,
+          "grade": "3.5",
+          "price": 600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260225012211-852128e5/000.webp",
       "summary": "Nissan Dayz 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1511,6 +2496,18 @@
         600000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Хэтчбек",
+          "engineVolumeL": 1.2,
+          "powerHp": 93,
+          "drive": "Передний",
+          "mileageKm": 91000,
+          "grade": "4",
+          "price": 600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260303005239-8e8cf559/000.webp",
       "summary": "Nissan March 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1531,8 +2528,59 @@
         750000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2013,
+          "trim": "X",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 14000,
+          "grade": "3.5 балла",
+          "price": 640000
+        },
+        {
+          "year": 2016,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 147000,
+          "grade": "4 балла",
+          "price": 750000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074246-8a80a3a9/000.webp",
       "summary": "Nissan Note 2013–2016 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Nissan",
+      "makeSlug": "nissan",
+      "model": "Roox",
+      "slug": "roox",
+      "years": [
+        2022
+      ],
+      "prices": [
+        950000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "Highway Star - G Turbo 4WD",
+          "body": "Хэтчбек",
+          "engineVolumeL": 0.66,
+          "drive": "Полный",
+          "mileageKm": 32000,
+          "grade": "4 балла",
+          "price": 950000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061907-525220f3/000.webp",
+      "summary": "Nissan Roox 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -1549,6 +2597,19 @@
         2100000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "4WD 20Xi Selection",
+          "body": "Кроссовер",
+          "engineVolumeL": 2,
+          "powerHp": 147,
+          "drive": "Полный",
+          "mileageKm": 64000,
+          "grade": "4.5",
+          "price": 2100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260225012938-362aceb6/000.webp",
       "summary": "Nissan X-Trail 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1567,6 +2628,18 @@
         3500000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2024,
+          "trim": "Back LTD EX",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.8,
+          "drive": "Передний",
+          "mileageKm": 32000,
+          "grade": "4.5 балла",
+          "price": 3500000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803150657-8cc23d38/000.webp",
       "summary": "Subaru Legacy outback 2024 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1585,6 +2658,19 @@
         1600000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "4WD",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "powerHp": 115,
+          "drive": "Полный",
+          "mileageKm": 49000,
+          "grade": "4.5",
+          "price": 1600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260318235510-9917f4d8/000.webp",
       "summary": "Suzuki Escudo 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1603,6 +2689,18 @@
         1800000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2024,
+          "trim": "1.5",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "powerHp": 101,
+          "drive": "Передний",
+          "mileageKm": 1,
+          "price": 1800000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260222135036-aa321819/000.webp",
       "summary": "Suzuki Fronx 2024 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1625,6 +2723,39 @@
         1200000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "Land Venture",
+          "body": "Джип",
+          "engineVolumeL": 0.7,
+          "powerHp": 64,
+          "drive": "Полный",
+          "mileageKm": 124000,
+          "grade": "3.5",
+          "price": 548000
+        },
+        {
+          "year": 2018,
+          "trim": "LAND VENTURE AWD 3D 4WD",
+          "body": "Джип",
+          "engineVolumeL": 0.6,
+          "drive": "Полный",
+          "mileageKm": 48000,
+          "grade": "4 балла",
+          "price": 950000
+        },
+        {
+          "year": 2021,
+          "trim": "4WD XC",
+          "body": "Джип",
+          "engineVolumeL": 0.66,
+          "drive": "Полный",
+          "mileageKm": 86000,
+          "grade": "4 балла",
+          "price": 1200000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073352-563ccaa1/000.webp",
       "summary": "В каталоге доступны Suzuki Jimny разных годов; итог зависит от конкретного состояния и расходов на импорт.",
       "status": "approved"
@@ -1643,6 +2774,18 @@
         2200000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2025,
+          "trim": "FC 4WD",
+          "body": "Джип",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 2000,
+          "grade": "5 балла",
+          "price": 2200000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803151150-bd91dc7d/000.webp",
       "summary": "Suzuki Jimny Nomade 2025 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1663,6 +2806,28 @@
         1000000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "F Limited",
+          "body": "Минивэн",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 107000,
+          "grade": "4 балла",
+          "price": 790000
+        },
+        {
+          "year": 2019,
+          "trim": "Hybrid MZ",
+          "body": "Минивэн",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 44000,
+          "grade": "4 балла",
+          "price": 1000000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260819074916-79619a59/000.webp",
       "summary": "Suzuki Solio 2019 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1681,6 +2846,18 @@
         850000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "XL",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 64000,
+          "grade": "4 балла",
+          "price": 850000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260819074948-2a244151/000.webp",
       "summary": "Suzuki Swift 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1699,8 +2876,50 @@
         650000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "HV MZ",
+          "body": "Кейкар",
+          "engineVolumeL": 1,
+          "drive": "Полный",
+          "mileageKm": 140000,
+          "grade": "4 балла",
+          "price": 650000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803151625-a2bcbbdc/000.webp",
       "summary": "Suzuki Xbee 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corola Alion",
+      "slug": "corola-alion",
+      "years": [
+        2015
+      ],
+      "prices": [
+        1150000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "A18 G Package 4WD",
+          "body": "Седан",
+          "engineVolumeL": 1.8,
+          "drive": "Полный",
+          "mileageKm": 28000,
+          "grade": "3.5 балла",
+          "price": 1150000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061613-7068c5c0/000.webp",
+      "summary": "Toyota Corola Alion 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -1717,6 +2936,18 @@
         1350000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "S",
+          "body": "Седан",
+          "engineVolumeL": 1.8,
+          "drive": "Задний",
+          "mileageKm": 50000,
+          "grade": "4 балла",
+          "price": 1350000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260629215327-714b7d2f/000.webp",
       "summary": "Страница объединяет актуальное предложение Toyota Corolla 2020 года и связанные условия заказа из Японии.",
       "status": "approved"
@@ -1729,13 +2960,47 @@
       "model": "Corolla Axio",
       "slug": "corolla-axio",
       "years": [
-        2019
+        2019,
+        2021
       ],
       "prices": [
-        1050000
+        1050000,
+        1100000
       ],
-      "listingCount": 2,
-      "image": "/media/japan_manual/mgr-japan-20260806144930-1e778319/000.webp",
+      "listingCount": 3,
+      "listings": [
+        {
+          "year": 2019,
+          "trim": "1.5X Business Package - 4WD",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 73000,
+          "grade": "4 балла",
+          "price": 1050000
+        },
+        {
+          "year": 2019,
+          "trim": "1.5G",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 36000,
+          "grade": "4.5 балла",
+          "price": 1050000
+        },
+        {
+          "year": 2021,
+          "trim": "EX 4WD",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 93000,
+          "grade": "4 балла",
+          "price": 1100000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061533-73070381/000.webp",
       "summary": "В каталоге Primcom представлена Toyota Corolla Axio 2019 года с фото и указанной стоимостью предложения.",
       "status": "approved"
     },
@@ -1753,8 +3018,50 @@
         2250000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "S",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.8,
+          "drive": "Передний",
+          "mileageKm": 62000,
+          "grade": "4.5 балла",
+          "price": 2250000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803150917-4925e665/000.webp",
       "summary": "Toyota Corolla Cross 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Toyota",
+      "makeSlug": "toyota",
+      "model": "Corolla Fielder",
+      "slug": "corolla-fielder",
+      "years": [
+        2021
+      ],
+      "prices": [
+        1090000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "EX 4WD",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 113000,
+          "grade": "4 балла",
+          "price": 1090000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061554-970c6288/000.webp",
+      "summary": "Toyota Corolla Fielder 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -1773,6 +3080,28 @@
         1600000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "Blue TSS",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.8,
+          "drive": "Передний",
+          "mileageKm": 90000,
+          "grade": "4.5 балла",
+          "price": 1550000
+        },
+        {
+          "year": 2023,
+          "trim": "blue",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 24000,
+          "grade": "4.5 балла",
+          "price": 1600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260819045828-07d6bace/000.webp",
       "summary": "В актуальном каталоге опубликована Toyota Corolla Touring 2023 года с фотографиями и ориентиром цены.",
       "status": "approved"
@@ -1791,6 +3120,18 @@
         1950000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "4WD Elegance",
+          "body": "кроссовер",
+          "engineVolumeL": 2,
+          "powerHp": 151,
+          "drive": "Полный",
+          "mileageKm": 138000,
+          "price": 1950000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260222133640-d965d49e/000.webp",
       "summary": "Актуальная карточка Toyota Harrier 2016 года ведёт к предложению и индивидуальному расчёту расходов.",
       "status": "approved"
@@ -1811,6 +3152,28 @@
         800000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "Х",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 59000,
+          "grade": "4 балла",
+          "price": 600000
+        },
+        {
+          "year": 2018,
+          "trim": "S",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 17000,
+          "grade": "4 балла",
+          "price": 800000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074033-8ba06d7f/000.webp",
       "summary": "Toyota Passo 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1829,6 +3192,18 @@
         650000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "Cruise SA3",
+          "body": "Кейкар",
+          "engineVolumeL": 0.6,
+          "drive": "Задний",
+          "mileageKm": 42000,
+          "grade": "4.5 балла",
+          "price": 650000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260629215223-05d920ab/000.webp",
       "summary": "Toyota Pixis Van 2020 года опубликована с фотографиями и ориентиром цены конкретного предложения.",
       "status": "approved"
@@ -1847,6 +3222,19 @@
         1600000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "L-PKG",
+          "body": "Седан",
+          "engineVolumeL": 1.5,
+          "powerHp": 110,
+          "drive": "Передний",
+          "mileageKm": 18000,
+          "grade": "4.5",
+          "price": 1600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260227010052-b77c8e83/000.webp",
       "summary": "Toyota Premio 2017 года добавлена в модельный каталог для сравнения и запроса точного расчёта.",
       "status": "approved"
@@ -1870,6 +3258,49 @@
         1050000
       ],
       "listingCount": 4,
+      "listings": [
+        {
+          "year": 2017,
+          "trim": "GL",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 123000,
+          "grade": "4 балла",
+          "price": 830000
+        },
+        {
+          "year": 2019,
+          "trim": "GL 4WD",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 137000,
+          "grade": "4 балла",
+          "price": 850000
+        },
+        {
+          "year": 2021,
+          "trim": "DX Comfort",
+          "body": "Универсал",
+          "engineVolumeL": 1.3,
+          "powerHp": 95,
+          "drive": "Передний",
+          "mileageKm": 46000,
+          "grade": "4",
+          "price": 950000
+        },
+        {
+          "year": 2021,
+          "trim": "DX Comfort 4WD",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 91000,
+          "grade": "4 балла",
+          "price": 1050000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260806145016-e8b4c602/000.webp",
       "summary": "Практичная модель представлена в каталоге предложениями разных годов и бюджетов.",
       "status": "approved"
@@ -1891,6 +3322,38 @@
         1400000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2021,
+          "body": "Кроссовер",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 111000,
+          "grade": "3.5 балла",
+          "price": 870000
+        },
+        {
+          "year": 2022,
+          "trim": "X Smart Assist",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.2,
+          "powerHp": 87,
+          "drive": "Передний",
+          "mileageKm": 45000,
+          "grade": "4",
+          "price": 1050000
+        },
+        {
+          "year": 2021,
+          "trim": "Z",
+          "body": "Кроссовер",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 62000,
+          "grade": "4.5 балла",
+          "price": 1400000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260702043003-a599eb59/000.webp",
       "summary": "Компактный кроссовер представлен в актуальном каталоге несколькими предложениями 2021–2022 годов.",
       "status": "approved"
@@ -1909,6 +3372,18 @@
         800000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "G",
+          "body": "Минивэн",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 74000,
+          "grade": "4.5 балла",
+          "price": 800000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260806144900-3df2e40e/000.webp",
       "summary": "Toyota Roomy 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1927,6 +3402,19 @@
         1200000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "G Safety Edition",
+          "body": "Минивэн",
+          "engineVolumeL": 1.5,
+          "powerHp": 115,
+          "drive": "Передний",
+          "mileageKm": 20000,
+          "grade": "4.5",
+          "price": 1200000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260223043457-464c35b1/000.webp",
       "summary": "Toyota Sienta 2021 года представлена реальным объявлением в японском каталоге Primcom.",
       "status": "approved"
@@ -1945,6 +3433,18 @@
         1050000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2021,
+          "trim": "custom G",
+          "body": "Минивэн",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 53000,
+          "grade": "4 балла",
+          "price": 1050000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260703042451-4cc71a11/000.webp",
       "summary": "Toyota Tank 2021 года доступна в каталоге как компактный вариант для индивидуального расчёта импорта.",
       "status": "approved"
@@ -1965,6 +3465,28 @@
         800000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2026,
+          "trim": "F",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 40000,
+          "grade": "4 балла",
+          "price": 620000
+        },
+        {
+          "year": 2014,
+          "trim": "F 4WD",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.3,
+          "drive": "Полный",
+          "mileageKm": 106000,
+          "grade": "3.5 балла",
+          "price": 800000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074359-55c67121/000.webp",
       "summary": "Toyota Vits 2026 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -1977,13 +3499,37 @@
       "model": "Yaris",
       "slug": "yaris",
       "years": [
-        2021
+        2021,
+        2022
       ],
       "prices": [
+        750000,
         1000000
       ],
-      "listingCount": 1,
-      "image": "/media/japan_manual/mgr-japan-20260913074113-17ff1b87/000.webp",
+      "listingCount": 2,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "X",
+          "body": "Хэтчбек",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 100000,
+          "grade": "3.5 балла",
+          "price": 750000
+        },
+        {
+          "year": 2021,
+          "trim": "X 4wd",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.5,
+          "drive": "Полный",
+          "mileageKm": 103000,
+          "grade": "4 балла",
+          "price": 1000000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061751-4ed61d48/000.webp",
       "summary": "Toyota Yaris 2021 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
@@ -2003,8 +3549,59 @@
         850000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2014,
+          "trim": "TSI High Line BMT",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 120000,
+          "grade": "4 балла",
+          "price": 790000
+        },
+        {
+          "year": 2012,
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 104000,
+          "grade": "4 балла",
+          "price": 850000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913074449-91892069/000.webp",
       "summary": "Volkswagen Golf 2014 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "Golf Touran",
+      "slug": "golf-touran",
+      "years": [
+        2018
+      ],
+      "prices": [
+        1250000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2018,
+          "trim": "TSI High Line",
+          "body": "Универсал",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 71000,
+          "grade": "4 балла",
+          "price": 1250000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061452-470b3b17/000.webp",
+      "summary": "Volkswagen Golf Touran 2018 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -2021,6 +3618,18 @@
         720000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2015,
+          "trim": "Lounge",
+          "body": "Хетчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 92000,
+          "grade": "4.5 балла",
+          "price": 720000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260803151516-51e57eac/000.webp",
       "summary": "Volkswagen Golf Variant 2015 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2040,6 +3649,29 @@
         1400000
       ],
       "listingCount": 2,
+      "listings": [
+        {
+          "year": 2016,
+          "trim": "TSI Elegance line",
+          "body": "Седан",
+          "engineVolumeL": 1.4,
+          "powerHp": 140,
+          "drive": "Передний",
+          "mileageKm": 36000,
+          "grade": "4",
+          "price": 1350000
+        },
+        {
+          "year": 2016,
+          "trim": "TSI High Line",
+          "body": "Универсал",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 71000,
+          "grade": "4.5 балла",
+          "price": 1400000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260730002948-06e8804a/000.webp",
       "summary": "Volkswagen Passat 2016 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2060,10 +3692,62 @@
         650000,
         1150000,
         1200000,
-        1400000
+        1400000,
+        1600000
       ],
-      "listingCount": 4,
-      "image": "/media/japan_manual/mgr-japan-20260913073801-fd31ee81/000.webp",
+      "listingCount": 5,
+      "listings": [
+        {
+          "year": 2013,
+          "body": "Универсал",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 126000,
+          "grade": "3.5 балла",
+          "price": 650000
+        },
+        {
+          "year": 2017,
+          "trim": "TSI High Line",
+          "body": "Седан",
+          "engineVolumeL": 1.3,
+          "drive": "Передний",
+          "mileageKm": 123000,
+          "grade": "3.5 балла",
+          "price": 1150000
+        },
+        {
+          "year": 2018,
+          "trim": "Elegance Line Edition",
+          "body": "Универсал",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 160000,
+          "grade": "4.5 балла",
+          "price": 1200000
+        },
+        {
+          "year": 2018,
+          "trim": "TSI Elegance L",
+          "body": "Седан",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 78000,
+          "grade": "4.5 балла",
+          "price": 1400000
+        },
+        {
+          "year": 2017,
+          "trim": "TSI High Line",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.4,
+          "drive": "Передний",
+          "mileageKm": 63000,
+          "grade": "4.5 балла",
+          "price": 1600000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061425-007b5d8b/000.webp",
       "summary": "Volkswagen Passat Variant 2013–2018 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
@@ -2084,6 +3768,37 @@
         1100000
       ],
       "listingCount": 3,
+      "listings": [
+        {
+          "year": 2012,
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 73000,
+          "grade": "3.5 балла",
+          "price": 600000
+        },
+        {
+          "year": 2019,
+          "body": "Хэтчбек",
+          "engineVolumeL": 1,
+          "powerHp": 96,
+          "drive": "Передний",
+          "mileageKm": 73000,
+          "grade": "4",
+          "price": 870000
+        },
+        {
+          "year": 2019,
+          "trim": "TSI High Line",
+          "body": "Хэтчбэк",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 19000,
+          "grade": "4.5 балла",
+          "price": 1100000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260630044140-71ba3897/000.webp",
       "summary": "Volkswagen Polo 2012–2019 годов представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2102,6 +3817,18 @@
         1130000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "T- Cross TSI 1st Plus",
+          "body": "Кроссовер",
+          "engineVolumeL": 1,
+          "drive": "Передний",
+          "mileageKm": 54000,
+          "grade": "4.5 балла",
+          "price": 1130000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260913073552-a170a839/000.webp",
       "summary": "Volkswagen T-Cross 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2120,6 +3847,18 @@
         1600000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "TSI Style",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 14000,
+          "grade": "4.5 балла",
+          "price": 1600000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260710120210-6cb4f70a/000.webp",
       "summary": "Volkswagen T-ROC 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2138,8 +3877,49 @@
         1500000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "trim": "TSI Active",
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 21000,
+          "grade": "4.5 балла",
+          "price": 1500000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260715022709-a8370ba7/000.webp",
       "summary": "Volkswagen T-Rock 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
+      "status": "approved"
+    },
+    {
+      "country": "japan",
+      "countryName": "Японии",
+      "make": "Volkswagen",
+      "makeSlug": "volkswagen",
+      "model": "The Beetle",
+      "slug": "the-beetle",
+      "years": [
+        2020
+      ],
+      "prices": [
+        630000
+      ],
+      "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "body": "Купе",
+          "engineVolumeL": 1.2,
+          "drive": "Передний",
+          "mileageKm": 121000,
+          "grade": "3.5 балла",
+          "price": 630000
+        }
+      ],
+      "image": "/media/japan_manual/mgr-japan-20260927061514-a008e9f3/000.webp",
+      "summary": "Volkswagen The Beetle 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
     },
     {
@@ -2156,6 +3936,17 @@
         2500000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.5,
+          "drive": "Передний",
+          "mileageKm": 23000,
+          "grade": "4.5 балла",
+          "price": 2500000
+        }
+      ],
       "image": "/media/japan_manual/mgr-japan-20260715022743-6bb3c1b8/000.webp",
       "summary": "Volkswagen Tiguan 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2174,6 +3965,18 @@
         6000000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "530i M Sport Package",
+          "body": "Седан",
+          "engineVolumeL": 2,
+          "powerHp": 252,
+          "drive": "Задний",
+          "mileageKm": 42600,
+          "price": 6000000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260611142839-1497e2f9/000.webp",
       "summary": "BMW 5 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2192,6 +3995,18 @@
         3820000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "Premium. Hybrid",
+          "body": "Седан",
+          "engineVolumeL": 2,
+          "powerHp": 165,
+          "drive": "Передний",
+          "mileageKm": 84600,
+          "price": 3820000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260611143242-d7452b8d/000.webp",
       "summary": "Hyundai Sonata 2020 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2210,6 +4025,17 @@
         1730000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Седан",
+          "engineVolumeL": 2,
+          "powerHp": 160,
+          "drive": "Передний",
+          "mileageKm": 83000,
+          "price": 1730000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260318054856-805a77c0/000.webp",
       "summary": "Kia K5 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2228,6 +4054,18 @@
         1400000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2020,
+          "trim": "Электро",
+          "body": "Хэтчбек",
+          "engineVolumeL": 0.18,
+          "powerHp": 141,
+          "drive": "Передний",
+          "mileageKm": 221300,
+          "price": 1400000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260611141901-709a7f8f/000.webp",
       "summary": "Актуальное предложение Kia Niro из Кореи опубликовано с годом, ценой и фотографиями автомобиля.",
       "status": "approved"
@@ -2246,6 +4084,17 @@
         2010000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "body": "Кроссовер",
+          "engineVolumeL": 1.6,
+          "powerHp": 115,
+          "drive": "Передний",
+          "mileageKm": 12700,
+          "price": 2010000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260607110427-cb3d951d/000.webp",
       "summary": "В каталоге Primcom есть Kia Seltos 2022 года; точная стоимость под ключ рассчитывается отдельно.",
       "status": "approved"
@@ -2264,6 +4113,18 @@
         2000000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2023,
+          "trim": "Classic",
+          "body": "Универсал",
+          "engineVolumeL": 1.5,
+          "powerHp": 98,
+          "drive": "Передний",
+          "mileageKm": 33700,
+          "price": 2000000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260611142312-9061ffad/000.webp",
       "summary": "Mini Clubman 2023 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
@@ -2282,6 +4143,18 @@
         5980000
       ],
       "listingCount": 1,
+      "listings": [
+        {
+          "year": 2022,
+          "trim": "Diesel",
+          "body": "Джип",
+          "engineVolumeL": 2.2,
+          "powerHp": 203,
+          "drive": "Полный",
+          "mileageKm": 27000,
+          "price": 5980000
+        }
+      ],
       "image": "/media/korea_manual/mgr-korea-20260611143726-434c2eb6/000.webp",
       "summary": "SsangYong Rexton 2022 года представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.",
       "status": "approved"
