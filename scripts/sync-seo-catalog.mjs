@@ -168,7 +168,7 @@ for (const group of [...grouped.values()].sort((a, b) => key(a.country, a.make, 
     listingCount:group.items.length,
     listings:group.items.map(listingFacts).sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity)),
     image:newest.cover_image_url,
-    summary:old?.summary || `${group.make} ${group.model} ${yearText} представлена в актуальном каталоге Primcom с фотографиями и ценами автомобилей.`,
+    summary:old?.summary || `${group.make} ${group.model} ${yearText} представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.`,
     status:"approved",
   });
 }
