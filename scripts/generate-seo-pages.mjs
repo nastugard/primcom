@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -7,7 +8,30 @@ const OUTPUT_ROOT = path.resolve(process.env.SEO_OUTPUT_ROOT || ROOT);
 const REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(ROOT, "seo/content-registry.json"));
 const registry = JSON.parse(await fs.readFile(REGISTRY_PATH, "utf8"));
 const SITE = "https://primcom.ru";
-const VERSION = "20260920-cls-fix-2";
+// «Сегодня» — по Владивостоку: сервер живёт по UTC, и после 07:00 утра по Владивостоку
+// дата отстала бы на сутки.
+const today = new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Vladivostok", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date());
+// lastmod каждого адреса хранится отдельно и меняется, только когда изменилась сама страница.
+// Раньше всем адресам ставилась дата запуска, и sitemap каждый день говорил, что всё обновилось.
+const STATE_PATH = path.resolve(process.env.SEO_LASTMOD_STATE || path.join(ROOT, "seo/lastmod-state.json"));
+let previousPages = {};
+try { previousPages = JSON.parse(await fs.readFile(STATE_PATH, "utf8")).pages || {}; } catch { /* первый запуск */ }
+const pageState = {};
+function recordPage(url, content) {
+  const hash = crypto.createHash("sha1").update(content).digest("hex");
+  const previous = previousPages[url];
+  pageState[url] = {hash, date:previous && previous.hash === hash ? previous.date : today};
+}
+// Версия ресурсов берётся из index.html сайта, а не зашита в скрипт: иначе после каждого
+// фронтенд-релиза страницы каталога, собранные на сервере, ссылались бы на старый CSS.
+// Число в запасном значении используется, только если index.html рядом не нашёлся.
+const SITE_ROOT = path.resolve(process.env.SEO_SITE_ROOT || ROOT);
+let VERSION = "20260920-cls-fix-2";
+try {
+  const indexHtml = await fs.readFile(path.join(SITE_ROOT, "index.html"), "utf8");
+  const found = indexHtml.match(/css\/main\.css\?v=([0-9A-Za-z._-]+)/);
+  if (found) VERSION = found[1];
+} catch { /* index.html рядом нет — остаётся запасное значение */ }
 
 for (const generatedDir of ["cars", "guides", "cases"]) {
   await fs.rm(path.join(OUTPUT_ROOT, generatedDir), {recursive:true, force:true});
@@ -17,6 +41,7 @@ const escapeHtml = (value = "") => String(value).replace(/[&<>"']/g, (char) => (
 const money = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
 const dateRu = (value) => new Intl.DateTimeFormat("ru-RU", {day:"numeric", month:"long", year:"numeric"}).format(new Date(`${value}T00:00:00+10:00`));
 const unique = (items) => [...new Set(items)];
+const shortDate = (value) => new Intl.DateTimeFormat("ru-RU", {day:"2-digit", month:"2-digit", year:"numeric"}).format(new Date(`${value}T00:00:00+10:00`));
 const plural = (count, one, few, many) => count % 10 === 1 && count % 100 !== 11 ? one : [2,3,4].includes(count % 10) && ![12,13,14].includes(count % 100) ? few : many;
 const countryLabel = {japan:"Япония", china:"Китай", korea:"Корея"};
 const countryCatalog = {japan:"/pages/auto-iz-yaponii.html", china:"/pages/auto-iz-kitaya.html", korea:"/pages/auto-iz-korei.html"};
@@ -38,12 +63,13 @@ function listingsTable(m) {
     {key:"transmission", head:"КПП", cell:(x) => escapeHtml(x.transmission)},
     {key:"mileageKm", head:"Пробег", cell:(x) => `${nf.format(x.mileageKm)} км`},
     {key:"grade", head:"Оценка", cell:(x) => escapeHtml(x.grade)},
-    {key:"price", head:"Цена", cell:(x) => money(x.price)},
+    {key:"price", head:"Цена под ключ", cell:(x) => money(x.price)},
+    {key:"listedAt", head:"Актуально на", cell:(x) => shortDate(x.listedAt)},
   ].filter((c) => list.some((x) => x[c.key] !== undefined));
   if (cols.length < 3) return "";
   const head = cols.map((c) => `<th scope="col">${c.head}</th>`).join("");
   const rows = list.map((x) => `<tr>${cols.map((c) => `<td>${x[c.key] === undefined ? "—" : c.cell(x)}</td>`).join("")}</tr>`).join("");
-  return `<section class="seo-section"><h2>Автомобили ${escapeHtml(m.make)} ${escapeHtml(m.model)} в каталоге</h2><p>Параметры взяты из карточек каталога на ${dateRu(registry.catalogSnapshotAt)} Цена относится к автомобилю в каталоге и не включает доставку, таможенные платежи и услуги.</p><div class="rate-table__scroll"><table class="rate-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
+  return `<section class="seo-section"><h2>Автомобили ${escapeHtml(m.make)} ${escapeHtml(m.model)} в каталоге</h2><p>Параметры и цены взяты из карточек каталога. Цена указана под ключ на дату из колонки «Актуально на»; наличие и актуальную цену подтверждает менеджер перед покупкой.</p><div class="rate-table__scroll"><table class="rate-table"><thead><tr>${head}</tr></thead><tbody>${rows}</tbody></table></div></section>`;
 }
 
 function topicLinks(links) {
@@ -119,7 +145,9 @@ async function writeUrl(url, html) {
 
 const approvedUrls = [];
 async function publish(url, data) {
-  await writeUrl(url, layout({...data, canonical:url}));
+  const html = layout({...data, canonical:url});
+  await writeUrl(url, html);
+  recordPage(url, html);
   if (data.robots !== "noindex,follow") approvedUrls.push(url);
 }
 
@@ -137,7 +165,7 @@ await publish("/cars/", {
   description:"Модели автомобилей из Японии, Кореи и Китая с актуальными предложениями каталога и переходом к расчету стоимости под ключ.",
   h1:"Автомобили из Японии, Кореи и Китая",
   crumbs:[{name:"Главная",url:"/"},{name:"Автомобили",url:"/cars/"}],
-  body:`<p class="section__lead">Выберите страну, марку и модель автомобиля. В карточках указаны цены автомобилей из каталога; стоимость доставки и оформления рассчитывается отдельно.</p><div class="seo-card-grid">${registry.brandHubs.filter((hub) => hub.status !== "inactive").map((hub) => { const count = activeModels.filter((m) => m.country === hub.country && m.makeSlug === hub.makeSlug).length; return `<article class="seo-card"><p class="seo-card__eyebrow">${countryLabel[hub.country]}</p><h2>${hub.make}</h2><p>${count} ${count === 1 ? "модель" : count < 5 ? "модели" : "моделей"} ${hub.make} из ${hub.countryName}.</p><a class="btn btn--small" href="${makeUrl(hub)}">Смотреть ${hub.make}</a></article>`; }).join("")}</div><section class="seo-section"><h2>Модели в каталоге компании Примком</h2><p>Данные в карточках обновлены ${dateRu(registry.catalogSnapshotAt)}. Наличие автомобиля и цену необходимо подтвердить перед расчётом.</p><div class="seo-card-grid seo-card-grid--models">${activeModels.map(modelCard).join("")}</div></section>`
+  body:`<p class="section__lead">Выберите страну, марку и модель автомобиля. В карточках указаны цены под ключ на дату публикации объявления.</p><div class="seo-card-grid">${registry.brandHubs.filter((hub) => hub.status !== "inactive").map((hub) => { const count = activeModels.filter((m) => m.country === hub.country && m.makeSlug === hub.makeSlug).length; return `<article class="seo-card"><p class="seo-card__eyebrow">${countryLabel[hub.country]}</p><h2>${hub.make}</h2><p>${count} ${count === 1 ? "модель" : count < 5 ? "модели" : "моделей"} ${hub.make} из ${hub.countryName}.</p><a class="btn btn--small" href="${makeUrl(hub)}">Смотреть ${hub.make}</a></article>`; }).join("")}</div><section class="seo-section"><h2>Модели в каталоге компании Примком</h2><p>Данные в карточках обновлены ${dateRu(registry.catalogSnapshotAt)}. Наличие автомобиля и актуальную цену подтверждает менеджер перед покупкой.</p><div class="seo-card-grid seo-card-grid--models">${activeModels.map(modelCard).join("")}</div></section>`
 });
 
 for (const hub of registry.brandHubs) {
@@ -152,13 +180,13 @@ for (const hub of registry.brandHubs) {
   ];
   await publish(makeUrl(hub), {
     title:`Автомобили ${hub.make} из ${hub.countryName} под заказ | Примком`,
-    description:`Модели ${hub.make} из ${hub.countryName} под заказ: автомобили в каталоге, годы выпуска, цены и расчет доставки во Владивосток и по России.`,
+    description:`Модели ${hub.make} из ${hub.countryName} под заказ: автомобили в каталоге, годы выпуска и цены под ключ.`,
     h1:`Автомобили ${hub.make} из ${hub.countryName}`,
     robots:isInactiveHub ? "noindex,follow" : "index,follow",
     crumbs:[{name:"Главная",url:"/"},{name:"Автомобили",url:"/cars/"},{name:countryLabel[hub.country],url:countryCatalog[hub.country]},{name:hub.make,url:makeUrl(hub)}],
     body:isInactiveHub
       ? `<p class="section__lead">Сейчас в каталоге нет актуальных предложений ${hub.make} из ${hub.countryName}. Посмотрите другие марки или оставьте заявку на индивидуальный подбор.</p>${topicLinks(brandTopics)}<section class="seo-section"><h2>Что можно сделать сейчас</h2><div class="seo-link-grid"><a href="${countryCatalog[hub.country]}">Открыть каталог</a><a href="/pages/process-podbora.html">Изучить процесс подбора</a><a href="/pages/kontakty.html">Связаться с компанией Примком</a></div></section>`
-      : `<p class="section__lead">Выберите модель ${hub.make} из ${hub.countryName}, сравните доступные автомобили и запросите расчёт доставки и оформления. Наличие и цена автомобиля подтверждаются перед покупкой.</p><div class="seo-card-grid seo-card-grid--models">${models.map(modelCard).join("")}</div>${topicLinks(brandTopics)}<section class="seo-section"><h2>Как заказать ${hub.make}</h2><p>После выбора автомобиля компания Примком проверит данные предложения, рассчитает расходы и зафиксирует условия в договоре. Затем компания организует выкуп, доставку и оформление.</p><div class="seo-link-grid"><a href="/pages/process-podbora.html">Процесс подбора</a><a href="/pages/kalkulyator-stoimosti.html">Калькулятор платежей</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>`
+      : `<p class="section__lead">Выберите модель ${hub.make} из ${hub.countryName}, сравните доступные автомобили и уточните у менеджера наличие и актуальную цену. Цены в каталоге указаны под ключ на дату публикации объявления.</p><div class="seo-card-grid seo-card-grid--models">${models.map(modelCard).join("")}</div>${topicLinks(brandTopics)}<section class="seo-section"><h2>Как заказать ${hub.make}</h2><p>После выбора автомобиля компания Примком проверит данные предложения, подтвердит цену и зафиксирует условия в договоре. Затем компания организует выкуп, доставку и оформление.</p><div class="seo-link-grid"><a href="/pages/process-podbora.html">Процесс подбора</a><a href="/pages/kalkulyator-stoimosti.html">Калькулятор платежей</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>`
   });
 }
 
@@ -171,7 +199,7 @@ for (const m of registry.models) {
   const catalogQuery = `${countryCatalog[m.country]}?brand=${encodeURIComponent(m.make)}&model=${encodeURIComponent(m.model)}`;
   const years = unique(m.years).sort((a,b) => a-b);
   const priceText = Math.min(...m.prices) === Math.max(...m.prices) ? money(m.prices[0]) : `${money(Math.min(...m.prices))} — ${money(Math.max(...m.prices))}`;
-  const priceDescription = Math.min(...m.prices) === Math.max(...m.prices) ? `цена автомобиля ${priceText}` : `цены автомобилей от ${money(Math.min(...m.prices))} до ${money(Math.max(...m.prices))}`;
+  const priceDescription = Math.min(...m.prices) === Math.max(...m.prices) ? `цена под ключ ${priceText}` : `цены под ключ от ${money(Math.min(...m.prices))} до ${money(Math.max(...m.prices))}`;
   const yearText = years.length === 1 ? `${years[0]} года` : `${years[0]}–${years.at(-1)} годов`;
   const countText = `${m.listingCount} ${plural(m.listingCount, "автомобиль", "автомобиля", "автомобилей")}`;
   const approvedHub = registry.brandHubs.find((hub) => hub.country === m.country && hub.makeSlug === m.makeSlug);
@@ -189,14 +217,14 @@ for (const m of registry.models) {
   ];
   await publish(modelUrl(m), {
     title:`${m.make} ${m.model} из ${m.countryName} под заказ — цены | Примком`,
-    description:`${m.make} ${m.model} из ${m.countryName} под заказ: ${yearText}, ${priceDescription}. Расчет доставки во Владивосток и по России.`,
+    description:`${m.make} ${m.model} из ${m.countryName} под заказ: ${yearText}, ${priceDescription}. Доставка во Владивосток и по России.`,
     h1:`${m.make} ${m.model} из ${m.countryName} под заказ`,
     schemaType:"CollectionPage",
     robots:isInactive ? "noindex,follow" : "index,follow",
     crumbs:modelCrumbs,
     body:isInactive
       ? `<p class="section__lead">Сейчас в каталоге нет актуальных предложений ${m.make} ${m.model} из ${m.countryName}. Посмотрите другие модели или оставьте заявку на индивидуальный подбор.</p>${topicLinks(modelTopics)}<section class="seo-section"><h2>Что можно сделать сейчас</h2><div class="seo-link-grid"><a href="${countryCatalog[m.country]}">Открыть каталог</a><a href="/pages/process-podbora.html">Изучить процесс подбора</a><a href="/pages/kontakty.html">Связаться с компанией Примком</a></div></section>`
-      : `<p class="section__lead">В каталоге компании Примком ${countText} ${m.make} ${m.model} ${yearText}. Перейдите к автомобилям, чтобы посмотреть фотографии и подробные параметры.</p><div class="seo-model-hero"><img src="https://api.primcom.ru${m.image}" alt="${escapeHtml(`${m.make} ${m.model} из ${m.countryName}`)}" width="720" height="480" loading="eager" /><div class="seo-facts"><h2>${m.make} ${m.model} в каталоге</h2><dl><div><dt>Автомобилей</dt><dd>${m.listingCount}</dd></div><div><dt>Годы выпуска</dt><dd>${years.join(", ")}</dd></div><div><dt>${m.prices.length > 1 ? "Диапазон цен" : "Цена автомобиля"}</dt><dd>${priceText}</dd></div><div><dt>Данные обновлены</dt><dd>${dateRu(registry.catalogSnapshotAt)}</dd></div></dl><a class="btn btn--primary" href="${catalogQuery}">Посмотреть автомобили</a></div></div>${listingsTable(m)}${topicLinks(modelTopics)}<section class="seo-section"><h2>Что входит в подбор</h2><p>Компания Примком проверяет данные выбранного автомобиля, согласовывает бюджет и условия покупки, организует выкуп, доставку и оформление. Указанная выше цена относится к автомобилю в каталоге; итоговая стоимость зависит от обязательных платежей, логистики и выбранных услуг.</p></section><section class="seo-section"><h2>Как получить расчёт стоимости</h2><ol class="seo-steps"><li>Откройте предложения ${m.make} ${m.model}.</li><li>Выберите автомобиль по году, фотографиям и параметрам.</li><li>Рассчитайте обязательные платежи и отправьте выбранный вариант менеджеру для полного расчёта.</li></ol><div class="seo-link-grid"><a href="/pages/kalkulyator-stoimosti.html">Калькулятор стоимости</a><a href="/pages/dostavka.html">Доставка</a><a href="/pages/rastamozhka-i-poshliny.html">Растаможка и пошлины</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>${related.length ? `<section class="seo-section"><h2>${brandRelated.length ? `Другие модели ${m.make}` : `Другие модели из ${m.countryName}`}</h2><div class="seo-link-grid">${related.map((x) => `<a href="${modelUrl(x)}">${x.make} ${x.model}</a>`).join("")}</div></section>` : ""}`
+      : `<p class="section__lead">В каталоге компании Примком ${countText} ${m.make} ${m.model} ${yearText}. Перейдите к автомобилям, чтобы посмотреть фотографии и подробные параметры.</p><div class="seo-model-hero"><img src="https://api.primcom.ru${m.image}" alt="${escapeHtml(`${m.make} ${m.model} из ${m.countryName}`)}" width="720" height="480" loading="eager" /><div class="seo-facts"><h2>${m.make} ${m.model} в каталоге</h2><dl><div><dt>Автомобилей</dt><dd>${m.listingCount}</dd></div><div><dt>Годы выпуска</dt><dd>${years.join(", ")}</dd></div><div><dt>${m.prices.length > 1 ? "Диапазон цен под ключ" : "Цена под ключ"}</dt><dd>${priceText}</dd></div><div><dt>Данные обновлены</dt><dd>${dateRu(m.updatedAt || registry.catalogSnapshotAt)}</dd></div></dl><a class="btn btn--primary" href="${catalogQuery}">Посмотреть автомобили</a></div></div>${listingsTable(m)}${topicLinks(modelTopics)}<section class="seo-section"><h2>Что входит в подбор</h2><p>Компания Примком проверяет данные выбранного автомобиля, согласовывает бюджет и условия покупки, организует выкуп, доставку и оформление. Указанная цена — цена автомобиля под ключ на дату публикации объявления в каталоге; наличие и актуальную цену подтверждает менеджер перед покупкой.</p></section><section class="seo-section"><h2>Как получить расчёт стоимости</h2><ol class="seo-steps"><li>Откройте предложения ${m.make} ${m.model}.</li><li>Выберите автомобиль по году, фотографиям и параметрам.</li><li>Отправьте выбранный вариант менеджеру, чтобы подтвердить наличие, актуальную цену и условия.</li></ol><div class="seo-link-grid"><a href="/pages/kalkulyator-stoimosti.html">Калькулятор стоимости</a><a href="/pages/dostavka.html">Доставка</a><a href="/pages/rastamozhka-i-poshliny.html">Растаможка и пошлины</a><a href="/pages/dogovor-i-garantii.html">Договор и гарантии</a></div></section>${related.length ? `<section class="seo-section"><h2>${brandRelated.length ? `Другие модели ${m.make}` : `Другие модели из ${m.countryName}`}</h2><div class="seo-link-grid">${related.map((x) => `<a href="${modelUrl(x)}">${x.make} ${x.model}</a>`).join("")}</div></section>` : ""}`
   });
 }
 
@@ -223,8 +251,13 @@ const existing = [
   ["/pages/rastamozhka-i-poshliny.html","monthly","0.8"], ["/pages/dostavka.html","monthly","0.8"], ["/pages/process-podbora.html","monthly","0.8"],
   ["/pages/dogovor-i-garantii.html","monthly","0.8"], ["/pages/kalkulyator-stoimosti.html","weekly","0.9"], ["/pages/faq.html","monthly","0.8"], ["/pages/kontakty.html","monthly","0.9"]
 ];
+for (const [url] of existing) {
+  const file = url === "/" ? "index.html" : url.replace(/^\//, "");
+  try { recordPage(url, await fs.readFile(path.join(SITE_ROOT, file), "utf8")); } catch { pageState[url] = {hash:"", date:today}; }
+}
 const sitemapRows = [...existing, ...approvedUrls.map((url) => [url,"weekly",url.split("/").filter(Boolean).length <= 1 ? "0.9" : "0.8"])];
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRows.map(([url,freq,priority]) => `  <url>\n    <loc>${SITE}${url}</loc>\n    <lastmod>${registry.generatedAt}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`;
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapRows.map(([url,freq,priority]) => `  <url>\n    <loc>${SITE}${url}</loc>\n    <lastmod>${(pageState[url] || {date:today}).date}</lastmod>\n    <changefreq>${freq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`).join("\n")}\n</urlset>\n`;
 await fs.mkdir(OUTPUT_ROOT, {recursive:true});
 await fs.writeFile(path.join(OUTPUT_ROOT, "sitemap.xml"), sitemap);
+await fs.writeFile(path.join(OUTPUT_ROOT, "lastmod-state.json"), JSON.stringify({pages:pageState}, null, 1));
 console.log(`Generated ${approvedUrls.length} deploy-ready indexable URLs. Drafts remain registry-only.`);

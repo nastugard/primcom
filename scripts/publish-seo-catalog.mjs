@@ -6,6 +6,7 @@ import {fileURLToPath} from "node:url";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SITE_ROOT = path.resolve(process.env.PRIMCOM_SITE_ROOT || ROOT);
 const LIVE_REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(ROOT, "seo", "content-registry.json"));
+const LIVE_STATE_PATH = path.resolve(process.env.SEO_LASTMOD_STATE || path.join(path.dirname(LIVE_REGISTRY_PATH), "lastmod-state.json"));
 const LOCK_PATH = path.join(SITE_ROOT, ".primcom-seo-publish.lock");
 
 async function acquireLock() {
@@ -67,7 +68,7 @@ try {
     SEO_REGISTRY_PATH:LIVE_REGISTRY_PATH,
     SEO_REGISTRY_OUTPUT:registryPath,
   });
-  await run("generate-seo-pages.mjs", {SEO_OUTPUT_ROOT:outputRoot, SEO_REGISTRY_PATH:registryPath});
+  await run("generate-seo-pages.mjs", {SEO_OUTPUT_ROOT:outputRoot, SEO_REGISTRY_PATH:registryPath, SEO_SITE_ROOT:SITE_ROOT, SEO_LASTMOD_STATE:LIVE_STATE_PATH});
   await run("check-seo-pages.mjs", {SEO_OUTPUT_ROOT:outputRoot, SEO_SITE_ROOT:SITE_ROOT, SEO_REGISTRY_PATH:registryPath});
 
   await fs.mkdir(backupRoot, {recursive:true});
@@ -89,10 +90,13 @@ try {
   const sitemapTmp = path.join(SITE_ROOT, `.sitemap.${process.pid}.tmp`);
   const registryTmp = path.join(path.dirname(LIVE_REGISTRY_PATH), `.content-registry.${process.pid}.tmp`);
   await fs.copyFile(path.join(outputRoot, "sitemap.xml"), sitemapTmp);
+  const stateTmp = path.join(path.dirname(LIVE_STATE_PATH), `.lastmod-state.${process.pid}.tmp`);
   await fs.copyFile(registryPath, registryTmp);
+  await fs.copyFile(path.join(outputRoot, "lastmod-state.json"), stateTmp);
   for (const [temporary, live, backupName] of [
     [sitemapTmp, path.join(SITE_ROOT, "sitemap.xml"), "sitemap.xml"],
     [registryTmp, LIVE_REGISTRY_PATH, "content-registry.json"],
+    [stateTmp, LIVE_STATE_PATH, "lastmod-state.json"],
   ]) {
     const backup = path.join(backupRoot, backupName);
     const hadLive = await exists(live);

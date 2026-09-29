@@ -484,12 +484,14 @@
           "powerHp": 114,
           "drive": "Передний",
           "mileageKm": 25000,
-          "price": 2020000
+          "price": 2020000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/guazi/mgr-china-20260611145939-248d47f3/000.webp",
       "summary": "Audi Q2L 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -512,12 +514,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 46000,
-          "price": 1710000
+          "price": 1710000,
+          "listedAt": "2026-06-22"
         }
       ],
       "image": "/media/guazi/mgr-china-20260622114246-2eccfe8a/000.webp",
       "summary": "BMW X1 2019 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -539,12 +543,14 @@
           "body": "Кроссовер",
           "engineVolumeL": 1.5,
           "drive": "Передний",
-          "price": 2670000
+          "price": 2670000,
+          "listedAt": "2026-07-08"
         }
       ],
       "image": "/media/guazi/mgr-china-20260708025851-7c71eb01/000.webp",
       "summary": "Changan Qiyuan A06 240 Laser Ultra+ 2026 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -567,12 +573,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 21000,
-          "price": 1000000
+          "price": 1000000,
+          "listedAt": "2026-07-01"
         }
       ],
       "image": "/media/guazi/mgr-china-20260701073613-5f18f72e/000.webp",
       "summary": "Chery Tiggo 3x 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -595,12 +603,14 @@
           "engineVolumeL": 1.4,
           "drive": "Передний",
           "mileageKm": 26900,
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-07-01"
         }
       ],
       "image": "/media/guazi/mgr-china-20260701073108-871900a3/000.webp",
       "summary": "Geely Emgrand GS 2020 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -623,12 +633,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 54801,
-          "price": 1450000
+          "price": 1450000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/guazi/mgr-china-20260710121447-9d2cf218/000.webp",
       "summary": "В каталоге зафиксировано актуальное предложение Honda Crider 2022 года с фотографиями и указанной ценой.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -654,7 +666,8 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 29000,
-          "price": 1150000
+          "price": 1150000,
+          "listedAt": "2026-07-10"
         },
         {
           "year": 2023,
@@ -662,7 +675,8 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 80000,
-          "price": 1230000
+          "price": 1230000,
+          "listedAt": "2026-07-06"
         },
         {
           "year": 2023,
@@ -670,12 +684,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 20000,
-          "price": 1320000
+          "price": 1320000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/guazi/mgr-china-20260710121958-26329a6b/000.webp",
       "summary": "Несколько актуальных Honda Fit дают понятный ориентир по предложениям, доступным через китайское направление.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -698,12 +714,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 19000,
-          "price": 1450000
+          "price": 1450000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/guazi/mgr-china-20260710120651-9028ebc2/000.webp",
       "summary": "Страница собирает в одном месте актуальное предложение XR-V и путь к индивидуальному расчету импорта.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -726,12 +744,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 60000,
-          "price": 1160000
+          "price": 1160000,
+          "listedAt": "2026-07-01"
         }
       ],
       "image": "/media/guazi/mgr-china-20260701073000-22f1bbea/000.webp",
       "summary": "Jetour X70 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -755,12 +775,14 @@
           "powerHp": 173,
           "drive": "Передний",
           "mileageKm": 58500,
-          "price": 4925000
+          "price": 4925000,
+          "listedAt": "2026-06-07"
         }
       ],
       "image": "/media/guazi/mgr-china-20260607095641-0bdd53a2/000.webp",
       "summary": "Lexus ES 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -783,12 +805,14 @@
           "engineVolumeL": 2,
           "drive": "Передний",
           "mileageKm": 77100,
-          "price": 2800000
+          "price": 2800000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/guazi/mgr-china-20260721113501-cf2f13a7/000.webp",
       "summary": "Lexus NXc 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -811,12 +835,14 @@
           "engineVolumeL": 2,
           "drive": "Передний",
           "mileageKm": 29000,
-          "price": 2700000
+          "price": 2700000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/guazi/mgr-china-20260721093042-85b47204/000.webp",
       "summary": "Mazda CX-50 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -839,12 +865,14 @@
           "engineVolumeL": 1.6,
           "drive": "Передний",
           "mileageKm": 98000,
-          "price": 1690000
+          "price": 1690000,
+          "listedAt": "2026-06-22"
         }
       ],
       "image": "/media/guazi/mgr-china-20260622114540-91b922eb/000.webp",
       "summary": "Mercedes-Benz GLA 2019 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -867,12 +895,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 57900,
-          "price": 1070000
+          "price": 1070000,
+          "listedAt": "2026-07-01"
         }
       ],
       "image": "/media/guazi/mgr-china-20260701073324-b38dd4f4/000.webp",
       "summary": "MG ZS 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -895,12 +925,14 @@
           "engineVolumeL": 1.6,
           "drive": "Передний",
           "mileageKm": 13000,
-          "price": 1570000
+          "price": 1570000,
+          "listedAt": "2026-07-06"
         }
       ],
       "image": "/media/guazi/mgr-china-20260706054530-ed540415/000.webp",
       "summary": "Nissan Tiida 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -923,12 +955,14 @@
           "engineVolumeL": 2,
           "drive": "Полный",
           "mileageKm": 71000,
-          "price": 2700000
+          "price": 2700000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/guazi/mgr-china-20260721092955-334310a4/000.webp",
       "summary": "Subaru Forester 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -953,12 +987,14 @@
           "powerHp": 227,
           "drive": "Полный",
           "mileageKm": 38500,
-          "price": 4900000
+          "price": 4900000,
+          "listedAt": "2026-06-07"
         }
       ],
       "image": "/media/guazi/mgr-china-20260607101808-d7da4425/000.webp",
       "summary": "Tank 300 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -981,12 +1017,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 46200,
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-06-24"
         }
       ],
       "image": "/media/guazi/mgr-china-20260624071059-a2be1ce1/000.webp",
       "summary": "В китайском каталоге есть Toyota Levin; перед заказом важно сравнить конкретную комплектацию и полный бюджет.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -1009,12 +1047,14 @@
           "engineVolumeL": 1.5,
           "drive": "Передний",
           "mileageKm": 56400,
-          "price": 1270000
+          "price": 1270000,
+          "listedAt": "2026-07-06"
         }
       ],
       "image": "/media/guazi/mgr-china-20260706054337-9c278dbe/000.webp",
       "summary": "Toyota Yaris 2023 года опубликована в китайском направлении с фотографиями и ориентиром цены.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -1037,12 +1077,14 @@
           "engineVolumeL": 1.4,
           "drive": "Передний",
           "mileageKm": 20000,
-          "price": 1620000
+          "price": 1620000,
+          "listedAt": "2026-07-06"
         }
       ],
       "image": "/media/guazi/mgr-china-20260706054425-377d08f7/000.webp",
       "summary": "Volkswagen Golf 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -1065,12 +1107,14 @@
           "engineVolumeL": 1.4,
           "drive": "Передний",
           "mileageKm": 24000,
-          "price": 2650000
+          "price": 2650000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/guazi/mgr-china-20260721092905-ede348a4/000.webp",
       "summary": "Volkswagen Tayron 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "china",
@@ -1093,12 +1137,14 @@
           "engineVolumeL": 1.4,
           "drive": "Передний",
           "mileageKm": 37000,
-          "price": 2700000
+          "price": 2700000,
+          "listedAt": "2026-06-24"
         }
       ],
       "image": "/media/guazi/mgr-china-20260624070958-edde7806/000.webp",
       "summary": "Volkswagen Tiguan L 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1123,12 +1169,14 @@
           "drive": "Передний",
           "mileageKm": 35000,
           "grade": "4 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-08-12"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260812051747-48d7d514/000.webp",
       "summary": "Audi A1 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1159,7 +1207,8 @@
           "powerHp": 150,
           "drive": "Передний",
           "mileageKm": 36000,
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-02-21"
         },
         {
           "year": 2018,
@@ -1169,7 +1218,8 @@
           "drive": "Передний",
           "mileageKm": 33000,
           "grade": "4 балла",
-          "price": 1250000
+          "price": 1250000,
+          "listedAt": "2026-09-13"
         },
         {
           "year": 2023,
@@ -1179,7 +1229,8 @@
           "drive": "Передний",
           "mileageKm": 9000,
           "grade": "4.5 балла",
-          "price": 1450000
+          "price": 1450000,
+          "listedAt": "2026-06-22"
         },
         {
           "year": 2022,
@@ -1189,7 +1240,8 @@
           "drive": "Передний",
           "mileageKm": 24000,
           "grade": "4.5 балла",
-          "price": 1500000
+          "price": 1500000,
+          "listedAt": "2026-07-15"
         },
         {
           "year": 2023,
@@ -1198,12 +1250,14 @@
           "engineVolumeL": 1,
           "drive": "Передний",
           "grade": "4.5 балла",
-          "price": 2300000
+          "price": 2300000,
+          "listedAt": "2026-07-15"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073654-44bb2801/000.webp",
       "summary": "Audi A3 2022–2023 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1228,12 +1282,14 @@
           "drive": "Передний",
           "mileageKm": 80000,
           "grade": "4.5 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-07-15"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260715022424-bcb3a0b4/000.webp",
       "summary": "Audi Q2 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1258,12 +1314,14 @@
           "drive": "Передний",
           "mileageKm": 77000,
           "grade": "4.5 балла",
-          "price": 1000000
+          "price": 1000000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260721092737-618497a1/000.webp",
       "summary": "Audi Q3 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1290,7 +1348,8 @@
           "drive": "Задний",
           "mileageKm": 98000,
           "grade": "4 балла",
-          "price": 850000
+          "price": 850000,
+          "listedAt": "2026-07-21"
         },
         {
           "year": 2024,
@@ -1300,12 +1359,14 @@
           "drive": "Передний",
           "mileageKm": 23000,
           "grade": "4.5 балла",
-          "price": 1350000
+          "price": 1350000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803150721-b83c87db/000.webp",
       "summary": "BMW 1 Series 2015–2024 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1330,12 +1391,14 @@
           "drive": "Передний",
           "mileageKm": 6000,
           "grade": "5 баллов",
-          "price": 1300000
+          "price": 1300000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061326-313477f7/000.webp",
       "summary": "BMW 2 Series 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1360,12 +1423,14 @@
           "drive": "Передний",
           "mileageKm": 14000,
           "grade": "3.5 балла",
-          "price": 650000
+          "price": 650000,
+          "listedAt": "2026-07-21"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260721092651-d4022ff3/000.webp",
       "summary": "Bmw mini 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1392,7 +1457,8 @@
           "drive": "Передний",
           "mileageKm": 67000,
           "grade": "4 балла",
-          "price": 1380000
+          "price": 1380000,
+          "listedAt": "2026-08-04"
         },
         {
           "year": 2016,
@@ -1401,12 +1467,14 @@
           "drive": "Передний",
           "mileageKm": 68000,
           "grade": "4.5 балла",
-          "price": 1430000
+          "price": 1430000,
+          "listedAt": "2026-07-30"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803151449-01267247/000.webp",
       "summary": "BMW X1 2016–2017 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1431,12 +1499,14 @@
           "drive": "Передний",
           "mileageKm": 36000,
           "grade": "4 балла",
-          "price": 1750000
+          "price": 1750000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803150843-018e9980/000.webp",
       "summary": "BMW X2 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1461,12 +1531,14 @@
           "drive": "Передний",
           "mileageKm": 11000,
           "grade": "4 балла",
-          "price": 2100000
+          "price": 2100000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074317-cc9e90cd/000.webp",
       "summary": "Citroen Berlingo 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1493,7 +1565,8 @@
           "drive": "Передний",
           "mileageKm": 104000,
           "grade": "4 балла",
-          "price": 900000
+          "price": 900000,
+          "listedAt": "2026-07-02"
         },
         {
           "year": 2022,
@@ -1503,12 +1576,14 @@
           "drive": "Передний",
           "mileageKm": 24000,
           "grade": "4.5 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073318-ac2f0fc2/000.webp",
       "summary": "Daihatsu Copen 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1533,12 +1608,14 @@
           "drive": "Передний",
           "mileageKm": 123000,
           "grade": "4",
-          "price": 450000
+          "price": 450000,
+          "listedAt": "2026-02-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260227000528-0d6af676/000.webp",
       "summary": "Daihatsu Mira ES 2013 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1563,12 +1640,14 @@
           "drive": "Передний",
           "mileageKm": 44000,
           "grade": "3.5 балла",
-          "price": 710000
+          "price": 710000,
+          "listedAt": "2026-08-06"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260806073522-7b4b6ef3/000.webp",
       "summary": "Daihatsu Thor 2019 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1595,7 +1674,8 @@
           "drive": "Передний",
           "mileageKm": 78000,
           "grade": "4",
-          "price": 850000
+          "price": 850000,
+          "listedAt": "2026-02-27"
         },
         {
           "year": 2019,
@@ -1605,12 +1685,14 @@
           "drive": "Полный",
           "mileageKm": 85000,
           "grade": "4 балла",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-09-02"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260902081136-08f89b57/000.webp",
       "summary": "Honda Fit 2022 года представлена отдельным предложением японского каталога с фото и ценой.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1644,7 +1726,8 @@
           "drive": "Передний",
           "mileageKm": 95000,
           "grade": "4",
-          "price": 800000
+          "price": 800000,
+          "listedAt": "2026-02-25"
         },
         {
           "year": 2017,
@@ -1654,7 +1737,8 @@
           "drive": "Передний",
           "mileageKm": 98000,
           "grade": "4 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-09-02"
         },
         {
           "year": 2022,
@@ -1664,7 +1748,8 @@
           "drive": "Передний",
           "mileageKm": 42000,
           "grade": "4 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-09-27"
         },
         {
           "year": 2023,
@@ -1674,7 +1759,8 @@
           "drive": "Передний",
           "mileageKm": 17000,
           "grade": "4.5 балла",
-          "price": 1470000
+          "price": 1470000,
+          "listedAt": "2026-06-23"
         },
         {
           "year": 2020,
@@ -1684,12 +1770,14 @@
           "drive": "Передний",
           "mileageKm": 77000,
           "grade": "4.5 балла",
-          "price": 1500000
+          "price": 1500000,
+          "listedAt": "2026-07-02"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061828-8f0c7973/000.webp",
       "summary": "В каталоге есть несколько Honda Freed, поэтому можно сравнить год и ориентир цены до запроса точного расчета.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1717,7 +1805,8 @@
           "drive": "Передний",
           "mileageKm": 116000,
           "grade": "4 балла",
-          "price": 700000
+          "price": 700000,
+          "listedAt": "2026-09-02"
         },
         {
           "year": 2015,
@@ -1727,7 +1816,8 @@
           "drive": "Передний",
           "mileageKm": 53000,
           "grade": "3.5 балла",
-          "price": 700000
+          "price": 700000,
+          "listedAt": "2026-08-04"
         },
         {
           "year": 2020,
@@ -1737,12 +1827,14 @@
           "drive": "Передний",
           "mileageKm": 108000,
           "grade": "4 балла",
-          "price": 800000
+          "price": 800000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074131-365e8e36/000.webp",
       "summary": "Honda N Box 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1768,12 +1860,14 @@
           "drive": "Передний",
           "mileageKm": 131000,
           "grade": "3.5",
-          "price": 390000
+          "price": 390000,
+          "listedAt": "2026-02-23"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260223052659-91843a9b/000.webp",
       "summary": "Honda N-WGN 2016 года доступна в каталоге для проверки предложения и расчёта импорта.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1804,7 +1898,8 @@
           "drive": "Полный",
           "mileageKm": 161000,
           "grade": "3.5 балла",
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-06-22"
         },
         {
           "year": 2015,
@@ -1814,7 +1909,8 @@
           "drive": "Передний",
           "mileageKm": 80000,
           "grade": "4 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-08-19"
         },
         {
           "year": 2017,
@@ -1824,7 +1920,8 @@
           "drive": "Передний",
           "mileageKm": 120000,
           "grade": "4 балла",
-          "price": 1500000
+          "price": 1500000,
+          "listedAt": "2026-06-23"
         },
         {
           "year": 2023,
@@ -1834,12 +1931,14 @@
           "drive": "Передний",
           "mileageKm": 27000,
           "grade": "4 балла",
-          "price": 2000000
+          "price": 2000000,
+          "listedAt": "2026-09-02"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260902081048-581f0c25/000.webp",
       "summary": "Honda Step Wagon 2016–2017 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1867,7 +1966,8 @@
           "drive": "Полный",
           "mileageKm": 64000,
           "grade": "4 балла",
-          "price": 2300000
+          "price": 2300000,
+          "listedAt": "2026-07-08"
         },
         {
           "year": 2021,
@@ -1877,7 +1977,8 @@
           "drive": "Полный",
           "mileageKm": 53000,
           "grade": "4 балла",
-          "price": 2300000
+          "price": 2300000,
+          "listedAt": "2026-07-08"
         },
         {
           "year": 2022,
@@ -1887,12 +1988,14 @@
           "drive": "Полный",
           "mileageKm": 40000,
           "grade": "4.5 балла",
-          "price": 2700000
+          "price": 2700000,
+          "listedAt": "2026-07-08"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260707221914-963c06f8/000.webp",
       "summary": "Вместительный минивэн представлен одним из самых широких наборов годов среди японских предложений компании Примком.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1917,12 +2020,14 @@
           "powerHp": 136,
           "drive": "Передний",
           "mileageKm": 2000,
-          "price": 3500000
+          "price": 3500000,
+          "listedAt": "2026-02-22"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260222055049-14cd2d8c/000.webp",
       "summary": "Lexus LBX 2025 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1947,12 +2052,14 @@
           "drive": "Передний",
           "mileageKm": 53000,
           "grade": "4 балла",
-          "price": 1350000
+          "price": 1350000,
+          "listedAt": "2026-07-03"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260703042525-889ab536/000.webp",
       "summary": "Mazda 3 2020 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -1977,12 +2084,14 @@
           "drive": "Передний",
           "mileageKm": 104000,
           "grade": "3.5 балла",
-          "price": 900000
+          "price": 900000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074421-ef0d100f/000.webp",
       "summary": "Mazda Axela 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2008,7 +2117,8 @@
           "drive": "Передний",
           "mileageKm": 68000,
           "grade": "4 балла",
-          "price": 930000
+          "price": 930000,
+          "listedAt": "2026-06-23"
         },
         {
           "year": 2017,
@@ -2018,12 +2128,14 @@
           "drive": "Передний",
           "mileageKm": 53000,
           "grade": "3.5 балла",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-07-03"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260703042315-e4786342/000.webp",
       "summary": "Два предложения одного года позволяют сравнить конкретные автомобили, фотографии и параметры.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2048,7 +2160,8 @@
           "drive": "Полный",
           "mileageKm": 32000,
           "grade": "4 балла",
-          "price": 1800000
+          "price": 1800000,
+          "listedAt": "2026-09-27"
         },
         {
           "year": 2022,
@@ -2058,12 +2171,14 @@
           "drive": "Передний",
           "mileageKm": 25000,
           "grade": "4.5 балла",
-          "price": 1800000
+          "price": 1800000,
+          "listedAt": "2026-07-02"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061847-92bc3fda/000.webp",
       "summary": "Mazda CX-30 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2088,12 +2203,14 @@
           "drive": "Передний",
           "mileageKm": 99000,
           "grade": "4 балла",
-          "price": 490000
+          "price": 490000,
+          "listedAt": "2026-08-06"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260806073544-d8b2e6f2/000.webp",
       "summary": "Mazda Flair Crossover 2016 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2119,12 +2236,14 @@
           "drive": "Передний",
           "mileageKm": 79000,
           "grade": "4",
-          "price": 900000
+          "price": 900000,
+          "listedAt": "2026-02-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260227002902-c41b2f24/000.webp",
       "summary": "Mazda Mazda2 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2150,7 +2269,8 @@
           "drive": "Передний",
           "mileageKm": 99000,
           "grade": "4.5 балла",
-          "price": 1300000
+          "price": 1300000,
+          "listedAt": "2026-09-13"
         },
         {
           "year": 2019,
@@ -2160,12 +2280,14 @@
           "drive": "Передний",
           "mileageKm": 72000,
           "grade": "4 балла",
-          "price": 1350000
+          "price": 1350000,
+          "listedAt": "2026-08-06"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074213-de102465/000.webp",
       "summary": "Mazda Mazda3 2019 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2190,12 +2312,14 @@
           "drive": "Передний",
           "mileageKm": 89000,
           "grade": "4 балла",
-          "price": 920000
+          "price": 920000,
+          "listedAt": "2026-08-06"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260806073506-b66b68c4/000.webp",
       "summary": "Mercedes-Benz A Class 2016 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2227,7 +2351,8 @@
           "drive": "Задний",
           "mileageKm": 71000,
           "grade": "4.5 балла",
-          "price": 1250000
+          "price": 1250000,
+          "listedAt": "2026-07-15"
         },
         {
           "year": 2015,
@@ -2237,7 +2362,8 @@
           "drive": "Передний",
           "mileageKm": 89000,
           "grade": "4 балла",
-          "price": 1300000
+          "price": 1300000,
+          "listedAt": "2026-08-12"
         },
         {
           "year": 2016,
@@ -2247,7 +2373,8 @@
           "drive": "Передний",
           "mileageKm": 164000,
           "grade": "3.5 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-08-12"
         },
         {
           "year": 2017,
@@ -2256,7 +2383,8 @@
           "drive": "Передний",
           "mileageKm": 60000,
           "grade": "4 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-06-30"
         },
         {
           "year": 2020,
@@ -2266,7 +2394,8 @@
           "drive": "Передний",
           "mileageKm": 49000,
           "grade": "4.5 балла",
-          "price": 2000000
+          "price": 2000000,
+          "listedAt": "2026-09-14"
         },
         {
           "year": 2020,
@@ -2276,12 +2405,14 @@
           "drive": "Передний",
           "mileageKm": 26000,
           "grade": "4 балла",
-          "price": 2000000
+          "price": 2000000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260914045220-e73ca7f0/000.webp",
       "summary": "Mercedes-Benz C Class 2014–2020 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2313,7 +2444,8 @@
           "drive": "Передний",
           "mileageKm": 97000,
           "grade": "3.5 балла",
-          "price": 900000
+          "price": 900000,
+          "listedAt": "2026-07-21"
         },
         {
           "year": 2017,
@@ -2323,7 +2455,8 @@
           "drive": "Передний",
           "mileageKm": 93000,
           "grade": "4 балла",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-07-30"
         },
         {
           "year": 2016,
@@ -2333,7 +2466,8 @@
           "drive": "Передний",
           "mileageKm": 59000,
           "grade": "4.5 балла",
-          "price": 1170000
+          "price": 1170000,
+          "listedAt": "2026-08-04"
         },
         {
           "year": 2024,
@@ -2343,7 +2477,8 @@
           "drive": "Передний",
           "mileageKm": 39000,
           "grade": "4.5 балла",
-          "price": 2400000
+          "price": 2400000,
+          "listedAt": "2026-08-04"
         },
         {
           "year": 2023,
@@ -2353,12 +2488,14 @@
           "drive": "Передний",
           "mileageKm": 10000,
           "grade": "4.5 балла",
-          "price": 3022000
+          "price": 3022000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073854-2615bb4f/000.webp",
       "summary": "Mercedes-Benz CLA Class 2016–2024 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2383,12 +2520,14 @@
           "drive": "Передний",
           "mileageKm": 63000,
           "grade": "4.5 балла",
-          "price": 1750000
+          "price": 1750000,
+          "listedAt": "2026-08-12"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260812051711-46d1964f/000.webp",
       "summary": "Mercedes-Benz GLA Class 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2414,12 +2553,14 @@
           "drive": "Передний",
           "mileageKm": 74000,
           "grade": "4",
-          "price": 1850000
+          "price": 1850000,
+          "listedAt": "2026-02-25"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260225011239-a7e4bac3/000.webp",
       "summary": "Mitsubishi Eclipse Cross 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2444,12 +2585,14 @@
           "drive": "Полный",
           "mileageKm": 105000,
           "grade": "4 балла",
-          "price": 530000
+          "price": 530000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073438-5f64cd35/000.webp",
       "summary": "Mitsubishi EK Space 2017 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2475,12 +2618,14 @@
           "drive": "Передний",
           "mileageKm": 45000,
           "grade": "3.5",
-          "price": 600000
+          "price": 600000,
+          "listedAt": "2026-02-25"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260225012211-852128e5/000.webp",
       "summary": "Nissan Dayz 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2505,12 +2650,14 @@
           "drive": "Передний",
           "mileageKm": 91000,
           "grade": "4",
-          "price": 600000
+          "price": 600000,
+          "listedAt": "2026-03-03"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260303005239-8e8cf559/000.webp",
       "summary": "Nissan March 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2537,7 +2684,8 @@
           "drive": "Передний",
           "mileageKm": 14000,
           "grade": "3.5 балла",
-          "price": 640000
+          "price": 640000,
+          "listedAt": "2026-09-13"
         },
         {
           "year": 2016,
@@ -2546,12 +2694,14 @@
           "drive": "Передний",
           "mileageKm": 147000,
           "grade": "4 балла",
-          "price": 750000
+          "price": 750000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074246-8a80a3a9/000.webp",
       "summary": "Nissan Note 2013–2016 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2576,12 +2726,14 @@
           "drive": "Полный",
           "mileageKm": 32000,
           "grade": "4 балла",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061907-525220f3/000.webp",
       "summary": "Nissan Roox 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2607,12 +2759,14 @@
           "drive": "Полный",
           "mileageKm": 64000,
           "grade": "4.5",
-          "price": 2100000
+          "price": 2100000,
+          "listedAt": "2026-02-25"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260225012938-362aceb6/000.webp",
       "summary": "Nissan X-Trail 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2637,12 +2791,14 @@
           "drive": "Передний",
           "mileageKm": 32000,
           "grade": "4.5 балла",
-          "price": 3500000
+          "price": 3500000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803150657-8cc23d38/000.webp",
       "summary": "Subaru Legacy outback 2024 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2668,12 +2824,14 @@
           "drive": "Полный",
           "mileageKm": 49000,
           "grade": "4.5",
-          "price": 1600000
+          "price": 1600000,
+          "listedAt": "2026-03-19"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260318235510-9917f4d8/000.webp",
       "summary": "Suzuki Escudo 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2698,12 +2856,14 @@
           "powerHp": 101,
           "drive": "Передний",
           "mileageKm": 1,
-          "price": 1800000
+          "price": 1800000,
+          "listedAt": "2026-02-22"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260222135036-aa321819/000.webp",
       "summary": "Suzuki Fronx 2024 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2733,7 +2893,8 @@
           "drive": "Полный",
           "mileageKm": 124000,
           "grade": "3.5",
-          "price": 548000
+          "price": 548000,
+          "listedAt": "2026-02-23"
         },
         {
           "year": 2018,
@@ -2743,7 +2904,8 @@
           "drive": "Полный",
           "mileageKm": 48000,
           "grade": "4 балла",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-07-10"
         },
         {
           "year": 2021,
@@ -2753,12 +2915,14 @@
           "drive": "Полный",
           "mileageKm": 86000,
           "grade": "4 балла",
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073352-563ccaa1/000.webp",
       "summary": "В каталоге доступны Suzuki Jimny разных годов; итог зависит от конкретного состояния и расходов на импорт.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2783,12 +2947,14 @@
           "drive": "Полный",
           "mileageKm": 2000,
           "grade": "5 балла",
-          "price": 2200000
+          "price": 2200000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803151150-bd91dc7d/000.webp",
       "summary": "Suzuki Jimny Nomade 2025 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2815,7 +2981,8 @@
           "drive": "Передний",
           "mileageKm": 107000,
           "grade": "4 балла",
-          "price": 790000
+          "price": 790000,
+          "listedAt": "2026-08-19"
         },
         {
           "year": 2019,
@@ -2825,12 +2992,14 @@
           "drive": "Передний",
           "mileageKm": 44000,
           "grade": "4 балла",
-          "price": 1000000
+          "price": 1000000,
+          "listedAt": "2026-06-23"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260819074916-79619a59/000.webp",
       "summary": "Suzuki Solio 2019 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2855,12 +3024,14 @@
           "drive": "Передний",
           "mileageKm": 64000,
           "grade": "4 балла",
-          "price": 850000
+          "price": 850000,
+          "listedAt": "2026-08-19"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260819074948-2a244151/000.webp",
       "summary": "Suzuki Swift 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2885,12 +3056,14 @@
           "drive": "Полный",
           "mileageKm": 140000,
           "grade": "4 балла",
-          "price": 650000
+          "price": 650000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803151625-a2bcbbdc/000.webp",
       "summary": "Suzuki Xbee 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2915,12 +3088,14 @@
           "drive": "Полный",
           "mileageKm": 28000,
           "grade": "3.5 балла",
-          "price": 1150000
+          "price": 1150000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061613-7068c5c0/000.webp",
       "summary": "Toyota Corola Alion 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2945,12 +3120,14 @@
           "drive": "Задний",
           "mileageKm": 50000,
           "grade": "4 балла",
-          "price": 1350000
+          "price": 1350000,
+          "listedAt": "2026-06-30"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260629215327-714b7d2f/000.webp",
       "summary": "Страница объединяет актуальное предложение Toyota Corolla 2020 года и связанные условия заказа из Японии.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -2977,7 +3154,8 @@
           "drive": "Полный",
           "mileageKm": 73000,
           "grade": "4 балла",
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-08-07"
         },
         {
           "year": 2019,
@@ -2987,7 +3165,8 @@
           "drive": "Передний",
           "mileageKm": 36000,
           "grade": "4.5 балла",
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-06-26"
         },
         {
           "year": 2021,
@@ -2997,12 +3176,14 @@
           "drive": "Полный",
           "mileageKm": 93000,
           "grade": "4 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061533-73070381/000.webp",
       "summary": "В каталоге компании Примком представлена Toyota Corolla Axio 2019 года с фото и указанной стоимостью предложения.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3027,12 +3208,14 @@
           "drive": "Передний",
           "mileageKm": 62000,
           "grade": "4.5 балла",
-          "price": 2250000
+          "price": 2250000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803150917-4925e665/000.webp",
       "summary": "Toyota Corolla Cross 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3057,12 +3240,14 @@
           "drive": "Полный",
           "mileageKm": 113000,
           "grade": "4 балла",
-          "price": 1090000
+          "price": 1090000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061554-970c6288/000.webp",
       "summary": "Toyota Corolla Fielder 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3089,7 +3274,8 @@
           "drive": "Передний",
           "mileageKm": 90000,
           "grade": "4.5 балла",
-          "price": 1550000
+          "price": 1550000,
+          "listedAt": "2026-08-19"
         },
         {
           "year": 2023,
@@ -3099,12 +3285,14 @@
           "drive": "Передний",
           "mileageKm": 24000,
           "grade": "4.5 балла",
-          "price": 1600000
+          "price": 1600000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260819045828-07d6bace/000.webp",
       "summary": "В актуальном каталоге опубликована Toyota Corolla Touring 2023 года с фотографиями и ориентиром цены.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3129,12 +3317,14 @@
           "powerHp": 151,
           "drive": "Полный",
           "mileageKm": 138000,
-          "price": 1950000
+          "price": 1950000,
+          "listedAt": "2026-02-23"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260222133640-d965d49e/000.webp",
       "summary": "Актуальная карточка Toyota Harrier 2016 года ведёт к предложению и индивидуальному расчёту расходов.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3161,7 +3351,8 @@
           "drive": "Передний",
           "mileageKm": 59000,
           "grade": "4 балла",
-          "price": 600000
+          "price": 600000,
+          "listedAt": "2026-08-04"
         },
         {
           "year": 2018,
@@ -3171,12 +3362,14 @@
           "drive": "Передний",
           "mileageKm": 17000,
           "grade": "4 балла",
-          "price": 800000
+          "price": 800000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074033-8ba06d7f/000.webp",
       "summary": "Toyota Passo 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3201,12 +3394,14 @@
           "drive": "Задний",
           "mileageKm": 42000,
           "grade": "4.5 балла",
-          "price": 650000
+          "price": 650000,
+          "listedAt": "2026-06-30"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260629215223-05d920ab/000.webp",
       "summary": "Toyota Pixis Van 2020 года опубликована с фотографиями и ориентиром цены конкретного предложения.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3232,12 +3427,14 @@
           "drive": "Передний",
           "mileageKm": 18000,
           "grade": "4.5",
-          "price": 1600000
+          "price": 1600000,
+          "listedAt": "2026-02-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260227010052-b77c8e83/000.webp",
       "summary": "Toyota Premio 2017 года добавлена в модельный каталог для сравнения и запроса точного расчёта.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3267,7 +3464,8 @@
           "drive": "Передний",
           "mileageKm": 123000,
           "grade": "4 балла",
-          "price": 830000
+          "price": 830000,
+          "listedAt": "2026-06-30"
         },
         {
           "year": 2019,
@@ -3277,7 +3475,8 @@
           "drive": "Полный",
           "mileageKm": 137000,
           "grade": "4 балла",
-          "price": 850000
+          "price": 850000,
+          "listedAt": "2026-08-07"
         },
         {
           "year": 2021,
@@ -3288,7 +3487,8 @@
           "drive": "Передний",
           "mileageKm": 46000,
           "grade": "4",
-          "price": 950000
+          "price": 950000,
+          "listedAt": "2026-03-03"
         },
         {
           "year": 2021,
@@ -3298,12 +3498,14 @@
           "drive": "Передний",
           "mileageKm": 91000,
           "grade": "4 балла",
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260806145016-e8b4c602/000.webp",
       "summary": "Практичная модель представлена в каталоге предложениями разных годов и бюджетов.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3330,7 +3532,8 @@
           "drive": "Передний",
           "mileageKm": 111000,
           "grade": "3.5 балла",
-          "price": 870000
+          "price": 870000,
+          "listedAt": "2026-06-22"
         },
         {
           "year": 2022,
@@ -3341,7 +3544,8 @@
           "drive": "Передний",
           "mileageKm": 45000,
           "grade": "4",
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-03-03"
         },
         {
           "year": 2021,
@@ -3351,12 +3555,14 @@
           "drive": "Передний",
           "mileageKm": 62000,
           "grade": "4.5 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-07-02"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260702043003-a599eb59/000.webp",
       "summary": "Компактный кроссовер представлен в актуальном каталоге несколькими предложениями 2021–2022 годов.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3381,12 +3587,14 @@
           "drive": "Передний",
           "mileageKm": 74000,
           "grade": "4.5 балла",
-          "price": 800000
+          "price": 800000,
+          "listedAt": "2026-08-07"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260806144900-3df2e40e/000.webp",
       "summary": "Toyota Roomy 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3412,12 +3620,14 @@
           "drive": "Передний",
           "mileageKm": 20000,
           "grade": "4.5",
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-02-23"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260223043457-464c35b1/000.webp",
       "summary": "Toyota Sienta 2021 года представлена реальным объявлением в японском каталоге компании Примком.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3442,12 +3652,14 @@
           "drive": "Передний",
           "mileageKm": 53000,
           "grade": "4 балла",
-          "price": 1050000
+          "price": 1050000,
+          "listedAt": "2026-07-03"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260703042451-4cc71a11/000.webp",
       "summary": "Toyota Tank 2021 года доступна в каталоге как компактный вариант для индивидуального расчёта импорта.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3474,7 +3686,8 @@
           "drive": "Передний",
           "mileageKm": 40000,
           "grade": "4 балла",
-          "price": 620000
+          "price": 620000,
+          "listedAt": "2026-07-03"
         },
         {
           "year": 2014,
@@ -3484,12 +3697,14 @@
           "drive": "Полный",
           "mileageKm": 106000,
           "grade": "3.5 балла",
-          "price": 800000
+          "price": 800000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074359-55c67121/000.webp",
       "summary": "Toyota Vits 2026 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3516,7 +3731,8 @@
           "drive": "Передний",
           "mileageKm": 100000,
           "grade": "3.5 балла",
-          "price": 750000
+          "price": 750000,
+          "listedAt": "2026-09-27"
         },
         {
           "year": 2021,
@@ -3526,12 +3742,14 @@
           "drive": "Полный",
           "mileageKm": 103000,
           "grade": "4 балла",
-          "price": 1000000
+          "price": 1000000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061751-4ed61d48/000.webp",
       "summary": "Toyota Yaris 2021 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3558,7 +3776,8 @@
           "drive": "Передний",
           "mileageKm": 120000,
           "grade": "4 балла",
-          "price": 790000
+          "price": 790000,
+          "listedAt": "2026-07-15"
         },
         {
           "year": 2012,
@@ -3567,12 +3786,14 @@
           "drive": "Передний",
           "mileageKm": 104000,
           "grade": "4 балла",
-          "price": 850000
+          "price": 850000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913074449-91892069/000.webp",
       "summary": "Volkswagen Golf 2014 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3597,12 +3818,14 @@
           "drive": "Передний",
           "mileageKm": 71000,
           "grade": "4 балла",
-          "price": 1250000
+          "price": 1250000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061452-470b3b17/000.webp",
       "summary": "Volkswagen Golf Touran 2018 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3627,12 +3850,14 @@
           "drive": "Передний",
           "mileageKm": 92000,
           "grade": "4.5 балла",
-          "price": 720000
+          "price": 720000,
+          "listedAt": "2026-08-04"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260803151516-51e57eac/000.webp",
       "summary": "Volkswagen Golf Variant 2015 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3659,7 +3884,8 @@
           "drive": "Передний",
           "mileageKm": 36000,
           "grade": "4",
-          "price": 1350000
+          "price": 1350000,
+          "listedAt": "2026-06-12"
         },
         {
           "year": 2016,
@@ -3669,12 +3895,14 @@
           "drive": "Передний",
           "mileageKm": 71000,
           "grade": "4.5 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-07-30"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260730002948-06e8804a/000.webp",
       "summary": "Volkswagen Passat 2016 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3704,7 +3932,8 @@
           "drive": "Передний",
           "mileageKm": 126000,
           "grade": "3.5 балла",
-          "price": 650000
+          "price": 650000,
+          "listedAt": "2026-06-30"
         },
         {
           "year": 2017,
@@ -3714,7 +3943,8 @@
           "drive": "Передний",
           "mileageKm": 123000,
           "grade": "3.5 балла",
-          "price": 1150000
+          "price": 1150000,
+          "listedAt": "2026-07-14"
         },
         {
           "year": 2018,
@@ -3724,7 +3954,8 @@
           "drive": "Передний",
           "mileageKm": 160000,
           "grade": "4.5 балла",
-          "price": 1200000
+          "price": 1200000,
+          "listedAt": "2026-06-30"
         },
         {
           "year": 2018,
@@ -3734,7 +3965,8 @@
           "drive": "Передний",
           "mileageKm": 78000,
           "grade": "4.5 балла",
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-09-13"
         },
         {
           "year": 2017,
@@ -3744,12 +3976,14 @@
           "drive": "Передний",
           "mileageKm": 63000,
           "grade": "4.5 балла",
-          "price": 1600000
+          "price": 1600000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061425-007b5d8b/000.webp",
       "summary": "Volkswagen Passat Variant 2013–2018 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3776,7 +4010,8 @@
           "drive": "Передний",
           "mileageKm": 73000,
           "grade": "3.5 балла",
-          "price": 600000
+          "price": 600000,
+          "listedAt": "2026-06-30"
         },
         {
           "year": 2019,
@@ -3786,7 +4021,8 @@
           "drive": "Передний",
           "mileageKm": 73000,
           "grade": "4",
-          "price": 870000
+          "price": 870000,
+          "listedAt": "2026-03-03"
         },
         {
           "year": 2019,
@@ -3796,12 +4032,14 @@
           "drive": "Передний",
           "mileageKm": 19000,
           "grade": "4.5 балла",
-          "price": 1100000
+          "price": 1100000,
+          "listedAt": "2026-06-30"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260630044140-71ba3897/000.webp",
       "summary": "Volkswagen Polo 2012–2019 годов представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3826,12 +4064,14 @@
           "drive": "Передний",
           "mileageKm": 54000,
           "grade": "4.5 балла",
-          "price": 1130000
+          "price": 1130000,
+          "listedAt": "2026-09-13"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260913073552-a170a839/000.webp",
       "summary": "Volkswagen T-Cross 2020 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3856,12 +4096,14 @@
           "drive": "Передний",
           "mileageKm": 14000,
           "grade": "4.5 балла",
-          "price": 1600000
+          "price": 1600000,
+          "listedAt": "2026-07-10"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260710120210-6cb4f70a/000.webp",
       "summary": "Volkswagen T-ROC 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3886,12 +4128,14 @@
           "drive": "Передний",
           "mileageKm": 21000,
           "grade": "4.5 балла",
-          "price": 1500000
+          "price": 1500000,
+          "listedAt": "2026-07-15"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260715022709-a8370ba7/000.webp",
       "summary": "Volkswagen T-Rock 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3915,12 +4159,14 @@
           "drive": "Передний",
           "mileageKm": 121000,
           "grade": "3.5 балла",
-          "price": 630000
+          "price": 630000,
+          "listedAt": "2026-09-27"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260927061514-a008e9f3/000.webp",
       "summary": "Volkswagen The Beetle 2020 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "japan",
@@ -3944,12 +4190,14 @@
           "drive": "Передний",
           "mileageKm": 23000,
           "grade": "4.5 балла",
-          "price": 2500000
+          "price": 2500000,
+          "listedAt": "2026-07-15"
         }
       ],
       "image": "/media/japan_manual/mgr-japan-20260715022743-6bb3c1b8/000.webp",
       "summary": "Volkswagen Tiguan 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -3974,12 +4222,14 @@
           "powerHp": 252,
           "drive": "Задний",
           "mileageKm": 42600,
-          "price": 6000000
+          "price": 6000000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260611142839-1497e2f9/000.webp",
       "summary": "BMW 5 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4004,12 +4254,14 @@
           "powerHp": 165,
           "drive": "Передний",
           "mileageKm": 84600,
-          "price": 3820000
+          "price": 3820000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260611143242-d7452b8d/000.webp",
       "summary": "Hyundai Sonata 2020 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4033,12 +4285,14 @@
           "powerHp": 160,
           "drive": "Передний",
           "mileageKm": 83000,
-          "price": 1730000
+          "price": 1730000,
+          "listedAt": "2026-03-18"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260318054856-805a77c0/000.webp",
       "summary": "Kia K5 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4063,12 +4317,14 @@
           "powerHp": 141,
           "drive": "Передний",
           "mileageKm": 221300,
-          "price": 1400000
+          "price": 1400000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260611141901-709a7f8f/000.webp",
       "summary": "Актуальное предложение Kia Niro из Кореи опубликовано с годом, ценой и фотографиями автомобиля.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4092,12 +4348,14 @@
           "powerHp": 115,
           "drive": "Передний",
           "mileageKm": 12700,
-          "price": 2010000
+          "price": 2010000,
+          "listedAt": "2026-06-07"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260607110427-cb3d951d/000.webp",
       "summary": "В каталоге компании Примком есть Kia Seltos 2022 года; точная стоимость под ключ рассчитывается отдельно.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4122,12 +4380,14 @@
           "powerHp": 98,
           "drive": "Передний",
           "mileageKm": 33700,
-          "price": 2000000
+          "price": 2000000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260611142312-9061ffad/000.webp",
       "summary": "Mini Clubman 2023 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     },
     {
       "country": "korea",
@@ -4152,12 +4412,14 @@
           "powerHp": 203,
           "drive": "Полный",
           "mileageKm": 27000,
-          "price": 5980000
+          "price": 5980000,
+          "listedAt": "2026-06-12"
         }
       ],
       "image": "/media/korea_manual/mgr-korea-20260611143726-434c2eb6/000.webp",
       "summary": "SsangYong Rexton 2022 года представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.",
-      "status": "approved"
+      "status": "approved",
+      "updatedAt": "2026-09-29"
     }
   ],
   "guides": [

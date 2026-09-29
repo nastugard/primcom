@@ -8,6 +8,8 @@ const REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(RO
 const OUTPUT_PATH = path.resolve(process.env.SEO_REGISTRY_OUTPUT || REGISTRY_PATH);
 const FIXTURE_PATH = process.env.SEO_CATALOG_FIXTURE ? path.resolve(process.env.SEO_CATALOG_FIXTURE) : "";
 const PAGE_SIZE = 100;
+// «Сегодня» — по Владивостоку, а не по UTC: иначе после 07:00 утра дата отстаёт на сутки.
+const today = new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Vladivostok", year:"numeric", month:"2-digit", day:"2-digit"}).format(new Date());
 const ALLOW_CATALOG_SHRINK = /^(1|true|yes)$/i.test(String(process.env.SEO_ALLOW_CATALOG_SHRINK || ""));
 const MIN_ACTIVE_RATIO = (() => {
   const parsed = Number(process.env.SEO_MIN_ACTIVE_RATIO);
@@ -46,6 +48,14 @@ function cleanText(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+// Дата карточки по владивостокскому времени: сервер хранит UTC, и объявление,
+// добавленное вечером по UTC, иначе получило бы вчерашнюю дату.
+function listedDate(value) {
+  const d = new Date(value);
+  if (!value || Number.isNaN(d.getTime())) return undefined;
+  return new Intl.DateTimeFormat("en-CA", {timeZone:"Asia/Vladivostok", year:"numeric", month:"2-digit", day:"2-digit"}).format(d);
+}
+
 // Параметры конкретного автомобиля для таблицы на странице модели.
 // Берём только то, что реально есть в карточке каталога; пустые поля не выдумываем.
 function listingFacts(item) {
@@ -62,6 +72,7 @@ function listingFacts(item) {
     mileageKm:num(item.mileage_km),
     grade:txt(item.auction_grade),
     price:num(item.price_cny) === undefined ? undefined : Math.round(Number(item.price_cny)),
+    listedAt:listedDate(item.scraped_at),
   };
   return Object.fromEntries(Object.entries(facts).filter(([, v]) => v !== undefined));
 }
@@ -156,7 +167,7 @@ for (const group of [...grouped.values()].sort((a, b) => key(a.country, a.make, 
   const newest = [...group.items].sort((a, b) => String(b.scraped_at || "").localeCompare(String(a.scraped_at || "")))[0];
   const yearText = years.length === 1 ? `${years[0]} года` : `${years[0]}–${years.at(-1)} годов`;
 
-  activeModels.push({
+  const entry = {
     country:group.country,
     countryName:countryName[group.country],
     make:group.make,
@@ -170,13 +181,20 @@ for (const group of [...grouped.values()].sort((a, b) => key(a.country, a.make, 
     image:newest.cover_image_url,
     summary:old?.summary || `${group.make} ${group.model} ${yearText} представлена в актуальном каталоге компании Примком с фотографиями и ценами автомобилей.`,
     status:"approved",
-  });
+  };
+  // Дата изменения модели: новая — только если изменились её автомобили, цены или фото.
+  // Иначе каждая пересборка помечала бы все страницы как обновлённые «сегодня».
+  const comparable = (m) => JSON.stringify({years:m.years, prices:m.prices, listingCount:m.listingCount, listings:m.listings, image:m.image});
+  entry.updatedAt = old && old.status !== "inactive" && comparable(old) === comparable(entry)
+    ? (old.updatedAt || previous.catalogSnapshotAt || today)
+    : today;
+  activeModels.push(entry);
 }
 
 const activeKeys = new Set(activeModels.map((model) => key(model.country, model.make, model.model)));
 const inactiveModels = (previous.models || [])
   .filter((model) => !activeKeys.has(key(model.country, model.make, model.model)))
-  .map((model) => ({...model, status:"inactive", inactiveSince:model.inactiveSince || new Date().toISOString().slice(0, 10)}));
+  .map((model) => ({...model, status:"inactive", inactiveSince:model.inactiveSince || today}));
 
 const previousActiveModels = (previous.models || []).filter((model) => model.status !== "inactive");
 if (!ALLOW_CATALOG_SHRINK && previousActiveModels.length) {
@@ -221,11 +239,11 @@ for (const oldHub of previous.brandHubs || []) {
   if (!hubs.has(hubKey)) hubs.set(hubKey, {...oldHub, status:"inactive"});
 }
 
-const today = new Date().toISOString().slice(0, 10);
 const next = {
   ...previous,
   generatedAt:today,
-  catalogSnapshotAt:today,
+  // Общая дата — самая свежая из дат моделей. Если ничего не менялось, она остаётся прежней.
+  catalogSnapshotAt:activeModels.reduce((latest, model) => (model.updatedAt > latest ? model.updatedAt : latest), previous.catalogSnapshotAt || "0000-00-00") || today,
   source:API_BASE,
   brandHubs:[...hubs.values()].sort((a, b) => key(a.country, a.make, "").localeCompare(key(b.country, b.make, ""), "ru")),
   models:allModels,
