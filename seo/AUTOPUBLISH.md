@@ -97,11 +97,14 @@ curl -s https://primcom.ru/sitemap.xml | grep -c '<loc>'
 ```dotenv
 SEO_PUBLISH_COMMAND=/usr/bin/node /opt/primcom/seo-publisher/scripts/publish-and-sync.mjs
 SEO_PUBLISH_WORKDIR=/opt/primcom/seo-publisher
-SEO_PUBLISH_TIMEOUT_SECONDS=240
+SEO_PUBLISH_TIMEOUT_SECONDS=120
 PRIMCOM_SITE_ROOT=/opt/primcom/seo-publisher/site-staging
 ```
 
-Таймаут 240, а не 90: сборка забирает каталог по сети и отправляет файлы по FTP.
+Таймаут 120, а не 90: сборка забирает каталог по сети и отправляет файлы по FTP.
+Больше ставить нельзя: клиент бота ждёт ответа backend 180 секунд (`manager-listings-bot/main.py`),
+и в этот запрос входит ещё загрузка фото. При таймауте выше бот показал бы менеджеру ошибку,
+хотя карточка уже сохранена.
 Затем `systemctl restart primcom-api.service` (или `-v2`, если работает он).
 
 ### 6. Проверка на живой карточке
