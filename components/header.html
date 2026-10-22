@@ -13,7 +13,7 @@
       />
     </a>
 
-    <nav class="site-nav" aria-label="Основная навигация" data-nav>
+    <nav class="site-nav" id="primary-navigation" aria-label="Основная навигация" data-nav>
       <ul class="site-nav__list">
         <li class="site-nav__item">
           <details class="nav-dd">
@@ -24,6 +24,9 @@
               </svg>
             </summary>
             <div class="nav-dd__panel" role="menu">
+              <a class="nav-dd__item" role="menuitem" href="./cars/podborki/do-2-mln/">Авто до 2 млн ₽</a>
+              <a class="nav-dd__item" role="menuitem" href="./cars/podborki/do-160-ls/">До 160 л.с.</a>
+              <a class="nav-dd__item" role="menuitem" href="./cars/podborki/miniveny-iz-yaponii/">Минивэны из Японии</a>
               <a class="nav-dd__item" role="menuitem" href="./cars/">
                 <span class="nav-dd__flag" aria-hidden="true">🚘</span>
                 Модели автомобилей
@@ -135,10 +138,12 @@
         </a>
       </div>
 
-      <!-- Mobile: burger появится на этапе адаптива/анимаций -->
-      <button class="burger" type="button" aria-label="Меню" data-burger hidden>
-        <span class="burger__line"></span>
-        <span class="burger__line"></span>
+      <button class="burger" type="button" aria-label="Открыть меню" aria-controls="primary-navigation" aria-expanded="false" data-burger hidden>
+        <span class="burger__icon" aria-hidden="true">
+          <span class="burger__line"></span>
+          <span class="burger__line"></span>
+        </span>
+        <span>Меню</span>
       </button>
     </div>
   </div>

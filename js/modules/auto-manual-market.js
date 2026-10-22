@@ -579,6 +579,11 @@ export function initManualMarketCars() {
 
   const openDetail = async (item) => {
     if (!modal) return;
+    const leadButton = modal.querySelector('[data-open-lead-modal]');
+    if (leadButton) {
+      leadButton.dataset.leadModel = [item.brand,item.model].filter(Boolean).join(' ');
+      leadButton.dataset.leadLabel = `${item.year || ''} · ${item.trim || ''}`;
+    }
 
     if (modalTitle) modalTitle.textContent = getTitle(item);
     if (modalMeta) modalMeta.textContent = getMeta(item);
@@ -801,6 +806,7 @@ export function initManualMarketCars() {
   }
 
   document.addEventListener("keydown", (e) => {
+    if (e.defaultPrevented) return;
     if (e.key === "Escape") {
       if (lightbox && !lightbox.hidden) closeLightbox();
       else closeDetail();

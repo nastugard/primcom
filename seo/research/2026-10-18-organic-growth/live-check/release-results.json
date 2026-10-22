@@ -1,0 +1,4254 @@
+[
+  {
+    "file": "404.html",
+    "url": "https://primcom.ru/404.html",
+    "final_url": "https://primcom.ru/404.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 3035,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [],
+    "robots": [
+      "noindex,follow"
+    ]
+  },
+  {
+    "file": "assets/favicon.svg",
+    "url": "https://primcom.ru/assets/favicon.svg",
+    "final_url": "https://primcom.ru/assets/favicon.svg",
+    "status": 200,
+    "type": "image/svg+xml",
+    "bytes": 2231,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "banner/banner_main.png",
+    "url": "https://primcom.ru/banner/banner_main.png",
+    "final_url": "https://primcom.ru/banner/banner_main.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 1000414,
+    "match": true,
+    "seconds": 2.4,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "banner/banner_main.webp",
+    "url": "https://primcom.ru/banner/banner_main.webp",
+    "final_url": "https://primcom.ru/banner/banner_main.webp",
+    "status": 200,
+    "type": "image/webp",
+    "bytes": 18258,
+    "match": true,
+    "seconds": 0.59,
+    "x_robots": null,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "cars/china/audi/index.html",
+    "url": "https://primcom.ru/cars/china/audi/",
+    "final_url": "https://primcom.ru/cars/china/audi/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9758,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/audi/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/audi/q2l/index.html",
+    "url": "https://primcom.ru/cars/china/audi/q2l/",
+    "final_url": "https://primcom.ru/cars/china/audi/q2l/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13537,
+    "match": true,
+    "seconds": 0.57,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/audi/q2l/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/bmw/index.html",
+    "url": "https://primcom.ru/cars/china/bmw/",
+    "final_url": "https://primcom.ru/cars/china/bmw/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9727,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/bmw/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/bmw/x1/index.html",
+    "url": "https://primcom.ru/cars/china/bmw/x1/",
+    "final_url": "https://primcom.ru/cars/china/bmw/x1/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13434,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/bmw/x1/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/changan/index.html",
+    "url": "https://primcom.ru/cars/china/changan/",
+    "final_url": "https://primcom.ru/cars/china/changan/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9994,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/changan/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/changan/qiyuan-a06-240-laser-ultra/index.html",
+    "url": "https://primcom.ru/cars/china/changan/qiyuan-a06-240-laser-ultra/",
+    "final_url": "https://primcom.ru/cars/china/changan/qiyuan-a06-240-laser-ultra/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13965,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/changan/qiyuan-a06-240-laser-ultra/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/chery/index.html",
+    "url": "https://primcom.ru/cars/china/chery/",
+    "final_url": "https://primcom.ru/cars/china/chery/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9817,
+    "match": true,
+    "seconds": 0.39,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/chery/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/chery/tiggo-3x/index.html",
+    "url": "https://primcom.ru/cars/china/chery/tiggo-3x/",
+    "final_url": "https://primcom.ru/cars/china/chery/tiggo-3x/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13616,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/chery/tiggo-3x/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/geely/emgrand-gs/index.html",
+    "url": "https://primcom.ru/cars/china/geely/emgrand-gs/",
+    "final_url": "https://primcom.ru/cars/china/geely/emgrand-gs/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13658,
+    "match": true,
+    "seconds": 0.47,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/geely/emgrand-gs/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/geely/index.html",
+    "url": "https://primcom.ru/cars/china/geely/",
+    "final_url": "https://primcom.ru/cars/china/geely/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9831,
+    "match": true,
+    "seconds": 0.42,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/geely/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/honda/crider/index.html",
+    "url": "https://primcom.ru/cars/china/honda/crider/",
+    "final_url": "https://primcom.ru/cars/china/honda/crider/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13220,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/honda/crider/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/honda/fit/index.html",
+    "url": "https://primcom.ru/cars/china/honda/fit/",
+    "final_url": "https://primcom.ru/cars/china/honda/fit/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13959,
+    "match": true,
+    "seconds": 0.51,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/honda/fit/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/honda/index.html",
+    "url": "https://primcom.ru/cars/china/honda/",
+    "final_url": "https://primcom.ru/cars/china/honda/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11122,
+    "match": true,
+    "seconds": 0.51,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/honda/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/honda/xr-v/index.html",
+    "url": "https://primcom.ru/cars/china/honda/xr-v/",
+    "final_url": "https://primcom.ru/cars/china/honda/xr-v/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13186,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/honda/xr-v/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/jetour/index.html",
+    "url": "https://primcom.ru/cars/china/jetour/",
+    "final_url": "https://primcom.ru/cars/china/jetour/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9806,
+    "match": true,
+    "seconds": 0.44,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/jetour/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/jetour/x70/index.html",
+    "url": "https://primcom.ru/cars/china/jetour/x70/",
+    "final_url": "https://primcom.ru/cars/china/jetour/x70/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13512,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/jetour/x70/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/lexus/es/index.html",
+    "url": "https://primcom.ru/cars/china/lexus/es/",
+    "final_url": "https://primcom.ru/cars/china/lexus/es/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13006,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/lexus/es/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/lexus/index.html",
+    "url": "https://primcom.ru/cars/china/lexus/",
+    "final_url": "https://primcom.ru/cars/china/lexus/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10418,
+    "match": true,
+    "seconds": 0.42,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/lexus/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/lexus/nxc/index.html",
+    "url": "https://primcom.ru/cars/china/lexus/nxc/",
+    "final_url": "https://primcom.ru/cars/china/lexus/nxc/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12979,
+    "match": true,
+    "seconds": 0.5,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/lexus/nxc/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mazda/cx-50/index.html",
+    "url": "https://primcom.ru/cars/china/mazda/cx-50/",
+    "final_url": "https://primcom.ru/cars/china/mazda/cx-50/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13473,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mazda/cx-50/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mazda/index.html",
+    "url": "https://primcom.ru/cars/china/mazda/",
+    "final_url": "https://primcom.ru/cars/china/mazda/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9796,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mazda/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mercedes-benz/gla/index.html",
+    "url": "https://primcom.ru/cars/china/mercedes-benz/gla/",
+    "final_url": "https://primcom.ru/cars/china/mercedes-benz/gla/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13729,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mercedes-benz/gla/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mercedes-benz/index.html",
+    "url": "https://primcom.ru/cars/china/mercedes-benz/",
+    "final_url": "https://primcom.ru/cars/china/mercedes-benz/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9974,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mercedes-benz/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mg/index.html",
+    "url": "https://primcom.ru/cars/china/mg/",
+    "final_url": "https://primcom.ru/cars/china/mg/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9703,
+    "match": true,
+    "seconds": 0.43,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mg/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/mg/zs/index.html",
+    "url": "https://primcom.ru/cars/china/mg/zs/",
+    "final_url": "https://primcom.ru/cars/china/mg/zs/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13363,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/mg/zs/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/nissan/index.html",
+    "url": "https://primcom.ru/cars/china/nissan/",
+    "final_url": "https://primcom.ru/cars/china/nissan/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9820,
+    "match": true,
+    "seconds": 0.42,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/nissan/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/nissan/tiida/index.html",
+    "url": "https://primcom.ru/cars/china/nissan/tiida/",
+    "final_url": "https://primcom.ru/cars/china/nissan/tiida/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13558,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/nissan/tiida/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/subaru/forester/index.html",
+    "url": "https://primcom.ru/cars/china/subaru/forester/",
+    "final_url": "https://primcom.ru/cars/china/subaru/forester/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13575,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/subaru/forester/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/subaru/index.html",
+    "url": "https://primcom.ru/cars/china/subaru/",
+    "final_url": "https://primcom.ru/cars/china/subaru/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9841,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/subaru/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/tank/300/index.html",
+    "url": "https://primcom.ru/cars/china/tank/300/",
+    "final_url": "https://primcom.ru/cars/china/tank/300/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13507,
+    "match": true,
+    "seconds": 0.5,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/tank/300/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/tank/index.html",
+    "url": "https://primcom.ru/cars/china/tank/",
+    "final_url": "https://primcom.ru/cars/china/tank/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9758,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/tank/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/toyota/index.html",
+    "url": "https://primcom.ru/cars/china/toyota/",
+    "final_url": "https://primcom.ru/cars/china/toyota/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10484,
+    "match": true,
+    "seconds": 0.44,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/toyota/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/toyota/levin/index.html",
+    "url": "https://primcom.ru/cars/china/toyota/levin/",
+    "final_url": "https://primcom.ru/cars/china/toyota/levin/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13127,
+    "match": true,
+    "seconds": 0.49,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/toyota/levin/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/toyota/yaris/index.html",
+    "url": "https://primcom.ru/cars/china/toyota/yaris/",
+    "final_url": "https://primcom.ru/cars/china/toyota/yaris/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13131,
+    "match": true,
+    "seconds": 0.98,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/toyota/yaris/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/volkswagen/golf/index.html",
+    "url": "https://primcom.ru/cars/china/volkswagen/golf/",
+    "final_url": "https://primcom.ru/cars/china/volkswagen/golf/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13402,
+    "match": true,
+    "seconds": 0.92,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/volkswagen/golf/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/volkswagen/index.html",
+    "url": "https://primcom.ru/cars/china/volkswagen/",
+    "final_url": "https://primcom.ru/cars/china/volkswagen/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11321,
+    "match": true,
+    "seconds": 1.19,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/volkswagen/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/volkswagen/tayron/index.html",
+    "url": "https://primcom.ru/cars/china/volkswagen/tayron/",
+    "final_url": "https://primcom.ru/cars/china/volkswagen/tayron/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13392,
+    "match": true,
+    "seconds": 0.78,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/volkswagen/tayron/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/china/volkswagen/tiguan-l/index.html",
+    "url": "https://primcom.ru/cars/china/volkswagen/tiguan-l/",
+    "final_url": "https://primcom.ru/cars/china/volkswagen/tiguan-l/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13436,
+    "match": true,
+    "seconds": 0.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/china/volkswagen/tiguan-l/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/index.html",
+    "url": "https://primcom.ru/cars/",
+    "final_url": "https://primcom.ru/cars/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 80120,
+    "match": true,
+    "seconds": 0.86,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/audi/a1/index.html",
+    "url": "https://primcom.ru/cars/japan/audi/a1/",
+    "final_url": "https://primcom.ru/cars/japan/audi/a1/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13349,
+    "match": true,
+    "seconds": 0.74,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/audi/a1/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/audi/a3/index.html",
+    "url": "https://primcom.ru/cars/japan/audi/a3/",
+    "final_url": "https://primcom.ru/cars/japan/audi/a3/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15143,
+    "match": true,
+    "seconds": 0.87,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/audi/a3/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/audi/index.html",
+    "url": "https://primcom.ru/cars/japan/audi/",
+    "final_url": "https://primcom.ru/cars/japan/audi/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11751,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/audi/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/audi/q2/index.html",
+    "url": "https://primcom.ru/cars/japan/audi/q2/",
+    "final_url": "https://primcom.ru/cars/japan/audi/q2/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13348,
+    "match": true,
+    "seconds": 0.74,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/audi/q2/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/audi/q3/index.html",
+    "url": "https://primcom.ru/cars/japan/audi/q3/",
+    "final_url": "https://primcom.ru/cars/japan/audi/q3/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13355,
+    "match": true,
+    "seconds": 0.67,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/audi/q3/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/1-series/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/1-series/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/1-series/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14093,
+    "match": true,
+    "seconds": 0.81,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/1-series/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/2-series/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/2-series/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/2-series/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13587,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/2-series/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12453,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/mini/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/mini/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/mini/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13474,
+    "match": true,
+    "seconds": 0.63,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/mini/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/x1/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/x1/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/x1/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14002,
+    "match": true,
+    "seconds": 0.63,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/x1/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/bmw/x2/index.html",
+    "url": "https://primcom.ru/cars/japan/bmw/x2/",
+    "final_url": "https://primcom.ru/cars/japan/bmw/x2/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13487,
+    "match": true,
+    "seconds": 0.82,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/bmw/x2/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/citroen/berlingo/index.html",
+    "url": "https://primcom.ru/cars/japan/citroen/berlingo/",
+    "final_url": "https://primcom.ru/cars/japan/citroen/berlingo/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13732,
+    "match": true,
+    "seconds": 0.6,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/citroen/berlingo/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/citroen/index.html",
+    "url": "https://primcom.ru/cars/japan/citroen/",
+    "final_url": "https://primcom.ru/cars/japan/citroen/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9907,
+    "match": true,
+    "seconds": 0.6,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/citroen/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/daihatsu/copen/index.html",
+    "url": "https://primcom.ru/cars/japan/daihatsu/copen/",
+    "final_url": "https://primcom.ru/cars/japan/daihatsu/copen/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14016,
+    "match": true,
+    "seconds": 0.92,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/daihatsu/copen/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/daihatsu/index.html",
+    "url": "https://primcom.ru/cars/japan/daihatsu/",
+    "final_url": "https://primcom.ru/cars/japan/daihatsu/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11316,
+    "match": true,
+    "seconds": 0.78,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/daihatsu/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/daihatsu/mira-es/index.html",
+    "url": "https://primcom.ru/cars/japan/daihatsu/mira-es/",
+    "final_url": "https://primcom.ru/cars/japan/daihatsu/mira-es/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15663,
+    "match": true,
+    "seconds": 0.85,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/daihatsu/mira-es/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/daihatsu/thor/index.html",
+    "url": "https://primcom.ru/cars/japan/daihatsu/thor/",
+    "final_url": "https://primcom.ru/cars/japan/daihatsu/thor/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13550,
+    "match": true,
+    "seconds": 1.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/daihatsu/thor/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/fit/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/fit/",
+    "final_url": "https://primcom.ru/cars/japan/honda/fit/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14203,
+    "match": true,
+    "seconds": 1.63,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/fit/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/freed/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/freed/",
+    "final_url": "https://primcom.ru/cars/japan/honda/freed/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15742,
+    "match": true,
+    "seconds": 0.78,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/freed/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/",
+    "final_url": "https://primcom.ru/cars/japan/honda/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13384,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/n-box/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/n-box/",
+    "final_url": "https://primcom.ru/cars/japan/honda/n-box/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14514,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/n-box/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/n-wgn/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/n-wgn/",
+    "final_url": "https://primcom.ru/cars/japan/honda/n-wgn/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13709,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/n-wgn/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/step-wagon/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/step-wagon/",
+    "final_url": "https://primcom.ru/cars/japan/honda/step-wagon/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15086,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/step-wagon/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/honda/step-wgn/index.html",
+    "url": "https://primcom.ru/cars/japan/honda/step-wgn/",
+    "final_url": "https://primcom.ru/cars/japan/honda/step-wgn/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14644,
+    "match": true,
+    "seconds": 1.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/honda/step-wgn/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/lexus/index.html",
+    "url": "https://primcom.ru/cars/japan/lexus/",
+    "final_url": "https://primcom.ru/cars/japan/lexus/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9824,
+    "match": true,
+    "seconds": 0.49,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/lexus/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/lexus/lbx/index.html",
+    "url": "https://primcom.ru/cars/japan/lexus/lbx/",
+    "final_url": "https://primcom.ru/cars/japan/lexus/lbx/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13510,
+    "match": true,
+    "seconds": 0.76,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/lexus/lbx/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/3/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/3/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/3/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13556,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/3/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/axela/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/axela/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/axela/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13617,
+    "match": true,
+    "seconds": 0.63,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/axela/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/cx-3/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/cx-3/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/cx-3/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14062,
+    "match": true,
+    "seconds": 0.98,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/cx-3/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/cx-30/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/cx-30/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/cx-30/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14001,
+    "match": true,
+    "seconds": 0.62,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/cx-30/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/flair-crossover/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/flair-crossover/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/flair-crossover/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13820,
+    "match": true,
+    "seconds": 1.09,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/flair-crossover/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13932,
+    "match": true,
+    "seconds": 0.84,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/mazda2/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/mazda2/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/mazda2/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13695,
+    "match": true,
+    "seconds": 1.03,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/mazda2/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mazda/mazda3/index.html",
+    "url": "https://primcom.ru/cars/japan/mazda/mazda3/",
+    "final_url": "https://primcom.ru/cars/japan/mazda/mazda3/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14138,
+    "match": true,
+    "seconds": 0.82,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mazda/mazda3/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mercedes-benz/a-class/index.html",
+    "url": "https://primcom.ru/cars/japan/mercedes-benz/a-class/",
+    "final_url": "https://primcom.ru/cars/japan/mercedes-benz/a-class/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13917,
+    "match": true,
+    "seconds": 0.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mercedes-benz/a-class/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mercedes-benz/c-class/index.html",
+    "url": "https://primcom.ru/cars/japan/mercedes-benz/c-class/",
+    "final_url": "https://primcom.ru/cars/japan/mercedes-benz/c-class/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15920,
+    "match": true,
+    "seconds": 0.86,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mercedes-benz/c-class/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mercedes-benz/cla-class/index.html",
+    "url": "https://primcom.ru/cars/japan/mercedes-benz/cla-class/",
+    "final_url": "https://primcom.ru/cars/japan/mercedes-benz/cla-class/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15594,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mercedes-benz/cla-class/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mercedes-benz/gla-class/index.html",
+    "url": "https://primcom.ru/cars/japan/mercedes-benz/gla-class/",
+    "final_url": "https://primcom.ru/cars/japan/mercedes-benz/gla-class/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13986,
+    "match": true,
+    "seconds": 0.6,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mercedes-benz/gla-class/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mercedes-benz/index.html",
+    "url": "https://primcom.ru/cars/japan/mercedes-benz/",
+    "final_url": "https://primcom.ru/cars/japan/mercedes-benz/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12368,
+    "match": true,
+    "seconds": 0.61,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mercedes-benz/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mitsubishi/eclipse-cross/index.html",
+    "url": "https://primcom.ru/cars/japan/mitsubishi/eclipse-cross/",
+    "final_url": "https://primcom.ru/cars/japan/mitsubishi/eclipse-cross/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13763,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mitsubishi/eclipse-cross/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mitsubishi/ek-space/index.html",
+    "url": "https://primcom.ru/cars/japan/mitsubishi/ek-space/",
+    "final_url": "https://primcom.ru/cars/japan/mitsubishi/ek-space/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13526,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mitsubishi/ek-space/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/mitsubishi/index.html",
+    "url": "https://primcom.ru/cars/japan/mitsubishi/",
+    "final_url": "https://primcom.ru/cars/japan/mitsubishi/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10737,
+    "match": true,
+    "seconds": 0.38,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/mitsubishi/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/dayz/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/dayz/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/dayz/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13732,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/dayz/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12574,
+    "match": true,
+    "seconds": 0.69,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/march/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/march/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/march/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13676,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/march/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/note/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/note/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/note/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14130,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/note/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/roox/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/roox/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/roox/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13633,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/roox/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/nissan/x-trail/index.html",
+    "url": "https://primcom.ru/cars/japan/nissan/x-trail/",
+    "final_url": "https://primcom.ru/cars/japan/nissan/x-trail/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15855,
+    "match": true,
+    "seconds": 0.65,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/nissan/x-trail/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/subaru/index.html",
+    "url": "https://primcom.ru/cars/japan/subaru/",
+    "final_url": "https://primcom.ru/cars/japan/subaru/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9925,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/subaru/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/subaru/legacy-outback/index.html",
+    "url": "https://primcom.ru/cars/japan/subaru/legacy-outback/",
+    "final_url": "https://primcom.ru/cars/japan/subaru/legacy-outback/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13772,
+    "match": true,
+    "seconds": 0.67,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/subaru/legacy-outback/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/escudo/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/escudo/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/escudo/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13811,
+    "match": true,
+    "seconds": 0.73,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/escudo/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/fronx/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/fronx/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/fronx/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13743,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/fronx/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14019,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/jimny/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/jimny/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/jimny/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 17071,
+    "match": true,
+    "seconds": 0.9,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/jimny/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/jimny-nomade/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/jimny-nomade/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/jimny-nomade/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13773,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/jimny-nomade/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/solio/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/solio/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/solio/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14301,
+    "match": true,
+    "seconds": 0.65,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/solio/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/swift/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/swift/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/swift/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13669,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/swift/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/suzuki/xbee/index.html",
+    "url": "https://primcom.ru/cars/japan/suzuki/xbee/",
+    "final_url": "https://primcom.ru/cars/japan/suzuki/xbee/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15578,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/suzuki/xbee/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corola-alion/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corola-alion/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corola-alion/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13949,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corola-alion/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corolla/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corolla/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corolla/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13824,
+    "match": true,
+    "seconds": 1.78,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corolla/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corolla-axio/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corolla-axio/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corolla-axio/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14829,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corolla-axio/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corolla-cross/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corolla-cross/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corolla-cross/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13910,
+    "match": true,
+    "seconds": 0.64,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corolla-cross/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corolla-fielder/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corolla-fielder/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corolla-fielder/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14008,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corolla-fielder/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/corolla-touring/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/corolla-touring/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/corolla-touring/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14552,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/corolla-touring/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/harrier/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/harrier/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/harrier/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13867,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/harrier/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 20491,
+    "match": true,
+    "seconds": 0.67,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/passo/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/passo/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/passo/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14243,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/passo/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/pixis-van/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/pixis-van/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/pixis-van/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13839,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/pixis-van/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/premio/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/premio/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/premio/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13877,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/premio/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/probox/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/probox/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/probox/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15150,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/probox/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/raize/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/raize/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/raize/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 17056,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/raize/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/roomy/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/roomy/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/roomy/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13816,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/roomy/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/sienta/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/sienta/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/sienta/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13976,
+    "match": true,
+    "seconds": 0.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/sienta/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/tank/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/tank/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/tank/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13814,
+    "match": true,
+    "seconds": 0.72,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/tank/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/vits/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/vits/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/vits/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14222,
+    "match": true,
+    "seconds": 0.63,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/vits/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/toyota/yaris/index.html",
+    "url": "https://primcom.ru/cars/japan/toyota/yaris/",
+    "final_url": "https://primcom.ru/cars/japan/toyota/yaris/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14266,
+    "match": true,
+    "seconds": 0.68,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/toyota/yaris/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/golf/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/golf/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/golf/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14429,
+    "match": true,
+    "seconds": 1.74,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/golf/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/golf-touran/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/golf-touran/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/golf-touran/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14078,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/golf-touran/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/golf-variant/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/golf-variant/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/golf-variant/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14072,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/golf-variant/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 17029,
+    "match": true,
+    "seconds": 0.81,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/passat/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/passat/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/passat/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14578,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/passat/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/passat-variant/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/passat-variant/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/passat-variant/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 15749,
+    "match": true,
+    "seconds": 1.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/passat-variant/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/polo/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/polo/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/polo/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14865,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/polo/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/t-cross/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/t-cross/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/t-cross/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13972,
+    "match": true,
+    "seconds": 0.71,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/t-cross/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/t-roc/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/t-roc/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/t-roc/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13912,
+    "match": true,
+    "seconds": 0.61,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/t-roc/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/t-rock/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/t-rock/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/t-rock/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13938,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/t-rock/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/the-beetle/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/the-beetle/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/the-beetle/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13949,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/the-beetle/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/japan/volkswagen/tiguan/index.html",
+    "url": "https://primcom.ru/cars/japan/volkswagen/tiguan/",
+    "final_url": "https://primcom.ru/cars/japan/volkswagen/tiguan/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13818,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/japan/volkswagen/tiguan/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/bmw/5/index.html",
+    "url": "https://primcom.ru/cars/korea/bmw/5/",
+    "final_url": "https://primcom.ru/cars/korea/bmw/5/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13341,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/bmw/5/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/bmw/index.html",
+    "url": "https://primcom.ru/cars/korea/bmw/",
+    "final_url": "https://primcom.ru/cars/korea/bmw/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9724,
+    "match": true,
+    "seconds": 0.47,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/bmw/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/hyundai/index.html",
+    "url": "https://primcom.ru/cars/korea/hyundai/",
+    "final_url": "https://primcom.ru/cars/korea/hyundai/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9855,
+    "match": true,
+    "seconds": 1.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/hyundai/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/hyundai/sonata/index.html",
+    "url": "https://primcom.ru/cars/korea/hyundai/sonata/",
+    "final_url": "https://primcom.ru/cars/korea/hyundai/sonata/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13553,
+    "match": true,
+    "seconds": 0.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/hyundai/sonata/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/kia/index.html",
+    "url": "https://primcom.ru/cars/korea/kia/",
+    "final_url": "https://primcom.ru/cars/korea/kia/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11031,
+    "match": true,
+    "seconds": 1.07,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/kia/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/kia/k5/index.html",
+    "url": "https://primcom.ru/cars/korea/kia/k5/",
+    "final_url": "https://primcom.ru/cars/korea/kia/k5/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13171,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/kia/k5/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/kia/niro/index.html",
+    "url": "https://primcom.ru/cars/korea/kia/niro/",
+    "final_url": "https://primcom.ru/cars/korea/kia/niro/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13289,
+    "match": true,
+    "seconds": 0.65,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/kia/niro/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/kia/seltos/index.html",
+    "url": "https://primcom.ru/cars/korea/kia/seltos/",
+    "final_url": "https://primcom.ru/cars/korea/kia/seltos/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13209,
+    "match": true,
+    "seconds": 0.65,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/kia/seltos/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/mini/clubman/index.html",
+    "url": "https://primcom.ru/cars/korea/mini/clubman/",
+    "final_url": "https://primcom.ru/cars/korea/mini/clubman/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13613,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/mini/clubman/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/mini/index.html",
+    "url": "https://primcom.ru/cars/korea/mini/",
+    "final_url": "https://primcom.ru/cars/korea/mini/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9790,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/mini/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/ssangyong/index.html",
+    "url": "https://primcom.ru/cars/korea/ssangyong/",
+    "final_url": "https://primcom.ru/cars/korea/ssangyong/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9903,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/ssangyong/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/korea/ssangyong/rexton/index.html",
+    "url": "https://primcom.ru/cars/korea/ssangyong/rexton/",
+    "final_url": "https://primcom.ru/cars/korea/ssangyong/rexton/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13618,
+    "match": true,
+    "seconds": 0.74,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/korea/ssangyong/rexton/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/podborki/do-160-ls/index.html",
+    "url": "https://primcom.ru/cars/podborki/do-160-ls/",
+    "final_url": "https://primcom.ru/cars/podborki/do-160-ls/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 30014,
+    "match": true,
+    "seconds": 0.78,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/podborki/do-160-ls/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/podborki/do-2-mln/index.html",
+    "url": "https://primcom.ru/cars/podborki/do-2-mln/",
+    "final_url": "https://primcom.ru/cars/podborki/do-2-mln/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 65277,
+    "match": true,
+    "seconds": 1.07,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/podborki/do-2-mln/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/podborki/miniveny-iz-yaponii/index.html",
+    "url": "https://primcom.ru/cars/podborki/miniveny-iz-yaponii/",
+    "final_url": "https://primcom.ru/cars/podborki/miniveny-iz-yaponii/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 20015,
+    "match": true,
+    "seconds": 0.65,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/podborki/miniveny-iz-yaponii/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/primery/honda-freed-2022/index.html",
+    "url": "https://primcom.ru/cars/primery/honda-freed-2022/",
+    "final_url": "https://primcom.ru/cars/primery/honda-freed-2022/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12215,
+    "match": true,
+    "seconds": 0.62,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/primery/honda-freed-2022/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/primery/index.html",
+    "url": "https://primcom.ru/cars/primery/",
+    "final_url": "https://primcom.ru/cars/primery/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11020,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/primery/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/primery/suzuki-jimny-2021/index.html",
+    "url": "https://primcom.ru/cars/primery/suzuki-jimny-2021/",
+    "final_url": "https://primcom.ru/cars/primery/suzuki-jimny-2021/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13128,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/primery/suzuki-jimny-2021/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "cars/primery/toyota-raize-2021/index.html",
+    "url": "https://primcom.ru/cars/primery/toyota-raize-2021/",
+    "final_url": "https://primcom.ru/cars/primery/toyota-raize-2021/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13089,
+    "match": true,
+    "seconds": 0.5,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/cars/primery/toyota-raize-2021/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "components/cookie-notice.html",
+    "url": "https://primcom.ru/components/cookie-notice.html",
+    "final_url": "https://primcom.ru/components/cookie-notice.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 356,
+    "match": true,
+    "seconds": 0.48,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 0,
+    "version": [],
+    "canonical": [],
+    "robots": []
+  },
+  {
+    "file": "components/footer.html",
+    "url": "https://primcom.ru/components/footer.html",
+    "final_url": "https://primcom.ru/components/footer.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 2158,
+    "match": true,
+    "seconds": 0.47,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 0,
+    "version": [],
+    "canonical": [],
+    "robots": []
+  },
+  {
+    "file": "components/header.html",
+    "url": "https://primcom.ru/components/header.html",
+    "final_url": "https://primcom.ru/components/header.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 8877,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 0,
+    "version": [],
+    "canonical": [],
+    "robots": []
+  },
+  {
+    "file": "components/lead-modal.html",
+    "url": "https://primcom.ru/components/lead-modal.html",
+    "final_url": "https://primcom.ru/components/lead-modal.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 3214,
+    "match": true,
+    "seconds": 0.38,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 0,
+    "version": [],
+    "canonical": [],
+    "robots": []
+  },
+  {
+    "file": "css/main.css",
+    "url": "https://primcom.ru/css/main.css",
+    "final_url": "https://primcom.ru/css/main.css",
+    "status": 200,
+    "type": "text/css",
+    "bytes": 73969,
+    "match": true,
+    "seconds": 1.06,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "fonts/OFL.txt",
+    "url": "https://primcom.ru/fonts/OFL.txt",
+    "final_url": "https://primcom.ru/fonts/OFL.txt",
+    "status": 200,
+    "type": "text/plain",
+    "bytes": 4483,
+    "match": true,
+    "seconds": 0.49,
+    "x_robots": null,
+    "cache": null
+  },
+  {
+    "file": "fonts/oswald-cyrillic.woff2",
+    "url": "https://primcom.ru/fonts/oswald-cyrillic.woff2",
+    "final_url": "https://primcom.ru/fonts/oswald-cyrillic.woff2",
+    "status": 200,
+    "type": "font/woff2",
+    "bytes": 15600,
+    "match": true,
+    "seconds": 0.57,
+    "x_robots": null,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "fonts/oswald-latin-ext.woff2",
+    "url": "https://primcom.ru/fonts/oswald-latin-ext.woff2",
+    "final_url": "https://primcom.ru/fonts/oswald-latin-ext.woff2",
+    "status": 200,
+    "type": "font/woff2",
+    "bytes": 24048,
+    "match": true,
+    "seconds": 0.57,
+    "x_robots": null,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "fonts/oswald-latin.woff2",
+    "url": "https://primcom.ru/fonts/oswald-latin.woff2",
+    "final_url": "https://primcom.ru/fonts/oswald-latin.woff2",
+    "status": 200,
+    "type": "font/woff2",
+    "bytes": 28456,
+    "match": true,
+    "seconds": 0.77,
+    "x_robots": null,
+    "cache": "public, max-age=31536000, immutable"
+  },
+  {
+    "file": "guides/index.html",
+    "url": "https://primcom.ru/guides/",
+    "final_url": "https://primcom.ru/guides/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9840,
+    "match": true,
+    "seconds": 0.47,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "guides/kak-chitat-aukcionnyy-list/index.html",
+    "url": "https://primcom.ru/guides/kak-chitat-aukcionnyy-list/",
+    "final_url": "https://primcom.ru/guides/kak-chitat-aukcionnyy-list/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 16117,
+    "match": true,
+    "seconds": 0.87,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/kak-chitat-aukcionnyy-list/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "guides/kak-prohodit-pokupka-avto-iz-azii/index.html",
+    "url": "https://primcom.ru/guides/kak-prohodit-pokupka-avto-iz-azii/",
+    "final_url": "https://primcom.ru/guides/kak-prohodit-pokupka-avto-iz-azii/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 9712,
+    "match": true,
+    "seconds": 0.96,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/kak-prohodit-pokupka-avto-iz-azii/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "guides/kak-rasschitat-stoimost-avto-pod-klyuch/index.html",
+    "url": "https://primcom.ru/guides/kak-rasschitat-stoimost-avto-pod-klyuch/",
+    "final_url": "https://primcom.ru/guides/kak-rasschitat-stoimost-avto-pod-klyuch/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10051,
+    "match": true,
+    "seconds": 0.46,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/kak-rasschitat-stoimost-avto-pod-klyuch/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "guides/kak-sravnivat-predlozheniya-avto/index.html",
+    "url": "https://primcom.ru/guides/kak-sravnivat-predlozheniya-avto/",
+    "final_url": "https://primcom.ru/guides/kak-sravnivat-predlozheniya-avto/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10119,
+    "match": true,
+    "seconds": 0.5,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/kak-sravnivat-predlozheniya-avto/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "guides/yaponiya-koreya-ili-kitay-otkuda-zakazat-avto/index.html",
+    "url": "https://primcom.ru/guides/yaponiya-koreya-ili-kitay-otkuda-zakazat-avto/",
+    "final_url": "https://primcom.ru/guides/yaponiya-koreya-ili-kitay-otkuda-zakazat-avto/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10236,
+    "match": true,
+    "seconds": 0.43,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/guides/yaponiya-koreya-ili-kitay-otkuda-zakazat-avto/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "index.html",
+    "url": "https://primcom.ru/",
+    "final_url": "https://primcom.ru/",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 40928,
+    "match": true,
+    "seconds": 0.7,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "js/app.js",
+    "url": "https://primcom.ru/js/app.js",
+    "final_url": "https://primcom.ru/js/app.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 2936,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/analytics.js",
+    "url": "https://primcom.ru/js/modules/analytics.js",
+    "final_url": "https://primcom.ru/js/modules/analytics.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 2372,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/animations.js",
+    "url": "https://primcom.ru/js/modules/animations.js",
+    "final_url": "https://primcom.ru/js/modules/animations.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 4123,
+    "match": true,
+    "seconds": 0.37,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/auto-iz-kitaya.js",
+    "url": "https://primcom.ru/js/modules/auto-iz-kitaya.js",
+    "final_url": "https://primcom.ru/js/modules/auto-iz-kitaya.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 28601,
+    "match": true,
+    "seconds": 0.91,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/auto-manual-market.js",
+    "url": "https://primcom.ru/js/modules/auto-manual-market.js",
+    "final_url": "https://primcom.ru/js/modules/auto-manual-market.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 28192,
+    "match": true,
+    "seconds": 0.63,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/components.js",
+    "url": "https://primcom.ru/js/modules/components.js",
+    "final_url": "https://primcom.ru/js/modules/components.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 3781,
+    "match": true,
+    "seconds": 0.39,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/cookies.js",
+    "url": "https://primcom.ru/js/modules/cookies.js",
+    "final_url": "https://primcom.ru/js/modules/cookies.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 687,
+    "match": true,
+    "seconds": 0.38,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/header.js",
+    "url": "https://primcom.ru/js/modules/header.js",
+    "final_url": "https://primcom.ru/js/modules/header.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 8049,
+    "match": true,
+    "seconds": 0.39,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/hero-strip.js",
+    "url": "https://primcom.ru/js/modules/hero-strip.js",
+    "final_url": "https://primcom.ru/js/modules/hero-strip.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 3895,
+    "match": true,
+    "seconds": 0.34,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/import-calculator.js",
+    "url": "https://primcom.ru/js/modules/import-calculator.js",
+    "final_url": "https://primcom.ru/js/modules/import-calculator.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 8906,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/latest-cars-home.js",
+    "url": "https://primcom.ru/js/modules/latest-cars-home.js",
+    "final_url": "https://primcom.ru/js/modules/latest-cars-home.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 35779,
+    "match": true,
+    "seconds": 0.62,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/modal-lead.js",
+    "url": "https://primcom.ru/js/modules/modal-lead.js",
+    "final_url": "https://primcom.ru/js/modules/modal-lead.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 6707,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/page-bg.js",
+    "url": "https://primcom.ru/js/modules/page-bg.js",
+    "final_url": "https://primcom.ru/js/modules/page-bg.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 2470,
+    "match": true,
+    "seconds": 0.42,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/performance-mode.js",
+    "url": "https://primcom.ru/js/modules/performance-mode.js",
+    "final_url": "https://primcom.ru/js/modules/performance-mode.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 4369,
+    "match": true,
+    "seconds": 0.4,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/reviews-carousel.js",
+    "url": "https://primcom.ru/js/modules/reviews-carousel.js",
+    "final_url": "https://primcom.ru/js/modules/reviews-carousel.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 8036,
+    "match": true,
+    "seconds": 0.36,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/scroll-progress.js",
+    "url": "https://primcom.ru/js/modules/scroll-progress.js",
+    "final_url": "https://primcom.ru/js/modules/scroll-progress.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 773,
+    "match": true,
+    "seconds": 0.85,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/scroll-smoother.js",
+    "url": "https://primcom.ru/js/modules/scroll-smoother.js",
+    "final_url": "https://primcom.ru/js/modules/scroll-smoother.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 1351,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/tilt-cards.js",
+    "url": "https://primcom.ru/js/modules/tilt-cards.js",
+    "final_url": "https://primcom.ru/js/modules/tilt-cards.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 2458,
+    "match": true,
+    "seconds": 0.43,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "js/modules/vk-clips-carousel.js",
+    "url": "https://primcom.ru/js/modules/vk-clips-carousel.js",
+    "final_url": "https://primcom.ru/js/modules/vk-clips-carousel.js",
+    "status": 200,
+    "type": "application/javascript",
+    "bytes": 1975,
+    "match": true,
+    "seconds": 0.43,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "logo/logo 3 dark.png",
+    "url": "https://primcom.ru/logo/logo%203%20dark.png",
+    "final_url": "https://primcom.ru/logo/logo%203%20dark.png",
+    "status": 200,
+    "type": "image/png",
+    "bytes": 153115,
+    "match": true,
+    "seconds": 1.7,
+    "x_robots": null,
+    "cache": "max-age=3888000"
+  },
+  {
+    "file": "pages/auto-iz-kitaya.html",
+    "url": "https://primcom.ru/pages/auto-iz-kitaya.html",
+    "final_url": "https://primcom.ru/pages/auto-iz-kitaya.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 16792,
+    "match": true,
+    "seconds": 0.55,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/auto-iz-kitaya.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/auto-iz-korei.html",
+    "url": "https://primcom.ru/pages/auto-iz-korei.html",
+    "final_url": "https://primcom.ru/pages/auto-iz-korei.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 16694,
+    "match": true,
+    "seconds": 0.52,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/auto-iz-korei.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/auto-iz-yaponii.html",
+    "url": "https://primcom.ru/pages/auto-iz-yaponii.html",
+    "final_url": "https://primcom.ru/pages/auto-iz-yaponii.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 17103,
+    "match": true,
+    "seconds": 0.51,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/auto-iz-yaponii.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/consent.html",
+    "url": "https://primcom.ru/pages/consent.html",
+    "final_url": "https://primcom.ru/pages/consent.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 14140,
+    "match": true,
+    "seconds": 0.58,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/consent.html"
+    ],
+    "robots": [
+      "noindex,follow"
+    ]
+  },
+  {
+    "file": "pages/dogovor-i-garantii.html",
+    "url": "https://primcom.ru/pages/dogovor-i-garantii.html",
+    "final_url": "https://primcom.ru/pages/dogovor-i-garantii.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13061,
+    "match": true,
+    "seconds": 1.48,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/dogovor-i-garantii.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/dostavka.html",
+    "url": "https://primcom.ru/pages/dostavka.html",
+    "final_url": "https://primcom.ru/pages/dostavka.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 11849,
+    "match": true,
+    "seconds": 1.3,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/dostavka.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/faq.html",
+    "url": "https://primcom.ru/pages/faq.html",
+    "final_url": "https://primcom.ru/pages/faq.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 13165,
+    "match": true,
+    "seconds": 1.05,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/faq.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/kalkulyator-stoimosti.html",
+    "url": "https://primcom.ru/pages/kalkulyator-stoimosti.html",
+    "final_url": "https://primcom.ru/pages/kalkulyator-stoimosti.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 17254,
+    "match": true,
+    "seconds": 0.56,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/kalkulyator-stoimosti.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/kontakty.html",
+    "url": "https://primcom.ru/pages/kontakty.html",
+    "final_url": "https://primcom.ru/pages/kontakty.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 10913,
+    "match": true,
+    "seconds": 0.48,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/kontakty.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/privacy.html",
+    "url": "https://primcom.ru/pages/privacy.html",
+    "final_url": "https://primcom.ru/pages/privacy.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 18466,
+    "match": true,
+    "seconds": 0.66,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/privacy.html"
+    ],
+    "robots": [
+      "noindex,follow"
+    ]
+  },
+  {
+    "file": "pages/process-podbora.html",
+    "url": "https://primcom.ru/pages/process-podbora.html",
+    "final_url": "https://primcom.ru/pages/process-podbora.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 12326,
+    "match": true,
+    "seconds": 0.54,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/process-podbora.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "pages/rastamozhka-i-poshliny.html",
+    "url": "https://primcom.ru/pages/rastamozhka-i-poshliny.html",
+    "final_url": "https://primcom.ru/pages/rastamozhka-i-poshliny.html",
+    "status": 200,
+    "type": "text/html",
+    "bytes": 22846,
+    "match": true,
+    "seconds": 0.69,
+    "x_robots": null,
+    "cache": "public, max-age=0, must-revalidate",
+    "h1": 1,
+    "version": [
+      "20261018-organic-1",
+      "20261018-organic-1"
+    ],
+    "canonical": [
+      "https://primcom.ru/pages/rastamozhka-i-poshliny.html"
+    ],
+    "robots": [
+      "index,follow"
+    ]
+  },
+  {
+    "file": "robots.txt",
+    "url": "https://primcom.ru/robots.txt",
+    "final_url": "https://primcom.ru/robots.txt",
+    "status": 200,
+    "type": "text/plain",
+    "bytes": 124,
+    "match": true,
+    "seconds": 0.53,
+    "x_robots": null,
+    "cache": null
+  },
+  {
+    "file": "site.webmanifest",
+    "url": "https://primcom.ru/site.webmanifest",
+    "final_url": "https://primcom.ru/site.webmanifest",
+    "status": 200,
+    "type": null,
+    "bytes": 292,
+    "match": true,
+    "seconds": 0.41,
+    "x_robots": null,
+    "cache": null
+  },
+  {
+    "file": "sitemap.xml",
+    "url": "https://primcom.ru/sitemap.xml",
+    "final_url": "https://primcom.ru/sitemap.xml",
+    "status": 200,
+    "type": "text/xml",
+    "bytes": 28666,
+    "match": true,
+    "seconds": 0.69,
+    "x_robots": null,
+    "cache": null
+  }
+]

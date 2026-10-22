@@ -2,6 +2,8 @@
 
 Актуально для проекта `CSS&HTML Site`.
 
+Сверено с рабочей версией 22.10.2026. Точка входа в документацию — [README.md](README.md). Локально: 152 генерируемые индексируемые страницы и 163 URL sitemap. Подтверждение публикации органического релиза относится к 18.10.2026; публикация последующей мобильной шапки не подтверждена. См. [сохранённую проверку](seo/research/2026-10-18-organic-growth/live-check/README.md).
+
 ## 1. Обязательный регламент работы
 
 Этот регламент обязателен для всех следующих фронтенд-правок.
@@ -47,20 +49,21 @@
 
 1. `initPerformanceMode()`
 2. `loadSharedComponents()`
-3. `loadEnhancementRuntime()`
-4. `initPageBg()`
-5. `initHeader()`
+3. `initHeader()` — сразу после общих компонентов, до ожидания внешнего CDN
+4. `loadEnhancementRuntime()`
+5. `initPageBg()`
 6. `initCookieNotice()`
 7. `initLeadModal()`
 8. `initAutoIzKitaya()`
 9. `initManualMarketCars()`
 10. `initLatestCarsHome()`
-11. `initImportCalculator()` (лениво, только если есть `[data-import-calculator]`)
-12. `initAnimations()` (только вне lite mode)
-13. `initHeroStrip()` (только вне lite mode)
-14. `initTiltCards()` (только вне lite mode)
-15. `initScrollProgress()` (только вне lite mode)
-16. `initAnalytics()`
+11. `initVkClipsCarousel()`
+12. `initImportCalculator()` (лениво, только если есть `[data-import-calculator]`)
+13. `initAnimations()` (только вне lite mode)
+14. `initHeroStrip()` (только вне lite mode)
+15. `initTiltCards()` (только вне lite mode)
+16. `initScrollProgress()` (только вне lite mode)
+17. `initAnalytics()`
 
 Вызов каждого модуля обёрнут в `safeInit`, чтобы ошибка одного блока не останавливала весь фронт.
 Модуль калькулятора не импортируется на верхнем уровне общего `app.js`: он догружается динамически только на странице с `[data-import-calculator]`, чтобы проблема с файлом калькулятора не могла остановить модалку заявки и остальные общие блоки сайта.
@@ -103,6 +106,8 @@
 - `404.html` — страница 404.
 - `components/header.html` — общая шапка.
 - `components/footer.html` — общий футер.
+- `components/lead-modal.html` — общая разметка контекстной формы; генератор встраивает её в SEO-страницы.
+- `components/cookie-notice.html` — разметка cookie-уведомления для генерируемых страниц.
 - `css/main.css` — весь UI и адаптив.
 - `data/2gis-reviews.json` — локальный источник отзывов 2ГИС для главной.
 - `js/app.js` — orchestrator инициализации.
@@ -120,6 +125,8 @@
 
 - `cars/` содержит каталог, марочные и модельные посадочные страницы.
 - `guides/` содержит полезные информационно-коммерческие материалы.
+- `cars/podborki/` — подборки до 2 млн ₽, до 160 л.с. и минивэнов из Японии; фильтры применяются к отдельным объявлениям. Пустая подборка получает `noindex` и исключается из sitemap.
+- `cars/primery/` — разборы трёх объявлений и индекс примеров; это не подтверждённые выдачи автомобилей клиентам. Редакционный источник — `seo/organic-content.json`.
 - Кейсы и FAQ-кандидаты не генерируются как публичные страницы до подтверждения цен, сроков, фото, юридических формулировок и согласия клиента.
 - Основной контент находится в статическом HTML и доступен без JavaScript.
 - Фильтры существующих каталогов не создают отдельные индексируемые URL.
@@ -139,15 +146,20 @@
   - sticky header;
   - класс `is-detached` на скролле;
   - dropdown меню (`details.nav-dd`);
+  - до 860px — кнопка `[data-burger]` и раскрываемая панель, `aria-expanded`; без JS остаётся доступная навигация;
+  - при ширине до 520px `.site-nav` сохраняет `overflow: visible`: горизонтальный scroll-контейнер обрезает выпадающие панели и по вертикали;
+  - мобильный список допускает перенос; обе панели позиционируются относительно `.site-nav` и ограничены её шириной;
   - active-link логика и hash-scroll;
   - пересчёт `--header-offset`.
 - `js/modules/cookies.js`
   - cookie banner (`localStorage: cookieAccepted`).
 - `js/modules/modal-lead.js`
   - модалка заявки;
-  - auto-open логика;
-  - отправка заявки в API (`/api/lead` и fallback);
-  - после успешного ответа API отправляет JavaScript-цель Яндекс.Метрики `lead_submit_success`;
+  - открытие по `[data-open-lead-modal]`, фокус на имени, удержание Tab внутри формы и возврат фокуса при закрытии;
+  - имя и телефон, необязательные город, бюджет и пожелания; контекст модели/подборки и актуального расчёта объединяется в существующее поле API `comment`;
+  - один POST на `https://api.primcom.ru/api/lead` либо `window.PRIMCOM_LEAD_ENDPOINT`; заголовок `X-Primcom-Token` добавляется при заданном `window.PRIMCOM_LEAD_TOKEN`;
+  - блокировка параллельной отправки, таймаут 12 секунд без автоматического повтора;
+  - JavaScript-цель `lead_submit_success` только после HTTP OK и JSON `ok: true`; события открытия, начала заполнения и ошибки не передают содержимое полей;
   - HTML-формы заявки помечены `ym-disable-submit`, чтобы автоцель Метрики "Отправка формы" не считала попытки без успешного API-ответа;
   - anti-spam (honeypot).
 - `js/modules/latest-cars-home.js`
@@ -229,9 +241,10 @@
 Нельзя менять эти `data-*` атрибуты без синхронной правки соответствующего модуля:
 
 - Header:
-  - `[data-header]`, `[data-nav]`, `[data-logo]`.
+  - `[data-header]`, `[data-nav]`, `[data-logo]`, `[data-burger]`; `aria-controls` кнопки должен совпадать с ID панели навигации.
 - Lead modal:
   - `[data-lead-modal]`, `[data-open-lead-modal]`, `[data-modal-close]`, `[data-lead-form]`.
+  - контекст: `data-lead-model`, `data-lead-collection`, `data-lead-budget`, `data-lead-intent`; подпись `[data-lead-context]`, статус `[data-form-status]`.
   - успешная отправка заявки трекается только через JavaScript-цель `lead_submit_success` после ответа API; автоцель Метрики "Отправка формы" для оптимизации рекламы не использовать.
   - формы заявки должны сохранять класс `ym-disable-submit`.
 - Cookie:
@@ -257,6 +270,8 @@
     - `[data-out-rule-version]`, `[data-out-exchange-rate]`, `[data-out-util-mode]`
     - `[data-calc-debug]`, `[data-calc-debug-pre]`
   - форма калькулятора должна сохранять класс `ym-disable-submit`; расчет трекается через JavaScript-цель `calculator_calculate_click`.
+  - расчёт запускается действием пользователя; результат и ошибка отмечаются `calculator_result_success` / `calculator_result_error`;
+  - успешный расчёт сохраняется в `data-lead-calculation` для заявки; изменение параметров сбрасывает его и устаревшие суммы.
 - Reviews 2ГИС:
   - секция `#reviews.section--reviews-2gis`;
   - HTML между комментариями `<!-- 2GIS_REVIEWS:START -->` и `<!-- 2GIS_REVIEWS:END -->` считается генерируемым и обновляется только скриптом `scripts/sync-2gis-reviews.mjs`.
@@ -382,7 +397,7 @@ Hero readability:
 
 - Lead form:
   - основной endpoint: `https://api.primcom.ru/api/lead`;
-  - fallback: относительный `/api/lead`;
+  - переопределение endpoint через `window.PRIMCOM_LEAD_ENDPOINT`; автоматического fallback и повторного POST нет;
   - возможен токен через `window.PRIMCOM_LEAD_TOKEN`.
 - China catalog:
   - endpoint кандидаты формируются в `auto-iz-kitaya.js`.
@@ -452,6 +467,18 @@ Hero readability:
    - если правка связана с SEO (meta, robots, sitemap, structured data, индексация, продвижение), фиксировать изменение и ожидаемый эффект.
 
 ## 11. Журнал изменений документации
+
+### 2026-10-22
+
+- Исправлены порядок запуска приложения, описание мобильной панели, контракт формы и контекст расчёта по фактическому коду.
+- Добавлены общие компоненты формы/cookies и карта новых SEO-разделов; статус публикации привязан к сохранённым доказательствам от 18.10.2026.
+- Повторно пройдены SEO QA (152/163 URL), тест формы (12/12), тесты публикатора и локальной доставки, проверка таблиц ставок. Новых визуальных и production-проверок не выполнялось.
+
+### 2026-10-18
+
+- Исправлено обрезание мобильных меню «Авто под заказ» и «Полезное» в `css/main.css`.
+- В 158 HTML-страницах (`index.html`, `404.html`, `pages/`, `cars/`, `guides/`) версия CSS обновлена до `20261018-mobile-menu-1` для обхода долгого кэша хостинга. Генератор SEO-страниц берёт версию из `index.html` автоматически.
+- Общая шапка затронута на всех страницах; разметка компонента и JS не менялись.
 
 ### 2026-09-13
 
@@ -594,3 +621,13 @@ Hero readability:
 - Мобильные модалки с классами `.modal__dialog` и `.modal__dialog--wide` раскрываются на всю ширину/высоту экрана от `700px` и ниже.
 - Кнопка `.modal__close` в мобильной версии намеренно сделана более контрастной, потому что лежит поверх фото и тёмного контента.
 - У wide-модалок карточек авто (`.modal__dialog--wide`) mobile override должен идти позже базового desktop-правила, иначе ширина снова схлопывается и справа становится видна страница под модалкой.
+
+
+### 2026-10-18 — Органические посадочные и конверсия
+
+Источники — seo/content-registry.json и seo/organic-content.json. Генератор создаёт подборки, примеры и руководство; общие components/lead-modal.html и cookie-notice.html обязательны при серверной сборке. js/modules/modal-lead.js передаёт контекст в существующее поле comment API. Аналитика отправляет page_type/source_page/model/collection без содержимого полей. Полный статус и ограничения: seo/research/2026-10-18-organic-growth/IMPLEMENTATION-STATUS.md.
+
+
+### 2026-10-18 — Компактная мобильная шапка
+
+Мобильная шапка до 860px: логотип, телефон и кнопка «Меню» в одной строке. Контроллер js/modules/header.js добавляет has-mobile-menu; без JS остаётся видимая прежняя навигация. aria-controls/expanded, возврат фокуса, закрытие по Escape/снаружи/выбору ссылки, сброс на desktop. Вложенные details находятся в потоке панели; max-height учитывает viewport, скролл внутри панели. Header запускается до ожидания внешних анимаций. Версия ресурсов: 20261018-mobile-header-2.

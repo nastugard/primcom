@@ -38,15 +38,32 @@ function startYandexMetrika() {
   });
 }
 
-export function trackYandexGoal(goalName, params) {
+export function getPageContext() {
+  return {
+    page_type: document.body.dataset.pageType || (location.pathname === '/' ? 'home' : 'service'),
+    source_page: location.pathname,
+    model: document.body.dataset.leadModel || '',
+    collection: document.body.dataset.leadCollection || '',
+  };
+}
+
+export function trackYandexGoal(goalName, params = {}) {
   if (typeof window.ym !== "function") return;
 
-  window.ym(YANDEX_METRIKA_ID, "reachGoal", goalName, params);
+  window.ym(YANDEX_METRIKA_ID, "reachGoal", goalName, {...getPageContext(), ...params});
 }
 
 // Единая точка подключения аналитики (Яндекс Метрика).
 // Подключаем скрипты только после согласия на cookies.
 export function initAnalytics() {
+  document.addEventListener('click', (event) => {
+    const anchor = event.target.closest('a[href]');
+    if (!anchor) return;
+    const href = anchor.getAttribute('href') || '';
+    if (href.startsWith('tel:')) trackYandexGoal('contact_phone_click');
+    else if (/^https:\/\/(?:t\.me|wa\.me)\//.test(href)) trackYandexGoal('contact_messenger_click');
+    else if (anchor.hasAttribute('data-view-offers')) trackYandexGoal('catalog_offers_click');
+  });
   if (isCookieAccepted()) {
     startYandexMetrika();
     return;

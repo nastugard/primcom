@@ -1,0 +1,12 @@
+[
+  {
+    "method": "OPTIONS",
+    "url": "https://api.primcom.ru/api/import-calculator/calculate",
+    "status": 200,
+    "body": "OK",
+    "cors": "https://primcom.ru",
+    "allowHeaders": "content-type",
+    "allowMethods": "DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT",
+    "seconds": 1.31
+  }
+]

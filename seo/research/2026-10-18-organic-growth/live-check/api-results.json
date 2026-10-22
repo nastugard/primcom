@@ -1,0 +1,25 @@
+[
+  {
+    "method": "GET",
+    "url": "https://api.primcom.ru/health",
+    "status": 200,
+    "body": "{\"status\":\"ok\"}",
+    "cors": "https://primcom.ru",
+    "seconds": 0.94
+  },
+  {
+    "method": "POST",
+    "url": "https://primcom.ru/api/import-calculator/calculate",
+    "status": 502,
+    "body": "{\"detail\":\"Upstream request failed\",\"error\":\"Failed to connect to api.primcom.ru port 443 after 15002 ms: Timeout was reached\"}",
+    "seconds": 18.39
+  },
+  {
+    "method": "POST",
+    "url": "https://api.primcom.ru/api/import-calculator/calculate",
+    "status": 200,
+    "body": "{\"total_cost\":3223037.87,\"breakdown\":{\"car_price_rub\":837192.4,\"duty\":508555.47,\"excise\":227290.0,\"util\":1650000.0,\"vat\":0.0},\"meta\":{\"rule_version\":\"2026\",\"exchange_rate\":83.72,\"exchange_rate_source\":\"api\",\"util_mode\":\"commercial\"}}",
+    "cors": "https://primcom.ru",
+    "seconds": 1.15
+  }
+]

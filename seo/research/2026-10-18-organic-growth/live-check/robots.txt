@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /telegram-bot/
+Disallow: /docs/
+
+Host: primcom.ru
+Sitemap: https://primcom.ru/sitemap.xml

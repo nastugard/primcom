@@ -1,14 +1,11 @@
 const CALCULATOR_SUBMIT_GOAL = "calculator_calculate_click";
+import { trackYandexGoal } from './analytics.js?v=20261018-organic-1';
 
 function qs(sel, root = document) {
   return root.querySelector(sel);
 }
 
-function trackCalculatorSubmitGoal() {
-  if (typeof window.ym !== "function") return;
-
-  window.ym(109674829, "reachGoal", CALCULATOR_SUBMIT_GOAL);
-}
+function trackCalculatorSubmitGoal() { trackYandexGoal(CALCULATOR_SUBMIT_GOAL); }
 
 function getApiCandidates(apiPath) {
   const path = String(apiPath || "/api/import-calculator/calculate").trim()
@@ -167,6 +164,8 @@ export function initImportCalculator() {
   const statusEl = qs("[data-calc-status]", root);
   const apiPath = root.getAttribute("data-api-path") || "/api/import-calculator/calculate";
   const apiCandidates = getApiCandidates(apiPath);
+  let lastPayload = null;
+  let calculating = false;
 
   const setBusy = (busy) => {
     form.setAttribute("aria-busy", busy ? "true" : "false");
@@ -174,12 +173,22 @@ export function initImportCalculator() {
   };
 
   const calculate = async () => {
+    if (calculating) return;
+    calculating = true;
     const payload = buildPayload(form);
+    lastPayload = payload;
+    delete root.dataset.leadCalculation;
     setBusy(true);
     setStatus(statusEl, "Считаем платежи...", "loading");
     try {
       const data = await postWithFallback(apiCandidates, payload);
+      if (JSON.stringify(payload) !== JSON.stringify(buildPayload(form))) {
+        setStatus(statusEl, 'Параметры изменились. Нажмите «Рассчитать» для нового результата.');
+        return;
+      }
       renderResult(root, payload, data);
+      root.dataset.leadCalculation = `Параметры калькулятора: цена за границей ${payload.car_price_foreign} ${payload.currency}, объём ${payload.engine_volume} л, мощность ${payload.engine_power_hp} л.с., возраст ${payload.vehicle_age}, топливо ${payload.fuel_type}. Авто и обязательные платежи: ${formatMoney(data.total_cost)}. Логистика и услуги уточняются отдельно.`;
+      trackYandexGoal('calculator_result_success', {currency:payload.currency});
       setStatus(
         statusEl,
         payload.is_legal_entity
@@ -188,9 +197,11 @@ export function initImportCalculator() {
         "success"
       );
     } catch (err) {
+      trackYandexGoal('calculator_result_error');
       const msg = String(err?.message || "Сервис расчёта временно недоступен.");
       setStatus(statusEl, msg, "error");
     } finally {
+      calculating = false;
       setBusy(false);
     }
   };
@@ -211,10 +222,15 @@ export function initImportCalculator() {
   }
 
   form.addEventListener("input", () => {
+    delete root.dataset.leadCalculation;
+    if (lastPayload && JSON.stringify(lastPayload) !== JSON.stringify(buildPayload(form))) {
+      root.querySelectorAll('[data-out-total],[data-out-car-price],[data-out-duty],[data-out-excise],[data-out-util],[data-out-vat]').forEach(el=>el.textContent='—');
+      setStatus(statusEl, 'Параметры изменились. Нажмите «Рассчитать» для нового результата.');
+    }
     if (String(statusEl?.dataset.type || "") === "error") {
       setStatus(statusEl, "Параметры обновлены. Нажмите «Рассчитать» для нового запроса.");
     }
   });
 
-  void calculate();
+  // Считаем после действия пользователя, а не при каждом просмотре страницы.
 }

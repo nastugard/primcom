@@ -23,6 +23,9 @@ for name in generate-seo-pages check-seo-pages sync-seo-catalog publish-seo-cata
   cp "$ROOT/scripts/$name.mjs" "$OUT/scripts/"
 done
 cp "$ROOT/seo/content-registry.json" "$OUT/seo/"
+cp "$ROOT/seo/organic-content.json" "$OUT/seo/"
+mkdir -p "$OUT/components"
+cp "$ROOT/components/lead-modal.html" "$ROOT/components/cookie-notice.html" "$OUT/components/"
 [ -f "$ROOT/seo/lastmod-state.json" ] && cp "$ROOT/seo/lastmod-state.json" "$OUT/seo/"
 cp "$ROOT/sync.env.example" "$OUT/"
 

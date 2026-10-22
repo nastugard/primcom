@@ -62,6 +62,8 @@ function listingFacts(item) {
   const num = (v) => (v === null || v === undefined || v === "" || !Number.isFinite(Number(v)) ? undefined : Number(v));
   const txt = (v) => { const t = cleanText(v); return t || undefined; };
   const facts = {
+    id:txt(item.id),
+    image:txt(item.cover_image_url),
     year:num(item.year),
     trim:txt(item.trim),
     body:txt(item.body_type),

@@ -10,20 +10,53 @@ export function initHeader() {
 
   setHeaderOffset();
   window.addEventListener("resize", setHeaderOffset, { passive: true });
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(setHeaderOffset).observe(header);
+  }
 
   const nav = document.querySelector("[data-nav]");
   if (!nav) return;
 
   const indicator = nav.querySelector("[data-nav-indicator]");
+  const burger = header.querySelector("[data-burger]");
+  const mobile = window.matchMedia("(max-width: 860px)");
 
   const dropdowns = Array.from(nav.querySelectorAll("details.nav-dd"));
-  if (dropdowns.length) {
-    const closeAll = (except) => {
-      dropdowns.forEach((dd) => {
-        if (except && dd === except) return;
-        dd.removeAttribute("open");
-      });
+  const closeAll = (except) => {
+    dropdowns.forEach((dd) => {
+      if (except && dd === except) return;
+      dd.removeAttribute("open");
+    });
+  };
+
+  const setMenuOpen = (open, returnFocus = false) => {
+    const expanded = !!open && mobile.matches;
+    header.classList.toggle("is-menu-open", expanded);
+    burger?.setAttribute("aria-expanded", String(expanded));
+    burger?.setAttribute("aria-label", expanded ? "Закрыть меню" : "Открыть меню");
+    if (expanded) nav.scrollTop = 0;
+    if (!expanded) closeAll();
+    if (returnFocus && mobile.matches) burger?.focus({ preventScroll: true });
+  };
+
+  if (burger) {
+    burger.hidden = false;
+    header.classList.add("has-mobile-menu");
+    burger.addEventListener("click", () => {
+      const open = !header.classList.contains("is-menu-open");
+      setMenuOpen(open);
+      if (open) nav.querySelector("summary, a[href]")?.focus({ preventScroll: true });
+    });
+    const resetMenu = () => {
+      const focusWasInNav = nav.contains(document.activeElement);
+      setMenuOpen(false, focusWasInNav);
+      setHeaderOffset();
     };
+    if (mobile.addEventListener) mobile.addEventListener("change", resetMenu);
+    else mobile.addListener(resetMenu);
+  }
+
+  if (dropdowns.length) {
 
     dropdowns.forEach((dd) => {
       dd.addEventListener("toggle", () => {
@@ -34,13 +67,23 @@ export function initHeader() {
     document.addEventListener("click", (e) => {
       const target = e.target;
       if (!(target instanceof Node)) return;
-      if (nav.contains(target)) return;
+      if (header.contains(target)) return;
+      const restoreFocus = header.classList.contains("is-menu-open") &&
+        (nav.contains(document.activeElement) || document.activeElement === document.body);
       closeAll();
+      setMenuOpen(false, restoreFocus);
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key !== "Escape") return;
-      closeAll();
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      const expandedDropdown = dropdowns.find((dd) => dd.open);
+      if (expandedDropdown) {
+        closeAll();
+        expandedDropdown.querySelector("summary")?.focus({ preventScroll: true });
+      } else if (header.classList.contains("is-menu-open")) {
+        setMenuOpen(false, true);
+      } else return;
+      e.preventDefault();
     });
 
     nav.addEventListener("click", (e) => {
@@ -49,8 +92,18 @@ export function initHeader() {
       const link = target.closest("a[href]");
       if (!link) return;
       closeAll();
+      setMenuOpen(false);
     });
   }
+
+  // Навигация не модальная: при уходе фокуса за пределы шапки она сворачивается.
+  header.addEventListener("focusout", () => {
+    window.requestAnimationFrame(() => {
+      if (!header.contains(document.activeElement)) {
+        setMenuOpen(false, header.classList.contains("is-menu-open") && document.activeElement === document.body);
+      }
+    });
+  });
 
   const links = Array.from(nav.querySelectorAll("a[href]"));
 

@@ -1,0 +1,119 @@
+{
+  "pages": [
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Примком. Автомобили прямиком из Азии",
+      "path": "/",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Авто до 2 млн ₽ под ключ из Японии, Кореи и Китая",
+      "path": "/cars/podborki/do-2-mln/",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Минивэны из Японии под заказ: модели и цены",
+      "path": "/cars/podborki/miniveny-iz-yaponii/",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Toyota Raize 2021: разбор предложения",
+      "path": "/cars/primery/toyota-raize-2021/",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Как читать аукционный лист: Raize и Jimny из каталога",
+      "path": "/guides/kak-chitat-aukcionnyy-list/",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Актуальные предложения авто из Японии",
+      "path": "/pages/auto-iz-yaponii.html",
+      "width": 390
+    },
+    {
+      "contentWidth": 390,
+      "forms": 1,
+      "h1": "Калькулятор стоимости привоза",
+      "path": "/pages/kalkulyator-stoimosti.html",
+      "width": 390
+    }
+  ],
+  "events": [
+    {
+      "level": "log",
+      "message": "PageView. Counter 109674829. URL: https://primcom.ru/pages/kalkulyator-stoimosti.html?_ym_debug=2&from=release-check. Referrer: ",
+      "timestamp": "2026-10-18T09:42:18.992Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: calculator_calculate_click. Params:  Object",
+      "timestamp": "2026-10-18T09:42:28.876Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: calculator_result_error. Params:  Object",
+      "timestamp": "2026-10-18T09:42:48.880Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "PageView. Counter 109674829. URL: https://primcom.ru/cars/japan/toyota/raize/?_ym_debug=2&from=release-check. Referrer: ",
+      "timestamp": "2026-10-18T09:44:03.227Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: lead_form_open. Params:  Object",
+      "timestamp": "2026-10-18T09:44:07.658Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: lead_form_start. Params:  Object",
+      "timestamp": "2026-10-18T09:44:20.862Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "PageView. Counter 109674829. URL: https://primcom.ru/pages/kalkulyator-stoimosti.html?_ym_debug=2&from=release-check-retry. Referrer: ",
+      "timestamp": "2026-10-18T09:45:29.202Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: calculator_calculate_click. Params:  Object",
+      "timestamp": "2026-10-18T09:45:35.160Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: calculator_result_success. Params:  Object",
+      "timestamp": "2026-10-18T09:45:35.865Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    },
+    {
+      "level": "log",
+      "message": "Reach goal. Counter: 109674829. Goal id: lead_form_open. Params:  Object",
+      "timestamp": "2026-10-18T09:46:30.274Z",
+      "url": "https://mc.yandex.com/metrika/tag_debug.js?ver=2661&b="
+    }
+  ],
+  "calculator": {
+    "status": "Расчёт выполнен. Для физлица НДС не начисляется.",
+    "total": "3 223 038 ₽"
+  }
+}
