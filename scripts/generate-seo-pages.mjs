@@ -2,12 +2,16 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { renderTagCloud, faqEntities, modelTags, brandTags, importDate } from "./seo-tag-cloud.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT_ROOT = path.resolve(process.env.SEO_OUTPUT_ROOT || ROOT);
 const REGISTRY_PATH = path.resolve(process.env.SEO_REGISTRY_PATH || path.join(ROOT, "seo/content-registry.json"));
 const registry = JSON.parse(await fs.readFile(REGISTRY_PATH, "utf8"));
 const organic = JSON.parse(await fs.readFile(path.join(ROOT, 'seo/organic-content.json'), 'utf8'));
+// Облако тегов: ручные ответы для руководств, подборок и примеров, расчётные — для моделей и марок.
+const tagData = JSON.parse(await fs.readFile(path.join(ROOT, "seo/tag-cloud.json"), "utf8").catch(() => '{"pages":{},"models":{}}'));
+const imp = importDate();
 const SITE = "https://primcom.ru";
 // «Сегодня» — по Владивостоку: сервер живёт по UTC, и после 07:00 утра по Владивостоку
 // дата отстала бы на сутки.
@@ -94,12 +98,13 @@ function breadcrumbs(items) {
   return `<nav class="seo-breadcrumbs" aria-label="Хлебные крошки"><ol>${items.map((item, index) => `<li>${index === items.length - 1 ? `<span aria-current="page">${escapeHtml(item.name)}</span>` : `<a href="${item.url}">${escapeHtml(item.name)}</a>`}</li>`).join("")}</ol></nav>`;
 }
 
-function layout({title, description, canonical, h1, body, crumbs, robots = "index,follow", schemaType = "WebPage", pageType = 'catalog', leadModel = '', leadCollection = ''}) {
+function layout({title, description, canonical, h1, body, crumbs, robots = "index,follow", schemaType = "WebPage", pageType = 'catalog', leadModel = '', leadCollection = '', tags = []}) {
   const schema = {
     "@context":"https://schema.org",
     "@graph":[
       {"@type":schemaType,"name":h1,"description":description,"url":SITE + canonical,"isPartOf":{"@type":"WebSite","name":"Примком","url":SITE + "/"}},
-      {"@type":"BreadcrumbList","itemListElement":crumbs.map((item, index) => ({"@type":"ListItem","position":index + 1,"name":item.name,"item":SITE + item.url}))}
+      {"@type":"BreadcrumbList","itemListElement":crumbs.map((item, index) => ({"@type":"ListItem","position":index + 1,"name":item.name,"item":SITE + item.url}))},
+      ...(tags.length ? [{"@type":"FAQPage","mainEntity":faqEntities(tags)}] : [])
     ]
   };
   return `<!doctype html>
@@ -134,7 +139,7 @@ function layout({title, description, canonical, h1, body, crumbs, robots = "inde
   <a class="skip-link" href="#main">К основному содержимому</a>
   <div class="page-bg" aria-hidden="true"><div class="page-bg__base"></div><div class="page-bg__aurora"></div><div class="page-bg__grid"></div><div class="page-bg__grain"></div></div>
   <div id="site-header"></div>
-  <main class="site-main" id="main"><div class="container seo-page">${breadcrumbs(crumbs)}<h1 class="section__title">${escapeHtml(h1)}</h1>${body}</div></main>
+  <main class="site-main" id="main"><div class="container seo-page">${breadcrumbs(crumbs)}<h1 class="section__title">${escapeHtml(h1)}</h1>${body}${renderTagCloud(tags)}</div></main>
   <div id="site-footer"></div>
   ${cookieMarkup}
   ${leadMarkup}
@@ -151,7 +156,7 @@ async function writeUrl(url, html) {
 
 const approvedUrls = [];
 async function publish(url, data) {
-  const html = layout({...data, canonical:url});
+  const html = layout({tags:tagData.pages?.[url] || [], ...data, canonical:url});
   await writeUrl(url, html);
   recordPage(url, html);
   if (data.robots !== "noindex,follow") approvedUrls.push(url);
@@ -211,6 +216,7 @@ for (const hub of registry.brandHubs) {
     description:`Модели ${hub.make} из ${hub.countryName} под заказ: автомобили в каталоге, годы выпуска и цены под ключ.`,
     h1:`Автомобили ${hub.make} из ${hub.countryName}`,
     robots:isInactiveHub ? "noindex,follow" : "index,follow",
+    tags:isInactiveHub ? [] : brandTags(hub, {models:activeModels, hubs:registry.brandHubs, imp, modelUrl, makeUrl}),
     crumbs:[{name:"Главная",url:"/"},{name:"Автомобили",url:"/cars/"},{name:countryLabel[hub.country],url:countryCatalog[hub.country]},{name:hub.make,url:makeUrl(hub)}],
     body:isInactiveHub
       ? `<p class="section__lead">Сейчас в каталоге нет актуальных предложений ${hub.make} из ${hub.countryName}. Посмотрите другие марки или оставьте заявку на индивидуальный подбор.</p>${topicLinks(brandTopics)}<section class="seo-section"><h2>Что можно сделать сейчас</h2><div class="seo-link-grid"><a href="${countryCatalog[hub.country]}">Открыть каталог</a><a href="/pages/process-podbora.html">Изучить процесс подбора</a><a href="/pages/kontakty.html">Связаться с компанией Примком</a></div></section>`
@@ -250,6 +256,7 @@ for (const m of registry.models) {
     schemaType:"CollectionPage",
     pageType:"model", leadModel:`${m.make} ${m.model}`,
     robots:isInactive ? "noindex,follow" : "index,follow",
+    tags:isInactive ? [] : modelTags(m, {models:activeModels, imp, overrides:tagData.models || {}, modelUrl}),
     crumbs:modelCrumbs,
     body:isInactive
       ? `<p class="section__lead">Сейчас в каталоге нет актуальных предложений ${m.make} ${m.model} из ${m.countryName}. Посмотрите другие модели или оставьте заявку на индивидуальный подбор.</p>${topicLinks(modelTopics)}<section class="seo-section"><h2>Что можно сделать сейчас</h2><div class="seo-link-grid"><a href="${countryCatalog[m.country]}">Открыть каталог</a><a href="/pages/process-podbora.html">Изучить процесс подбора</a><a href="/pages/kontakty.html">Связаться с компанией Примком</a></div></section>`

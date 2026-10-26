@@ -19,11 +19,12 @@ OUT="${1:-$ROOT/deploy/seo-publisher-$(date +%Y%m%d)}"
 rm -rf "$OUT"
 mkdir -p "$OUT/scripts" "$OUT/seo" "$OUT/site-staging"
 
-for name in generate-seo-pages check-seo-pages sync-seo-catalog publish-seo-catalog sync-to-host publish-and-sync; do
+for name in generate-seo-pages seo-tag-cloud check-seo-pages sync-seo-catalog publish-seo-catalog sync-to-host publish-and-sync; do
   cp "$ROOT/scripts/$name.mjs" "$OUT/scripts/"
 done
 cp "$ROOT/seo/content-registry.json" "$OUT/seo/"
 cp "$ROOT/seo/organic-content.json" "$OUT/seo/"
+cp "$ROOT/seo/tag-cloud.json" "$OUT/seo/"
 mkdir -p "$OUT/components"
 cp "$ROOT/components/lead-modal.html" "$ROOT/components/cookie-notice.html" "$OUT/components/"
 [ -f "$ROOT/seo/lastmod-state.json" ] && cp "$ROOT/seo/lastmod-state.json" "$OUT/seo/"
