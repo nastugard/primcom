@@ -50,8 +50,9 @@ mkdir -p /opt/primcom/seo-publisher
 rsync -a seo-publisher-ГГГГММДД/ /opt/primcom/seo-publisher/
 ```
 
-В ней: `scripts/` (публикатор), `seo/` (реестр и состояние дат), `site-staging/`
-(полная копия сайта для проверки качества) и `sync.env.example`.
+В ней: `scripts/` (публикатор и `seo-tag-cloud.mjs`), `seo/` (реестр, `organic-content.json`,
+`tag-cloud.json` и состояние дат), `site-staging/` (полная копия сайта для проверки качества)
+и `sync.env.example`. Актуальный пакет на 26.10.2026 — `deploy/seo-publisher-20261026-seo-tags.zip`.
 
 ### 2. Настройки отправки
 
@@ -171,6 +172,10 @@ PRIMCOM_SITE_ROOT=/путь/к/папке/сайта node scripts/publish-seo-ca
 или страниц её надо обновить: заново собрать папку `bash scripts/build-publisher-bundle.sh`
 и загрузить `site-staging/` на сервер. Версия ресурсов в собираемых страницах
 берётся из `site-staging/index.html` сама.
+
+То же после изменения `seo/tag-cloud.json` или `scripts/seo-tag-cloud.mjs`: обновить на сервере
+`scripts/` и `seo/tag-cloud.json`, иначе автопубликация соберёт страницы со старыми ответами
+облака тегов. Старый пакет без `seo-tag-cloud.mjs` с новым генератором не запустится.
 
 ## Чего здесь нет
 
