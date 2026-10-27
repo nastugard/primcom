@@ -1,5 +1,5 @@
 import { loadSharedComponents } from "./modules/components.js";
-import { initHeader } from "./modules/header.js?v=20261018-mobile-header-2";
+import { initHeader } from "./modules/header.js?v=20261027-header-safari-1";
 import { initCookieNotice } from "./modules/cookies.js";
 import { initLeadModal } from "./modules/modal-lead.js?v=20261018-organic-1";
 import { initAnalytics } from "./modules/analytics.js?v=20261018-organic-1";

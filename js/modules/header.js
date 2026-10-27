@@ -97,7 +97,13 @@ export function initHeader() {
   }
 
   // Навигация не модальная: при уходе фокуса за пределы шапки она сворачивается.
-  header.addEventListener("focusout", () => {
+  // Safari не ставит фокус на ссылку по клику, поэтому при нажатии на пункт меню фокус уходит
+  // «в никуда» (relatedTarget = null) ещё до click; закрытие в этот момент отменяло переход.
+  // Сворачиваем только когда фокус перешёл на конкретный элемент вне шапки (Tab), а клики
+  // снаружи закрывает обработчик click на document.
+  header.addEventListener("focusout", (e) => {
+    const next = e.relatedTarget;
+    if (!(next instanceof Node) || header.contains(next)) return;
     window.requestAnimationFrame(() => {
       if (!header.contains(document.activeElement)) {
         setMenuOpen(false, header.classList.contains("is-menu-open") && document.activeElement === document.body);

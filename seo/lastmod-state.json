@@ -1,656 +1,656 @@
 {
  "pages": {
   "/cars/": {
-   "hash": "eb76f6ca2b33cf4cd1ee19851e2aaaafdd41be4b",
-   "date": "2026-10-26"
+   "hash": "1311e1f56261ec6c7e8cb312af36d2e7e0ac9c8e",
+   "date": "2026-10-27"
   },
   "/cars/china/audi/": {
-   "hash": "f0f170775186180b46e24acd45a0bd002efdc657",
-   "date": "2026-10-26"
+   "hash": "ae2182d4e16fa23b8d30ff46c99fe71c937e2010",
+   "date": "2026-10-27"
   },
   "/cars/china/bmw/": {
-   "hash": "61bd957f22b00c5482bcad9849683cef1c019107",
-   "date": "2026-10-26"
+   "hash": "4b907b70a141ad3b29ade8ba6d9300b1022005d0",
+   "date": "2026-10-27"
   },
   "/cars/china/changan/": {
-   "hash": "74f3a5e0696c756aa5e79c193958478e3d88e317",
-   "date": "2026-10-26"
+   "hash": "7aee0f40a5fc3e18c675eff43bc8d21a3106eaba",
+   "date": "2026-10-27"
   },
   "/cars/china/chery/": {
-   "hash": "bceb37084f9e3dbd9f0cc68f5a0db2865a721b3d",
-   "date": "2026-10-26"
+   "hash": "b375c41d12457f8ac135d47674170c50d62f0d5b",
+   "date": "2026-10-27"
   },
   "/cars/china/geely/": {
-   "hash": "35b606552c1f8f7f6734ca3edde90a412108028d",
-   "date": "2026-10-26"
+   "hash": "44017853e955ed24aa9e8bf4160b7e3cdc0ea5db",
+   "date": "2026-10-27"
   },
   "/cars/china/honda/": {
-   "hash": "1cf592bb8a2db8e25aea7f02470a3076a9c6eec0",
-   "date": "2026-10-26"
+   "hash": "c80a5b84070ee5ab9464f61dbf413ef7bbeb4d09",
+   "date": "2026-10-27"
   },
   "/cars/china/jetour/": {
-   "hash": "9c425933647175205fac35a8dae46c4cb3050d4d",
-   "date": "2026-10-26"
+   "hash": "b8dfba6d4466ffad2eed23f81e453a110e6fa365",
+   "date": "2026-10-27"
   },
   "/cars/china/lexus/": {
-   "hash": "8dcb7799e3f6afa593f904de3d5ec8395b89a3b4",
-   "date": "2026-10-26"
+   "hash": "1c25ee42986872464aa1dd4f1ca68efa80779577",
+   "date": "2026-10-27"
   },
   "/cars/china/mazda/": {
-   "hash": "d1ededd395287254be3a3787c34111fc66b645e1",
-   "date": "2026-10-26"
+   "hash": "478c28108eb7c78e940195ac58d58212bbc13729",
+   "date": "2026-10-27"
   },
   "/cars/china/mercedes-benz/": {
-   "hash": "5c04fd176c56005ecbe9ebf85fcfab78ace4c7bf",
-   "date": "2026-10-26"
+   "hash": "4a8858f97d92f9e1afb3c6cfd9f3a714ea625b8d",
+   "date": "2026-10-27"
   },
   "/cars/china/mg/": {
-   "hash": "3dd4ced510fcfd95e51bfb8c025e74c80aa9b766",
-   "date": "2026-10-26"
+   "hash": "e06206ccb3d3f281ff4298b7ba8d2613040f2951",
+   "date": "2026-10-27"
   },
   "/cars/china/nissan/": {
-   "hash": "e90e30324a9f8b01dd07871228018261be01d8b7",
-   "date": "2026-10-26"
+   "hash": "eaa30f1303c7d32ce0ac14a96a68336ea936dc45",
+   "date": "2026-10-27"
   },
   "/cars/china/subaru/": {
-   "hash": "5a577883dda1dd1f396e31aa83eee793244fbf5e",
-   "date": "2026-10-26"
+   "hash": "426f399d368ff2c91cf11debc37c5cd66999fbcf",
+   "date": "2026-10-27"
   },
   "/cars/china/tank/": {
-   "hash": "a656d6ad2ac298c8b4a986815984f22cdbdea0f9",
-   "date": "2026-10-26"
+   "hash": "464a0557f6ff1095e15328d1945ee3ac5264249a",
+   "date": "2026-10-27"
   },
   "/cars/china/toyota/": {
-   "hash": "18c6809991f39a93b5c2478bca6e86bd39802f58",
-   "date": "2026-10-26"
+   "hash": "c02a9172f774c566352f353024076797443d910e",
+   "date": "2026-10-27"
   },
   "/cars/china/volkswagen/": {
-   "hash": "8f3de78927ecbd236ae563e9576b981047294ac5",
-   "date": "2026-10-26"
+   "hash": "6a13cbd6078669ee41530d4e82cda0a6198c06ad",
+   "date": "2026-10-27"
   },
   "/cars/japan/audi/": {
-   "hash": "8fea95f03ee5f50920c01a1e47785c11681e102d",
-   "date": "2026-10-26"
+   "hash": "fcd13dcb13d4900a3b80f3363542563df13ba27a",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/": {
-   "hash": "1dcd68a87ad704feca5e19fa7a9fcb4995d62580",
-   "date": "2026-10-26"
+   "hash": "fde0952d097329af207c594540fc050259b73dda",
+   "date": "2026-10-27"
   },
   "/cars/japan/citroen/": {
-   "hash": "f4d96d86c715b3adf57c926aca945a69845dbb83",
-   "date": "2026-10-26"
+   "hash": "4b2bf1f9911ae6709e03705edd832558d4460f9b",
+   "date": "2026-10-27"
   },
   "/cars/japan/daihatsu/": {
-   "hash": "92b06e20407a17901cd0e0f03cbaf1e2d0b6686c",
-   "date": "2026-10-26"
+   "hash": "76f4cb923db1f59d71f362546c8a6208079be162",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/": {
-   "hash": "b158114b27bb676ebd3c87e2139740f6a1df9b97",
-   "date": "2026-10-26"
+   "hash": "9c43b91e3bc35323d007c86d77be6b0fd17e357f",
+   "date": "2026-10-27"
   },
   "/cars/japan/lexus/": {
-   "hash": "e0ccc90a1acac5eee53ce9be57d655b652b93b0e",
-   "date": "2026-10-26"
+   "hash": "abf29a71fe156702f3a4eb155ed899cecb3f1d81",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/": {
-   "hash": "67618217ca10613a62b794ded9a6126d15eeacc5",
-   "date": "2026-10-26"
+   "hash": "cbe05ecc72feab9d172d450824dc11f8d20bf286",
+   "date": "2026-10-27"
   },
   "/cars/japan/mercedes-benz/": {
-   "hash": "be8e2773c2651ca5601bb7bba68f219f2793cd5b",
-   "date": "2026-10-26"
+   "hash": "73cf5967d6cb95f24345b4396c5129b19e92bc5f",
+   "date": "2026-10-27"
   },
   "/cars/japan/mitsubishi/": {
-   "hash": "7f58e997cfccd36bfaa7913acad9bd264e36ed22",
-   "date": "2026-10-26"
+   "hash": "b6359d4a3c2e329a21d9d6d57ebd9ccb3eab32d1",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/": {
-   "hash": "bfee3b87edb2b5bd2e2c52d2ab02c3c5d18e5df0",
-   "date": "2026-10-26"
+   "hash": "e03188436af580c0e7a94d6cbd0d90f8382c7af6",
+   "date": "2026-10-27"
   },
   "/cars/japan/subaru/": {
-   "hash": "819a94d7a0e7a46916c5d71fa1a53a3d4fa245ef",
-   "date": "2026-10-26"
+   "hash": "c4f6f36d5340b899005aaddd9ab2d9c82330e6e6",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/": {
-   "hash": "9d6ca6a1cb0fa7b403221d3bee5cf29360ccf2de",
-   "date": "2026-10-26"
+   "hash": "b933434f91d802003ffdbee1594efcd4c8495243",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/": {
-   "hash": "ec2e9829512811b09fbb45975cc9f2486486a867",
-   "date": "2026-10-26"
+   "hash": "a3d831cf9d774cd5c9f63532dbf77474d5fe8f85",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/": {
-   "hash": "4edd5b948c6722c772ab6ab0ef1c07d0df3ca378",
-   "date": "2026-10-26"
+   "hash": "a737f6bc509da6a43d9858a206a8d35b302c1f3f",
+   "date": "2026-10-27"
   },
   "/cars/korea/bmw/": {
-   "hash": "3a299091d0e0068d73dd9c3befb651063a61e23d",
-   "date": "2026-10-26"
+   "hash": "3d3b40a2a4048cacec6f147b93d540414afbbfb8",
+   "date": "2026-10-27"
   },
   "/cars/korea/hyundai/": {
-   "hash": "2557418ef5a65bf69a3fbe0d859c78dedea4fce9",
-   "date": "2026-10-26"
+   "hash": "ea4d0f5ac894b3e783839400ba84515a136abc53",
+   "date": "2026-10-27"
   },
   "/cars/korea/kia/": {
-   "hash": "50b62238b87b0d6e230cf802ea52e95b1d9db26d",
-   "date": "2026-10-26"
+   "hash": "e71ff8e0d6005d0101593d7ea0df216ce71e3da2",
+   "date": "2026-10-27"
   },
   "/cars/korea/mini/": {
-   "hash": "474380b0cae3ac1ab4572f4a7dc1e7b8f2cb3ea0",
-   "date": "2026-10-26"
+   "hash": "2dd87d34c945b5f6713374ce87c6cf614c8adcd0",
+   "date": "2026-10-27"
   },
   "/cars/korea/ssangyong/": {
-   "hash": "f84d1d8f0866db5a7f6f17f02344ef625650361b",
-   "date": "2026-10-26"
+   "hash": "c625bbb13822ca15d31a7710e9cb40fc119de46d",
+   "date": "2026-10-27"
   },
   "/cars/china/audi/q2l/": {
-   "hash": "338900f8a16b2920320a167ddcf5db5f31324428",
-   "date": "2026-10-26"
+   "hash": "3300b45bc2a5d0d1827d2269c02e59750e868107",
+   "date": "2026-10-27"
   },
   "/cars/china/bmw/x1/": {
-   "hash": "d67e86cb07c02dc4959b8d0045f7c00b4e982b8e",
-   "date": "2026-10-26"
+   "hash": "cfd13dba566394857d4c4a44fc5b64fe09ebfeb9",
+   "date": "2026-10-27"
   },
   "/cars/china/changan/qiyuan-a06-240-laser-ultra/": {
-   "hash": "94f8e45833184a5baae4a628f3ff99a5781a43a6",
-   "date": "2026-10-26"
+   "hash": "e68fc536a1b5c77432a0e175c1e6fcc338350f6e",
+   "date": "2026-10-27"
   },
   "/cars/china/chery/tiggo-3x/": {
-   "hash": "91acd8ed30096a9d89d9071f463920b2a1b1fdf7",
-   "date": "2026-10-26"
+   "hash": "0d495a355e5bcaa2ebd59f57fa7b0aa92a542f7d",
+   "date": "2026-10-27"
   },
   "/cars/china/geely/emgrand-gs/": {
-   "hash": "f7c101836423400d8292baf3941cf44556aa9ded",
-   "date": "2026-10-26"
+   "hash": "a7f1f8c76745b379e233164dce1656000cc2d04c",
+   "date": "2026-10-27"
   },
   "/cars/china/honda/crider/": {
-   "hash": "113e9e0a9e18f1c756cb0b395f98401eb94fb822",
-   "date": "2026-10-26"
+   "hash": "c134096809ebc1eea987842faeb5d323836717d9",
+   "date": "2026-10-27"
   },
   "/cars/china/honda/fit/": {
-   "hash": "cc275dde1fb25585959f845e6e8bffaa046f73af",
-   "date": "2026-10-26"
+   "hash": "2ec1c02b9924c196a54b84d04a6304e2923bdfb2",
+   "date": "2026-10-27"
   },
   "/cars/china/honda/xr-v/": {
-   "hash": "85eda076d421b746cce2ba97980a2687d9d95ff3",
-   "date": "2026-10-26"
+   "hash": "e49f25f7f5457a5835775e395ff46b13a29558e8",
+   "date": "2026-10-27"
   },
   "/cars/china/jetour/x70/": {
-   "hash": "01ec00fbec723f1b6e43ddd7b66b8bfaf5a0845d",
-   "date": "2026-10-26"
+   "hash": "97e947a51264fe6eea56c454e02746a9a5770650",
+   "date": "2026-10-27"
   },
   "/cars/china/lexus/es/": {
-   "hash": "608631f424a0be8a7a3e3b8794c8f8bebbb710b6",
-   "date": "2026-10-26"
+   "hash": "79594a34c4f5bf831fb5b89773e0dc4a6b20d76a",
+   "date": "2026-10-27"
   },
   "/cars/china/lexus/nxc/": {
-   "hash": "c5e530e61c5cdedfbf3d4c96297777e75aca80c1",
-   "date": "2026-10-26"
+   "hash": "6c00dbd7577c468223cb57d123a2a3fe92692b03",
+   "date": "2026-10-27"
   },
   "/cars/china/mazda/cx-50/": {
-   "hash": "dd77c6ffa3e0b22ca04a6aceb6b36ca40d1ac289",
-   "date": "2026-10-26"
+   "hash": "07d86811cd2e32eacc93713995328c98110484b5",
+   "date": "2026-10-27"
   },
   "/cars/china/mercedes-benz/gla/": {
-   "hash": "36a1e33091f6e42c987083079871fddfdf5f1e9f",
-   "date": "2026-10-26"
+   "hash": "ca4366039f702221154704e835e8dca0630b13c2",
+   "date": "2026-10-27"
   },
   "/cars/china/mg/zs/": {
-   "hash": "601069ebff65ba5b50b553d1c0638357fb3274f8",
-   "date": "2026-10-26"
+   "hash": "db40a6ac97262970421e689477fbd38342993353",
+   "date": "2026-10-27"
   },
   "/cars/china/nissan/tiida/": {
-   "hash": "5dce2bc27d8da42a141290bc65a4ff09590025e0",
-   "date": "2026-10-26"
+   "hash": "3579162c746bbb3ff84816204b7625a9246e2961",
+   "date": "2026-10-27"
   },
   "/cars/china/subaru/forester/": {
-   "hash": "eda665b0060fa4da9ce8b850f2e7d2e4b53e0275",
-   "date": "2026-10-26"
+   "hash": "6bafbc6577852cc8eff322dde905418c32b6a80b",
+   "date": "2026-10-27"
   },
   "/cars/china/tank/300/": {
-   "hash": "f823292072030490ff536fb88eb6c7c29ebc2cee",
-   "date": "2026-10-26"
+   "hash": "80be1c4e93250306c7c3749de4905540384a77ca",
+   "date": "2026-10-27"
   },
   "/cars/china/toyota/levin/": {
-   "hash": "3744e1ab01dcdfdd6a9c2f572bbefd4aea30c8db",
-   "date": "2026-10-26"
+   "hash": "b5d4270026913abca16afd95cbc16da5136a4b39",
+   "date": "2026-10-27"
   },
   "/cars/china/toyota/yaris/": {
-   "hash": "c2c4d5fda55a1d46f9ea9e00fd6f51d4f5cd3e89",
-   "date": "2026-10-26"
+   "hash": "eaa3f743391e596dcb4e29f91f2dc9b589a9d1d9",
+   "date": "2026-10-27"
   },
   "/cars/china/volkswagen/golf/": {
-   "hash": "6cebcc16375b90eb3532269fd6fcce0f5212824b",
-   "date": "2026-10-26"
+   "hash": "29a09360bc229f5dd64f044b48f0cf55e934a270",
+   "date": "2026-10-27"
   },
   "/cars/china/volkswagen/tayron/": {
-   "hash": "490ccfa78be016a9075e0c6c8704ed60a82d19de",
-   "date": "2026-10-26"
+   "hash": "c332de2be06c0bc2a47e57b02b959ec066889cfa",
+   "date": "2026-10-27"
   },
   "/cars/china/volkswagen/tiguan-l/": {
-   "hash": "ea0082e5b3e1d7256a9a1149a9c2cbe98c559c84",
-   "date": "2026-10-26"
+   "hash": "a240a071670fd2f61c8f9d847e7b0dc4398605d1",
+   "date": "2026-10-27"
   },
   "/cars/japan/audi/a1/": {
-   "hash": "a2d8edf5c305e3f3a86a372f308fa7f3bbe89d80",
-   "date": "2026-10-26"
+   "hash": "42901d328d8b6d4009e45ed067a2e8a4fc213412",
+   "date": "2026-10-27"
   },
   "/cars/japan/audi/a3/": {
-   "hash": "d1235792153889ac2fa7af8b5d24572626583cce",
-   "date": "2026-10-26"
+   "hash": "529edb71c52c3dbe5e7962ec06d89ca157c3dded",
+   "date": "2026-10-27"
   },
   "/cars/japan/audi/q2/": {
-   "hash": "f3ab0ae545e924339a8993bc87ff00ff0906361a",
-   "date": "2026-10-26"
+   "hash": "e0122c3bf2903876d27dd84023a097f8f9c167cb",
+   "date": "2026-10-27"
   },
   "/cars/japan/audi/q3/": {
-   "hash": "72a9231ba6b01d80505ff925cc1b12d71db53682",
-   "date": "2026-10-26"
+   "hash": "4b37abf4983c7437fdc093fc5452d61c9287e412",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/1-series/": {
-   "hash": "c0ea5c8f13e00ae2ba3b1f4466fdb17190f69475",
-   "date": "2026-10-26"
+   "hash": "a2bb643099c92104d785d7736345d2325d69ba56",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/2-series/": {
-   "hash": "9abea1e0073310497a70d7055ce37d40a7966dde",
-   "date": "2026-10-26"
+   "hash": "dfc1754047324f455a448505bed18087d8f69da7",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/mini/": {
-   "hash": "441032f842e7cc5b603e133c7491b16924343240",
-   "date": "2026-10-26"
+   "hash": "518ac84025c74e9bc03c6b7177309367e119cc0e",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/x1/": {
-   "hash": "a9eb4b7fa2fb4fee75f415c8ca723486ad531444",
-   "date": "2026-10-26"
+   "hash": "47d9312048a77c48d18c70f0be6452337f2f15e2",
+   "date": "2026-10-27"
   },
   "/cars/japan/bmw/x2/": {
-   "hash": "dc7bf94e2a7f4674dabf68071c9c20aea21831c0",
-   "date": "2026-10-26"
+   "hash": "cc21740b4391f383cd4a09048dfc9e50505832b0",
+   "date": "2026-10-27"
   },
   "/cars/japan/citroen/berlingo/": {
-   "hash": "eca7e168c71273d46cc0bf445c1387e1bab8756d",
-   "date": "2026-10-26"
+   "hash": "3e66db6398cb1a4dfd0c665257d4caedb5ed9c5e",
+   "date": "2026-10-27"
   },
   "/cars/japan/daihatsu/copen/": {
-   "hash": "1713cfe39ea2da71c328a1233771666653f287ff",
-   "date": "2026-10-26"
+   "hash": "321d602c120c916d1525ec23e4542805b49f7778",
+   "date": "2026-10-27"
   },
   "/cars/japan/daihatsu/mira-es/": {
-   "hash": "08ba8fb5d700f74879b3f45d84100dc040f5f8cb",
-   "date": "2026-10-26"
+   "hash": "366aa14c302dc6f8c21b57e013d38e3ad93b5028",
+   "date": "2026-10-27"
   },
   "/cars/japan/daihatsu/thor/": {
-   "hash": "f06b259a4d719045d9aa0399bb935147d45f5900",
-   "date": "2026-10-26"
+   "hash": "b762bfacd4de1e71aee280acc4de0d45f4992505",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/fit/": {
-   "hash": "c2a3ef61db7d4995f63569f6a490338c9fe5d006",
-   "date": "2026-10-26"
+   "hash": "9d49f62c6d83d89b629345a3aa311b086f8b9ba7",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/freed/": {
-   "hash": "c84c610806c7439c59944a5df75b5ea34fd850b5",
-   "date": "2026-10-26"
+   "hash": "4e27f2a303bc23bbc79e0402917c42f99395f7a6",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/n-box/": {
-   "hash": "c30dfd7a45065ae191b379f1aecd7a0dc97052b0",
-   "date": "2026-10-26"
+   "hash": "4c8fb318f875f4504dba229c21a64b1790f94cec",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/n-wgn/": {
-   "hash": "15be5e551853ed184f314e684a6b4370659dcd55",
-   "date": "2026-10-26"
+   "hash": "f5ab7ed68bc934abac8fd43387192902c512291a",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/step-wagon/": {
-   "hash": "6013900a5096eb4dafa777f473fab289e79ee804",
-   "date": "2026-10-26"
+   "hash": "52e071cfd80002d9f464d3a4ba5f55fe5fa38a27",
+   "date": "2026-10-27"
   },
   "/cars/japan/honda/step-wgn/": {
-   "hash": "187d990d52f3cb6bb6438347cc875f0233f6c7ef",
-   "date": "2026-10-26"
+   "hash": "aa73ce04876f6eedeff0ada75fcb1194f6f9f7cf",
+   "date": "2026-10-27"
   },
   "/cars/japan/lexus/lbx/": {
-   "hash": "fbb171d98592e3fb673f08c53d1b098c8c325e27",
-   "date": "2026-10-26"
+   "hash": "c42b4c5046a42da82eafc9ceac1efffaefaf5e50",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/3/": {
-   "hash": "fbead7333191f3c54ff98d02a18e3193ade84b1d",
-   "date": "2026-10-26"
+   "hash": "b166a9a082129165de11b57b71782dbe8c67d25f",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/axela/": {
-   "hash": "53848edee4257a3f3b212683a0af9abc123fb73b",
-   "date": "2026-10-26"
+   "hash": "e87abdda10fb068708abd09eff312b2406afe10e",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/cx-3/": {
-   "hash": "730d35bcd05cc9f5c843c018b163bdc0e3fd7ab2",
-   "date": "2026-10-26"
+   "hash": "c9416fd5942f92337321a1041e3f7b7f62078f62",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/cx-30/": {
-   "hash": "d2d55b8bb62034ca814172f9cf6e55cab1e56bf3",
-   "date": "2026-10-26"
+   "hash": "03e222cfed8a4608afbc68eef073dd9cf98f272d",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/flair-crossover/": {
-   "hash": "c2628970ee14c0439b21d5476c672c96df4116f1",
-   "date": "2026-10-26"
+   "hash": "f5eb4ac883095f99ae5c5938b4967e28ee8392a2",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/mazda2/": {
-   "hash": "a4f5a1144045341742a2e38fe0ca3ccd52af5770",
-   "date": "2026-10-26"
+   "hash": "918a1dd808c7c0b62a118cc85a8ca9917dcbddac",
+   "date": "2026-10-27"
   },
   "/cars/japan/mazda/mazda3/": {
-   "hash": "ee0c891a2c509c96102d0fc8d425df0f2ac856e4",
-   "date": "2026-10-26"
+   "hash": "ff0ad762c7c2e304df99c165d164a7222207d0a6",
+   "date": "2026-10-27"
   },
   "/cars/japan/mercedes-benz/a-class/": {
-   "hash": "26fd0448622a9e54d754aace5cacb164a0a57b9b",
-   "date": "2026-10-26"
+   "hash": "b7c0dbdc264fe751f27467870655a86ee54dc390",
+   "date": "2026-10-27"
   },
   "/cars/japan/mercedes-benz/c-class/": {
-   "hash": "35ea650a852586102490489d6ff071d678f50066",
-   "date": "2026-10-26"
+   "hash": "d17c880c1e651037fb099c981d09c5935d629f77",
+   "date": "2026-10-27"
   },
   "/cars/japan/mercedes-benz/cla-class/": {
-   "hash": "950a297a2d51e2d7391833ae1e2574fd3102a385",
-   "date": "2026-10-26"
+   "hash": "08dddc4f4e433c54e3b0d2e9593160da11acbdc6",
+   "date": "2026-10-27"
   },
   "/cars/japan/mercedes-benz/gla-class/": {
-   "hash": "16bf9c014cd6798e25402e69580dcb4b06a55351",
-   "date": "2026-10-26"
+   "hash": "20b803f3b870ff6501e6c699e4bfc30a51965892",
+   "date": "2026-10-27"
   },
   "/cars/japan/mitsubishi/eclipse-cross/": {
-   "hash": "d41b896dbc7b9118e60f308e29bcf864867181d7",
-   "date": "2026-10-26"
+   "hash": "0ced90f02dbaa428c0407ca09fcd673c725546d7",
+   "date": "2026-10-27"
   },
   "/cars/japan/mitsubishi/ek-space/": {
-   "hash": "2901435ad040e139c11f5bbe78084f2773f1a0e5",
-   "date": "2026-10-26"
+   "hash": "cea9eb8f337079b8aa0fe68ebffff865c896960a",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/dayz/": {
-   "hash": "97de6edd2d5308fc4536735ef82d8a6233dc0b0b",
-   "date": "2026-10-26"
+   "hash": "60fff0811691160b4a29d4301665fcd7cc486795",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/march/": {
-   "hash": "f84a14ae01c476dcec33a2e001afe54873baabb6",
-   "date": "2026-10-26"
+   "hash": "aa5bcdb7e707a58b1655c783841cca507990a156",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/note/": {
-   "hash": "3a216c6ef53ab39d6c736582c16dcde543e5c70d",
-   "date": "2026-10-26"
+   "hash": "197d82d8583a6017ae997d44de03e32d9370a96c",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/roox/": {
-   "hash": "ded8ddb94f0a5c8691e0a6c9e885dd024a7c785b",
-   "date": "2026-10-26"
+   "hash": "75395f0f39712af07c02a272ed270f7f0318d86a",
+   "date": "2026-10-27"
   },
   "/cars/japan/nissan/x-trail/": {
-   "hash": "8a8da7d02a9f820ff93e87cd73dd07d203226a09",
-   "date": "2026-10-26"
+   "hash": "53a1067ae2e5b7462b741c9b0320a4c174a8ed3d",
+   "date": "2026-10-27"
   },
   "/cars/japan/subaru/legacy-outback/": {
-   "hash": "7dfa45f3886ab226d1a1e0fae5dbde80e3593b0d",
-   "date": "2026-10-26"
+   "hash": "861ecf4716e69d15465ab55e4527a9535175ffa0",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/escudo/": {
-   "hash": "22daaf0c5a7929e86043ec9d158153c3a45de426",
-   "date": "2026-10-26"
+   "hash": "741500e9e600fa05d5b03b8b2c9a2710da8f4888",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/fronx/": {
-   "hash": "f2e71ab19a4b5d449716578d26d83a116c6b4fba",
-   "date": "2026-10-26"
+   "hash": "eb7805e65b734bf24aad8897a5ed419bbbe4fa55",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/jimny/": {
-   "hash": "5933a4e2d041f8a872991a790f8230f22f2ba315",
-   "date": "2026-10-26"
+   "hash": "9354f61a2ab37ff0e61ea8e8b77197009ec72c46",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/jimny-nomade/": {
-   "hash": "981eb82507e2187cab4860b403a46f56d9f4030a",
-   "date": "2026-10-26"
+   "hash": "dc632514469bbecd704fde6ca5ca7d9c4b7ac4ce",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/solio/": {
-   "hash": "d929ea53fcd94b608f1ebd0950fd0f7309d6bd96",
-   "date": "2026-10-26"
+   "hash": "cf2184029f3c07937ec29f54389c0c5a2cdd1f29",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/swift/": {
-   "hash": "9f98aa179454d8c2363fc9e21d9e67015a953f22",
-   "date": "2026-10-26"
+   "hash": "d9ed4b2e96f2df442656bf1da9bf827407d3b41d",
+   "date": "2026-10-27"
   },
   "/cars/japan/suzuki/xbee/": {
-   "hash": "651b2fd2a8aef532cf4b70cc5eaebce4e660d343",
-   "date": "2026-10-26"
+   "hash": "12b9e1ae83363b79dff786a41d8811c6ca39c09f",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corola-alion/": {
-   "hash": "31ce74fce46f3e0c29c842eedf147bcfe2ea20b9",
-   "date": "2026-10-26"
+   "hash": "27585785733771267d91606a681b7fa53b8871a6",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corolla/": {
-   "hash": "fde53708cdd6effa98c04dbefa6c51e9e9776a45",
-   "date": "2026-10-26"
+   "hash": "ce562f63850b76df5585e492c0864fc6af21b1ba",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corolla-axio/": {
-   "hash": "3b7fd20624f1c35753552e0a2e11d41e95164dec",
-   "date": "2026-10-26"
+   "hash": "02d4acf1d84818c1aea3e8d09fda3fcc38f81352",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corolla-cross/": {
-   "hash": "65021ea99122911168b4b7b0eb069d5540ab612f",
-   "date": "2026-10-26"
+   "hash": "42d6c1c46bf24d80904f55616e56e2b4bbeed1a8",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corolla-fielder/": {
-   "hash": "d330befdbda0a0d8bb849d3ce98d7cb042a8942b",
-   "date": "2026-10-26"
+   "hash": "e7260a5da65e0f5557abe58541b440c747093abe",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/corolla-touring/": {
-   "hash": "750f317ea91b36341a2306cb3ce715065d4bdee6",
-   "date": "2026-10-26"
+   "hash": "3bb21a6f85f11ee176603a4ff91828d4d0ed52fe",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/harrier/": {
-   "hash": "33c90b3724ad3930d19943979fe1d689c51802fb",
-   "date": "2026-10-26"
+   "hash": "02c2bd30d48095449cc3bc773f8e12aef5a600ce",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/passo/": {
-   "hash": "8c754a8e592e7a476836d7331d9dfae233456769",
-   "date": "2026-10-26"
+   "hash": "7dc13d8c7cedd33dd21b20760c5ea65138a27b61",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/pixis-van/": {
-   "hash": "e8f145d4efd677063c6ad736fd8cf92eb11f8a5f",
-   "date": "2026-10-26"
+   "hash": "0ef7823482734dba3de7366d899bbb11b194bc16",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/premio/": {
-   "hash": "cb8abdcafa7e0d62da57ecfd55e3feb33e1d787f",
-   "date": "2026-10-26"
+   "hash": "d7c5f836f1460dcc6f641cd3204433062c4a183b",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/probox/": {
-   "hash": "752f4ff8b84cb52d9862a55f6d226e4bb3f5d604",
-   "date": "2026-10-26"
+   "hash": "b514c381959b64097677cbc4f102276c1ea4c4c7",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/raize/": {
-   "hash": "0385cf90f8f8540d340124c85ec81e5fcbbd9d30",
-   "date": "2026-10-26"
+   "hash": "56decc1a53cf0fb19f39ceb926dbfd2f2e4f2217",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/roomy/": {
-   "hash": "4e4a63f01dab06227a0828ac96e23f3676b3624e",
-   "date": "2026-10-26"
+   "hash": "5ab5a482d72c47e3a9c7bc147b56c8205370cac1",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/sienta/": {
-   "hash": "1ddb3134e81dfed0e7693db3b6fe4aa406686ecd",
-   "date": "2026-10-26"
+   "hash": "df55cb11c0dd9b6e115d3e3005ffd35603c2c01a",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/tank/": {
-   "hash": "cb6a06c9604b256943d966a40a30ca7ee083d75d",
-   "date": "2026-10-26"
+   "hash": "96bc66c08b4b7ed5bf27370fd99265a8a4d9a73f",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/vits/": {
-   "hash": "cabf75352e1fbe4126e26c992d12987ace2865a4",
-   "date": "2026-10-26"
+   "hash": "c24251837271c0dd17ed265ce7220c55cd776246",
+   "date": "2026-10-27"
   },
   "/cars/japan/toyota/yaris/": {
-   "hash": "615b796f1728051f0a87c34f189d5e04abceb972",
-   "date": "2026-10-26"
+   "hash": "4437a670da74393d09de439bf8df80fd5dcf31a5",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/golf/": {
-   "hash": "058c77d7964906e80e4faed146d5d452e2f5935f",
-   "date": "2026-10-26"
+   "hash": "c09ef0de33124e215cf4456013880c9cbc11b30a",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/golf-touran/": {
-   "hash": "8abf39788bea2f7e44bbb6f9fe6c27130089dfa6",
-   "date": "2026-10-26"
+   "hash": "cb2023a0a47a3614247d6d18da8d7011cc5ca96c",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/golf-variant/": {
-   "hash": "17889b639b0fde7b1952da2d7dcd9deba364a169",
-   "date": "2026-10-26"
+   "hash": "471a1352366149fd4346fee8e4b94b335d32f14e",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/passat/": {
-   "hash": "cbd275d2d217ca8f21c4e9bde81807e560551aef",
-   "date": "2026-10-26"
+   "hash": "5df081f750fd7874a7bc0f29b44aed451d496dc1",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/passat-variant/": {
-   "hash": "0594b1003c7aeaf56aed233b634e6fa66890e88e",
-   "date": "2026-10-26"
+   "hash": "83dfa9f8f5da283c70498988802f0dcab58405cd",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/polo/": {
-   "hash": "b8c8cae3e82fb3caad100eb2fc1a18a9062a5499",
-   "date": "2026-10-26"
+   "hash": "a3b3b8d54b8175ca25c4aea624ab80d32ea74b4d",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/t-cross/": {
-   "hash": "26be15b962f2925ac0cfeb954de1323948d77bff",
-   "date": "2026-10-26"
+   "hash": "a9370a20ccc5ba2015912d9adbd713844cddd032",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/t-roc/": {
-   "hash": "29e2b96a6c9b284db7c824804bd5099a89c7cdde",
-   "date": "2026-10-26"
+   "hash": "cdb483b35ec95f20a7fa528593159d7e32b269e6",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/t-rock/": {
-   "hash": "1b8464e30f35557648653fb4e57e4a06de5287a3",
-   "date": "2026-10-26"
+   "hash": "56d480932c6338260d779e1d3b8e691639790bab",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/the-beetle/": {
-   "hash": "0e0f838c21823157057be3571921b4e0507ff53e",
-   "date": "2026-10-26"
+   "hash": "8eeaa26f51daabc4dfb9c6db3ba8dfead24ab346",
+   "date": "2026-10-27"
   },
   "/cars/japan/volkswagen/tiguan/": {
-   "hash": "849066bce4cd5780a49229764646a51aeb021975",
-   "date": "2026-10-26"
+   "hash": "dc1aae69514619059683fdc1d83a96a066902ec5",
+   "date": "2026-10-27"
   },
   "/cars/korea/bmw/5/": {
-   "hash": "551a50355c34cc5a5a35a43318ff493ec1cf953c",
-   "date": "2026-10-26"
+   "hash": "2c1079021fcb706e768300ff277fabbb87c3bd9e",
+   "date": "2026-10-27"
   },
   "/cars/korea/hyundai/sonata/": {
-   "hash": "e59945b4cdac1e3c80ef0203b351db9c5a3da3d3",
-   "date": "2026-10-26"
+   "hash": "86267bc8bf2d689594c4c204e7d5c0323f6ce41d",
+   "date": "2026-10-27"
   },
   "/cars/korea/kia/k5/": {
-   "hash": "b1f111e2e8d762b5e14999618669f090f67fb9e8",
-   "date": "2026-10-26"
+   "hash": "4c833048da80535c4e892641790a0eee637de64c",
+   "date": "2026-10-27"
   },
   "/cars/korea/kia/niro/": {
-   "hash": "6cdb7501d0410fed6f4082ca0e45d5b75038dbc4",
-   "date": "2026-10-26"
+   "hash": "37b9a97b15126f0e02642f02d7d0e2ee6fa8292f",
+   "date": "2026-10-27"
   },
   "/cars/korea/kia/seltos/": {
-   "hash": "23db9af2ad1a56a305f1633894f8ebbfc7da7a58",
-   "date": "2026-10-26"
+   "hash": "fb2652aff0d6b740ffcd1d8071771ae6f4ad82f3",
+   "date": "2026-10-27"
   },
   "/cars/korea/mini/clubman/": {
-   "hash": "493f8d7226f2be3f2de462d6e4ebdfd7ebeddefa",
-   "date": "2026-10-26"
+   "hash": "ddf54f990be84daf1c07573e991a9be0456ded91",
+   "date": "2026-10-27"
   },
   "/cars/korea/ssangyong/rexton/": {
-   "hash": "8e244fbbabb18fbe5997e174136bbeef7d4c77f9",
-   "date": "2026-10-26"
+   "hash": "a35479999f244322e060b509a8a353e23edd3278",
+   "date": "2026-10-27"
   },
   "/guides/": {
-   "hash": "e9df95244983fbb45346c30512c543110fa179ae",
-   "date": "2026-10-26"
+   "hash": "47463018cd6ff3fd82fb15e34a7712c37d2f45b9",
+   "date": "2026-10-27"
   },
   "/guides/kak-rasschitat-stoimost-avto-pod-klyuch/": {
-   "hash": "d133f90dff145008b7c2feee2169d308920cae82",
-   "date": "2026-10-26"
+   "hash": "81a496285285c65fc1e2ab74a2735335c4085638",
+   "date": "2026-10-27"
   },
   "/guides/yaponiya-koreya-ili-kitay-otkuda-zakazat-avto/": {
-   "hash": "7d523b6e671896d3358c9483be7b19422dfc2a67",
-   "date": "2026-10-26"
+   "hash": "048aca130cbbd250aae6266c863b83e533171617",
+   "date": "2026-10-27"
   },
   "/guides/kak-prohodit-pokupka-avto-iz-azii/": {
-   "hash": "1a8324e9243c08e69e08f34016b92dcbeca36810",
-   "date": "2026-10-26"
+   "hash": "89083ea8a49bac067be9a5652c1280252371de97",
+   "date": "2026-10-27"
   },
   "/guides/kak-sravnivat-predlozheniya-avto/": {
-   "hash": "89bdb57a9d9322d5143375bc2d84177335ba219b",
-   "date": "2026-10-26"
+   "hash": "9921433f4ef44b2fb7948c95c2041a0844a71d10",
+   "date": "2026-10-27"
   },
   "/guides/kak-chitat-aukcionnyy-list/": {
-   "hash": "032aefcf01bf80f1c36ce8d8285732f7e4b16ab2",
-   "date": "2026-10-26"
+   "hash": "2b067d8110157ff0510888c705a121cca3f88078",
+   "date": "2026-10-27"
   },
   "/cars/podborki/do-2-mln/": {
-   "hash": "fadcf0de7bf3f2436ef649423c09ad8d113ada7b",
-   "date": "2026-10-26"
+   "hash": "d66bbfb7fd8fb164c2cd65a6f49236ec8bff3ff0",
+   "date": "2026-10-27"
   },
   "/cars/podborki/do-160-ls/": {
-   "hash": "c0f51c1b1840e004937c7a79be6d03a998f9a34d",
-   "date": "2026-10-26"
+   "hash": "140c680f2ea92d8e09dc52ca3763144e0f87c3ad",
+   "date": "2026-10-27"
   },
   "/cars/podborki/miniveny-iz-yaponii/": {
-   "hash": "a8fa9a1252b530214d0d4dbab68053a7fb283b8e",
-   "date": "2026-10-26"
+   "hash": "7f67c4de35b783582ce2a7e54ba4f64958c3f75b",
+   "date": "2026-10-27"
   },
   "/cars/primery/": {
-   "hash": "27eaf1af5c10a23843387a7b667c411f99d04e4e",
-   "date": "2026-10-26"
+   "hash": "6b0ecdda93638ae80c18368bdce033109c36945c",
+   "date": "2026-10-27"
   },
   "/cars/primery/toyota-raize-2021/": {
-   "hash": "f94185f50d389235a97d65a880dae1cf3f6202db",
-   "date": "2026-10-26"
+   "hash": "84eb75b82959cc98a58108894bb2a445b0c1ffd9",
+   "date": "2026-10-27"
   },
   "/cars/primery/suzuki-jimny-2021/": {
-   "hash": "1cdf81346704ecd7ef373813bc2edd372bb6fa35",
-   "date": "2026-10-26"
+   "hash": "d1043ce721a63f8fe6d7fa8c0773579652148124",
+   "date": "2026-10-27"
   },
   "/cars/primery/honda-freed-2022/": {
-   "hash": "da95349577344616f64521888b45736ff38a4438",
-   "date": "2026-10-26"
+   "hash": "c553c911345f82b26b7b7c7648cc49164f871404",
+   "date": "2026-10-27"
   },
   "/": {
-   "hash": "a017817c188ab7811ab70a91263818ecf22a760b",
-   "date": "2026-10-26"
+   "hash": "c8b12d4afd7aae2d0a22e6481e14af203c6d8f17",
+   "date": "2026-10-27"
   },
   "/pages/auto-iz-yaponii.html": {
-   "hash": "bbf28cd4c373c1386d0ea9265bd14fba0d5f11b6",
-   "date": "2026-10-26"
+   "hash": "9e87b228099536400085d3be49847e87408da20a",
+   "date": "2026-10-27"
   },
   "/pages/auto-iz-korei.html": {
-   "hash": "09571f6e9a835b144c6483c0e24dfac26ce93cea",
-   "date": "2026-10-26"
+   "hash": "dea7cac006d78681bdc828166f28e6bd8a8c1fea",
+   "date": "2026-10-27"
   },
   "/pages/auto-iz-kitaya.html": {
-   "hash": "fe8105a1f0c7527da7af2444a7fe2163c5c60759",
-   "date": "2026-10-26"
+   "hash": "e1ef4a1cffc64b6e3043c0871dc690eb76a6d5c5",
+   "date": "2026-10-27"
   },
   "/pages/rastamozhka-i-poshliny.html": {
-   "hash": "fff6ede0c5819589b6bd24ac2eab2d402aafe5a9",
-   "date": "2026-10-26"
+   "hash": "f7dc9c15369538bc0f74b608724ce81d276919b6",
+   "date": "2026-10-27"
   },
   "/pages/dostavka.html": {
-   "hash": "0508eb43492023bad9357b59af60ba85e83aa72c",
-   "date": "2026-10-26"
+   "hash": "9487821255f76d233bea1211891236e92d72aa6a",
+   "date": "2026-10-27"
   },
   "/pages/process-podbora.html": {
-   "hash": "d9ff227e8ae449e12885c195f750ebe889decf26",
-   "date": "2026-10-26"
+   "hash": "f281c29a99f2597ffa0922b7bcc2b186a01c1cf2",
+   "date": "2026-10-27"
   },
   "/pages/dogovor-i-garantii.html": {
-   "hash": "a10b21c25f6269066f3b5e83861ef002495df9d4",
-   "date": "2026-10-26"
+   "hash": "8a2e65f023c9fdf05b1814964830fbcbf34d4536",
+   "date": "2026-10-27"
   },
   "/pages/kalkulyator-stoimosti.html": {
-   "hash": "a92f751d0e7adaea0e05b42124d6ebde5e8d5904",
-   "date": "2026-10-26"
+   "hash": "aa15f256feef9daa5b96a89724de1e09fd18930c",
+   "date": "2026-10-27"
   },
   "/pages/faq.html": {
-   "hash": "135650d7933cd51e3710311c63fd9a4453a34823",
-   "date": "2026-10-26"
+   "hash": "408f44a8cd76d30e149d255a2e7996d01cf0c848",
+   "date": "2026-10-27"
   },
   "/pages/kontakty.html": {
-   "hash": "047d095a9c0c8ee2ee6999bc4e8f8e8c33eecc02",
-   "date": "2026-10-26"
+   "hash": "80f403a77218e6dc7572afc3af0f39c8c487c713",
+   "date": "2026-10-27"
   }
  }
 }
